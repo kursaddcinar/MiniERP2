@@ -1,0 +1,290 @@
+@model UpdateStockCardDto
+
+@{
+    ViewData["Title"] = "Stok Kartı Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-edit"></i>
+                    Stok Kartı Düzenle
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Stock")">Stok Yönetimi</a></li>
+                        <li class="breadcrumb-item active">Düzenle</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Stok Kartı Bilgilerini Düzenle</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" id="stockCardForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ProductID" class="form-label">Ürün</label>
+                                    <select asp-for="ProductID" class="form-select" disabled>
+                                        <option value="">Ürün seçiniz...</option>
+                                        @if (ViewBag.Products != null)
+                                        {
+                                            @foreach (var product in (List<ProductDto>)ViewBag.Products)
+                                            {
+                                                <option value="@product.ProductID" selected="@(Model.ProductID == product.ProductID)">
+                                                    @product.ProductCode - @product.ProductName
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <input type="hidden" asp-for="ProductID" />
+                                    <small class="form-text text-muted">Ürün değiştirilemez. Yeni ürün için yeni stok kartı oluşturun.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="WarehouseID" class="form-label">Depo</label>
+                                    <select asp-for="WarehouseID" class="form-select" disabled>
+                                        <option value="">Depo seçiniz...</option>
+                                        @if (ViewBag.Warehouses != null)
+                                        {
+                                            @foreach (var warehouse in (List<WarehouseDto>)ViewBag.Warehouses)
+                                            {
+                                                <option value="@warehouse.WarehouseID" selected="@(Model.WarehouseID == warehouse.WarehouseID)">
+                                                    @warehouse.WarehouseCode - @warehouse.WarehouseName
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <input type="hidden" asp-for="WarehouseID" />
+                                    <small class="form-text text-muted">Depo değiştirilemez. Transfer işlemi için ayrı işlem yapın.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="MinimumStock" class="form-label"></label>
+                                    <input asp-for="MinimumStock" class="form-control" type="number" step="0.01" min="0" />
+                                    <span asp-validation-for="MinimumStock" class="text-danger"></span>
+                                    <small class="form-text text-muted">Bu seviyenin altında stok uyarısı verilir.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="MaximumStock" class="form-label"></label>
+                                    <input asp-for="MaximumStock" class="form-control" type="number" step="0.01" min="0" />
+                                    <span asp-validation-for="MaximumStock" class="text-danger"></span>
+                                    <small class="form-text text-muted">Bu seviyenin üzerinde stok uyarısı verilir.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ReorderLevel" class="form-label"></label>
+                                    <input asp-for="ReorderLevel" class="form-control" type="number" step="0.01" min="0" />
+                                    <span asp-validation-for="ReorderLevel" class="text-danger"></span>
+                                    <small class="form-text text-muted">Bu seviyeye ulaştığında sipariş verme zamanı.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ReorderQuantity" class="form-label"></label>
+                                    <input asp-for="ReorderQuantity" class="form-control" type="number" step="0.01" min="0" />
+                                    <span asp-validation-for="ReorderQuantity" class="text-danger"></span>
+                                    <small class="form-text text-muted">Sipariş verilecek varsayılan miktar.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Location" class="form-label"></label>
+                                    <input asp-for="Location" class="form-control" placeholder="Raf/Konum bilgisi" />
+                                    <span asp-validation-for="Location" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="IsActive" class="form-label"></label>
+                                    <div class="form-check form-switch">
+                                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                                        <label asp-for="IsActive" class="form-check-label">Aktif</label>
+                                    </div>
+                                    <span asp-validation-for="IsActive" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label asp-for="Notes" class="form-label"></label>
+                                    <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Stok kartı hakkında notlar"></textarea>
+                                    <span asp-validation-for="Notes" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Geri
+                                    </a>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Güncelle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mevcut Stok Bilgileri -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title">Mevcut Stok Durumu</h6>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.CurrentStockCard != null)
+                    {
+                        var currentCard = (StockCardDto)ViewBag.CurrentStockCard;
+                        <div class="mb-3">
+                            <label class="form-label">Mevcut Stok:</label>
+                            <div class="bg-light p-2 rounded">
+                                <strong class="text-success">@currentCard.CurrentStock.ToString("N2") @currentCard.UnitName</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rezerve Stok:</label>
+                            <div class="bg-light p-2 rounded">
+                                <strong class="text-warning">@currentCard.ReservedStock.ToString("N2") @currentCard.UnitName</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kullanılabilir Stok:</label>
+                            <div class="bg-light p-2 rounded">
+                                <strong class="text-info">@currentCard.AvailableStock.ToString("N2") @currentCard.UnitName</strong>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Son Güncelleme:</label>
+                            <div class="bg-light p-2 rounded">
+                                @currentCard.LastUpdateDate.ToString("dd.MM.yyyy HH:mm")
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Stok bilgileri yüklenemedi.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Stok Seviyeleri Rehberi -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="card-title">Stok Seviyeleri Rehberi</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <strong>Minimum Stok:</strong> Bu seviyenin altında kırmızı uyarı verilir.
+                        </small>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <strong>Tekrar Sipariş Seviyesi:</strong> Bu seviyeye ulaştığında otomatik sipariş önerisi verilir.
+                        </small>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <strong>Tekrar Sipariş Miktarı:</strong> Otomatik sipariş önerisinde kullanılacak miktar.
+                        </small>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">
+                            <strong>Maksimum Stok:</strong> Bu seviyenin üzerinde fazla stok uyarısı verilir.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('stockCardForm');
+            const minStock = document.querySelector('input[name="MinimumStock"]');
+            const maxStock = document.querySelector('input[name="MaximumStock"]');
+            const reorderLevel = document.querySelector('input[name="ReorderLevel"]');
+            const reorderQuantity = document.querySelector('input[name="ReorderQuantity"]');
+            
+            function validateStockLevels() {
+                const minValue = parseFloat(minStock.value) || 0;
+                const maxValue = parseFloat(maxStock.value) || 0;
+                const reorderValue = parseFloat(reorderLevel.value) || 0;
+                
+                // Maximum should be greater than minimum
+                if (maxValue > 0 && minValue > 0 && maxValue <= minValue) {
+                    maxStock.setCustomValidity('Maksimum stok, minimum stoktan büyük olmalıdır.');
+                } else {
+                    maxStock.setCustomValidity('');
+                }
+                
+                // Reorder level should be between min and max
+                if (reorderValue > 0 && minValue > 0 && reorderValue <= minValue) {
+                    reorderLevel.setCustomValidity('Tekrar sipariş seviyesi, minimum stoktan büyük olmalıdır.');
+                } else if (reorderValue > 0 && maxValue > 0 && reorderValue >= maxValue) {
+                    reorderLevel.setCustomValidity('Tekrar sipariş seviyesi, maksimum stoktan küçük olmalıdır.');
+                } else {
+                    reorderLevel.setCustomValidity('');
+                }
+            }
+            
+            minStock.addEventListener('input', validateStockLevels);
+            maxStock.addEventListener('input', validateStockLevels);
+            reorderLevel.addEventListener('input', validateStockLevels);
+            
+            form.addEventListener('submit', function(e) {
+                validateStockLevels();
+                
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
+} 

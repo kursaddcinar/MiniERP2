@@ -1,0 +1,210 @@
+@model StockSummaryDto
+@{
+    ViewData["Title"] = "Stok Özeti";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0">Stok Özeti</h1>
+                <p class="text-muted">Genel stok durumu ve istatistikler</p>
+            </div>
+            <div>
+                <a asp-action="Report" class="btn btn-primary">
+                    <i class="fas fa-chart-bar me-2"></i>Detaylı Rapor
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Ürün Sayıları -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Toplam Ürün</h6>
+                        <h3 class="mb-0">@Model.TotalProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-box fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Sistemdeki toplam ürün sayısı</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Aktif Ürün</h6>
+                        <h3 class="mb-0">@Model.ActiveProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Aktif durumda olan ürünler</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Kritik Stok</h6>
+                        <h3 class="mb-0">@Model.CriticalStockProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Minimum seviyenin altında</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Stokta Yok</h6>
+                        <h3 class="mb-0">@Model.OutOfStockProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-times-circle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Stoğu bitmiş ürünler</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Stok Değerleri -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Stok Değerleri</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="text-center p-3 border rounded">
+                            <h4 class="text-primary mb-2">@Model.TotalStockValue.ToString("C")</h4>
+                            <small class="text-muted">Toplam Stok Değeri</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center p-3 border rounded">
+                            <h4 class="text-success mb-2">@Model.TotalSaleValue.ToString("C")</h4>
+                            <small class="text-muted">Toplam Satış Değeri</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hareket İstatistikleri -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Hareket İstatistikleri</h6>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h5 class="text-primary">@Model.TotalTransactions</h5>
+                        <small class="text-muted">Toplam Hareket</small>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="text-success">@Model.TotalIncoming.ToString("N0")</h5>
+                        <small class="text-muted">Toplam Giriş</small>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="text-danger">@Model.TotalOutgoing.ToString("N0")</h5>
+                        <small class="text-muted">Toplam Çıkış</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Hızlı Erişim -->
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Hızlı Erişim</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a asp-action="Critical" class="btn btn-outline-warning w-100 p-3">
+                            <i class="fas fa-exclamation-triangle fa-2x d-block mb-2"></i>
+                            <strong>Kritik Stok Ürünleri</strong>
+                            <br>
+                            <small class="text-muted">@Model.CriticalStockProducts ürün</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-action="OutOfStock" class="btn btn-outline-danger w-100 p-3">
+                            <i class="fas fa-times-circle fa-2x d-block mb-2"></i>
+                            <strong>Stokta Olmayan Ürünler</strong>
+                            <br>
+                            <small class="text-muted">@Model.OutOfStockProducts ürün</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-action="Transactions" class="btn btn-outline-info w-100 p-3">
+                            <i class="fas fa-exchange-alt fa-2x d-block mb-2"></i>
+                            <strong>Stok Hareketleri</strong>
+                            <br>
+                            <small class="text-muted">Tüm hareketleri görüntüle</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-action="UpdateStock" class="btn btn-outline-success w-100 p-3">
+                            <i class="fas fa-edit fa-2x d-block mb-2"></i>
+                            <strong>Stok Güncelle</strong>
+                            <br>
+                            <small class="text-muted">Manuel stok güncelleme</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Son Hareketler -->
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Son Değişiklikler</h6>
+            </div>
+            <div class="card-body">
+                <p class="text-muted text-center">Bu bölüm yakında aktif olacak</p>
+                <div class="text-center">
+                    <a asp-action="Transactions" class="btn btn-sm btn-outline-primary">
+                        Tüm Hareketleri Gör
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

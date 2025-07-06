@@ -1,0 +1,263 @@
+@model StockReportDto
+@{
+    ViewData["Title"] = "Stok Raporu";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0">Stok Raporu</h1>
+                <p class="text-muted">Detaylı stok durum raporu</p>
+            </div>
+            <div>
+                <button class="btn btn-success" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-2"></i>Excel'e Aktar
+                </button>
+                <button class="btn btn-info" onclick="printReport()">
+                    <i class="fas fa-print me-2"></i>Yazdır
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filtre Seçenekleri -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">Filtre Seçenekleri</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Report" method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Depo</label>
+                        <select name="warehouseId" class="form-select">
+                            <option value="">Tüm Depolar</option>
+                            @if (ViewBag.Warehouses != null)
+                            {
+                                @foreach (var warehouse in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Warehouses)
+                                {
+                                    <option value="@warehouse.Value" selected="@(warehouse.Selected)">@warehouse.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Kategori</label>
+                        <select name="categoryId" class="form-select">
+                            <option value="">Tüm Kategoriler</option>
+                            @if (ViewBag.Categories != null)
+                            {
+                                @foreach (var category in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Categories)
+                                {
+                                    <option value="@category.Value" selected="@(category.Selected)">@category.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search me-2"></i>Filtrele
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Özet Kartlar -->
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Toplam Ürün</h6>
+                        <h3 class="mb-0">@Model.TotalProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-box fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Toplam Değer</h6>
+                        <h3 class="mb-0">@Model.TotalValue.ToString("C")</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-lira-sign fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Kritik Stok</h6>
+                        <h3 class="mb-0">@Model.CriticalProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Stokta Yok</h6>
+                        <h3 class="mb-0">@Model.OutOfStockProducts</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-times-circle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stok Listesi -->
+<div class="card">
+    <div class="card-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h6 class="card-title mb-0">Stok Detayları</h6>
+            </div>
+            <div class="col-auto">
+                <small class="text-muted">Rapor Tarihi: @DateTime.Now.ToString("dd.MM.yyyy HH:mm")</small>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.StockItems != null && Model.StockItems.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="stockTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ürün Kodu</th>
+                            <th>Ürün Adı</th>
+                            <th>Kategori</th>
+                            <th>Depo</th>
+                            <th>Mevcut Stok</th>
+                            <th>Birim</th>
+                            <th>Birim Fiyat</th>
+                            <th>Toplam Değer</th>
+                            <th>Min. Stok</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.StockItems)
+                        {
+                            <tr class="@(item.CurrentStock <= 0 ? "table-danger" : item.CurrentStock <= item.MinimumStock ? "table-warning" : "")">
+                                <td><strong>@item.ProductCode</strong></td>
+                                <td>@item.ProductName</td>
+                                <td>@item.CategoryName</td>
+                                <td>@item.WarehouseName</td>
+                                <td class="text-end">
+                                    <strong>@item.CurrentStock.ToString("N2")</strong>
+                                </td>
+                                <td>@item.UnitName</td>
+                                <td class="text-end">@item.UnitPrice.ToString("C")</td>
+                                <td class="text-end">
+                                    <strong>@item.TotalValue.ToString("C")</strong>
+                                </td>
+                                <td class="text-end">@item.MinimumStock.ToString("N2")</td>
+                                <td>
+                                    @if (item.CurrentStock <= 0)
+                                    {
+                                        <span class="badge bg-danger">Stokta Yok</span>
+                                    }
+                                    else if (item.CurrentStock <= item.MinimumStock)
+                                    {
+                                        <span class="badge bg-warning">Kritik</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Normal</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr>
+                            <th colspan="7" class="text-end">Genel Toplam:</th>
+                            <th class="text-end">@Model.TotalValue.ToString("C")</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-chart-bar fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Rapor verisi bulunamadı</h5>
+                <p class="text-muted">Seçilen kriterlere uygun stok verisi bulunmamaktadır.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function exportToExcel() {
+            // Excel export functionality
+            var table = document.getElementById('stockTable');
+            var ws = XLSX.utils.table_to_sheet(table);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Stok Raporu');
+            XLSX.writeFile(wb, 'stok-raporu-' + new Date().toISOString().split('T')[0] + '.xlsx');
+        }
+
+        function printReport() {
+            window.print();
+        }
+    </script>
+}
+
+<style>
+    @@media print {
+        .btn, .card-header .col-auto {
+            display: none !important;
+        }
+        
+        .card {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        
+        .table-responsive {
+            overflow: visible !important;
+        }
+    }
+</style> 

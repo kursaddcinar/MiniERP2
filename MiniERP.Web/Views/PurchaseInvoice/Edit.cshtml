@@ -1,0 +1,145 @@
+@model UpdatePurchaseInvoiceDto
+
+@{
+    ViewData["Title"] = "Satın Alma Faturası Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-edit"></i>
+                    Satın Alma Faturası Düzenle
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "PurchaseInvoice")">Satın Alma Faturaları</a></li>
+                        <li class="breadcrumb-item active">Düzenle</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Satın Alma Faturası Bilgilerini Düzenle</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" id="purchaseInvoiceForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="InvoiceNo" class="form-label"></label>
+                                    <input asp-for="InvoiceNo" class="form-control" placeholder="Fatura numarası" readonly />
+                                    <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="InvoiceDate" class="form-label"></label>
+                                    <input asp-for="InvoiceDate" type="date" class="form-control" />
+                                    <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="CariID" class="form-label">Tedarikçi</label>
+                                    <select asp-for="CariID" class="form-select" id="cariSelect">
+                                        <option value="">Tedarikçi seçiniz...</option>
+                                        @if (ViewBag.Suppliers != null)
+                                        {
+                                            @foreach (var supplier in (List<CariAccountDto>)ViewBag.Suppliers)
+                                            {
+                                                <option value="@supplier.CariID" selected="@(Model.CariID == supplier.CariID)">
+                                                    @supplier.CariCode - @supplier.CariName
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="CariID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="WarehouseID" class="form-label">Depo</label>
+                                    <select asp-for="WarehouseID" class="form-select">
+                                        <option value="">Depo seçiniz...</option>
+                                        @if (ViewBag.Warehouses != null)
+                                        {
+                                            @foreach (var warehouse in (List<WarehouseDto>)ViewBag.Warehouses)
+                                            {
+                                                <option value="@warehouse.WarehouseID" selected="@(Model.WarehouseID == warehouse.WarehouseID)">
+                                                    @warehouse.WarehouseCode - @warehouse.WarehouseName
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="WarehouseID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="DueDate" class="form-label"></label>
+                                    <input asp-for="DueDate" type="date" class="form-control" />
+                                    <span asp-validation-for="DueDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Status" class="form-label"></label>
+                                    <select asp-for="Status" class="form-select">
+                                        <option value="DRAFT" selected="@(Model.Status == "DRAFT")">Taslak</option>
+                                        <option value="APPROVED" selected="@(Model.Status == "APPROVED")">Onaylandı</option>
+                                        <option value="CANCELLED" selected="@(Model.Status == "CANCELLED")">İptal Edildi</option>
+                                    </select>
+                                    <span asp-validation-for="Status" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label"></label>
+                                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Fatura açıklaması"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Geri
+                                    </a>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save"></i> Güncelle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

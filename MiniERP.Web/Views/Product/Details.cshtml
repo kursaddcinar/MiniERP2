@@ -1,0 +1,181 @@
+@model MiniERP.Web.Models.ProductDto
+@{
+    ViewData["Title"] = "Ürün Detayları";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0">Ürün Detayları</h1>
+                <p class="text-muted mb-0">@Model.ProductName (@Model.ProductCode)</p>
+            </div>
+            <div class="d-flex gap-2">
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.ProductID" class="btn btn-primary">
+                        <i class="fas fa-edit me-2"></i>Düzenle
+                    </a>
+                }
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Geri
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">
+                    <i class="fas fa-box me-2"></i>Ürün Bilgileri
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ürün Kodu</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">@Model.ProductCode</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ürün Adı</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">@Model.ProductName</p>
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Açıklama</label>
+                        <p class="form-control-plaintext border rounded p-2 bg-light">@Model.Description</p>
+                    </div>
+                }
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Kategori</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">@Model.CategoryName</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Birim</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">@Model.UnitName</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="card-title mb-0">
+                    <i class="fas fa-lira-sign me-2"></i>Fiyat Bilgileri
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Alış Fiyatı</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                <i class="fas fa-lira-sign text-success me-1"></i>@Model.PurchasePrice.ToString("N2")
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Satış Fiyatı</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                <i class="fas fa-lira-sign text-primary me-1"></i>@Model.SalePrice.ToString("N2")
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">KDV Oranı</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light">%@Model.VatRate.ToString("N2")</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">KDV Dahil Satış Fiyatı</label>
+                            <p class="form-control-plaintext border rounded p-2 bg-light text-success fw-bold">
+                                <i class="fas fa-lira-sign me-1"></i>@((Model.SalePrice * (1 + Model.VatRate / 100)).ToString("N2"))
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">
+                    <i class="fas fa-warehouse me-2"></i>Stok Bilgileri
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Minimum Stok Seviyesi</label>
+                    <p class="form-control-plaintext border rounded p-2 bg-light">@Model.MinStockLevel.ToString("N2")</p>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Durum</label>
+                    <p class="form-control-plaintext">
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i>Aktif
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">
+                                <i class="fas fa-times-circle me-1"></i>Pasif
+                            </span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h6 class="card-title mb-0">
+                    <i class="fas fa-info-circle me-2"></i>Sistem Bilgileri
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <strong>Oluşturma Tarihi:</strong><br>
+                    <small class="text-muted">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</small>
+                </div>
+                @if (Model.UpdatedDate.HasValue)
+                {
+                    <div class="mb-2">
+                        <strong>Güncelleme Tarihi:</strong><br>
+                        <small class="text-muted">@Model.UpdatedDate.Value.ToString("dd.MM.yyyy HH:mm")</small>
+                    </div>
+                }
+                <div class="mb-2">
+                    <strong>Ürün ID:</strong><br>
+                    <small class="text-muted">#@Model.ProductID</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

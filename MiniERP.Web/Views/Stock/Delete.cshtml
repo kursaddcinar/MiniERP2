@@ -1,0 +1,344 @@
+@model StockCardDto
+
+@{
+    ViewData["Title"] = "Stok Kartı Sil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-trash-alt text-danger"></i>
+                    Stok Kartı Sil
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Stock")">Stok Yönetimi</a></li>
+                        <li class="breadcrumb-item active">Sil</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Dikkat! Stok Kartı Silme İşlemi
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Önemli Uyarı!
+                        </h6>
+                        <p class="mb-0">
+                            Bu stok kartını silmek istediğinizden emin misiniz? 
+                            <strong>Bu işlem geri alınamaz!</strong>
+                        </p>
+                    </div>
+
+                    @if (Model != null)
+                    {
+                        <!-- Stok Kartı Özet Bilgileri -->
+                        <div class="card bg-light mb-4">
+                            <div class="card-header">
+                                <h6 class="mb-0">Silinecek Stok Kartı Bilgileri</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <table class="table table-borderless table-sm">
+                                            <tr>
+                                                <th width="140">Ürün Kodu:</th>
+                                                <td><strong class="text-primary">@Model.ProductCode</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Ürün Adı:</th>
+                                                <td><strong>@Model.ProductName</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Kategori:</th>
+                                                <td>@Model.CategoryName</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Depo:</th>
+                                                <td><strong>@Model.WarehouseCode - @Model.WarehouseName</strong></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-borderless table-sm">
+                                            <tr>
+                                                <th width="140">Mevcut Stok:</th>
+                                                <td>
+                                                    <span class="badge @(Model.CurrentStock > Model.MinimumStock ? "bg-success" : Model.CurrentStock > 0 ? "bg-warning" : "bg-danger") fs-6">
+                                                        @Model.CurrentStock.ToString("N2") @Model.UnitName
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Rezerve Stok:</th>
+                                                <td>@Model.ReservedStock.ToString("N2") @Model.UnitName</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Minimum Stok:</th>
+                                                <td>@Model.MinimumStock.ToString("N2") @Model.UnitName</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Lokasyon:</th>
+                                                <td>@(Model.Location ?? "-")</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stok Durumu Kontrolleri -->
+                        @if (Model.CurrentStock > 0 || Model.ReservedStock > 0)
+                        {
+                            <div class="card border-warning mb-4">
+                                <div class="card-header bg-warning text-dark">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        Stok Durumu Uyarısı
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    @if (Model.CurrentStock > 0)
+                                    {
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-boxes"></i>
+                                            <strong>Dikkat!</strong> Bu stok kartında <strong>@Model.CurrentStock.ToString("N2") @Model.UnitName</strong> mevcut stok bulunmaktadır.
+                                            Stok kartını silmeden önce stok miktarını sıfırlayın.
+                                        </div>
+                                    }
+                                    
+                                    @if (Model.ReservedStock > 0)
+                                    {
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-lock"></i>
+                                            <strong>Kritik!</strong> Bu stok kartında <strong>@Model.ReservedStock.ToString("N2") @Model.UnitName</strong> rezerve stok bulunmaktadır.
+                                            Rezerve stokları serbest bırakın veya ilgili işlemleri tamamlayın.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Son Stok Hareketleri -->
+                        @if (Model.RecentTransactions != null && Model.RecentTransactions.Any())
+                        {
+                            <div class="card bg-light mb-4">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Son Stok Hareketleri (@Model.RecentTransactions.Count adet)</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tarih</th>
+                                                    <th>Hareket Türü</th>
+                                                    <th>Belge No</th>
+                                                    <th class="text-center">Miktar</th>
+                                                    <th class="text-center">Kalan Stok</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var transaction in Model.RecentTransactions.Take(5))
+                                                {
+                                                    <tr>
+                                                        <td>@transaction.TransactionDate.ToString("dd.MM.yyyy")</td>
+                                                        <td>
+                                                            <span class="badge @(transaction.TransactionType == "IN" ? "bg-success" : "bg-danger") badge-sm">
+                                                                @transaction.TransactionType
+                                                            </span>
+                                                        </td>
+                                                        <td>@transaction.DocumentNumber</td>
+                                                        <td class="text-center">@transaction.Quantity.ToString("N2")</td>
+                                                        <td class="text-center">@transaction.RemainingStock.ToString("N2")</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Silme İşlemi Etkileri -->
+                        <div class="card border-warning mb-4">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Silme İşlemi Etkileri
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-danger"></i>
+                                        <strong>Stok kartı tamamen silinecektir</strong> ve geri getirilemez.
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-danger"></i>
+                                        <strong>Tüm stok hareketleri silinecektir</strong> - Geçmiş kayıtlar kaybolacak.
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-danger"></i>
+                                        <strong>Raporlar etkilenecektir</strong> - Stok raporları ve analizler güncellenecek.
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-arrow-right text-warning"></i>
+                                        <strong>İlgili faturalar etkilenebilir</strong> - Bu ürünle ilgili faturalarda sorun yaşanabilir.
+                                    </li>
+                                    @if (Model.CurrentStock > 0)
+                                    {
+                                        <li class="mb-2">
+                                            <i class="fas fa-arrow-right text-danger"></i>
+                                            <strong>Mevcut stok kaybolacak</strong> - @Model.CurrentStock.ToString("N2") @Model.UnitName stok silinecek.
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Silme Onay Formu -->
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" asp-for="StockCardID" />
+                            
+                            <div class="card border-danger">
+                                <div class="card-body">
+                                    @if (Model.CurrentStock > 0 || Model.ReservedStock > 0)
+                                    {
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-ban"></i>
+                                            <strong>Silme İşlemi Engellenmiştir!</strong><br>
+                                            Stok kartında mevcut veya rezerve stok bulunduğu için silme işlemi yapılamaz.
+                                            Önce tüm stokları temizleyin.
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                                <i class="fas fa-arrow-left"></i> Geri
+                                            </a>
+                                            
+                                            <div>
+                                                <a href="@Url.Action("Details", new { id = Model.StockCardID })" class="btn btn-info me-2">
+                                                    <i class="fas fa-eye"></i> Detayları Gör
+                                                </a>
+                                                <a href="@Url.Action("Edit", new { id = Model.StockCardID })" class="btn btn-warning">
+                                                    <i class="fas fa-edit"></i> Düzenle
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                                            <label class="form-check-label" for="confirmDelete">
+                                                <strong>Yukarıdaki uyarıları okudum ve anladım. Bu stok kartını silmek istediğimi onaylıyorum.</strong>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="confirmDataLoss" required>
+                                            <label class="form-check-label" for="confirmDataLoss">
+                                                <strong>Tüm stok hareketlerinin ve geçmiş kayıtların silineceğini anlıyorum.</strong>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                                <i class="fas fa-arrow-left"></i> Geri
+                                            </a>
+                                            
+                                            <div>
+                                                <a href="@Url.Action("Details", new { id = Model.StockCardID })" class="btn btn-info me-2">
+                                                    <i class="fas fa-eye"></i> Detayları Gör
+                                                </a>
+                                                <button type="submit" class="btn btn-danger" id="deleteButton" disabled>
+                                                    <i class="fas fa-trash-alt"></i> Stok Kartını Sil
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Stok kartı bulunamadı.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmDelete = document.getElementById('confirmDelete');
+    const confirmDataLoss = document.getElementById('confirmDataLoss');
+    const deleteButton = document.getElementById('deleteButton');
+    
+    if (confirmDelete && confirmDataLoss && deleteButton) {
+        function checkFormValidity() {
+            deleteButton.disabled = !(confirmDelete.checked && confirmDataLoss.checked);
+        }
+        
+        confirmDelete.addEventListener('change', checkFormValidity);
+        confirmDataLoss.addEventListener('change', checkFormValidity);
+    }
+    
+    // Form submit confirmation
+    const form = document.querySelector('form[asp-action="Delete"]');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!confirm('Bu stok kartını silmek istediğinizden kesinlikle emin misiniz?\n\nBu işlem GERİ ALINAMAZ!')) {
+                e.preventDefault();
+            }
+        });
+    }
+});
+</script>
+
+<style>
+.card.border-danger {
+    border-width: 2px;
+}
+
+.card.border-warning {
+    border-width: 1px;
+}
+
+.alert-danger {
+    border-left: 4px solid #dc3545;
+}
+
+.alert-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.list-unstyled li {
+    padding-left: 20px;
+}
+
+.badge-sm {
+    font-size: 0.75em;
+}
+</style> 

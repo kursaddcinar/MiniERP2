@@ -1,0 +1,227 @@
+@model UpdateStockDto
+@{
+    ViewData["Title"] = "Stok Güncelle";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0">Stok Güncelle</h1>
+                <p class="text-muted">Manuel stok güncelleme işlemi</p>
+            </div>
+            <div>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Stok Güncelleme Formu</h6>
+            </div>
+            <div class="card-body">
+                <form asp-action="UpdateStock" method="post">
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="ProductID" class="form-label required">Ürün</label>
+                                <select asp-for="ProductID" class="form-select" id="productSelect">
+                                    <option value="">Ürün seçin</option>
+                                    @if (ViewBag.Products != null)
+                                    {
+                                        @foreach (var product in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Products)
+                                        {
+                                            <option value="@product.Value">@product.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="ProductID" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="WarehouseID" class="form-label required">Depo</label>
+                                <select asp-for="WarehouseID" class="form-select" id="warehouseSelect">
+                                    <option value="">Depo seçin</option>
+                                    @if (ViewBag.Warehouses != null)
+                                    {
+                                        @foreach (var warehouse in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Warehouses)
+                                        {
+                                            <option value="@warehouse.Value">@warehouse.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <span asp-validation-for="WarehouseID" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="Quantity" class="form-label required">Miktar</label>
+                                <input asp-for="Quantity" class="form-control" type="number" step="0.01" placeholder="0.00">
+                                <span asp-validation-for="Quantity" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="TransactionType" class="form-label required">İşlem Türü</label>
+                                <select asp-for="TransactionType" class="form-select">
+                                    <option value="">İşlem türü seçin</option>
+                                    <option value="GIRIS">Giriş (+)</option>
+                                    <option value="CIKIS">Çıkış (-)</option>
+                                </select>
+                                <span asp-validation-for="TransactionType" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="UnitPrice" class="form-label">Birim Fiyat</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₺</span>
+                                    <input asp-for="UnitPrice" class="form-control" type="number" step="0.01" placeholder="0.00">
+                                </div>
+                                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label asp-for="DocumentNo" class="form-label">Belge No</label>
+                                <input asp-for="DocumentNo" class="form-control" placeholder="Belge numarası (isteğe bağlı)">
+                                <span asp-validation-for="DocumentNo" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Notes" class="form-label">Açıklama</label>
+                        <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Stok güncelleme açıklaması"></textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Stok Güncelle
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>İptal
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Mevcut Stok Bilgisi</h6>
+            </div>
+            <div class="card-body">
+                <div id="stockInfo" class="text-center text-muted">
+                    <i class="fas fa-info-circle fa-3x mb-3"></i>
+                    <p>Ürün ve depo seçtikten sonra mevcut stok bilgileri burada görünecek</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Yardım</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Giriş:</strong> Stok miktarını artırır
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Çıkış:</strong> Stok miktarını azaltır
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Birim Fiyat:</strong> Maliyet hesaplama için
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Açıklama:</strong> İşlem nedenini belirtmek için
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#productSelect, #warehouseSelect').change(function() {
+                var productId = $('#productSelect').val();
+                var warehouseId = $('#warehouseSelect').val();
+                
+                if (productId && warehouseId) {
+                    // AJAX ile stok bilgisi çekme
+                    $.ajax({
+                        url: '/Stock/GetStockInfo',
+                        type: 'GET',
+                        data: { productId: productId, warehouseId: warehouseId },
+                        success: function(data) {
+                            if (data.success) {
+                                $('#stockInfo').html(
+                                    '<div class="text-center">' +
+                                    '<h4 class="text-primary mb-2">' + data.stock.toFixed(2) + '</h4>' +
+                                    '<p class="text-muted mb-2">Mevcut Stok</p>' +
+                                    '<small class="text-success">Güncelleme için hazır</small>' +
+                                    '</div>'
+                                );
+                            } else {
+                                $('#stockInfo').html(
+                                    '<div class="text-center text-danger">' +
+                                    '<i class="fas fa-exclamation-triangle fa-2x mb-2"></i>' +
+                                    '<p>Stok bilgisi alınamadı</p>' +
+                                    '</div>'
+                                );
+                            }
+                        },
+                        error: function() {
+                            $('#stockInfo').html(
+                                '<div class="text-center text-danger">' +
+                                '<i class="fas fa-exclamation-triangle fa-2x mb-2"></i>' +
+                                '<p>Stok bilgisi alınamadı</p>' +
+                                '</div>'
+                            );
+                        }
+                    });
+                } else {
+                    $('#stockInfo').html(
+                        '<div class="text-center text-muted">' +
+                        '<i class="fas fa-info-circle fa-3x mb-3"></i>' +
+                        '<p>Ürün ve depo seçtikten sonra mevcut stok bilgileri burada görünecek</p>' +
+                        '</div>'
+                    );
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style> 

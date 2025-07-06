@@ -1,0 +1,215 @@
+@model StockTransactionDto
+@{
+    ViewData["Title"] = "Stok Hareket Detayı";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h3 mb-0">Stok Hareket Detayı</h1>
+                <p class="text-muted">Hareket ID: #@Model.TransactionID</p>
+            </div>
+            <div>
+                <a asp-action="Transactions" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Hareketler Listesi
+                </a>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-list me-2"></i>Stok Listesi
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Hareket Bilgileri</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Hareket ID:</dt>
+                            <dd class="col-sm-8"><strong>#@Model.TransactionID</strong></dd>
+
+                            <dt class="col-sm-4">Hareket Tarihi:</dt>
+                            <dd class="col-sm-8">@Model.TransactionDate.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                            <dt class="col-sm-4">Hareket Türü:</dt>
+                            <dd class="col-sm-8">
+                                @if (Model.TransactionType == "GIRIS")
+                                {
+                                    <span class="badge bg-success fs-6">
+                                        <i class="fas fa-arrow-down me-1"></i>Stok Girişi
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">
+                                        <i class="fas fa-arrow-up me-1"></i>Stok Çıkışı
+                                    </span>
+                                }
+                            </dd>
+
+                            <dt class="col-sm-4">Miktar:</dt>
+                            <dd class="col-sm-8">
+                                <strong class="fs-5">@Model.Quantity.ToString("N2")</strong> @Model.UnitName
+                            </dd>
+
+                            <dt class="col-sm-4">Birim Fiyat:</dt>
+                            <dd class="col-sm-8">@Model.UnitPrice.ToString("C")</dd>
+
+                            <dt class="col-sm-4">Toplam Tutar:</dt>
+                            <dd class="col-sm-8"><strong>@Model.TotalAmount.ToString("C")</strong></dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="row">
+                            <dt class="col-sm-4">Ürün Kodu:</dt>
+                            <dd class="col-sm-8"><code>@Model.ProductCode</code></dd>
+
+                            <dt class="col-sm-4">Ürün Adı:</dt>
+                            <dd class="col-sm-8"><strong>@Model.ProductName</strong></dd>
+
+                            <dt class="col-sm-4">Depo:</dt>
+                            <dd class="col-sm-8">
+                                <span class="badge bg-secondary">@Model.WarehouseName</span><br>
+                                <small class="text-muted">(@Model.WarehouseCode)</small>
+                            </dd>
+
+                            <dt class="col-sm-4">Kalan Stok:</dt>
+                            <dd class="col-sm-8">
+                                @if (Model.RemainingStock > 0)
+                                {
+                                    <span class="text-success">@Model.RemainingStock.ToString("N2") @Model.UnitName</span>
+                                }
+                                else
+                                {
+                                    <span class="text-danger">Stokta Yok</span>
+                                }
+                            </dd>
+
+                            <dt class="col-sm-4">Kayıt Tarihi:</dt>
+                            <dd class="col-sm-8">@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Açıklama:</h6>
+                            <p class="bg-light p-3 rounded">@Model.Description</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Belge Bilgileri -->
+        @if (!string.IsNullOrEmpty(Model.DocumentType) || !string.IsNullOrEmpty(Model.DocumentNo))
+        {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">Belge Bilgileri</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @if (!string.IsNullOrEmpty(Model.DocumentType))
+                        {
+                            <div class="col-md-6">
+                                <strong>Belge Türü:</strong><br>
+                                <span class="badge bg-info">@Model.DocumentType</span>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.DocumentNo))
+                        {
+                            <div class="col-md-6">
+                                <strong>Belge Numarası:</strong><br>
+                                <code>@Model.DocumentNo</code>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Hareket Özeti -->
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Hareket Özeti</h6>
+            </div>
+            <div class="card-body text-center">
+                @if (Model.TransactionType == "GIRIS")
+                {
+                    <div class="bg-success bg-opacity-10 p-4 rounded mb-3">
+                        <i class="fas fa-arrow-down fa-3x text-success mb-2"></i>
+                        <h5 class="text-success">Stok Girişi</h5>
+                        <p class="text-muted">Depoya ürün girişi yapıldı</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="bg-danger bg-opacity-10 p-4 rounded mb-3">
+                        <i class="fas fa-arrow-up fa-3x text-danger mb-2"></i>
+                        <h5 class="text-danger">Stok Çıkışı</h5>
+                        <p class="text-muted">Depodan ürün çıkışı yapıldı</p>
+                    </div>
+                }
+
+                <div class="row text-center">
+                    <div class="col-12 mb-3">
+                        <h4 class="text-primary">@Model.Quantity.ToString("N2")</h4>
+                        <small class="text-muted">@Model.UnitName</small>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h6 class="text-muted">Birim Fiyat</h6>
+                        <p class="mb-0">@Model.UnitPrice.ToString("C")</p>
+                    </div>
+                    <div class="col-6">
+                        <h6 class="text-muted">Toplam</h6>
+                        <p class="mb-0"><strong>@Model.TotalAmount.ToString("C")</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hızlı İşlemler -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6 class="card-title mb-0">Hızlı İşlemler</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Details" asp-route-id="@Model.ProductID" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-box me-2"></i>Stok Kartını Görüntüle
+                    </a>
+                    <a asp-action="Transactions" asp-route-productId="@Model.ProductID" class="btn btn-outline-info btn-sm">
+                        <i class="fas fa-history me-2"></i>Ürün Hareketleri
+                    </a>
+                    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductID" class="btn btn-outline-warning btn-sm">
+                        <i class="fas fa-info-circle me-2"></i>Ürün Detayları
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-opacity-10 {
+    --bs-bg-opacity: 0.1;
+}
+</style> 

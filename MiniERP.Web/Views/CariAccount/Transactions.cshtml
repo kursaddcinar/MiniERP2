@@ -1,0 +1,227 @@
+@model List<CariTransactionDto>
+
+@{
+    ViewData["Title"] = "Cari Hareketleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cariAccount = ViewBag.CariAccount as CariAccountDto;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-exchange-alt"></i>
+                    @(cariAccount?.CariName ?? "Cari") Hareketleri
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "CariAccount")">Cari Hesaplar</a></li>
+                        <li class="breadcrumb-item active">Hareketler</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (cariAccount != null)
+    {
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="mb-1">@cariAccount.CariName (@cariAccount.CariCode)</h5>
+                                <p class="text-muted mb-0">
+                                    <span class="badge bg-secondary me-2">@cariAccount.TypeName</span>
+                                    @if (cariAccount.IsCustomer)
+                                    {
+                                        <span class="badge bg-success me-2">Müşteri</span>
+                                    }
+                                    @if (cariAccount.IsSupplier)
+                                    {
+                                        <span class="badge bg-info me-2">Tedarikçi</span>
+                                    }
+                                    @if (cariAccount.IsActive)
+                                    {
+                                        <span class="badge bg-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pasif</span>
+                                    }
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <h4 class="@(cariAccount.CurrentBalance >= 0 ? "text-success" : "text-danger") mb-1">
+                                    @cariAccount.CurrentBalance.ToString("C")
+                                </h4>
+                                <p class="text-muted mb-0">Güncel Bakiye</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="card-title mb-0">Cari Hareketleri</h5>
+                        </div>
+                        <div class="col-auto">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary" onclick="showDateFilter()">
+                                    <i class="fas fa-filter"></i> Tarih Filtresi
+                                </button>
+                                <a href="@Url.Action("Statement", new { id = cariAccount?.CariAccountID })" class="btn btn-success">
+                                    <i class="fas fa-file-alt"></i> Ekstre
+                                </a>
+                                @if (cariAccount != null)
+                                {
+                                    <a href="@Url.Action("Details", new { id = cariAccount.CariAccountID })" class="btn btn-info">
+                                        <i class="fas fa-eye"></i> Cari Detay
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Date Filter Form (Hidden by default) -->
+                    <div id="dateFilterForm" class="row mb-3" style="display: none;">
+                        <div class="col-12">
+                            <form method="get" class="row align-items-end">
+                                <div class="col-md-4">
+                                    <label class="form-label">Başlangıç Tarihi</label>
+                                    <input type="date" name="startDate" class="form-control" value="@ViewBag.StartDate" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Bitiş Tarihi</label>
+                                    <input type="date" name="endDate" class="form-control" value="@ViewBag.EndDate" />
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary me-2">
+                                        <i class="fas fa-search"></i> Filtrele
+                                    </button>
+                                    <a href="@Url.Action("Transactions", new { id = cariAccount?.CariAccountID })" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i> Temizle
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Belge Tipi</th>
+                                        <th>Belge No</th>
+                                        <th>Açıklama</th>
+                                        <th class="text-end">Borç</th>
+                                        <th class="text-end">Alacak</th>
+                                        <th class="text-end">Bakiye</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var transaction in Model.OrderBy(t => t.TransactionDate))
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bold">@transaction.TransactionDate.ToString("dd.MM.yyyy")</span>
+                                                <br>
+                                                <small class="text-muted">@transaction.TransactionDate.ToString("HH:mm")</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">@transaction.DocumentType</span>
+                                            </td>
+                                            <td>
+                                                <strong>@transaction.DocumentNumber</strong>
+                                            </td>
+                                            <td>@transaction.Description</td>
+                                            <td class="text-end">
+                                                @if (transaction.DebitAmount > 0)
+                                                {
+                                                    <span class="text-danger fw-bold">@transaction.DebitAmount.ToString("C")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td class="text-end">
+                                                @if (transaction.CreditAmount > 0)
+                                                {
+                                                    <span class="text-success fw-bold">@transaction.CreditAmount.ToString("C")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td class="text-end">
+                                                <span class="fw-bold @(transaction.Balance >= 0 ? "text-success" : "text-danger")">
+                                                    @transaction.Balance.ToString("C")
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-info">
+                                        <th colspan="4">TOPLAM</th>
+                                        <th class="text-end">@Model.Sum(t => t.DebitAmount).ToString("C")</th>
+                                        <th class="text-end">@Model.Sum(t => t.CreditAmount).ToString("C")</th>
+                                        <th class="text-end">
+                                            @{
+                                                var finalBalance = Model.Sum(t => t.CreditAmount) - Model.Sum(t => t.DebitAmount);
+                                            }
+                                            <span class="fw-bold @(finalBalance >= 0 ? "text-success" : "text-danger")">
+                                                @finalBalance.ToString("C")
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <h5>Hareket Bulunamadı</h5>
+                            <p class="text-muted">Bu cari hesap için herhangi bir hareket bulunmamaktadır.</p>
+                            @if (cariAccount != null)
+                            {
+                                <a href="@Url.Action("Details", new { id = cariAccount.CariAccountID })" class="btn btn-primary">
+                                    <i class="fas fa-arrow-left"></i> Cari Detayına Dön
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showDateFilter() {
+    const filterForm = document.getElementById('dateFilterForm');
+    if (filterForm.style.display === 'none') {
+        filterForm.style.display = 'block';
+    } else {
+        filterForm.style.display = 'none';
+    }
+}
+</script> 

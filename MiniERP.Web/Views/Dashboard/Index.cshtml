@@ -1,0 +1,275 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="h3 mb-0">Dashboard</h1>
+        <p class="text-muted">Sistem genel durumu ve hızlı erişim</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Toplam Ürün</h6>
+                        <h3 class="mb-0">@(ViewBag.TotalProducts ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-box fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Aktif ürün sayısı</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Satış Faturaları</h6>
+                        <h3 class="mb-0">@(ViewBag.TotalSalesInvoices ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-shopping-cart fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Toplam satış faturası</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Satın Alma Faturaları</h6>
+                        <h3 class="mb-0">@(ViewBag.TotalPurchaseInvoices ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-file-invoice fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Toplam satın alma faturası</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Düşük Stok</h6>
+                        <h3 class="mb-0">@(ViewBag.LowStockProducts != null ? ((List<MiniERP.Web.Models.ProductDto>)ViewBag.LowStockProducts).Count : 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-exclamation-triangle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Kritik stok seviyesi</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Toplam Cari</h6>
+                        <h3 class="mb-0">@(ViewBag.TotalCariAccounts ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-users fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Aktif cari hesaplar</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Müşteriler</h6>
+                        <h3 class="mb-0">@(ViewBag.ActiveCustomers ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-user-friends fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Aktif müşteri sayısı</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-light text-dark">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Tedarikçiler</h6>
+                        <h3 class="mb-0">@(ViewBag.ActiveSuppliers ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-truck fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Aktif tedarikçi sayısı</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title">Stokta Yok</h6>
+                        <h3 class="mb-0">@(ViewBag.OutOfStockCount ?? 0)</h3>
+                    </div>
+                    <div>
+                        <i class="fas fa-times-circle fa-2x opacity-75"></i>
+                    </div>
+                </div>
+                <small class="opacity-75">Stoğu bitmiş ürünler</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Hızlı Erişim</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary w-100 p-3">
+                            <i class="fas fa-box fa-2x d-block mb-2"></i>
+                            <strong>Ürün Yönetimi</strong>
+                            <br>
+                            <small class="text-muted">Ürün listeleme, ekleme ve düzenleme</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="Stock" asp-action="Index" class="btn btn-outline-success w-100 p-3">
+                            <i class="fas fa-warehouse fa-2x d-block mb-2"></i>
+                            <strong>Stok Yönetimi</strong>
+                            <br>
+                            <small class="text-muted">Stok takibi ve hareketleri</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="SalesInvoice" asp-action="Index" class="btn btn-outline-info w-100 p-3">
+                            <i class="fas fa-shopping-cart fa-2x d-block mb-2"></i>
+                            <strong>Satış Faturaları</strong>
+                            <br>
+                            <small class="text-muted">Satış faturaları ve işlemleri</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="PurchaseInvoice" asp-action="Index" class="btn btn-outline-warning w-100 p-3">
+                            <i class="fas fa-file-invoice fa-2x d-block mb-2"></i>
+                            <strong>Satın Alma Faturaları</strong>
+                            <br>
+                            <small class="text-muted">Satın alma faturaları ve işlemleri</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="CariAccount" asp-action="Index" class="btn btn-outline-secondary w-100 p-3">
+                            <i class="fas fa-users fa-2x d-block mb-2"></i>
+                            <strong>Cari Hesaplar</strong>
+                            <br>
+                            <small class="text-muted">Müşteri ve tedarikçi işlemleri</small>
+                        </a>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-outline-dark w-100 p-3">
+                            <i class="fas fa-chart-line fa-2x d-block mb-2"></i>
+                            <strong>Raporlar</strong>
+                            <br>
+                            <small class="text-muted">Detaylı raporlar ve analizler</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Düşük Stok Ürünleri</h5>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.LowStockProducts != null && ((List<MiniERP.Web.Models.ProductDto>)ViewBag.LowStockProducts).Any())
+                {
+                    @foreach (var product in ((List<MiniERP.Web.Models.ProductDto>)ViewBag.LowStockProducts).Take(5))
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                            <div>
+                                <strong>@product.ProductName</strong>
+                                <br>
+                                <small class="text-muted">@product.ProductCode</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-danger">@product.StockQuantity</span>
+                            </div>
+                        </div>
+                    }
+                    <div class="text-center mt-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-sm btn-outline-primary">
+                            Tümünü Gör
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted text-center">Düşük stok ürünü bulunmuyor.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Sistem Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><strong>Kullanıcı:</strong> @(User.Identity?.Name ?? "Bilinmiyor")</li>
+                            <li><strong>Rol:</strong> @(User.IsInRole("Admin") ? "Admin" : User.IsInRole("Manager") ? "Manager" : "User")</li>
+                            <li><strong>Giriş Zamanı:</strong> @DateTime.Now.ToString("dd.MM.yyyy HH:mm")</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><strong>Sistem Versiyonu:</strong> v1.0.0</li>
+                            <li><strong>Son Güncelleme:</strong> @DateTime.Now.ToString("dd.MM.yyyy")</li>
+                            <li><strong>Durum:</strong> <span class="badge bg-success">Online</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

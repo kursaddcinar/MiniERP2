@@ -1,0 +1,284 @@
+@model PagedResult<PurchaseInvoiceDto>
+
+@{
+    ViewData["Title"] = "Satın Alma Faturaları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-file-invoice"></i>
+                    Satın Alma Faturaları
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Summary != null)
+    {
+        var summary = (InvoiceSummaryDto)ViewBag.Summary;
+        
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="card-title">@(summary.TotalInvoices)</h5>
+                                <p class="card-text">Toplam Fatura</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-file-invoice fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="card-title">@(summary.TotalAmount.ToString("C"))</h5>
+                                <p class="card-text">Toplam Tutar</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-lira-sign fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="card-title">@(summary.DraftInvoices)</h5>
+                                <p class="card-text">Taslak Fatura</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-edit fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="card-title">@(summary.ApprovedInvoices)</h5>
+                                <p class="card-text">Onaylı Fatura</p>
+                            </div>
+                            <div class="align-self-center">
+                                <i class="fas fa-check-circle fa-2x opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="card-title mb-0">Satın Alma Faturaları</h5>
+                        </div>
+                        <div class="col-auto">
+                            <a href="@Url.Action("Create")" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Yeni Fatura
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filters -->
+                    <form method="get" class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Arama</label>
+                            <input type="text" name="searchTerm" class="form-control" value="@ViewBag.SearchTerm" placeholder="Fatura No, Tedarikçi Adı">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Durum</label>
+                            <select name="status" class="form-select">
+                                <option value="">Tümü</option>
+                                <option value="DRAFT" selected="@(ViewBag.Status == "DRAFT")">Taslak</option>
+                                <option value="APPROVED" selected="@(ViewBag.Status == "APPROVED")">Onaylı</option>
+                                <option value="CANCELLED" selected="@(ViewBag.Status == "CANCELLED")">İptal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Başlangıç Tarihi</label>
+                            <input type="date" name="startDate" class="form-control" value="@ViewBag.StartDate">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Bitiş Tarihi</label>
+                            <input type="date" name="endDate" class="form-control" value="@ViewBag.EndDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Ara
+                                </button>
+                                <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                    <i class="fas fa-times"></i> Temizle
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Invoice List -->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Fatura No</th>
+                                    <th>Tedarikçi</th>
+                                    <th>Tarih</th>
+                                    <th>Toplam Tutar</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Data != null && Model.Data.Any())
+                                {
+                                    @foreach (var invoice in Model.Data)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@invoice.InvoiceNo</strong>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>@invoice.CariName</strong>
+                                                    <br>
+                                                    <small class="text-muted">@invoice.CariCode</small>
+                                                </div>
+                                            </td>
+                                            <td>@invoice.InvoiceDate.ToString("dd.MM.yyyy")</td>
+                                            <td class="text-end">
+                                                <strong>@invoice.Total.ToString("C")</strong>
+                                            </td>
+                                            <td>
+                                                @if (invoice.Status == "DRAFT")
+                                                {
+                                                    <span class="badge bg-warning">Taslak</span>
+                                                }
+                                                else if (invoice.Status == "APPROVED")
+                                                {
+                                                    <span class="badge bg-success">Onaylı</span>
+                                                }
+                                                else if (invoice.Status == "CANCELLED")
+                                                {
+                                                    <span class="badge bg-danger">İptal</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">@invoice.Status</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="@Url.Action("Details", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    @if (invoice.Status == "DRAFT")
+                                                    {
+                                                        <a href="@Url.Action("Edit", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-warning">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    }
+                                                    <a href="@Url.Action("Delete", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="py-4">
+                                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                                <p class="text-muted">Henüz fatura bulunmamaktadır.</p>
+                                                <a href="@Url.Action("Create")" class="btn btn-primary">
+                                                    <i class="fas fa-plus"></i> İlk Faturayı Oluştur
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    @if (Model.TotalCount > 0)
+                    {
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                @if (Model.HasPrevious)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", new { 
+                                            pageNumber = Model.PageNumber - 1, 
+                                            searchTerm = ViewBag.SearchTerm, 
+                                            status = ViewBag.Status,
+                                            startDate = ViewBag.StartDate,
+                                            endDate = ViewBag.EndDate
+                                        })">Önceki</a>
+                                    </li>
+                                }
+
+                                @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                                {
+                                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                        <a class="page-link" href="@Url.Action("Index", new { 
+                                            pageNumber = i, 
+                                            searchTerm = ViewBag.SearchTerm, 
+                                            status = ViewBag.Status,
+                                            startDate = ViewBag.StartDate,
+                                            endDate = ViewBag.EndDate
+                                        })">@i</a>
+                                    </li>
+                                }
+
+                                @if (Model.HasNext)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("Index", new { 
+                                            pageNumber = Model.PageNumber + 1, 
+                                            searchTerm = ViewBag.SearchTerm, 
+                                            status = ViewBag.Status,
+                                            startDate = ViewBag.StartDate,
+                                            endDate = ViewBag.EndDate
+                                        })">Sonraki</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+
+                        <div class="text-center">
+                            <small class="text-muted">
+                                @Model.TotalCount kayıttan @((Model.PageNumber - 1) * Model.PageSize + 1) - @Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount) arası gösteriliyor
+                            </small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

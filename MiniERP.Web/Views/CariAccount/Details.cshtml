@@ -1,0 +1,207 @@
+@model CariAccountDto
+
+@{
+    ViewData["Title"] = "Cari Hesap Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-user"></i>
+                    Cari Hesap Detayı
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "CariAccount")">Cari Hesaplar</a></li>
+                        <li class="breadcrumb-item active">Detay</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">@Model.CariName (@Model.CariCode)</h5>
+                        <div class="card-tools">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Pasif</span>
+                            }
+                            
+                            @if (Model.IsCustomer)
+                            {
+                                <span class="badge bg-primary">Müşteri</span>
+                            }
+                            
+                            @if (Model.IsSupplier)
+                            {
+                                <span class="badge bg-info">Tedarikçi</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th width="140">Cari Kodu:</th>
+                                        <td><strong>@Model.CariCode</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cari Adı:</th>
+                                        <td><strong>@Model.CariName</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>İletişim Kişisi:</th>
+                                        <td>@(Model.ContactPerson ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Telefon:</th>
+                                        <td>@(Model.Phone ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>E-posta:</th>
+                                        <td>@(Model.Email ?? "-")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <th width="140">Cari Tipi:</th>
+                                        <td><span class="badge bg-secondary">@Model.TypeName</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vergi Numarası:</th>
+                                        <td>@(Model.TaxNumber ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vergi Dairesi:</th>
+                                        <td>@(Model.TaxOffice ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kredi Limiti:</th>
+                                        <td><strong>@Model.CreditLimit.ToString("C")</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kayıt Tarihi:</th>
+                                        <td>@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(Model.Address))
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6>Adres:</h6>
+                                    <p class="text-muted">@Model.Address</p>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Geri
+                                    </a>
+                                    <div>
+                                        <a href="@Url.Action("Transactions", new { id = Model.CariAccountID })" class="btn btn-info">
+                                            <i class="fas fa-list"></i> Hareketler
+                                        </a>
+                                        <a href="@Url.Action("Edit", new { id = Model.CariAccountID })" class="btn btn-warning">
+                                            <i class="fas fa-edit"></i> Düzenle
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Bakiye Bilgileri</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <h3 class="@(Model.CurrentBalance >= 0 ? "text-success" : "text-danger")">
+                                @Model.CurrentBalance.ToString("C")
+                            </h3>
+                            <p class="text-muted mb-0">Güncel Bakiye</p>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="border-end">
+                                    <h5 class="text-primary">@Model.CreditLimit.ToString("C")</h5>
+                                    <p class="text-muted mb-0 small">Kredi Limiti</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="@(Model.CreditLimit - Model.CurrentBalance >= 0 ? "text-success" : "text-danger")">
+                                    @((Model.CreditLimit - Model.CurrentBalance).ToString("C"))
+                                </h5>
+                                <p class="text-muted mb-0 small">Kullanılabilir Limit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Hızlı İşlemler</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="@Url.Action("Transactions", new { id = Model.CariAccountID })" class="btn btn-outline-primary">
+                                <i class="fas fa-exchange-alt"></i> Cari Hareketleri
+                            </a>
+                            <a href="@Url.Action("Statement", new { id = Model.CariAccountID })" class="btn btn-outline-success">
+                                <i class="fas fa-file-alt"></i> Cari Ekstresi
+                            </a>
+                            <button type="button" class="btn btn-outline-info" onclick="createTransaction()">
+                                <i class="fas fa-plus"></i> Yeni Hareket
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Cari hesap bulunamadı.
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function createTransaction() {
+    // TODO: Implement transaction creation modal
+    alert('Bu özellik henüz tamamlanmamıştır.');
+}
+</script> 

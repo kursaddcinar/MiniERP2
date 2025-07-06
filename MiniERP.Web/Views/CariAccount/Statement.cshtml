@@ -1,0 +1,247 @@
+@model CariStatementDto
+
+@{
+    ViewData["Title"] = "Cari Ekstre";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-file-alt"></i>
+                    Cari Ekstre
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "CariAccount")">Cari Hesaplar</a></li>
+                        <li class="breadcrumb-item active">Ekstre</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="card-title mb-0">@Model.CariName (@Model.CariCode) - Cari Ekstre</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success" onclick="window.print()">
+                                        <i class="fas fa-print"></i> Yazdır
+                                    </button>
+                                    <button type="button" class="btn btn-info" onclick="exportToExcel()">
+                                        <i class="fas fa-file-excel"></i> Excel
+                                    </button>
+                                    <a href="@Url.Action("Details", new { id = Model.CariAccountID })" class="btn btn-secondary">
+                                        <i class="fas fa-eye"></i> Cari Detay
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Statement Header -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6>Cari Bilgileri</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <th width="120">Cari Kodu:</th>
+                                        <td><strong>@Model.CariCode</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cari Adı:</th>
+                                        <td><strong>@Model.CariName</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Özet Bilgileri</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <th width="140">Dönem Başı Bakiye:</th>
+                                        <td><strong class="@(Model.OpeningBalance >= 0 ? "text-success" : "text-danger")">@Model.OpeningBalance.ToString("C")</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dönem Sonu Bakiye:</th>
+                                        <td><strong class="@(Model.ClosingBalance >= 0 ? "text-success" : "text-danger")">@Model.ClosingBalance.ToString("C")</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Summary Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <h4>@Model.OpeningBalance.ToString("C")</h4>
+                                        <p class="mb-0">Dönem Başı</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body text-center">
+                                        <h4>@Model.TotalDebit.ToString("C")</h4>
+                                        <p class="mb-0">Toplam Borç</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h4>@Model.TotalCredit.ToString("C")</h4>
+                                        <p class="mb-0">Toplam Alacak</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h4>@Model.ClosingBalance.ToString("C")</h4>
+                                        <p class="mb-0">Dönem Sonu</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transactions Table -->
+                        @if (Model.Transactions != null && Model.Transactions.Any())
+                        {
+                            <h6>Hareket Detayları</h6>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Tarih</th>
+                                            <th>Belge Tipi</th>
+                                            <th>Belge No</th>
+                                            <th>Açıklama</th>
+                                            <th class="text-end">Borç</th>
+                                            <th class="text-end">Alacak</th>
+                                            <th class="text-end">Bakiye</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Opening Balance Row -->
+                                        <tr class="table-info">
+                                            <td colspan="4"><strong>DÖNEM BAŞI BAKİYE</strong></td>
+                                            <td class="text-end">-</td>
+                                            <td class="text-end">-</td>
+                                            <td class="text-end"><strong>@Model.OpeningBalance.ToString("C")</strong></td>
+                                        </tr>
+
+                                        @{
+                                            decimal runningBalance = Model.OpeningBalance;
+                                        }
+
+                                        @foreach (var transaction in Model.Transactions.OrderBy(t => t.TransactionDate))
+                                        {
+                                            runningBalance += transaction.CreditAmount - transaction.DebitAmount;
+                                            <tr>
+                                                <td>@transaction.TransactionDate.ToString("dd.MM.yyyy")</td>
+                                                <td><span class="badge bg-info">@transaction.DocumentType</span></td>
+                                                <td>@transaction.DocumentNumber</td>
+                                                <td>@transaction.Description</td>
+                                                <td class="text-end">
+                                                    @if (transaction.DebitAmount > 0)
+                                                    {
+                                                        <span class="text-danger">@transaction.DebitAmount.ToString("C")</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">-</span>
+                                                    }
+                                                </td>
+                                                <td class="text-end">
+                                                    @if (transaction.CreditAmount > 0)
+                                                    {
+                                                        <span class="text-success">@transaction.CreditAmount.ToString("C")</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">-</span>
+                                                    }
+                                                </td>
+                                                <td class="text-end">
+                                                    <strong class="@(runningBalance >= 0 ? "text-success" : "text-danger")">
+                                                        @runningBalance.ToString("C")
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        <!-- Closing Balance Row -->
+                                        <tr class="table-warning">
+                                            <td colspan="4"><strong>DÖNEM SONU BAKİYE</strong></td>
+                                            <td class="text-end"><strong>@Model.TotalDebit.ToString("C")</strong></td>
+                                            <td class="text-end"><strong>@Model.TotalCredit.ToString("C")</strong></td>
+                                            <td class="text-end"><strong>@Model.ClosingBalance.ToString("C")</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                Bu dönem için herhangi bir hareket bulunmamaktadır.
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Cari Listesine Dön
+                            </a>
+                            <div>
+                                <a href="@Url.Action("Transactions", new { id = Model.CariAccountID })" class="btn btn-info">
+                                    <i class="fas fa-list"></i> Tüm Hareketler
+                                </a>
+                                <a href="@Url.Action("Details", new { id = Model.CariAccountID })" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> Cari Detay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Cari ekstre bilgisi bulunamadı.
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function exportToExcel() {
+    // TODO: Implement Excel export functionality
+    alert('Excel export özelliği henüz tamamlanmamıştır.');
+}
+</script>
+
+<style>
+@@media print {
+    .btn, .breadcrumb, .page-title-box { display: none !important; }
+    .card { border: none !important; box-shadow: none !important; }
+}
+</style> 

@@ -1,0 +1,307 @@
+@model CreateSalesInvoiceDto
+
+@{
+    ViewData["Title"] = "Yeni Satış Faturası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    Yeni Satış Faturası
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h5 class="card-title mb-0">Fatura Bilgileri</h5>
+                        </div>
+                        <div class="col-auto">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Geri
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post" id="invoiceForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="InvoiceNo" class="form-label">Fatura No</label>
+                                    <input asp-for="InvoiceNo" class="form-control" />
+                                    <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="CariID" class="form-label">Müşteri</label>
+                                    <select asp-for="CariID" class="form-select">
+                                        <option value="">Müşteri Seçiniz</option>
+                                        @if (ViewBag.Customers != null)
+                                        {
+                                            @foreach (var customer in (List<CariAccountDto>)ViewBag.Customers)
+                                            {
+                                                <option value="@customer.CariAccountID">@customer.CariName (@customer.CariCode)</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="CariID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="InvoiceDate" class="form-label">Fatura Tarihi</label>
+                                    <input asp-for="InvoiceDate" class="form-control" type="date" />
+                                    <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="DueDate" class="form-label">Vade Tarihi</label>
+                                    <input asp-for="DueDate" class="form-control" type="date" />
+                                    <span asp-validation-for="DueDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="WarehouseID" class="form-label">Depo</label>
+                                    <select asp-for="WarehouseID" class="form-select">
+                                        <option value="">Depo Seçiniz</option>
+                                        <option value="1">Ana Depo</option>
+                                        <option value="2">Şube Depo</option>
+                                    </select>
+                                    <span asp-validation-for="WarehouseID" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Description" class="form-label">Açıklama</label>
+                                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6>Fatura Detayları</h6>
+                            <button type="button" class="btn btn-primary btn-sm" id="addDetailBtn">
+                                <i class="fas fa-plus"></i> Satır Ekle
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="detailsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th>Miktar</th>
+                                        <th>Birim Fiyat</th>
+                                        <th>KDV %</th>
+                                        <th>Toplam</th>
+                                        <th>İşlem</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="detail-row">
+                                        <td>
+                                            <select name="Details[0].ProductID" class="form-select product-select">
+                                                <option value="">Ürün Seçiniz</option>
+                                                @if (ViewBag.Products != null)
+                                                {
+                                                    @foreach (var product in (List<ProductDto>)ViewBag.Products)
+                                                    {
+                                                        <option value="@product.ProductID" data-price="@product.SalePrice" data-vat="@product.VatRate">@product.ProductName</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input name="Details[0].Quantity" type="number" class="form-control quantity-input" step="0.01" min="0" />
+                                        </td>
+                                        <td>
+                                            <input name="Details[0].UnitPrice" type="number" class="form-control price-input" step="0.01" min="0" />
+                                        </td>
+                                        <td>
+                                            <input name="Details[0].VatRate" type="number" class="form-control vat-input" step="0.01" min="0" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control total-input" readonly />
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm remove-detail">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8"></div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6"><strong>Ara Toplam:</strong></div>
+                                            <div class="col-6 text-end" id="subTotal">₺0,00</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6"><strong>KDV:</strong></div>
+                                            <div class="col-6 text-end" id="vatTotal">₺0,00</div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-6"><strong>Genel Toplam:</strong></div>
+                                            <div class="col-6 text-end" id="grandTotal">₺0,00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i> İptal
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Kaydet
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            let detailIndex = 1;
+
+            // Add detail row
+            $('#addDetailBtn').click(function () {
+                const newRow = `
+                    <tr class="detail-row">
+                        <td>
+                            <select name="Details[${detailIndex}].ProductID" class="form-select product-select">
+                                <option value="">Ürün Seçiniz</option>
+                                @if (ViewBag.Products != null)
+                                {
+                                    @foreach (var product in (List<ProductDto>)ViewBag.Products)
+                                    {
+                                        <option value="@product.ProductID" data-price="@product.SalePrice" data-vat="@product.VatRate">@product.ProductName</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input name="Details[${detailIndex}].Quantity" type="number" class="form-control quantity-input" step="0.01" min="0" />
+                        </td>
+                        <td>
+                            <input name="Details[${detailIndex}].UnitPrice" type="number" class="form-control price-input" step="0.01" min="0" />
+                        </td>
+                        <td>
+                            <input name="Details[${detailIndex}].VatRate" type="number" class="form-control vat-input" step="0.01" min="0" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control total-input" readonly />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-detail">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                $('#detailsTable tbody').append(newRow);
+                detailIndex++;
+            });
+
+            // Remove detail row
+            $(document).on('click', '.remove-detail', function () {
+                $(this).closest('tr').remove();
+                updateTotals();
+            });
+
+            // Product selection change
+            $(document).on('change', '.product-select', function () {
+                const row = $(this).closest('tr');
+                const price = $(this).find(':selected').data('price');
+                const vat = $(this).find(':selected').data('vat');
+                
+                row.find('.price-input').val(price || 0);
+                row.find('.vat-input').val(vat || 0);
+                
+                updateRowTotal(row);
+            });
+
+            // Quantity or price change
+            $(document).on('input', '.quantity-input, .price-input, .vat-input', function () {
+                const row = $(this).closest('tr');
+                updateRowTotal(row);
+            });
+
+            function updateRowTotal(row) {
+                const quantity = parseFloat(row.find('.quantity-input').val()) || 0;
+                const price = parseFloat(row.find('.price-input').val()) || 0;
+                const vatRate = parseFloat(row.find('.vat-input').val()) || 0;
+                
+                const subtotal = quantity * price;
+                const vatAmount = subtotal * (vatRate / 100);
+                const total = subtotal + vatAmount;
+                
+                row.find('.total-input').val(total.toFixed(2));
+                updateTotals();
+            }
+
+            function updateTotals() {
+                let subTotal = 0;
+                let vatTotal = 0;
+                
+                $('.detail-row').each(function () {
+                    const quantity = parseFloat($(this).find('.quantity-input').val()) || 0;
+                    const price = parseFloat($(this).find('.price-input').val()) || 0;
+                    const vatRate = parseFloat($(this).find('.vat-input').val()) || 0;
+                    
+                    const rowSubtotal = quantity * price;
+                    const rowVat = rowSubtotal * (vatRate / 100);
+                    
+                    subTotal += rowSubtotal;
+                    vatTotal += rowVat;
+                });
+                
+                const grandTotal = subTotal + vatTotal;
+                
+                $('#subTotal').text(subTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
+                $('#vatTotal').text(vatTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
+                $('#grandTotal').text(grandTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
+            }
+        });
+    </script>
+} 

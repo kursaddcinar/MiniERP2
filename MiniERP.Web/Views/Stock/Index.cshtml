@@ -1,0 +1,352 @@
+@model MiniERP.Web.Models.PagedResult<MiniERP.Web.Models.StockCardDto>
+@{
+    ViewData["Title"] = "Stok Yönetimi";
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h1 class="h3 mb-0">Stok Yönetimi</h1>
+        <p class="text-muted">Stok kartları ve stok durumu yönetimi</p>
+    </div>
+    <div class="col-md-6 text-end">
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            <div class="btn-group" role="group">
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Yeni Stok Kartı
+                </a>
+                <a asp-action="UpdateStock" class="btn btn-success">
+                    <i class="fas fa-edit me-2"></i>Stok Güncelle
+                </a>
+                <a asp-action="Transfer" class="btn btn-info">
+                    <i class="fas fa-exchange-alt me-2"></i>Stok Transferi
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Özet Kartlar -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Toplam Stok</h6>
+                        <h4 class="mb-0">@(Model?.TotalCount ?? 0)</h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-boxes fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Kritik Stok</h6>
+                        <h4 class="mb-0">
+                            @(Model?.Data?.Count(s => s.StockStatus == "CRITICAL") ?? 0)
+                        </h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a asp-action="Critical" class="small text-white stretched-link">Detayları Gör</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Stokta Yok</h6>
+                        <h4 class="mb-0">
+                            @(Model?.Data?.Count(s => s.CurrentStock <= 0) ?? 0)
+                        </h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-times-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a asp-action="OutOfStock" class="small text-white stretched-link">Detayları Gör</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="card-title">Hareketler</h6>
+                        <h4 class="mb-0">
+                            <i class="fas fa-chart-line"></i>
+                        </h4>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-history fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a asp-action="Transactions" class="small text-white stretched-link">Hareketleri Gör</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Arama ve Filtreleme -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h6 class="card-title mb-0">
+            <i class="fas fa-search me-2"></i>Arama ve Filtreleme
+        </h6>
+    </div>
+    <div class="card-body">
+        <form method="get" asp-action="Index">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Ürün Adı/Kodu</label>
+                    <input type="text" name="search" class="form-control" value="@ViewBag.Search" placeholder="Ürün adı veya kodu ara...">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Sayfa Boyutu</label>
+                    <select name="pageSize" class="form-select">
+                        <option value="10" selected="@(ViewBag.PageSize == 10)">10</option>
+                        <option value="20" selected="@(ViewBag.PageSize == 20)">20</option>
+                        <option value="50" selected="@(ViewBag.PageSize == 50)">50</option>
+                        <option value="100" selected="@(ViewBag.PageSize == 100)">100</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Ara
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Temizle
+                        </a>
+                        <a asp-action="Summary" class="btn btn-info">
+                            <i class="fas fa-chart-pie me-2"></i>Özet
+                        </a>
+                        <a asp-action="Report" class="btn btn-success">
+                            <i class="fas fa-file-excel me-2"></i>Rapor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Stok Kartları Listesi -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            Stok Kartları
+            @if (Model != null)
+            {
+                <span class="badge bg-secondary ms-2">@Model.TotalCount kart</span>
+            }
+        </h5>
+    </div>
+    <div class="card-body">
+        @if (Model != null && Model.Data.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Ürün</th>
+                            <th>Depo</th>
+                            <th class="text-end">Mevcut Stok</th>
+                            <th class="text-end">Rezerve</th>
+                            <th class="text-end">Müsait</th>
+                            <th class="text-center">Durum</th>
+                            <th class="text-center">Son İşlem</th>
+                            <th class="text-center">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var stock in Model.Data)
+                        {
+                            <tr>
+                                <td>
+                                    <div>
+                                        <strong>@stock.ProductCode</strong>
+                                        <br>
+                                        <small class="text-muted">@stock.ProductName</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <strong>@stock.WarehouseCode</strong>
+                                        <br>
+                                        <small class="text-muted">@stock.WarehouseName</small>
+                                    </div>
+                                </td>
+                                <td class="text-end">
+                                    <strong>@stock.CurrentStock.ToString("N2")</strong>
+                                    <br>
+                                    <small class="text-muted">@stock.UnitName</small>
+                                </td>
+                                <td class="text-end">
+                                    @if (stock.ReservedStock > 0)
+                                    {
+                                        <span class="badge bg-warning">@stock.ReservedStock.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">0</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <strong class="@(stock.AvailableStock <= stock.MinStockLevel ? "text-danger" : "text-success")">
+                                        @stock.AvailableStock.ToString("N2")
+                                    </strong>
+                                </td>
+                                <td class="text-center">
+                                    @switch (stock.StockStatus)
+                                    {
+                                        case "CRITICAL":
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-exclamation-triangle me-1"></i>Kritik
+                                            </span>
+                                            break;
+                                        case "OVER":
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-arrow-up me-1"></i>Fazla
+                                            </span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check me-1"></i>Normal
+                                            </span>
+                                            break;
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @if (stock.LastTransactionDate.HasValue)
+                                    {
+                                        <small>@stock.LastTransactionDate.Value.ToString("dd.MM.yyyy")</small>
+                                    }
+                                    else
+                                    {
+                                        <small class="text-muted">-</small>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@stock.StockCardID" class="btn btn-sm btn-outline-info" title="Detaylar">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@stock.StockCardID" class="btn btn-sm btn-outline-primary" title="Düzenle">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-warehouse fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Henüz stok kartı bulunmuyor.</p>
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>İlk Stok Kartını Ekle
+                    </a>
+                }
+            </div>
+        }
+    </div>
+    
+    @if (Model != null && Model.TotalPages > 1)
+    {
+        <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted">
+                        @((Model.CurrentPage - 1) * Model.PageSize + 1) - @(Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalCount)) 
+                        arası, toplam @Model.TotalCount stok kartı
+                    </span>
+                </div>
+                <nav>
+                    <ul class="pagination pagination-sm mb-0">
+                        @* İlk sayfa *@
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = 1, pageSize = Model.PageSize, search = ViewBag.Search })">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                        }
+                        
+                        @* Önceki sayfa *@
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1, pageSize = Model.PageSize, search = ViewBag.Search })">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        }
+                        
+                        @* Sayfa numaraları *@
+                        @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize, search = ViewBag.Search })">
+                                    @i
+                                </a>
+                            </li>
+                        }
+                        
+                        @* Sonraki sayfa *@
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1, pageSize = Model.PageSize, search = ViewBag.Search })">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                        }
+                        
+                        @* Son sayfa *@
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", new { page = Model.TotalPages, pageSize = Model.PageSize, search = ViewBag.Search })">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
+</div> 

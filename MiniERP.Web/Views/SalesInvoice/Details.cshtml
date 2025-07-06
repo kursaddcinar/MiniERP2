@@ -1,0 +1,287 @@
+@model SalesInvoiceDto
+
+@{
+    ViewData["Title"] = "Satış Faturası Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-file-invoice"></i>
+                    Satış Faturası Detayı
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "SalesInvoice")">Satış Faturaları</a></li>
+                        <li class="breadcrumb-item active">Detay</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="card-title mb-0">Fatura No: @Model.InvoiceNo</h5>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge @(Model.Status == "APPROVED" ? "bg-success" : Model.Status == "CANCELLED" ? "bg-danger" : "bg-warning")">
+                                    @if (Model.Status == "DRAFT")
+                                    {
+                                        <text>Taslak</text>
+                                    }
+                                    else if (Model.Status == "APPROVED")
+                                    {
+                                        <text>Onaylı</text>
+                                    }
+                                    else if (Model.Status == "CANCELLED")
+                                    {
+                                        <text>İptal</text>
+                                    }
+                                    else
+                                    {
+                                        <text>@Model.Status</text>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Fatura Bilgileri -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Fatura Bilgileri</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <th width="120">Fatura No:</th>
+                                        <td><strong>@Model.InvoiceNo</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fatura Tarihi:</th>
+                                        <td>@Model.InvoiceDate.ToString("dd.MM.yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Vade Tarihi:</th>
+                                        <td>@(Model.DueDate?.ToString("dd.MM.yyyy") ?? "-")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Durum:</th>
+                                        <td>
+                                            <span class="badge @(Model.Status == "APPROVED" ? "bg-success" : Model.Status == "CANCELLED" ? "bg-danger" : "bg-warning")">
+                                                @if (Model.Status == "DRAFT")
+                                                {
+                                                    <text>Taslak</text>
+                                                }
+                                                else if (Model.Status == "APPROVED")
+                                                {
+                                                    <text>Onaylı</text>
+                                                }
+                                                else if (Model.Status == "CANCELLED")
+                                                {
+                                                    <text>İptal</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>@Model.Status</text>
+                                                }
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Müşteri Bilgileri</h6>
+                                <table class="table table-borderless table-sm">
+                                    <tr>
+                                        <th width="120">Müşteri Kodu:</th>
+                                        <td><strong>@Model.CariCode</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Müşteri Adı:</th>
+                                        <td><strong>@Model.CariName</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Depo:</th>
+                                        <td>@Model.WarehouseName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kayıt Tarihi:</th>
+                                        <td>@Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Fatura Kalemleri -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-primary">Fatura Kalemleri</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Ürün Kodu</th>
+                                                <th>Ürün Adı</th>
+                                                <th class="text-center">Miktar</th>
+                                                <th class="text-center">Birim</th>
+                                                <th class="text-end">Birim Fiyat</th>
+                                                <th class="text-center">KDV %</th>
+                                                <th class="text-end">Satır Toplam</th>
+                                                <th class="text-end">KDV Tutarı</th>
+                                                <th class="text-end">Net Toplam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Details != null && Model.Details.Any())
+                                            {
+                                                @foreach (var detail in Model.Details)
+                                                {
+                                                    <tr>
+                                                        <td><strong>@detail.ProductCode</strong></td>
+                                                        <td>@detail.ProductName</td>
+                                                        <td class="text-center">@detail.Quantity.ToString("N2")</td>
+                                                        <td class="text-center">@detail.UnitName</td>
+                                                        <td class="text-end">@detail.UnitPrice.ToString("C")</td>
+                                                        <td class="text-center">@detail.VatRate.ToString("N0")</td>
+                                                        <td class="text-end">@detail.LineTotal.ToString("C")</td>
+                                                        <td class="text-end">@detail.VatAmount.ToString("C")</td>
+                                                        <td class="text-end"><strong>@detail.NetTotal.ToString("C")</strong></td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="9" class="text-center text-muted">Fatura kalemi bulunmamaktadır.</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fatura Totalleri -->
+                        <div class="row mt-4">
+                            <div class="col-md-8">
+                                @if (!string.IsNullOrEmpty(Model.Description))
+                                {
+                                    <h6 class="text-primary">Açıklama</h6>
+                                    <p class="text-muted">@Model.Description</p>
+                                }
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="text-primary">Fatura Toplamları</h6>
+                                        <table class="table table-borderless table-sm mb-0">
+                                            <tr>
+                                                <th>Ara Toplam:</th>
+                                                <td class="text-end">@Model.SubTotal.ToString("C")</td>
+                                            </tr>
+                                            <tr>
+                                                <th>KDV Tutarı:</th>
+                                                <td class="text-end">@Model.VatAmount.ToString("C")</td>
+                                            </tr>
+                                            <tr class="table-primary">
+                                                <th><strong>Genel Toplam:</strong></th>
+                                                <td class="text-end"><strong>@Model.Total.ToString("C")</strong></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Aksiyon Butonları -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Geri
+                                    </a>
+                                    <div>
+                                        @if (Model.Status == "DRAFT")
+                                        {
+                                            <button type="button" class="btn btn-success me-2" onclick="approveInvoice(@Model.InvoiceID)">
+                                                <i class="fas fa-check"></i> Onayla
+                                            </button>
+                                            <a href="@Url.Action("Edit", new { id = Model.InvoiceID })" class="btn btn-warning me-2">
+                                                <i class="fas fa-edit"></i> Düzenle
+                                            </a>
+                                        }
+                                        @if (Model.Status == "APPROVED")
+                                        {
+                                            <button type="button" class="btn btn-danger me-2" onclick="cancelInvoice(@Model.InvoiceID)">
+                                                <i class="fas fa-times"></i> İptal Et
+                                            </button>
+                                        }
+                                        <button type="button" class="btn btn-info me-2" onclick="printInvoice()">
+                                            <i class="fas fa-print"></i> Yazdır
+                                        </button>
+                                        <button type="button" class="btn btn-primary" onclick="exportToPdf()">
+                                            <i class="fas fa-file-pdf"></i> PDF
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Satış faturası bulunamadı.
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function approveInvoice(invoiceId) {
+    if (confirm('Bu faturayı onaylamak istediğinizden emin misiniz?')) {
+        // TODO: Implement approval functionality
+        alert('Onaylama özelliği henüz tamamlanmamıştır.');
+    }
+}
+
+function cancelInvoice(invoiceId) {
+    if (confirm('Bu faturayı iptal etmek istediğinizden emin misiniz?')) {
+        // TODO: Implement cancellation functionality
+        alert('İptal etme özelliği henüz tamamlanmamıştır.');
+    }
+}
+
+function printInvoice() {
+    window.print();
+}
+
+function exportToPdf() {
+    // TODO: Implement PDF export functionality
+    alert('PDF export özelliği henüz tamamlanmamıştır.');
+}
+</script>
+
+<style>
+@@media print {
+    .btn, .breadcrumb, .page-title-box { display: none !important; }
+    .card { border: none !important; box-shadow: none !important; }
+}
+</style> 
