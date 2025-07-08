@@ -501,6 +501,3 @@ README'de kullanılacak fotoğraflar (images/ klasörüne koyulacak):
 9. **cari-hesap-ekleme.png** - Cari hesap ekleme ekranı
 10. **urun-ekleme.png** - Ürün ekleme ekranı
 11. **satis-faturasi.png** - Satış faturası oluşturma
-#   M i n i   E R P 
- 
- 
