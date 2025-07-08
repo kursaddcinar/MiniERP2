@@ -346,14 +346,6 @@ dotnet run
 - **Indexing:** Veritabanı performansı
 - **Caching:** Bellek içi önbellekleme
 
-### 4. Raporlama:
-![raporlar.png](images/raporlar.png)
-
-- **Cari Bakiye Raporu**
-- **Stok Durumu Raporu**
-- **Satış Raporu**
-- **Alış Raporu**
-
 ## Teknik Detaylar
 
 ### Veritabanı Şeması:
@@ -435,6 +427,23 @@ Hata: "401 Unauthorized"
 - Token süresini kontrol et
 ```
 
+#### 4. Winform form Hatası:
+```
+Hata: Satış ve satın alma formlarında yeni kayıt hatası
+
+ilerleyen süreçte bu sorun düzeltilecektir.
+
+```
+
+#### 5. Rol Bazlı Yetkilendirme Eksikliği:
+```
+Hata: Role uygun ekranlar ve yetkilendirilmeler yapılamamaktadır
+
+ilerleyen süreçte bu sorun düzeltilecektir.
+
+```
+
+
 ### Debug Modunda Çalıştırma:
 ```bash
 # API'yi debug modunda çalıştır
@@ -492,6 +501,6 @@ README'de kullanılacak fotoğraflar (images/ klasörüne koyulacak):
 9. **cari-hesap-ekleme.png** - Cari hesap ekleme ekranı
 10. **urun-ekleme.png** - Ürün ekleme ekranı
 11. **satis-faturasi.png** - Satış faturası oluşturma
-12. **raporlar.png** - Raporlar ekranı 
-#   M i n i   E R P  
+#   M i n i   E R P 
+ 
  

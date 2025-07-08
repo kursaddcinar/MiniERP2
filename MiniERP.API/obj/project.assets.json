@@ -5652,11 +5652,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.API\\MiniERP.API.csproj",
+      "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.API\\MiniERP.API.csproj",
       "projectName": "MiniERP.API",
-      "projectPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.API\\MiniERP.API.csproj",
+      "projectPath": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.API\\MiniERP.API.csproj",
       "packagesPath": "C:\\Users\\kursa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.API\\obj\\",
+      "outputPath": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

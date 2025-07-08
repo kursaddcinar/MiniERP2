@@ -1,0 +1,217 @@
+2025-07-08 14:03:08.638 +03:00 [INF] Starting MiniERP API
+2025-07-08 14:03:08.745 +03:00 [INF] User profile is available. Using 'C:\Users\kursa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-08 14:03:09.003 +03:00 [INF] Now listening on: http://localhost:5135
+2025-07-08 14:03:09.008 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-08 14:03:09.010 +03:00 [INF] Hosting environment: Development
+2025-07-08 14:03:09.012 +03:00 [INF] Content root path: C:\Users\kursa\source\repos\backup\MİniERP2\MiniERP.API
+2025-07-08 14:03:22.898 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5135/api/auth/login - application/json; charset=utf-8 40
+2025-07-08 14:03:22.951 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-08 14:03:23.012 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-08 14:03:23.036 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.LoginResponseDto]]] Login(MiniERP.API.DTOs.LoginDto) on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-08 14:03:24.826 +03:00 [INF] Executed DbCommand (48ms) [Parameters=[@__username_0='?' (Size = 50)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[Username] = @__username_0 AND [u].[IsActive] = CAST(1 AS bit)
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-08 14:03:24.997 +03:00 [INF] User admin logged in successfully
+2025-07-08 14:03:25.006 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.LoginResponseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:25.042 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.Login (MiniERP.API) in 1997.6601ms
+2025-07-08 14:03:25.047 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-08 14:03:25.051 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 2101.0672 ms
+2025-07-08 14:03:25.065 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5135/api/auth/login - 200 null application/json; charset=utf-8 2168.0193ms
+2025-07-08 14:03:27.979 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/products/categories?pageSize=1000 - null null
+2025-07-08 14:03:28.055 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetCategories (MiniERP.API)'
+2025-07-08 14:03:28.063 +03:00 [INF] Route matched with {action = "GetCategories", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetCategories(Int32, Int32) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-08 14:03:28.144 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [ProductCategories] AS [p]
+2025-07-08 14:03:28.156 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:28.159 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:28.172 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-07-08 14:03:28.201 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:28.211 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetCategories (MiniERP.API) in 143.9334ms
+2025-07-08 14:03:28.214 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetCategories (MiniERP.API)'
+2025-07-08 14:03:28.217 +03:00 [INF] HTTP GET /api/products/categories responded 200 in 225.5185 ms
+2025-07-08 14:03:28.222 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/products/categories?pageSize=1000 - 200 null application/json; charset=utf-8 243.4225ms
+2025-07-08 14:03:28.235 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/products/units?pageSize=1000 - null null
+2025-07-08 14:03:28.247 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetUnits (MiniERP.API)'
+2025-07-08 14:03:28.253 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits(Int32, Int32) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-08 14:03:28.277 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Units] AS [u]
+2025-07-08 14:03:28.284 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:28.286 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:28.296 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-07-08 14:03:28.316 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:28.323 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetUnits (MiniERP.API) in 65.2716ms
+2025-07-08 14:03:28.327 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetUnits (MiniERP.API)'
+2025-07-08 14:03:28.330 +03:00 [INF] HTTP GET /api/products/units responded 200 in 86.2339 ms
+2025-07-08 14:03:28.334 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/products/units?pageSize=1000 - 200 null application/json; charset=utf-8 99.5646ms
+2025-07-08 14:03:28.357 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/products?pageNumber=1&pageSize=50 - null null
+2025-07-08 14:03:28.365 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-08 14:03:28.371 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-08 14:03:28.403 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-08 14:03:28.445 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:28.461 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 84.938ms
+2025-07-08 14:03:28.465 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-08 14:03:28.468 +03:00 [INF] HTTP GET /api/products responded 200 in 104.0172 ms
+2025-07-08 14:03:28.473 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/products?pageNumber=1&pageSize=50 - 200 null application/json; charset=utf-8 115.8435ms
+2025-07-08 14:03:39.484 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts/types?pageNumber=1&pageSize=50 - null null
+2025-07-08 14:03:39.496 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API)'
+2025-07-08 14:03:39.506 +03:00 [INF] Route matched with {action = "GetCariTypes", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariTypeDto]]]] GetCariTypes(Int32, Int32) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:03:39.522 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [CariTypes] AS [c]
+2025-07-08 14:03:39.529 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:39.531 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-08 14:03:39.543 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[TypeID], [c].[CreatedBy], [c].[CreatedDate], [c].[Description], [c].[IsActive], [c].[TypeCode], [c].[TypeName]
+FROM [CariTypes] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-07-08 14:03:39.570 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariTypeDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:39.578 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API) in 65.2569ms
+2025-07-08 14:03:39.581 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API)'
+2025-07-08 14:03:39.583 +03:00 [INF] HTTP GET /api/cariaccounts/types responded 200 in 88.1241 ms
+2025-07-08 14:03:39.587 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts/types?pageNumber=1&pageSize=50 - 200 null application/json; charset=utf-8 103.2087ms
+2025-07-08 14:03:39.676 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - null null
+2025-07-08 14:03:39.680 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - null null
+2025-07-08 14:03:39.684 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:03:39.689 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:03:39.695 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:03:39.696 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:03:39.720 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-08 14:03:39.723 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-08 14:03:39.768 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:39.768 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:39.779 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 79.8955ms
+2025-07-08 14:03:39.779 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 75.8517ms
+2025-07-08 14:03:39.783 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:03:39.786 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:03:39.789 +03:00 [INF] HTTP GET /api/cariaccounts responded 200 in 104.8829 ms
+2025-07-08 14:03:39.791 +03:00 [INF] HTTP GET /api/cariaccounts responded 200 in 102.0780 ms
+2025-07-08 14:03:39.795 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - 200 null application/json; charset=utf-8 119.2079ms
+2025-07-08 14:03:39.800 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - 200 null application/json; charset=utf-8 120.1545ms
+2025-07-08 14:03:46.674 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140342 - null null
+2025-07-08 14:03:46.682 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:03:46.687 +03:00 [INF] Route matched with {action = "GetCariAccountByCode", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.CariAccountDto]]] GetCariAccountByCode(System.String) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:03:46.731 +03:00 [INF] Executed DbCommand (15ms) [Parameters=[@__cariCode_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[CariID], [s].[Address], [s].[CariCode], [s].[CariName], [s].[City], [s].[ContactPerson], [s].[CreatedBy], [s].[CreatedDate], [s].[CreditLimit], [s].[CurrentBalance], [s].[Email], [s].[IsActive], [s].[Phone], [s].[TaxNo], [s].[TaxOffice], [s].[TypeID], [s].[TypeID0], [s].[CreatedBy0], [s].[CreatedDate0], [s].[Description], [s].[IsActive0], [s].[TypeCode], [s].[TypeName], [c1].[TransactionID], [c1].[Amount], [c1].[CariID], [c1].[CreatedBy], [c1].[CreatedDate], [c1].[Description], [c1].[DocumentNo], [c1].[DocumentType], [c1].[TransactionDate], [c1].[TransactionType]
+FROM (
+    SELECT TOP(1) [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID] AS [TypeID0], [c0].[CreatedBy] AS [CreatedBy0], [c0].[CreatedDate] AS [CreatedDate0], [c0].[Description], [c0].[IsActive] AS [IsActive0], [c0].[TypeCode], [c0].[TypeName]
+    FROM [CariAccounts] AS [c]
+    INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+    WHERE [c].[CariCode] = @__cariCode_0
+) AS [s]
+LEFT JOIN [CariTransactions] AS [c1] ON [s].[CariID] = [c1].[CariID]
+ORDER BY [s].[CariID], [s].[TypeID0]
+2025-07-08 14:03:46.738 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:46.742 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API) in 51.6194ms
+2025-07-08 14:03:46.745 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:03:46.748 +03:00 [INF] HTTP GET /api/cariaccounts/by-code/M20250708140342 responded 404 in 67.0883 ms
+2025-07-08 14:03:46.753 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140342 - 404 null application/json; charset=utf-8 78.8179ms
+2025-07-08 14:03:48.578 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140342 - null null
+2025-07-08 14:03:48.606 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:03:48.612 +03:00 [INF] Route matched with {action = "GetCariAccountByCode", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.CariAccountDto]]] GetCariAccountByCode(System.String) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:03:48.639 +03:00 [INF] Executed DbCommand (17ms) [Parameters=[@__cariCode_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[CariID], [s].[Address], [s].[CariCode], [s].[CariName], [s].[City], [s].[ContactPerson], [s].[CreatedBy], [s].[CreatedDate], [s].[CreditLimit], [s].[CurrentBalance], [s].[Email], [s].[IsActive], [s].[Phone], [s].[TaxNo], [s].[TaxOffice], [s].[TypeID], [s].[TypeID0], [s].[CreatedBy0], [s].[CreatedDate0], [s].[Description], [s].[IsActive0], [s].[TypeCode], [s].[TypeName], [c1].[TransactionID], [c1].[Amount], [c1].[CariID], [c1].[CreatedBy], [c1].[CreatedDate], [c1].[Description], [c1].[DocumentNo], [c1].[DocumentType], [c1].[TransactionDate], [c1].[TransactionType]
+FROM (
+    SELECT TOP(1) [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID] AS [TypeID0], [c0].[CreatedBy] AS [CreatedBy0], [c0].[CreatedDate] AS [CreatedDate0], [c0].[Description], [c0].[IsActive] AS [IsActive0], [c0].[TypeCode], [c0].[TypeName]
+    FROM [CariAccounts] AS [c]
+    INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+    WHERE [c].[CariCode] = @__cariCode_0
+) AS [s]
+LEFT JOIN [CariTransactions] AS [c1] ON [s].[CariID] = [c1].[CariID]
+ORDER BY [s].[CariID], [s].[TypeID0]
+2025-07-08 14:03:48.645 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:03:48.649 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API) in 28.8665ms
+2025-07-08 14:03:48.652 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:03:48.655 +03:00 [INF] HTTP GET /api/cariaccounts/by-code/M20250708140342 responded 404 in 49.9030 ms
+2025-07-08 14:03:48.660 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140342 - 404 null application/json; charset=utf-8 81.2687ms
+2025-07-08 14:04:43.980 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5135/api/cariaccounts - application/json; charset=utf-8 233
+2025-07-08 14:04:43.992 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.CreateCariAccount (MiniERP.API)'
+2025-07-08 14:04:44.000 +03:00 [INF] Route matched with {action = "CreateCariAccount", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.CariAccountDto]]] CreateCariAccount(MiniERP.API.DTOs.CreateCariAccountDto) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:04:44.035 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__cariCode_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [CariAccounts] AS [c]
+        WHERE [c].[CariCode] = @__cariCode_0) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-07-08 14:04:44.053 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[TypeID], [c].[CreatedBy], [c].[CreatedDate], [c].[Description], [c].[IsActive], [c].[TypeCode], [c].[TypeName]
+FROM [CariTypes] AS [c]
+WHERE [c].[TypeID] = @__p_0
+2025-07-08 14:04:44.172 +03:00 [INF] Executed DbCommand (17ms) [Parameters=[@p0='?' (Size = 255), @p1='?' (Size = 20), @p2='?' (Size = 150), @p3='?' (Size = 50), @p4='?' (Size = 100), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime2), @p7='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p8='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p9='?' (Size = 100), @p10='?' (DbType = Boolean), @p11='?' (Size = 20), @p12='?' (Size = 20), @p13='?' (Size = 100), @p14='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [CariAccounts] ([Address], [CariCode], [CariName], [City], [ContactPerson], [CreatedBy], [CreatedDate], [CreditLimit], [CurrentBalance], [Email], [IsActive], [Phone], [TaxNo], [TaxOffice], [TypeID])
+OUTPUT INSERTED.[CariID]
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14);
+2025-07-08 14:04:44.199 +03:00 [INF] Cari account M20250708140342 created successfully
+2025-07-08 14:04:44.203 +03:00 [INF] Executing CreatedAtActionResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:04:44.218 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.CreateCariAccount (MiniERP.API) in 212.4466ms
+2025-07-08 14:04:44.221 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.CreateCariAccount (MiniERP.API)'
+2025-07-08 14:04:44.224 +03:00 [INF] HTTP POST /api/cariaccounts responded 201 in 233.4335 ms
+2025-07-08 14:04:44.229 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5135/api/cariaccounts - 201 null application/json; charset=utf-8 248.8496ms
+2025-07-08 14:04:45.441 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - null null
+2025-07-08 14:04:45.448 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:04:45.451 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:04:45.457 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-08 14:04:45.463 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:04:45.466 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 10.7795ms
+2025-07-08 14:04:45.469 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-08 14:04:45.471 +03:00 [INF] HTTP GET /api/cariaccounts responded 200 in 23.4976 ms
+2025-07-08 14:04:45.475 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts?pageNumber=1&pageSize=50 - 200 null application/json; charset=utf-8 33.5565ms
+2025-07-08 14:05:00.754 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140459 - null null
+2025-07-08 14:05:00.778 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:05:00.788 +03:00 [INF] Route matched with {action = "GetCariAccountByCode", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.CariAccountDto]]] GetCariAccountByCode(System.String) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-08 14:05:00.825 +03:00 [INF] Executed DbCommand (20ms) [Parameters=[@__cariCode_0='?' (Size = 20)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[CariID], [s].[Address], [s].[CariCode], [s].[CariName], [s].[City], [s].[ContactPerson], [s].[CreatedBy], [s].[CreatedDate], [s].[CreditLimit], [s].[CurrentBalance], [s].[Email], [s].[IsActive], [s].[Phone], [s].[TaxNo], [s].[TaxOffice], [s].[TypeID], [s].[TypeID0], [s].[CreatedBy0], [s].[CreatedDate0], [s].[Description], [s].[IsActive0], [s].[TypeCode], [s].[TypeName], [c1].[TransactionID], [c1].[Amount], [c1].[CariID], [c1].[CreatedBy], [c1].[CreatedDate], [c1].[Description], [c1].[DocumentNo], [c1].[DocumentType], [c1].[TransactionDate], [c1].[TransactionType]
+FROM (
+    SELECT TOP(1) [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID] AS [TypeID0], [c0].[CreatedBy] AS [CreatedBy0], [c0].[CreatedDate] AS [CreatedDate0], [c0].[Description], [c0].[IsActive] AS [IsActive0], [c0].[TypeCode], [c0].[TypeName]
+    FROM [CariAccounts] AS [c]
+    INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+    WHERE [c].[CariCode] = @__cariCode_0
+) AS [s]
+LEFT JOIN [CariTransactions] AS [c1] ON [s].[CariID] = [c1].[CariID]
+ORDER BY [s].[CariID], [s].[TypeID0]
+2025-07-08 14:05:00.832 +03:00 [INF] Executing NotFoundObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-08 14:05:00.837 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API) in 34.0481ms
+2025-07-08 14:05:00.841 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccountByCode (MiniERP.API)'
+2025-07-08 14:05:00.844 +03:00 [INF] HTTP GET /api/cariaccounts/by-code/M20250708140459 responded 404 in 66.7636 ms
+2025-07-08 14:05:00.850 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/cariaccounts/by-code/M20250708140459 - 404 null application/json; charset=utf-8 96.1209ms

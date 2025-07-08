@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj": {}
+    "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj": {
+    "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj",
+        "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj",
         "projectName": "MiniERP.Web",
-        "projectPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj",
+        "projectPath": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.Web\\MiniERP.Web.csproj",
         "packagesPath": "C:\\Users\\kursa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.Web\\obj\\",
+        "outputPath": "C:\\Users\\kursa\\source\\repos\\backup\\MİniERP2\\MiniERP.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
