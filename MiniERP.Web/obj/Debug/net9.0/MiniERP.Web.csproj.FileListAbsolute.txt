@@ -32,7 +32,6 @@ C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\rjsmcshtml.ds
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\scopedcss\bundle\MiniERP.Web.styles.css
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\scopedcss\projectbundle\MiniERP.Web.bundle.scp.css
-C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\compressed\n0055cp1km-b9sayid5wm.gz
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\compressed\qumpbj5zfa-61n19gt1b8.gz
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\compressed\olfc2g3b1m-xtxxf3hu2r.gz
 C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\compressed\00jhkjl0of-bqjiyaj88i.gz
@@ -214,3 +213,4 @@ C:\Users\kursa\source\repos\backup\MİniERP2\MiniERP.Web\obj\Debug\net9.0\refint
 C:\Users\kursa\source\repos\backup\MİniERP2\MiniERP.Web\obj\Debug\net9.0\MiniERP.Web.pdb
 C:\Users\kursa\source\repos\backup\MİniERP2\MiniERP.Web\obj\Debug\net9.0\MiniERP.Web.genruntimeconfig.cache
 C:\Users\kursa\source\repos\backup\MİniERP2\MiniERP.Web\obj\Debug\net9.0\ref\MiniERP.Web.dll
+C:\Users\kursa\source\repos\MİniERP2\MiniERP.Web\obj\Debug\net9.0\compressed\n0055cp1km-f3qf89y3mi.gz

@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-auto">
                             <div class="btn-group">
-                                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || User.IsInRole("Purchase"))
                                 {
                                     <a href="@Url.Action("Create")" class="btn btn-primary">
                                         <i class="fas fa-plus"></i> Yeni Cari
@@ -221,13 +221,13 @@
                                                     <a href="@Url.Action("Statement", new { id = cari.CariAccountID })" class="btn btn-sm btn-outline-success" title="Ekstre">
                                                         <i class="fas fa-file-alt"></i>
                                                     </a>
-                                                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                                    @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || User.IsInRole("Purchase"))
                                                     {
                                                         <a href="@Url.Action("Edit", new { id = cari.CariAccountID })" class="btn btn-sm btn-outline-warning" title="Düzenle">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                     }
-                                                    @if (User.IsInRole("Admin"))
+                                                    @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || User.IsInRole("Purchase"))
                                                     {
                                                         <a href="@Url.Action("Delete", new { id = cari.CariAccountID })" class="btn btn-sm btn-outline-danger" title="Sil">
                                                             <i class="fas fa-trash"></i>

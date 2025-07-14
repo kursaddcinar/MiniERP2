@@ -22,6 +22,7 @@ namespace MiniERP.Web.Controllers
 
         #region Stok Kartları
 
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? search = null)
         {
             try
@@ -74,7 +75,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> Create()
         {
             await LoadDropdownData();
@@ -82,7 +83,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateStockCardDto model)
         {
@@ -117,7 +118,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -150,7 +151,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateStockCardDto model)
         {
@@ -198,7 +199,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
@@ -276,7 +277,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> UpdateStock()
         {
             await LoadDropdownData();
@@ -284,7 +285,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStock(UpdateStockDto model)
         {
@@ -319,7 +320,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> Reserve()
         {
             await LoadDropdownData();
@@ -327,7 +328,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reserve(ReserveStockDto model)
         {
@@ -417,7 +418,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> CreateTransaction()
         {
             await LoadDropdownData();
@@ -425,7 +426,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTransaction(CreateStockTransactionDto model)
         {
@@ -460,7 +461,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> Transfer()
         {
             await LoadDropdownData();
@@ -468,7 +469,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Transfer(CreateStockMovementDto model)
         {
@@ -558,14 +559,14 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public IActionResult CreateWarehouse()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateWarehouse(CreateWarehouseDto model)
         {
@@ -597,7 +598,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<IActionResult> EditWarehouse(int id)
         {
             try
@@ -633,7 +634,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWarehouse(int id, UpdateWarehouseDto model)
         {

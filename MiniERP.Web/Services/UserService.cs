@@ -32,7 +32,7 @@ namespace MiniERP.Web.Services
                 
                 return result.Data ?? new PagedResult<UserDto> { Data = new List<UserDto>(), TotalCount = 0 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new PagedResult<UserDto> { Data = new List<UserDto>(), TotalCount = 0 };
             }
@@ -45,7 +45,7 @@ namespace MiniERP.Web.Services
                 var result = await _apiService.GetAsync<UserDto>($"api/User/{id}");
                 return result.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -58,7 +58,7 @@ namespace MiniERP.Web.Services
                 var result = await _apiService.GetAsync<UserDto>($"api/User/username/{username}");
                 return result.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -129,6 +129,18 @@ namespace MiniERP.Web.Services
             try
             {
                 return await _apiService.PostAsync<bool>($"api/User/{id}/deactivate", new { });
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<bool>.ErrorResult($"Hata: {ex.Message}");
+            }
+        }
+
+        public async Task<ApiResponse<bool>> ToggleUserActivationAsync(int id)
+        {
+            try
+            {
+                return await _apiService.PostAsync<bool>($"api/User/{id}/toggle-activation", new { });
             }
             catch (Exception ex)
             {

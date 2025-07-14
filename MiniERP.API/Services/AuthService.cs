@@ -323,12 +323,21 @@ namespace MiniERP.API.Services
                     },
                     new CreateUserDto
                     {
-                        Username = "employee",
-                        Email = "employee@test.com",
-                        FirstName = "Employee",
+                        Username = "sales",
+                        Email = "sales@test.com",
+                        FirstName = "Sales",
                         LastName = "User",
-                        Password = "employee",
-                        RoleIds = new List<int> { 3 } // Employee role
+                        Password = "sales",
+                        RoleIds = new List<int> { 3 } // Sales role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "purchase",
+                        Email = "purchase@test.com",
+                        FirstName = "Purchase",
+                        LastName = "User",
+                        Password = "purchase",
+                        RoleIds = new List<int> { 4 } // Purchase role
                     },
                     new CreateUserDto
                     {
@@ -337,7 +346,25 @@ namespace MiniERP.API.Services
                         FirstName = "Finance",
                         LastName = "User",
                         Password = "finance",
-                        RoleIds = new List<int> { 4 } // Finance role
+                        RoleIds = new List<int> { 5 } // Finance role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "warehouse",
+                        Email = "warehouse@test.com",
+                        FirstName = "Warehouse",
+                        LastName = "User",
+                        Password = "warehouse",
+                        RoleIds = new List<int> { 6 } // Warehouse role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "employee",
+                        Email = "employee@test.com",
+                        FirstName = "Employee",
+                        LastName = "User",
+                        Password = "employee",
+                        RoleIds = new List<int> { 7 } // Employee role
                     }
                 };
 

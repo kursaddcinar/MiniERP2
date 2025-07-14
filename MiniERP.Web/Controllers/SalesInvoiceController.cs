@@ -26,6 +26,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: SalesInvoice
+        [Authorize(Roles = "Admin,Manager,Sales,Finance")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10, string searchTerm = "", string status = "", DateTime? startDate = null, DateTime? endDate = null)
         {
             var invoices = await _salesInvoiceService.GetSalesInvoicesAsync(pageNumber, pageSize, searchTerm, status, startDate, endDate);
@@ -53,7 +54,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: SalesInvoice/Create
-        [Authorize(Roles = "Admin,Manager,Employee")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         public async Task<IActionResult> Create()
         {
             var productsResponse = await _productService.GetProductsAsync();
@@ -70,7 +71,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager,Employee")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateSalesInvoiceDto createDto)
         {
@@ -102,7 +103,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: SalesInvoice/Edit/5
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         public async Task<IActionResult> Edit(int id)
         {
             var invoice = await _salesInvoiceService.GetSalesInvoiceByIdAsync(id);
@@ -136,7 +137,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Edit/5
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateSalesInvoiceDto updateDto)
         {
@@ -186,7 +187,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: SalesInvoice/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         public async Task<IActionResult> Delete(int id)
         {
             var invoice = await _salesInvoiceService.GetSalesInvoiceByIdAsync(id);
@@ -200,7 +201,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -23,7 +23,7 @@ namespace MiniERP.API.Controllers
         /// Tüm stok kartlarını sayfalı olarak getirir
         /// </summary>
         [HttpGet("cards")]
-        [Authorize(Roles = "Admin,Manager,Warehouse")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<PagedResult<StockCardDto>>>> GetStockCards([FromQuery] PaginationParameters parameters)
         {
             var result = await _stockService.GetStockCardsAsync(parameters);
@@ -34,7 +34,7 @@ namespace MiniERP.API.Controllers
         /// ID'ye göre stok kartı getirir
         /// </summary>
         [HttpGet("cards/{id}")]
-        [Authorize(Roles = "Admin,Manager,Warehouse")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<StockCardDto>>> GetStockCard(int id)
         {
             var result = await _stockService.GetStockCardByIdAsync(id);
@@ -49,6 +49,7 @@ namespace MiniERP.API.Controllers
         /// Ürün ve depoya göre stok kartı getirir
         /// </summary>
         [HttpGet("cards/by-product-warehouse")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<StockCardDto>>> GetStockCardByProductAndWarehouse([FromQuery] int productId, [FromQuery] int warehouseId)
         {
             var result = await _stockService.GetStockCardByProductAndWarehouseAsync(productId, warehouseId);
@@ -63,6 +64,7 @@ namespace MiniERP.API.Controllers
         /// Ürüne göre stok kartlarını getirir
         /// </summary>
         [HttpGet("cards/by-product/{productId}")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<List<StockCardDto>>>> GetStockCardsByProduct(int productId)
         {
             var result = await _stockService.GetStockCardsByProductIdAsync(productId);
@@ -73,6 +75,7 @@ namespace MiniERP.API.Controllers
         /// Depoya göre stok kartlarını getirir
         /// </summary>
         [HttpGet("cards/by-warehouse/{warehouseId}")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<List<StockCardDto>>>> GetStockCardsByWarehouse(int warehouseId)
         {
             var result = await _stockService.GetStockCardsByWarehouseIdAsync(warehouseId);

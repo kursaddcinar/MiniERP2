@@ -51,7 +51,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Create
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<IActionResult> Create()
         {
             var cariTypes = await _cariAccountService.GetCariTypesAsync();
@@ -62,7 +62,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Create
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCariAccountDto createDto)
         {
@@ -88,7 +88,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Edit/5
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<IActionResult> Edit(int id)
         {
             var cariAccount = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -120,7 +120,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Edit/5
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateCariAccountDto updateDto)
         {
@@ -146,7 +146,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<IActionResult> Delete(int id)
         {
             var cariAccount = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -160,7 +160,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

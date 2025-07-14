@@ -48,11 +48,15 @@ namespace MiniERP.Web.Models
 
         [Required(ErrorMessage = "Rol seçimi gereklidir")]
         [Display(Name = "Rol")]
-        public List<int> RoleIds { get; set; } = new List<int>();
+        public string Role { get; set; } = string.Empty;
     }
 
     public class UpdateUserDto
     {
+        [Required(ErrorMessage = "Kullanıcı adı gereklidir")]
+        [Display(Name = "Kullanıcı Adı")]
+        public string Username { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "Email gereklidir")]
         [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz")]
         [Display(Name = "Email")]
@@ -68,7 +72,7 @@ namespace MiniERP.Web.Models
 
         [Required(ErrorMessage = "Rol seçimi gereklidir")]
         [Display(Name = "Rol")]
-        public List<int> RoleIds { get; set; } = new List<int>();
+        public string Role { get; set; } = string.Empty;
 
         [Display(Name = "Aktif")]
         public bool IsActive { get; set; } = true;

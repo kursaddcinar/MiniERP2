@@ -83,7 +83,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<IActionResult> Create()
         {
             await LoadDropdownData();
@@ -91,7 +91,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductDto model)
         {
@@ -126,7 +126,7 @@ namespace MiniERP.Web.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -167,7 +167,7 @@ namespace MiniERP.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateProductDto model)
         {
