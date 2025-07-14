@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniERP.Web.Models;
 using MiniERP.Web.Services;
 
 namespace MiniERP.Web.Controllers
 {
+    [Authorize]
     public class CariAccountController : Controller
     {
         private readonly CariAccountService _cariAccountService;
@@ -14,6 +16,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Finance")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10, string searchTerm = "", int? typeId = null)
         {
             var cariAccounts = await _cariAccountService.GetCariAccountsAsync(pageNumber, pageSize, searchTerm, typeId);
@@ -35,6 +38,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Details/5
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Finance")]
         public async Task<IActionResult> Details(int id)
         {
             var cariAccount = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -47,6 +51,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Create
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Create()
         {
             var cariTypes = await _cariAccountService.GetCariTypesAsync();
@@ -57,6 +62,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCariAccountDto createDto)
         {
@@ -82,6 +88,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Edit(int id)
         {
             var cariAccount = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -113,6 +120,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateCariAccountDto updateDto)
         {
@@ -138,6 +146,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: CariAccount/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var cariAccount = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -151,6 +160,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: CariAccount/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

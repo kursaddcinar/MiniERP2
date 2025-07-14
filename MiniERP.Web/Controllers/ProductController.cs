@@ -18,6 +18,7 @@ namespace MiniERP.Web.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Warehouse")]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? search = null, int? categoryId = null)
         {
             try
@@ -35,7 +36,7 @@ namespace MiniERP.Web.Controllers
                     var categories = await _productService.GetCategoriesAsync();
                     if (categories.Success && categories.Data != null)
                     {
-                        ViewBag.Categories = categories.Data.Data.Select(c => new SelectListItem
+                        ViewBag.Categories = categories.Data.Select(c => new SelectListItem
                         {
                             Value = c.CategoryID.ToString(),
                             Text = c.CategoryName
@@ -270,7 +271,7 @@ namespace MiniERP.Web.Controllers
                 var units = await unitsTask;
                 
                 ViewBag.Categories = categories.Success && categories.Data != null 
-                    ? categories.Data.Data.Select(c => new SelectListItem
+                    ? categories.Data.Select(c => new SelectListItem
                     {
                         Value = c.CategoryID.ToString(),
                         Text = c.CategoryName
@@ -278,7 +279,7 @@ namespace MiniERP.Web.Controllers
                     : new List<SelectListItem>();
                 
                 ViewBag.Units = units.Success && units.Data != null
-                    ? units.Data.Data.Select(u => new SelectListItem
+                    ? units.Data.Select(u => new SelectListItem
                     {
                         Value = u.UnitID.ToString(),
                         Text = u.UnitName

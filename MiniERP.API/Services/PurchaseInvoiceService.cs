@@ -211,6 +211,8 @@ namespace MiniERP.API.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
+
                 var invoice = await _unitOfWork.PurchaseInvoices.GetByIdAsync(id);
                 if (invoice == null)
                     return ApiResponse<bool>.ErrorResult("Alış faturası bulunamadı");
@@ -218,14 +220,24 @@ namespace MiniERP.API.Services
                 if (invoice.Status == "APPROVED")
                     return ApiResponse<bool>.ErrorResult("Onaylanmış fatura silinemez");
 
+                // Önce fatura detaylarını sil
+                var details = await _unitOfWork.PurchaseInvoiceDetails.FindAsync(d => d.InvoiceID == id);
+                foreach (var detail in details)
+                {
+                    await _unitOfWork.PurchaseInvoiceDetails.DeleteAsync(detail);
+                }
+
+                // Sonra faturayı sil
                 await _unitOfWork.PurchaseInvoices.DeleteAsync(invoice);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
 
                 _logger.LogInformation("Alış faturası {InvoiceId} başarıyla silindi", id);
                 return ApiResponse<bool>.SuccessResult(true, "Alış faturası başarıyla silindi");
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
                 _logger.LogError(ex, "Alış faturası {InvoiceId} silinirken hata oluştu", id);
                 return ApiResponse<bool>.ErrorResult("Alış faturası silinirken hata oluştu");
             }

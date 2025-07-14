@@ -184,5 +184,14 @@ namespace MiniERP.API.Repositories
 
             return await SaveChangesAsync();
         }
+
+        public async Task<string?> GetLastInvoiceNoAsync(string prefix)
+        {
+            return await _dbSet
+                .Where(si => si.InvoiceNo.StartsWith(prefix))
+                .OrderByDescending(si => si.InvoiceNo)
+                .Select(si => si.InvoiceNo)
+                .FirstOrDefaultAsync();
+        }
     }
-} 
+}

@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace MiniERP.Web.Models
 {
@@ -12,6 +14,7 @@ namespace MiniERP.Web.Models
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public string? Address { get; set; }
+        [JsonProperty("TaxNo")]
         public string? TaxNumber { get; set; }
         public string? TaxOffice { get; set; }
         public decimal CreditLimit { get; set; }
@@ -48,6 +51,7 @@ namespace MiniERP.Web.Models
         public string? Address { get; set; }
 
         [Display(Name = "Vergi Numarası")]
+        [JsonProperty("TaxNo")]
         public string? TaxNumber { get; set; }
 
         [Display(Name = "Vergi Dairesi")]
@@ -84,6 +88,7 @@ namespace MiniERP.Web.Models
         public string? Address { get; set; }
 
         [Display(Name = "Vergi Numarası")]
+        [JsonProperty("TaxNo")]
         public string? TaxNumber { get; set; }
 
         [Display(Name = "Vergi Dairesi")]
@@ -140,4 +145,4 @@ namespace MiniERP.Web.Models
         public decimal ClosingBalance { get; set; }
         public List<CariTransactionDto> Transactions { get; set; } = new List<CariTransactionDto>();
     }
-} 
+}

@@ -31,8 +31,8 @@ namespace MiniERP.API.Repositories
         private IPurchaseInvoiceRepository? _purchaseInvoices;
         private IGenericRepository<PurchaseInvoiceDetail>? _purchaseInvoiceDetails;
         private IGenericRepository<PaymentType>? _paymentTypes;
-        private IGenericRepository<Payment>? _payments;
-        private IGenericRepository<Collection>? _collections;
+        private IPaymentRepository? _payments;
+        private ICollectionRepository? _collections;
 
         public IUserRepository Users => _users ??= new UserRepository(_context);
         public IGenericRepository<Role> Roles => _roles ??= new GenericRepository<Role>(_context);
@@ -50,8 +50,8 @@ namespace MiniERP.API.Repositories
         public IPurchaseInvoiceRepository PurchaseInvoices => _purchaseInvoices ??= new PurchaseInvoiceRepository(_context);
         public IGenericRepository<PurchaseInvoiceDetail> PurchaseInvoiceDetails => _purchaseInvoiceDetails ??= new GenericRepository<PurchaseInvoiceDetail>(_context);
         public IGenericRepository<PaymentType> PaymentTypes => _paymentTypes ??= new GenericRepository<PaymentType>(_context);
-        public IGenericRepository<Payment> Payments => _payments ??= new GenericRepository<Payment>(_context);
-        public IGenericRepository<Collection> Collections => _collections ??= new GenericRepository<Collection>(_context);
+        public IPaymentRepository Payments => _payments ??= new PaymentRepository(_context);
+        public ICollectionRepository Collections => _collections ??= new CollectionRepository(_context);
 
         public async Task<int> SaveChangesAsync()
         {

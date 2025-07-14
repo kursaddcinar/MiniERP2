@@ -36,6 +36,7 @@ namespace MiniERP.Web.Services
                     new Claim("Token", result.Data.Token)
                 };
 
+                // Add all role claims
                 foreach (var role in result.Data.User.Roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role));
@@ -72,6 +73,11 @@ namespace MiniERP.Web.Services
             return _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Name)?.Value;
         }
 
+        public string? GetCurrentUserRole()
+        {
+            return _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value;
+        }
+
         public bool IsAuthenticated()
         {
             return _httpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true;
@@ -92,6 +98,12 @@ namespace MiniERP.Web.Services
 
             _apiService.SetAuthToken(token);
             return await _apiService.GetAsync<UserDto>("api/Auth/me");
+        }
+
+        public async Task<ApiResponse<object>> InitializeTestUsersAsync()
+        {
+            // Call special initialization endpoint that doesn't require authentication
+            return await _apiService.PostAsync<object>("api/Auth/initialize-test-users", null);
         }
     }
 } 

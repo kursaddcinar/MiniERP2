@@ -178,6 +178,32 @@ namespace MiniERP.API.Controllers
             return Ok(ApiResponse<bool>.SuccessResult(isValid, isValid ? "Token is valid" : "Token is invalid"));
         }
 
+        /// <summary>
+        /// Initialize test users for development/testing purposes
+        /// </summary>
+        /// <returns>Initialization result</returns>
+        [HttpPost("initialize-test-users")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApiResponse<object>>> InitializeTestUsers()
+        {
+            try
+            {
+                var result = await _authService.InitializeTestUsersAsync();
+                
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error initializing test users");
+                return StatusCode(500, ApiResponse<object>.ErrorResult("Internal server error"));
+            }
+        }
+
         private int GetCurrentUserId()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

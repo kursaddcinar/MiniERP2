@@ -1,23 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniERP.Web.Models;
 using MiniERP.Web.Services;
 
 namespace MiniERP.Web.Controllers
 {
+    [Authorize]
     public class PurchaseInvoiceController : Controller
     {
         private readonly PurchaseInvoiceService _purchaseInvoiceService;
         private readonly CariAccountService _cariAccountService;
         private readonly ProductService _productService;
+        private readonly ApiService _apiService;
 
         public PurchaseInvoiceController(
             PurchaseInvoiceService purchaseInvoiceService,
             CariAccountService cariAccountService,
-            ProductService productService)
+            ProductService productService,
+            ApiService apiService)
         {
             _purchaseInvoiceService = purchaseInvoiceService;
             _cariAccountService = cariAccountService;
             _productService = productService;
+            _apiService = apiService;
         }
 
         // GET: PurchaseInvoice
@@ -48,28 +53,24 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: PurchaseInvoice/Create
+        [Authorize(Roles = "Admin,Manager,Employee")]
         public async Task<IActionResult> Create()
         {
             var productsResponse = await _productService.GetProductsAsync();
             var suppliers = await _cariAccountService.GetSuppliersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
             ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
                 productsResponse.Data.Data : new List<ProductDto>();
             ViewBag.Suppliers = suppliers;
-            
-            // Basit warehouse listesi - gelecekte warehouse service'i eklenebilir
-            var warehouses = new List<WarehouseDto>
-            {
-                new WarehouseDto { WarehouseID = 1, WarehouseCode = "ANA", WarehouseName = "Ana Depo" },
-                new WarehouseDto { WarehouseID = 2, WarehouseCode = "SUB", WarehouseName = "Şube Depo" }
-            };
-            ViewBag.Warehouses = warehouses;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             return View();
         }
 
         // POST: PurchaseInvoice/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreatePurchaseInvoiceDto createDto)
         {
@@ -107,6 +108,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: PurchaseInvoice/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Edit(int id)
         {
             var invoice = await _purchaseInvoiceService.GetPurchaseInvoiceByIdAsync(id);
@@ -117,26 +119,22 @@ namespace MiniERP.Web.Controllers
 
             var productsResponse = await _productService.GetProductsAsync();
             var suppliers = await _cariAccountService.GetSuppliersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
             ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
                 productsResponse.Data.Data : new List<ProductDto>();
             ViewBag.Suppliers = suppliers;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             var updateDto = new UpdatePurchaseInvoiceDto
             {
+                InvoiceNo = invoice.InvoiceNo,
                 CariID = invoice.CariID,
                 WarehouseID = invoice.WarehouseID,
                 InvoiceDate = invoice.InvoiceDate,
                 DueDate = invoice.DueDate,
                 Description = invoice.Description,
-                Details = invoice.Details?.Select(d => new CreatePurchaseInvoiceDetailDto
-                {
-                    ProductID = d.ProductID,
-                    Quantity = d.Quantity,
-                    UnitPrice = d.UnitPrice,
-                    VatRate = d.VatRate,
-                    Description = d.Description
-                }).ToList() ?? new List<CreatePurchaseInvoiceDetailDto>()
+                Details = invoice.Details ?? new List<PurchaseInvoiceDetailDto>()
             };
 
             return View(updateDto);
@@ -144,20 +142,39 @@ namespace MiniERP.Web.Controllers
 
         // POST: PurchaseInvoice/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdatePurchaseInvoiceDto updateDto)
         {
             if (ModelState.IsValid)
             {
-                var result = await _purchaseInvoiceService.UpdatePurchaseInvoiceAsync(id, updateDto);
-                if (result.Success)
+                // API için JSON uyumlu DTO oluştur  
+                var apiData = new Dictionary<string, object?>
+                {
+                    ["CariID"] = updateDto.CariID,
+                    ["WarehouseID"] = updateDto.WarehouseID,
+                    ["InvoiceDate"] = updateDto.InvoiceDate,
+                    ["DueDate"] = updateDto.DueDate,
+                    ["Description"] = updateDto.Description ?? "",
+                    ["Details"] = updateDto.Details?.Select(d => new Dictionary<string, object>
+                    {
+                        ["ProductID"] = d.ProductID,
+                        ["Quantity"] = d.Quantity,
+                        ["UnitPrice"] = d.UnitPrice,
+                        ["VatRate"] = d.VatRate,
+                        ["Description"] = d.Description ?? ""
+                    }).ToList() ?? new List<Dictionary<string, object>>()
+                };
+
+                var result = await _apiService.PutAsync<PurchaseInvoiceDto>($"api/PurchaseInvoices/{id}", apiData);
+                if (result != null && result.Success)
                 {
                     TempData["SuccessMessage"] = "Satın alma faturası başarıyla güncellendi.";
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = result.Message;
+                    TempData["ErrorMessage"] = result?.Message ?? "Güncelleme sırasında hata oluştu.";
                 }
             }
 
@@ -181,6 +198,7 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: PurchaseInvoice/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var invoice = await _purchaseInvoiceService.GetPurchaseInvoiceByIdAsync(id);
@@ -194,6 +212,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: PurchaseInvoice/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -212,6 +231,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: PurchaseInvoice/Approve/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id, string description = "")
         {
@@ -236,6 +256,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: PurchaseInvoice/Cancel/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(int id, string reason = "")
         {

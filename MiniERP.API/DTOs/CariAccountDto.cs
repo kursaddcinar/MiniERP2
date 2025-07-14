@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MiniERP.API.DTOs
 {
     public class CariAccountDto
@@ -23,30 +25,75 @@ namespace MiniERP.API.DTOs
 
     public class CreateCariAccountDto
     {
+        [Required(ErrorMessage = "Cari kodu zorunludur")]
+        [StringLength(20, ErrorMessage = "Cari kodu en fazla 20 karakter olabilir")]
         public string CariCode { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Cari adı zorunludur")]
+        [StringLength(200, ErrorMessage = "Cari adı en fazla 200 karakter olabilir")]
         public string CariName { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Cari türü seçilmelidir")]
         public int TypeID { get; set; }
+        
+        [StringLength(15, ErrorMessage = "Vergi numarası en fazla 15 karakter olabilir")]
         public string? TaxNo { get; set; }
+        
+        [StringLength(100, ErrorMessage = "Vergi dairesi en fazla 100 karakter olabilir")]
         public string? TaxOffice { get; set; }
+        
+        [StringLength(500, ErrorMessage = "Adres en fazla 500 karakter olabilir")]
         public string? Address { get; set; }
+        
+        [StringLength(50, ErrorMessage = "Şehir en fazla 50 karakter olabilir")]
         public string? City { get; set; }
+        
+        [StringLength(20, ErrorMessage = "Telefon en fazla 20 karakter olabilir")]
         public string? Phone { get; set; }
+        
+        [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz")]
+        [StringLength(100, ErrorMessage = "Email en fazla 100 karakter olabilir")]
         public string? Email { get; set; }
+        
+        [StringLength(100, ErrorMessage = "İletişim kişisi en fazla 100 karakter olabilir")]
         public string? ContactPerson { get; set; }
+        
+        [Range(0, 9999999999, ErrorMessage = "Kredi limiti 0 ile 9999999999 arasında olmalıdır")]
         public decimal CreditLimit { get; set; } = 0;
     }
 
     public class UpdateCariAccountDto
     {
+        [Required(ErrorMessage = "Cari adı zorunludur")]
+        [StringLength(200, ErrorMessage = "Cari adı en fazla 200 karakter olabilir")]
         public string CariName { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Cari türü seçilmelidir")]
         public int TypeID { get; set; }
+        
+        [StringLength(15, ErrorMessage = "Vergi numarası en fazla 15 karakter olabilir")]
         public string? TaxNo { get; set; }
+        
+        [StringLength(100, ErrorMessage = "Vergi dairesi en fazla 100 karakter olabilir")]
         public string? TaxOffice { get; set; }
+        
+        [StringLength(500, ErrorMessage = "Adres en fazla 500 karakter olabilir")]
         public string? Address { get; set; }
+        
+        [StringLength(50, ErrorMessage = "Şehir en fazla 50 karakter olabilir")]
         public string? City { get; set; }
+        
+        [StringLength(20, ErrorMessage = "Telefon en fazla 20 karakter olabilir")]
         public string? Phone { get; set; }
+        
+        [EmailAddress(ErrorMessage = "Geçerli bir email adresi giriniz")]
+        [StringLength(100, ErrorMessage = "Email en fazla 100 karakter olabilir")]
         public string? Email { get; set; }
+        
+        [StringLength(100, ErrorMessage = "İletişim kişisi en fazla 100 karakter olabilir")]
         public string? ContactPerson { get; set; }
+        
+        [Range(0, 9999999999, ErrorMessage = "Kredi limiti 0 ile 9999999999 arasında olmalıdır")]
         public decimal CreditLimit { get; set; }
         public bool IsActive { get; set; } = true;
     }

@@ -82,9 +82,16 @@
                                 <div class="mb-3">
                                     <label asp-for="WarehouseID" class="form-label">Depo</label>
                                     <select asp-for="WarehouseID" class="form-select">
-                                        <option value="">Depo Seçiniz</option>
-                                        <option value="1">Ana Depo</option>
-                                        <option value="2">Şube Depo</option>
+                                        <option value="">Depo seçiniz...</option>
+                                        @if (ViewBag.Warehouses != null)
+                                        {
+                                            @foreach (var warehouse in (List<WarehouseDto>)ViewBag.Warehouses)
+                                            {
+                                                <option value="@warehouse.WarehouseID">
+                                                    @warehouse.WarehouseCode - @warehouse.WarehouseName
+                                                </option>
+                                            }
+                                        }
                                     </select>
                                     <span asp-validation-for="WarehouseID" class="text-danger"></span>
                                 </div>

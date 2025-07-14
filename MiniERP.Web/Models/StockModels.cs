@@ -22,7 +22,9 @@ namespace MiniERP.Web.Models
         public string StockStatus { get; set; } = string.Empty; // NORMAL, CRITICAL, OVER
         
         // Additional properties for view requirements
+        [Display(Name = "Minimum Stok")]
         public decimal MinimumStock => MinStockLevel; // Alias for MinStockLevel
+        [Display(Name = "Maksimum Stok")]
         public decimal MaximumStock => MaxStockLevel; // Alias for MaxStockLevel
         public string CategoryName { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
@@ -99,7 +101,9 @@ namespace MiniERP.Web.Models
         public string Notes { get; set; } = string.Empty;
 
         // Additional properties for view requirements
+        [Display(Name = "Minimum Stok")]
         public decimal MinimumStock => MinStockLevel; // Alias for MinStockLevel
+        [Display(Name = "Maksimum Stok")]
         public decimal MaximumStock => MaxStockLevel; // Alias for MaxStockLevel
         public decimal ReorderLevel { get; set; } = 0;
         public decimal ReorderQuantity { get; set; } = 0;

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MiniERP.Web.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +40,15 @@ builder.Services.AddScoped<StockService>();
 builder.Services.AddScoped<SalesInvoiceService>();
 builder.Services.AddScoped<PurchaseInvoiceService>();
 builder.Services.AddScoped<CariAccountService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PaymentService>();
 
 var app = builder.Build();
+
+// Configure culture for decimal formatting
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -100,6 +100,7 @@ namespace MiniERP.Web.Models
     public class ProductCategoryDto
     {
         public int CategoryID { get; set; }
+        public string CategoryCode { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public bool IsActive { get; set; }
@@ -107,12 +108,68 @@ namespace MiniERP.Web.Models
         public int ProductCount { get; set; }
     }
 
+    public class CreateProductCategoryDto
+    {
+        [Required(ErrorMessage = "Kategori kodu gereklidir")]
+        [Display(Name = "Kategori Kodu")]
+        public string CategoryCode { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Kategori adı gereklidir")]
+        [Display(Name = "Kategori Adı")]
+        public string CategoryName { get; set; } = string.Empty;
+
+        [Display(Name = "Açıklama")]
+        public string? Description { get; set; }
+    }
+
+    public class UpdateProductCategoryDto
+    {
+        [Required(ErrorMessage = "Kategori adı gereklidir")]
+        [Display(Name = "Kategori Adı")]
+        public string CategoryName { get; set; } = string.Empty;
+
+        [Display(Name = "Açıklama")]
+        public string? Description { get; set; }
+
+        [Display(Name = "Aktif")]
+        public bool IsActive { get; set; } = true;
+    }
+
     public class UnitDto
     {
         public int UnitID { get; set; }
+        public string UnitCode { get; set; } = string.Empty;
         public string UnitName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int ProductCount { get; set; }
+    }
+
+    public class CreateUnitDto
+    {
+        [Required(ErrorMessage = "Birim kodu gereklidir")]
+        [Display(Name = "Birim Kodu")]
+        public string UnitCode { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Birim adı gereklidir")]
+        [Display(Name = "Birim Adı")]
+        public string UnitName { get; set; } = string.Empty;
+
+        [Display(Name = "Açıklama")]
+        public string? Description { get; set; }
+    }
+
+    public class UpdateUnitDto
+    {
+        [Required(ErrorMessage = "Birim adı gereklidir")]
+        [Display(Name = "Birim Adı")]
+        public string UnitName { get; set; } = string.Empty;
+
+        [Display(Name = "Açıklama")]
+        public string? Description { get; set; }
+
+        [Display(Name = "Aktif")]
+        public bool IsActive { get; set; } = true;
     }
 } 

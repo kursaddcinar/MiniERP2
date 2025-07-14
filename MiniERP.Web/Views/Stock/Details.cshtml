@@ -1,8 +1,17 @@
-@model StockCardDto
+@model StockCardDto?
 
 @{
     ViewData["Title"] = "Stok Kartı Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        Stok kartı bulunamadı.
+    </div>
+    return;
 }
 
 <div class="container-fluid">
@@ -33,12 +42,12 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <h5 class="card-title mb-0">
-                                    @Model.ProductCode - @Model.ProductName
+                                    @Model!.ProductCode - @Model!.ProductName
                                 </h5>
                             </div>
                             <div class="col-auto">
                                 <span class="badge @(Model.CurrentStock > Model.MinimumStock ? "bg-success" : Model.CurrentStock > 0 ? "bg-warning" : "bg-danger")">
-                                    @Model.CurrentStock.ToString("N2") @Model.UnitName
+                                    @Model!.CurrentStock.ToString("N2") @Model!.UnitName
                                 </span>
                             </div>
                         </div>
@@ -51,19 +60,19 @@
                                 <table class="table table-borderless table-sm">
                                     <tr>
                                         <th width="120">Ürün Kodu:</th>
-                                        <td><strong>@Model.ProductCode</strong></td>
+                                        <td><strong>@Model!.ProductCode</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Ürün Adı:</th>
-                                        <td><strong>@Model.ProductName</strong></td>
+                                        <td><strong>@Model!.ProductName</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Kategori:</th>
-                                        <td>@Model.CategoryName</td>
+                                        <td>@Model!.CategoryName</td>
                                     </tr>
                                     <tr>
                                         <th>Birim:</th>
-                                        <td>@Model.UnitName</td>
+                                        <td>@Model!.UnitName</td>
                                     </tr>
                                 </table>
                             </div>
@@ -72,19 +81,19 @@
                                 <table class="table table-borderless table-sm">
                                     <tr>
                                         <th width="120">Depo Kodu:</th>
-                                        <td><strong>@Model.WarehouseCode</strong></td>
+                                        <td><strong>@Model!.WarehouseCode</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Depo Adı:</th>
-                                        <td><strong>@Model.WarehouseName</strong></td>
+                                        <td><strong>@Model!.WarehouseName</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Lokasyon:</th>
-                                        <td>@Model.Location</td>
+                                        <td>@Model!.Location</td>
                                     </tr>
                                     <tr>
                                         <th>Güncelleme:</th>
-                                        <td>@Model.LastUpdateDate.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>@Model!.LastUpdateDate.ToString("dd.MM.yyyy HH:mm")</td>
                                     </tr>
                                 </table>
                             </div>
@@ -98,7 +107,7 @@
                                     <div class="col-md-3">
                                         <div class="card bg-light">
                                             <div class="card-body text-center">
-                                                <h5 class="text-success">@Model.CurrentStock.ToString("N2")</h5>
+                                                <h5 class="text-success">@Model!.CurrentStock.ToString("N2")</h5>
                                                 <p class="text-muted mb-0">Mevcut Stok</p>
                                             </div>
                                         </div>
@@ -106,7 +115,7 @@
                                     <div class="col-md-3">
                                         <div class="card bg-light">
                                             <div class="card-body text-center">
-                                                <h5 class="text-warning">@Model.ReservedStock.ToString("N2")</h5>
+                                                <h5 class="text-warning">@Model!.ReservedStock.ToString("N2")</h5>
                                                 <p class="text-muted mb-0">Rezerve Stok</p>
                                             </div>
                                         </div>
@@ -114,7 +123,7 @@
                                     <div class="col-md-3">
                                         <div class="card bg-light">
                                             <div class="card-body text-center">
-                                                <h5 class="text-info">@Model.AvailableStock.ToString("N2")</h5>
+                                                <h5 class="text-info">@Model!.AvailableStock.ToString("N2")</h5>
                                                 <p class="text-muted mb-0">Kullanılabilir Stok</p>
                                             </div>
                                         </div>
@@ -122,7 +131,7 @@
                                     <div class="col-md-3">
                                         <div class="card bg-light">
                                             <div class="card-body text-center">
-                                                <h5 class="text-danger">@Model.MinimumStock.ToString("N2")</h5>
+                                                <h5 class="text-danger">@Model!.MinimumStock.ToString("N2")</h5>
                                                 <p class="text-muted mb-0">Minimum Stok</p>
                                             </div>
                                         </div>
@@ -255,7 +264,7 @@
                         {
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle"></i>
-                                <strong>Rezerve Stok:</strong> @Model.ReservedStock.ToString("N2") @Model.UnitName rezerve edilmiş.
+                                <strong>Rezerve Stok:</strong> @Model!.ReservedStock.ToString("N2") @Model!.UnitName rezerve edilmiş.
                             </div>
                         }
                     </div>
@@ -325,12 +334,12 @@
                 <div class="modal-body">
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle"></i>
-                        Mevcut Stok: <strong>@Model.CurrentStock.ToString("N2") @Model.UnitName</strong>
+                        Mevcut Stok: <strong>@Model!.CurrentStock.ToString("N2") @Model!.UnitName</strong>
                     </div>
                     <form id="stockOutForm">
                         <div class="mb-3">
                             <label for="stockOutQuantity" class="form-label">Miktar</label>
-                            <input type="number" class="form-control" id="stockOutQuantity" step="0.01" max="@Model.CurrentStock" required>
+                            <input type="number" class="form-control" id="stockOutQuantity" step="0.01" max="@Model!.CurrentStock" required>
                         </div>
                         <div class="mb-3">
                             <label for="stockOutPrice" class="form-label">Birim Fiyat</label>
@@ -397,7 +406,7 @@ function showTransactionsModal() {
     modal.show();
     
     // AJAX ile tüm hareketleri yükle
-    fetch('@Url.Action("GetStockTransactions", "Stock")?stockCardId=@Model.StockCardID')
+    fetch('@Url.Action("GetStockTransactions", "Stock")?stockCardId=@Model!.StockCardID')
         .then(response => response.json())
         .then(data => {
             let content = '';
@@ -453,7 +462,7 @@ function submitStockIn() {
             'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
         },
         body: JSON.stringify({
-            StockCardID: @Model.StockCardID,
+            StockCardID: @Model!.StockCardID,
             TransactionType: 'IN',
             Quantity: parseFloat(quantity),
             UnitPrice: parseFloat(price) || 0,
@@ -486,7 +495,7 @@ function submitStockOut() {
         return;
     }
     
-    if (parseFloat(quantity) > @Model.CurrentStock) {
+    if (parseFloat(quantity) > @Model!.CurrentStock) {
         alert('Çıkış miktarı mevcut stoktan fazla olamaz.');
         return;
     }
@@ -499,7 +508,7 @@ function submitStockOut() {
             'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
         },
         body: JSON.stringify({
-            StockCardID: @Model.StockCardID,
+            StockCardID: @Model!.StockCardID,
             TransactionType: 'OUT',
             Quantity: parseFloat(quantity),
             UnitPrice: parseFloat(price) || 0,
@@ -531,9 +540,9 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: ['Mevcut Stok', 'Rezerve Stok', 'Kullanılabilir Alan'],
             datasets: [{
                 data: [
-                    @Model.CurrentStock,
-                    @Model.ReservedStock,
-                    Math.max(0, @Model.MaximumStock - @Model.CurrentStock)
+                    @Model!.CurrentStock,
+                    @Model!.ReservedStock,
+                    Math.max(0, @Model!.MaximumStock - @Model!.CurrentStock)
                 ],
                 backgroundColor: [
                     '#28a745',

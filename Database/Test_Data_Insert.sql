@@ -1,10 +1,33 @@
 -- MiniERPTrial Test Data Insert Script
 -- Bu script sistemi test etmek için kapsamlı örnek veriler ekler
+-- Not: Bu script MiniERP_Clean.sql çalıştırıldıktan sonra çalıştırılmalıdır
 
 USE MiniERPTrial;
 GO
 
 PRINT 'Starting test data insertion...';
+
+-- =================================================================================
+-- 0. KULLANICI VE ROL KONTROLÜ
+-- =================================================================================
+
+-- Test kullanıcılarının var olup olmadığını kontrol et
+IF NOT EXISTS (SELECT 1 FROM Users WHERE Username = 'admin')
+BEGIN
+    PRINT 'ERROR: Test users not found! Please run MiniERP_Clean.sql first.';
+    RAISERROR('Test users not found! Run MiniERP_Clean.sql first.', 16, 1);
+    RETURN;
+END
+
+PRINT 'User system verified. Found test users:';
+SELECT 
+    u.Username, 
+    r.RoleName,
+    CASE WHEN u.IsActive = 1 THEN 'Active' ELSE 'Inactive' END AS Status
+FROM Users u 
+INNER JOIN UserRoles ur ON u.UserID = ur.UserID
+INNER JOIN Roles r ON ur.RoleID = r.RoleID
+ORDER BY u.UserID;
 
 -- =================================================================================
 -- 1. ÜRÜN KATEGORİLERİ
@@ -381,10 +404,33 @@ UNION ALL
 SELECT 'SATIŞ FATURALARı', COUNT(*), FORMAT(SUM(Total), 'C', 'tr-TR')
 FROM SalesInvoices WHERE Status = 'APPROVED';
 
+-- Kullanıcı sistemi özeti
+PRINT '';
+PRINT 'KULLANICI SİSTEMİ:';
+SELECT 
+    'Username: ' + u.Username + ' | Password: ' + u.Password + ' | Role: ' + r.RoleName AS LoginInfo
+FROM Users u 
+INNER JOIN UserRoles ur ON u.UserID = ur.UserID
+INNER JOIN Roles r ON ur.RoleID = r.RoleID
+WHERE u.IsActive = 1
+ORDER BY u.UserID;
+
 PRINT '';
 PRINT '==========================================';
 PRINT 'Test data insertion completed successfully!';
 PRINT 'Database is ready for API development.';
+PRINT '';
+PRINT 'LOGIN CREDENTIALS FOR TESTING:';
+PRINT '- admin/admin (Full Admin Access)';
+PRINT '- manager/manager (Manager Access)';
+PRINT '- employee/employee (Employee Access)';
+PRINT '- finance/finance (Finance Access)';
+PRINT '';
+PRINT 'WEB APPLICATION:';
+PRINT '1. Start API: cd MiniERP.API && dotnet run';
+PRINT '2. Start Web: cd MiniERP.Web && dotnet run';
+PRINT '3. Login with any test user above';
+PRINT '4. Test role-based menu and authorization';
 PRINT '==========================================';
 
 GO 

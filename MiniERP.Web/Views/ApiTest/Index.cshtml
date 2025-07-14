@@ -1,0 +1,162 @@
+@{
+    ViewData["Title"] = "API Test Centre";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🚀 API Test Centre</h3>
+                    <p class="card-text">Tüm yeni API endpoint'lerini test edebileceğiniz merkezi test paneli</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Comprehensive Test -->
+                        <div class="col-md-12 mb-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-rocket"></i> Comprehensive Test</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Tüm API'leri tek seferde test et</p>
+                                    <a href="@Url.Action("TestAllApis", "ApiTest")" class="btn btn-light btn-lg">
+                                        <i class="fas fa-play"></i> Tüm API'leri Test Et
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- User Management Tests -->
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5><i class="fas fa-users"></i> User Management</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="@Url.Action("TestUsers", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-list"></i> Get Users
+                                        </a>
+                                        <a href="@Url.Action("TestUserRoles", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-user-tag"></i> Get User Roles
+                                        </a>
+                                        <form method="post" action="@Url.Action("TestCreateUser", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test User
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Management Tests -->
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="fas fa-money-bill-wave"></i> Payment Management</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="@Url.Action("TestPayments", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-hand-holding-usd"></i> Get Payments
+                                        </a>
+                                        <a href="@Url.Action("TestCollections", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-coins"></i> Get Collections
+                                        </a>
+                                        <a href="@Url.Action("TestPaymentTypes", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-credit-card"></i> Get Payment Types
+                                        </a>
+                                        <form method="post" action="@Url.Action("TestCreatePaymentType", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test Payment Type
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Management Tests -->
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-warning text-white">
+                                    <h5><i class="fas fa-box"></i> Product Management</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="@Url.Action("TestCategories", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-tags"></i> Get Categories
+                                        </a>
+                                        <a href="@Url.Action("TestUnits", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-balance-scale"></i> Get Units
+                                        </a>
+                                        <form method="post" action="@Url.Action("TestCreateCategory", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test Category
+                                            </button>
+                                        </form>
+                                        <form method="post" action="@Url.Action("TestCreateUnit", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test Unit
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cari Account Tests -->
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-danger text-white">
+                                    <h5><i class="fas fa-address-book"></i> Cari Account</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="@Url.Action("TestCariTypes", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-list-alt"></i> Get Cari Types
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .list-group-item:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    .btn {
+        border-radius: 20px;
+    }
+    
+    .fas {
+        margin-right: 8px;
+    }
+</style> 

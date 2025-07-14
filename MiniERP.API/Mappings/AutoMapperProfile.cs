@@ -112,7 +112,13 @@ namespace MiniERP.API.Mappings
             CreateMap<SalesInvoiceDetail, SalesInvoiceDetailDto>()
                 .ForMember(dest => dest.ProductCode, opt => opt.MapFrom(src => src.Product.ProductCode))
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
-                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.Product.Unit.UnitName));
+                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.Product.Unit.UnitName))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
+                .ForMember(dest => dest.VatRate, opt => opt.MapFrom(src => src.VatRate))
+                .ForMember(dest => dest.LineTotal, opt => opt.MapFrom(src => src.LineTotal))
+                .ForMember(dest => dest.VatAmount, opt => opt.MapFrom(src => src.VatAmount))
+                .ForMember(dest => dest.NetTotal, opt => opt.MapFrom(src => src.NetTotal));
             CreateMap<CreateSalesInvoiceDetailDto, SalesInvoiceDetail>();
 
             // PurchaseInvoice mappings
@@ -128,7 +134,13 @@ namespace MiniERP.API.Mappings
             CreateMap<PurchaseInvoiceDetail, PurchaseInvoiceDetailDto>()
                 .ForMember(dest => dest.ProductCode, opt => opt.MapFrom(src => src.Product.ProductCode))
                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.ProductName))
-                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.Product.Unit.UnitName));
+                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.Product.Unit.UnitName))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.UnitPrice))
+                .ForMember(dest => dest.VatRate, opt => opt.MapFrom(src => src.VatRate))
+                .ForMember(dest => dest.LineTotal, opt => opt.MapFrom(src => src.LineTotal))
+                .ForMember(dest => dest.VatAmount, opt => opt.MapFrom(src => src.VatAmount))
+                .ForMember(dest => dest.NetTotal, opt => opt.MapFrom(src => src.NetTotal));
             CreateMap<CreatePurchaseInvoiceDetailDto, PurchaseInvoiceDetail>();
 
             // PaymentType mappings

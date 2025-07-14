@@ -12,5 +12,6 @@ namespace MiniERP.API.Services
         string GenerateJwtToken(UserDto user);
         Task<ApiResponse<UserDto>> GetCurrentUserAsync(int userId);
         Task<bool> ValidateTokenAsync(string token);
+        Task<ApiResponse<object>> InitializeTestUsersAsync();
     }
 } 

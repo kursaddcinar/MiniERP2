@@ -13,7 +13,7 @@ MiniERP sistemi için tasarlanmış SQL Server veritabanı. Aşağıdaki modüll
 
 ### 1. Kullanıcı ve Yetkilendirme
 - **Users**: Kullanıcı bilgileri
-- **Roles**: Sistem rolleri (Admin, Manager, Sales, Purchase, Warehouse, Finance)
+- **Roles**: Sistem rolleri (Admin, Manager, Employee, Finance)
 - **UserRoles**: Kullanıcı-rol ilişkisi
 
 ### 2. Temel Tanımlar
@@ -76,12 +76,16 @@ MiniERP sistemi için tasarlanmış SQL Server veritabanı. Aşağıdaki modüll
 - `TR_PurchaseInvoiceDetails_UpdateTotals`: Alış fatura toplamları otomatik hesaplama
 
 ### Varsayılan Veriler
-- **Roller**: Admin, Manager, Sales, Purchase, Warehouse, Finance
+- **Roller**: Admin, Manager, Employee, Finance
+- **Test Kullanıcıları**: 
+  - admin/admin (Admin Role - Tüm yetkiler)
+  - manager/manager (Manager Role - Yönetim yetkileri)
+  - employee/employee (Employee Role - Temel işlem yetkileri)
+  - finance/finance (Finance Role - Mali işlemler)
 - **Cari Tipleri**: Müşteri, Tedarikçi, Her İkisi
 - **Birimler**: Adet, Kg, Lt, M, M2, M3, Paket, Kutu
 - **Ödeme Türleri**: Nakit, Kredi Kartı, Havale, Çek, Senet
 - **Varsayılan Depo**: Ana Depo
-- **Admin Kullanıcı**: admin / 123456
 
 ## Kullanım Notları
 
@@ -107,7 +111,24 @@ MiniERP sistemi için tasarlanmış SQL Server veritabanı. Aşağıdaki modüll
 
 ## Kurulum
 
-1. SQL Server'da `MiniERP_Database.sql` dosyasını çalıştırın
-2. Varsayılan admin kullanıcısı: `admin` / `123456`
-3. Varsayılan depo: `ANA` (Ana Depo)
-4. Sistem kullanıma hazır! 
+### Veritabanı Kurulumu
+1. SQL Server'da `MiniERP_Clean.sql` dosyasını çalıştırın (Temel yapı + kullanıcılar)
+2. İsteğe bağlı: `Test_Data_Insert.sql` dosyasını çalıştırın (Test verileri)
+
+### API ve Web Uygulaması
+1. **API Başlat**: `cd MiniERP.API && dotnet run --urls="http://localhost:5135"`
+2. **Web Başlat**: `cd MiniERP.Web && dotnet run --urls="http://localhost:5000"`
+3. **Tarayıcıda**: `http://localhost:5000` adresine git
+4. **Login**: Yukarıdaki test kullanıcılarından biriyle giriş yap
+
+### Test Kullanıcıları
+- **admin/admin**: Tüm yetkilere sahip sistem yöneticisi
+- **manager/manager**: Yönetim yetkileri (silme hariç)
+- **employee/employee**: Temel işlem yetkileri
+- **finance/finance**: Mali işlem yetkileri
+
+### Önemli Notlar
+- Database adı: **MiniERPTrial**
+- Connection string otomatik ayarlanmıştır
+- Role-based authorization aktiftir
+- API Swagger: `http://localhost:5135/swagger` 

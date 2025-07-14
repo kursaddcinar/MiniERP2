@@ -23,6 +23,7 @@ namespace MiniERP.API.Controllers
         /// Tüm stok kartlarını sayfalı olarak getirir
         /// </summary>
         [HttpGet("cards")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<PagedResult<StockCardDto>>>> GetStockCards([FromQuery] PaginationParameters parameters)
         {
             var result = await _stockService.GetStockCardsAsync(parameters);
@@ -33,6 +34,7 @@ namespace MiniERP.API.Controllers
         /// ID'ye göre stok kartı getirir
         /// </summary>
         [HttpGet("cards/{id}")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<StockCardDto>>> GetStockCard(int id)
         {
             var result = await _stockService.GetStockCardByIdAsync(id);
@@ -81,7 +83,7 @@ namespace MiniERP.API.Controllers
         /// Yeni stok kartı oluşturur
         /// </summary>
         [HttpPost("cards")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<StockCardDto>>> CreateStockCard([FromBody] CreateStockCardDto createStockCardDto)
         {
             if (!ModelState.IsValid)
@@ -95,14 +97,14 @@ namespace MiniERP.API.Controllers
                 return BadRequest(result);
             }
 
-            return CreatedAtAction(nameof(GetStockCard), new { id = result.Data.StockCardID }, result);
+            return CreatedAtAction(nameof(GetStockCard), new { id = result.Data?.StockCardID }, result);
         }
 
         /// <summary>
         /// Stok kartını günceller
         /// </summary>
         [HttpPut("cards/{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<StockCardDto>>> UpdateStockCard(int id, [FromBody] UpdateStockCardDto updateStockCardDto)
         {
             if (!ModelState.IsValid)
@@ -173,7 +175,7 @@ namespace MiniERP.API.Controllers
         /// Stok günceller (giriş/çıkış)
         /// </summary>
         [HttpPost("update-stock")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<bool>>> UpdateStock([FromBody] UpdateStockDto updateStockDto)
         {
             if (!ModelState.IsValid)
@@ -195,7 +197,7 @@ namespace MiniERP.API.Controllers
         /// Stok rezerve eder
         /// </summary>
         [HttpPost("reserve")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
         public async Task<ActionResult<ApiResponse<bool>>> ReserveStock([FromBody] ReserveStockDto reserveStockDto)
         {
             if (!ModelState.IsValid)
@@ -279,7 +281,7 @@ namespace MiniERP.API.Controllers
                 return BadRequest(result);
             }
 
-            return CreatedAtAction(nameof(GetStockTransaction), new { id = result.Data.TransactionID }, result);
+            return CreatedAtAction(nameof(GetStockTransaction), new { id = result.Data?.TransactionID }, result);
         }
 
         /// <summary>
@@ -413,7 +415,7 @@ namespace MiniERP.API.Controllers
                 return BadRequest(result);
             }
 
-            return CreatedAtAction(nameof(GetWarehouse), new { id = result.Data.WarehouseID }, result);
+            return CreatedAtAction(nameof(GetWarehouse), new { id = result.Data?.WarehouseID }, result);
         }
 
         /// <summary>

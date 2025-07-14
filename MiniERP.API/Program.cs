@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using MiniERP.API.Data;
 using MiniERP.API.Repositories;
 using MiniERP.API.Services;
+using MiniERP.API.Middleware;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -64,6 +65,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICariAccountRepository, CariAccountRepository>();
 builder.Services.AddScoped<ISalesInvoiceRepository, SalesInvoiceRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<ICollectionRepository, CollectionRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Add Service Dependencies
@@ -74,6 +77,8 @@ builder.Services.AddScoped<ICariAccountService, CariAccountService>();
 builder.Services.AddScoped<ISalesInvoiceService, SalesInvoiceService>();
 builder.Services.AddScoped<IPurchaseInvoiceService, PurchaseInvoiceService>();
 builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ICollectionService, CollectionService>();
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -137,6 +142,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
+
+// Add Global Exception Handling Middleware
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

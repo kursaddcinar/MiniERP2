@@ -87,6 +87,12 @@ namespace MiniERP.API.Services
             {
                 await _unitOfWork.BeginTransactionAsync();
 
+                // Eğer fatura numarası boşsa otomatik oluştur
+                if (string.IsNullOrEmpty(createInvoiceDto.InvoiceNo))
+                {
+                    createInvoiceDto.InvoiceNo = await GenerateInvoiceNoAsync();
+                }
+
                 // Fatura numarası kontrolü
                 if (!await _unitOfWork.SalesInvoices.IsInvoiceNoUniqueAsync(createInvoiceDto.InvoiceNo))
                 {
@@ -220,6 +226,8 @@ namespace MiniERP.API.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
+
                 var invoice = await _unitOfWork.SalesInvoices.GetByIdAsync(id);
                 if (invoice == null)
                 {
@@ -231,14 +239,24 @@ namespace MiniERP.API.Services
                     return ApiResponse<bool>.ErrorResult("Onaylanmış fatura silinemez");
                 }
 
+                // Önce fatura detaylarını sil
+                var details = await _unitOfWork.SalesInvoiceDetails.FindAsync(d => d.InvoiceID == id);
+                foreach (var detail in details)
+                {
+                    await _unitOfWork.SalesInvoiceDetails.DeleteAsync(detail);
+                }
+
+                // Sonra faturayı sil
                 await _unitOfWork.SalesInvoices.DeleteAsync(invoice);
                 await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
 
                 _logger.LogInformation("Satış faturası {InvoiceId} başarıyla silindi", id);
                 return ApiResponse<bool>.SuccessResult(true, "Satış faturası başarıyla silindi");
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
                 _logger.LogError(ex, "Satış faturası {InvoiceId} silinirken hata oluştu", id);
                 return ApiResponse<bool>.ErrorResult("Satış faturası silinirken hata oluştu");
             }
@@ -494,18 +512,25 @@ namespace MiniERP.API.Services
             }
         }
 
-        public async Task<ApiResponse<string>> GenerateInvoiceNoAsync()
+        private async Task<string> GenerateInvoiceNoAsync()
         {
-            try
+            var currentYear = DateTime.Now.Year;
+            var prefix = $"SF{currentYear}";
+            
+            // Get the last invoice number for current year
+            var lastInvoiceNo = await _unitOfWork.SalesInvoices.GetLastInvoiceNoAsync(prefix);
+            
+            int nextNumber = 1;
+            if (!string.IsNullOrEmpty(lastInvoiceNo) && lastInvoiceNo.StartsWith(prefix))
             {
-                var invoiceNo = await _unitOfWork.SalesInvoices.GenerateInvoiceNoAsync();
-                return ApiResponse<string>.SuccessResult(invoiceNo);
+                var numberPart = lastInvoiceNo.Substring(prefix.Length);
+                if (int.TryParse(numberPart, out int lastNumber))
+                {
+                    nextNumber = lastNumber + 1;
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Fatura numarası oluşturulurken hata oluştu");
-                return ApiResponse<string>.ErrorResult("Fatura numarası oluşturulurken hata oluştu");
-            }
+            
+            return $"{prefix}{nextNumber:D6}"; // SF2025000001 format
         }
 
         #endregion
@@ -534,4 +559,4 @@ namespace MiniERP.API.Services
 
         #endregion
     }
-} 
+}

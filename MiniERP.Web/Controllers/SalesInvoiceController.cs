@@ -1,23 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniERP.Web.Models;
 using MiniERP.Web.Services;
 
 namespace MiniERP.Web.Controllers
 {
+    [Authorize]
     public class SalesInvoiceController : Controller
     {
         private readonly SalesInvoiceService _salesInvoiceService;
         private readonly CariAccountService _cariAccountService;
         private readonly ProductService _productService;
+        private readonly ApiService _apiService;
 
         public SalesInvoiceController(
             SalesInvoiceService salesInvoiceService,
             CariAccountService cariAccountService,
-            ProductService productService)
+            ProductService productService,
+            ApiService apiService)
         {
             _salesInvoiceService = salesInvoiceService;
             _cariAccountService = cariAccountService;
             _productService = productService;
+            _apiService = apiService;
         }
 
         // GET: SalesInvoice
@@ -48,20 +53,24 @@ namespace MiniERP.Web.Controllers
         }
 
         // GET: SalesInvoice/Create
+        [Authorize(Roles = "Admin,Manager,Employee")]
         public async Task<IActionResult> Create()
         {
             var productsResponse = await _productService.GetProductsAsync();
             var customers = await _cariAccountService.GetCustomersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
             ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
                 productsResponse.Data.Data : new List<ProductDto>();
             ViewBag.Customers = customers;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             return View();
         }
 
         // POST: SalesInvoice/Create
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager,Employee")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateSalesInvoiceDto createDto)
         {
@@ -82,15 +91,18 @@ namespace MiniERP.Web.Controllers
             // Reload dropdowns
             var productsResponse = await _productService.GetProductsAsync();
             var customers = await _cariAccountService.GetCustomersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
             ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
                 productsResponse.Data.Data : new List<ProductDto>();
             ViewBag.Customers = customers;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             return View(createDto);
         }
 
         // GET: SalesInvoice/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Edit(int id)
         {
             var invoice = await _salesInvoiceService.GetSalesInvoiceByIdAsync(id);
@@ -99,27 +111,24 @@ namespace MiniERP.Web.Controllers
                 return NotFound();
             }
 
-            var products = await _salesInvoiceService.GetProductsAsync();
-            var customers = await _salesInvoiceService.GetCariAccountsAsync();
+            var productsResponse = await _productService.GetProductsAsync();
+            var customers = await _cariAccountService.GetCustomersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
-            ViewBag.Products = products;
-            ViewBag.Customers = customers.Where(c => c.IsCustomer).ToList();
+            ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
+                productsResponse.Data.Data : new List<ProductDto>();
+            ViewBag.Customers = customers;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             var updateDto = new UpdateSalesInvoiceDto
             {
+                InvoiceNo = invoice.InvoiceNo,
                 CariID = invoice.CariID,
                 WarehouseID = invoice.WarehouseID,
                 InvoiceDate = invoice.InvoiceDate,
                 DueDate = invoice.DueDate,
                 Description = invoice.Description,
-                Details = invoice.Details?.Select(d => new CreateSalesInvoiceDetailDto
-                {
-                    ProductID = d.ProductID,
-                    Quantity = d.Quantity,
-                    UnitPrice = d.UnitPrice,
-                    VatRate = d.VatRate,
-                    Description = d.Description
-                }).ToList() ?? new List<CreateSalesInvoiceDetailDto>()
+                Details = invoice.Details ?? new List<SalesInvoiceDetailDto>()
             };
 
             return View(updateDto);
@@ -127,35 +136,57 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateSalesInvoiceDto updateDto)
         {
             if (ModelState.IsValid)
             {
-                var result = await _salesInvoiceService.UpdateSalesInvoiceAsync(id, updateDto);
-                if (result.Success)
+                // API için JSON uyumlu DTO oluştur  
+                var apiData = new Dictionary<string, object?>
+                {
+                    ["CariID"] = updateDto.CariID,
+                    ["WarehouseID"] = updateDto.WarehouseID,
+                    ["InvoiceDate"] = updateDto.InvoiceDate,
+                    ["DueDate"] = updateDto.DueDate,
+                    ["Description"] = updateDto.Description ?? "",
+                    ["Details"] = updateDto.Details?.Select(d => new Dictionary<string, object>
+                    {
+                        ["ProductID"] = d.ProductID,
+                        ["Quantity"] = d.Quantity,
+                        ["UnitPrice"] = d.UnitPrice,
+                        ["VatRate"] = d.VatRate,
+                        ["Description"] = d.Description ?? ""
+                    }).ToList() ?? new List<Dictionary<string, object>>()
+                };
+
+                var result = await _apiService.PutAsync<SalesInvoiceDto>($"api/SalesInvoices/{id}", apiData);
+                if (result != null && result.Success)
                 {
                     TempData["SuccessMessage"] = "Satış faturası başarıyla güncellendi.";
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = result.Message;
+                    TempData["ErrorMessage"] = result?.Message ?? "Güncelleme sırasında hata oluştu.";
                 }
             }
 
             // Reload dropdowns
             var productsResponse = await _productService.GetProductsAsync();
             var customers = await _cariAccountService.GetCustomersAsync();
+            var warehousesResponse = await _apiService.GetAsync<List<WarehouseDto>>("api/Stock/warehouses/active");
             
             ViewBag.Products = productsResponse.Success && productsResponse.Data != null ? 
                 productsResponse.Data.Data : new List<ProductDto>();
             ViewBag.Customers = customers;
+            ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
             return View(updateDto);
         }
 
         // GET: SalesInvoice/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var invoice = await _salesInvoiceService.GetSalesInvoiceByIdAsync(id);
@@ -169,6 +200,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -187,6 +219,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Approve/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id, string description = "")
         {
@@ -211,6 +244,7 @@ namespace MiniERP.Web.Controllers
 
         // POST: SalesInvoice/Cancel/5
         [HttpPost]
+        [Authorize(Roles = "Admin,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(int id, string reason = "")
         {

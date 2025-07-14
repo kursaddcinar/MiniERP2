@@ -132,7 +132,7 @@ namespace MiniERP.Web.Controllers
                         ReservedStock = result.Data.ReservedStock
                     };
                     
-                    ViewBag.StockCard = result.Data;
+                    ViewBag.CurrentStockCard = result.Data;
                     return View(model);
                 }
                 else
@@ -159,7 +159,7 @@ namespace MiniERP.Web.Controllers
                 var stockCardResult = await _stockService.GetStockCardByIdAsync(id);
                 if (stockCardResult.Success && stockCardResult.Data != null)
                 {
-                    ViewBag.StockCard = stockCardResult.Data;
+                    ViewBag.CurrentStockCard = stockCardResult.Data;
                 }
                 return View(model);
             }
@@ -179,7 +179,7 @@ namespace MiniERP.Web.Controllers
                     var stockCardResult = await _stockService.GetStockCardByIdAsync(id);
                     if (stockCardResult.Success && stockCardResult.Data != null)
                     {
-                        ViewBag.StockCard = stockCardResult.Data;
+                        ViewBag.CurrentStockCard = stockCardResult.Data;
                     }
                     return View(model);
                 }
@@ -191,7 +191,7 @@ namespace MiniERP.Web.Controllers
                 var stockCardResult = await _stockService.GetStockCardByIdAsync(id);
                 if (stockCardResult.Success && stockCardResult.Data != null)
                 {
-                    ViewBag.StockCard = stockCardResult.Data;
+                    ViewBag.CurrentStockCard = stockCardResult.Data;
                 }
                 return View(model);
             }

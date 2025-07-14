@@ -59,7 +59,8 @@
                                         {
                                             @foreach (var customer in (List<CariAccountDto>)ViewBag.Customers)
                                             {
-                                                <option value="@customer.CariID" selected="@(Model.CariID == customer.CariID)">
+                                                var isSelected = Model.CariID == customer.CariID;
+                                                <option value="@customer.CariID" selected="@isSelected">
                                                     @customer.CariCode - @customer.CariName
                                                 </option>
                                             }
@@ -77,7 +78,8 @@
                                         {
                                             @foreach (var warehouse in (List<WarehouseDto>)ViewBag.Warehouses)
                                             {
-                                                <option value="@warehouse.WarehouseID" selected="@(Model.WarehouseID == warehouse.WarehouseID)">
+                                                var isSelected = Model.WarehouseID == warehouse.WarehouseID;
+                                                <option value="@warehouse.WarehouseID" selected="@isSelected">
                                                     @warehouse.WarehouseCode - @warehouse.WarehouseName
                                                 </option>
                                             }
@@ -159,32 +161,40 @@
                                                                         {
                                                                             @foreach (var product in (List<ProductDto>)ViewBag.Products)
                                                                             {
+                                                                                var isSelected = Model.Details[i].ProductID == product.ProductID;
                                                                                 <option value="@product.ProductID" 
                                                                                         data-price="@product.SalePrice"
                                                                                         data-vat="@product.VatRate"
-                                                                                        selected="@(Model.Details[i].ProductID == product.ProductID)">
+                                                                                        selected="@isSelected">
                                                                                     @product.ProductCode - @product.ProductName
                                                                                 </option>
                                                                             }
                                                                         }
                                                                     </select>
+                                                                    @* Mevcut ürün bilgilerini göster *@
+                                                                    @if (!string.IsNullOrEmpty(Model.Details[i].ProductName))
+                                                                    {
+                                                                        <small class="text-muted d-block mt-1">
+                                                                            Seçili: @Model.Details[i].ProductCode - @Model.Details[i].ProductName (@Model.Details[i].UnitName)
+                                                                        </small>
+                                                                    }
                                                                 </td>
                                                                 <td>
                                                                     <input type="number" name="Details[@i].Quantity" 
                                                                            class="form-control quantity-input" 
-                                                                           value="@Model.Details[i].Quantity" 
+                                                                           value="@Model.Details[i].Quantity.ToString("F3", System.Globalization.CultureInfo.InvariantCulture)" 
                                                                            step="0.01" min="0.01" data-index="@i" />
                                                                 </td>
                                                                 <td>
                                                                     <input type="number" name="Details[@i].UnitPrice" 
                                                                            class="form-control price-input" 
-                                                                           value="@Model.Details[i].UnitPrice" 
+                                                                           value="@Model.Details[i].UnitPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" 
                                                                            step="0.01" min="0" data-index="@i" />
                                                                 </td>
                                                                 <td>
                                                                     <input type="number" name="Details[@i].VatRate" 
                                                                            class="form-control vat-input" 
-                                                                           value="@Model.Details[i].VatRate" 
+                                                                           value="@Model.Details[i].VatRate.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" 
                                                                            step="0.01" min="0" max="100" data-index="@i" />
                                                                 </td>
                                                                 <td>

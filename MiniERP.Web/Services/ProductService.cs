@@ -22,6 +22,7 @@ namespace MiniERP.Web.Services
             }
         }
 
+        // Product Methods
         public async Task<ApiResponse<PagedResult<ProductDto>>> GetProductsAsync(int pageNumber = 1, int pageSize = 10, string? searchTerm = null, int? categoryId = null)
         {
             EnsureAuthenticated();
@@ -67,18 +68,6 @@ namespace MiniERP.Web.Services
             return await _apiService.DeleteAsync<bool>($"api/Products/{id}");
         }
 
-        public async Task<ApiResponse<PagedResult<ProductCategoryDto>>> GetCategoriesAsync(int pageNumber = 1, int pageSize = 50)
-        {
-            EnsureAuthenticated();
-            return await _apiService.GetAsync<PagedResult<ProductCategoryDto>>($"api/Products/categories?pageNumber={pageNumber}&pageSize={pageSize}");
-        }
-
-        public async Task<ApiResponse<PagedResult<UnitDto>>> GetUnitsAsync(int pageNumber = 1, int pageSize = 50)
-        {
-            EnsureAuthenticated();
-            return await _apiService.GetAsync<PagedResult<UnitDto>>($"api/Products/units?pageNumber={pageNumber}&pageSize={pageSize}");
-        }
-
         public async Task<ApiResponse<List<ProductDto>>> GetLowStockProductsAsync()
         {
             EnsureAuthenticated();
@@ -95,6 +84,104 @@ namespace MiniERP.Web.Services
         {
             EnsureAuthenticated();
             return await _apiService.PostAsync<bool>($"api/Products/{id}/deactivate", new { });
+        }
+
+        // Category Methods
+        public async Task<ApiResponse<List<ProductCategoryDto>>> GetCategoriesAsync()
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<List<ProductCategoryDto>>("api/ProductCategory");
+        }
+
+        public async Task<ApiResponse<List<ProductCategoryDto>>> GetActiveCategoriesAsync()
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<List<ProductCategoryDto>>("api/ProductCategory/active");
+        }
+
+        public async Task<ApiResponse<ProductCategoryDto>> GetCategoryByIdAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<ProductCategoryDto>($"api/ProductCategory/{id}");
+        }
+
+        public async Task<ApiResponse<ProductCategoryDto>> CreateCategoryAsync(CreateProductCategoryDto createDto)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<ProductCategoryDto>("api/ProductCategory", createDto);
+        }
+
+        public async Task<ApiResponse<ProductCategoryDto>> UpdateCategoryAsync(int id, UpdateProductCategoryDto updateDto)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PutAsync<ProductCategoryDto>($"api/ProductCategory/{id}", updateDto);
+        }
+
+        public async Task<ApiResponse<bool>> DeleteCategoryAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.DeleteAsync<bool>($"api/ProductCategory/{id}");
+        }
+
+        public async Task<ApiResponse<bool>> ActivateCategoryAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<bool>($"api/ProductCategory/{id}/activate", new { });
+        }
+
+        public async Task<ApiResponse<bool>> DeactivateCategoryAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<bool>($"api/ProductCategory/{id}/deactivate", new { });
+        }
+
+        // Unit Methods
+        public async Task<ApiResponse<List<UnitDto>>> GetUnitsAsync()
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<List<UnitDto>>("api/Unit");
+        }
+
+        public async Task<ApiResponse<List<UnitDto>>> GetActiveUnitsAsync()
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<List<UnitDto>>("api/Unit/active");
+        }
+
+        public async Task<ApiResponse<UnitDto>> GetUnitByIdAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.GetAsync<UnitDto>($"api/Unit/{id}");
+        }
+
+        public async Task<ApiResponse<UnitDto>> CreateUnitAsync(CreateUnitDto createDto)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<UnitDto>("api/Unit", createDto);
+        }
+
+        public async Task<ApiResponse<UnitDto>> UpdateUnitAsync(int id, UpdateUnitDto updateDto)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PutAsync<UnitDto>($"api/Unit/{id}", updateDto);
+        }
+
+        public async Task<ApiResponse<bool>> DeleteUnitAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.DeleteAsync<bool>($"api/Unit/{id}");
+        }
+
+        public async Task<ApiResponse<bool>> ActivateUnitAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<bool>($"api/Unit/{id}/activate", new { });
+        }
+
+        public async Task<ApiResponse<bool>> DeactivateUnitAsync(int id)
+        {
+            EnsureAuthenticated();
+            return await _apiService.PostAsync<bool>($"api/Unit/{id}/deactivate", new { });
         }
     }
 } 

@@ -28,7 +28,6 @@ namespace MiniERP.API.Services
         Task<ApiResponse<InvoiceSummaryDto>> GetInvoiceSummaryAsync(DateTime? fromDate = null, DateTime? toDate = null);
         Task<ApiResponse<decimal>> GetTotalSalesAmountAsync(DateTime? fromDate = null, DateTime? toDate = null);
         Task<ApiResponse<int>> GetInvoiceCountAsync(string? status = null);
-        Task<ApiResponse<string>> GenerateInvoiceNoAsync();
 
         // Fatura detayları
         Task<ApiResponse<SalesInvoiceDto>> GetInvoiceWithDetailsAsync(int id);

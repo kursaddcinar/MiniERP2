@@ -59,7 +59,8 @@
                                         {
                                             @foreach (var supplier in (List<CariAccountDto>)ViewBag.Suppliers)
                                             {
-                                                <option value="@supplier.CariID" selected="@(Model.CariID == supplier.CariID)">
+                                                var isSelected = Model.CariID == supplier.CariID;
+                                                <option value="@supplier.CariID" selected="@isSelected">
                                                     @supplier.CariCode - @supplier.CariName
                                                 </option>
                                             }
@@ -77,7 +78,8 @@
                                         {
                                             @foreach (var warehouse in (List<WarehouseDto>)ViewBag.Warehouses)
                                             {
-                                                <option value="@warehouse.WarehouseID" selected="@(Model.WarehouseID == warehouse.WarehouseID)">
+                                                var isSelected = Model.WarehouseID == warehouse.WarehouseID;
+                                                <option value="@warehouse.WarehouseID" selected="@isSelected">
                                                     @warehouse.WarehouseCode - @warehouse.WarehouseName
                                                 </option>
                                             }
@@ -115,6 +117,90 @@
                                     <label asp-for="Description" class="form-label"></label>
                                     <textarea asp-for="Description" class="form-control" rows="3" placeholder="Fatura açıklaması"></textarea>
                                     <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fatura Detayları -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="card-title mb-0">Fatura Detayları</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-sm" id="invoiceDetailsTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Ürün</th>
+                                                        <th width="100">Miktar</th>
+                                                        <th width="120">Birim Fiyat</th>
+                                                        <th width="100">KDV %</th>
+                                                        <th width="120">Tutar</th>
+                                                        <th width="30">İşlem</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="detailsContainer">
+                                                    @if (Model.Details != null)
+                                                    {
+                                                        @for (int i = 0; i < Model.Details.Count; i++)
+                                                        {
+                                                        <tr>
+                                                            <td>
+                                                                <select name="Details[@i].ProductID" class="form-select product-select" required>
+                                                                    <option value="">Ürün Seçiniz</option>
+                                                                    @if (ViewBag.Products != null)
+                                                                    {
+                                                                        @foreach (var product in (List<ProductDto>)ViewBag.Products)
+                                                                        {
+                                                                            var isSelected = Model.Details[i].ProductID == product.ProductID;
+                                                                            <option value="@product.ProductID" selected="@isSelected">
+                                                                                @product.ProductCode - @product.ProductName
+                                                                            </option>
+                                                                        }
+                                                                    }
+                                                                </select>
+                                                                @* Mevcut ürün bilgilerini göster *@
+                                                                @if (!string.IsNullOrEmpty(Model.Details[i].ProductName))
+                                                                {
+                                                                    <small class="text-muted d-block mt-1">
+                                                                        Seçili: @Model.Details[i].ProductCode - @Model.Details[i].ProductName (@Model.Details[i].UnitName)
+                                                                    </small>
+                                                                }
+                                                                <input type="hidden" name="Details[@i].ProductID" value="@Model.Details[i].ProductID" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="Details[@i].Quantity" value="@Model.Details[i].Quantity.ToString("F3", System.Globalization.CultureInfo.InvariantCulture)" class="form-control quantity-input" step="0.01" min="0.01" required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="Details[@i].UnitPrice" value="@Model.Details[i].UnitPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" class="form-control price-input" step="0.01" min="0" required />
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="Details[@i].VatRate" value="@Model.Details[i].VatRate.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)" class="form-control vat-input" step="0.01" min="0" max="100" required />
+                                                            </td>
+                                                            <td>
+                                                                <span class="line-total">@((Model.Details[i].Quantity * Model.Details[i].UnitPrice).ToString("F2"))</span>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-sm btn-danger remove-detail">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-success" id="addDetailBtn">
+                                                    <i class="fas fa-plus"></i> Kalem Ekle
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

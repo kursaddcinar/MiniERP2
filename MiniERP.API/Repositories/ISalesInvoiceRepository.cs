@@ -18,5 +18,6 @@ namespace MiniERP.API.Repositories
         Task<int> GetInvoiceCountAsync(string? status = null);
         Task<string> GenerateInvoiceNoAsync();
         Task<bool> UpdateInvoiceTotalsAsync(int invoiceId);
+        Task<string?> GetLastInvoiceNoAsync(string prefix);
     }
-} 
+}

@@ -21,6 +21,7 @@ namespace MiniERP.API.Controllers
         /// Tüm alış faturalarını sayfalı olarak getirir
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager,Purchase,Finance")]
         public async Task<ActionResult<ApiResponse<PagedResult<PurchaseInvoiceDto>>>> GetInvoices([FromQuery] PaginationParameters parameters)
         {
             var result = await _purchaseInvoiceService.GetInvoicesAsync(parameters);
@@ -31,6 +32,7 @@ namespace MiniERP.API.Controllers
         /// ID'ye göre alış faturası getirir
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Manager,Purchase,Finance")]
         public async Task<ActionResult<ApiResponse<PurchaseInvoiceDto>>> GetInvoice(int id)
         {
             var result = await _purchaseInvoiceService.GetInvoiceByIdAsync(id);
@@ -73,7 +75,7 @@ namespace MiniERP.API.Controllers
         /// Yeni alış faturası oluşturur
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<PurchaseInvoiceDto>>> CreateInvoice([FromBody] CreatePurchaseInvoiceDto createInvoiceDto)
         {
             if (!ModelState.IsValid)
@@ -87,14 +89,14 @@ namespace MiniERP.API.Controllers
                 return BadRequest(result);
             }
 
-            return CreatedAtAction(nameof(GetInvoice), new { id = result.Data.InvoiceID }, result);
+            return CreatedAtAction(nameof(GetInvoice), new { id = result.Data?.InvoiceID }, result);
         }
 
         /// <summary>
         /// Alış faturasını günceller
         /// </summary>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<PurchaseInvoiceDto>>> UpdateInvoice(int id, [FromBody] UpdatePurchaseInvoiceDto updateInvoiceDto)
         {
             if (!ModelState.IsValid)
@@ -131,7 +133,7 @@ namespace MiniERP.API.Controllers
         /// Alış faturasını onaylar
         /// </summary>
         [HttpPost("{id}/approve")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<bool>>> ApproveInvoice(int id, [FromBody] InvoiceApprovalDto approvalDto)
         {
             var result = await _purchaseInvoiceService.ApproveInvoiceAsync(id, approvalDto);
@@ -163,7 +165,7 @@ namespace MiniERP.API.Controllers
         /// Fatura toplamlarını yeniden hesaplar
         /// </summary>
         [HttpPost("{id}/update-totals")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<bool>>> UpdateInvoiceTotals(int id)
         {
             var result = await _purchaseInvoiceService.UpdateInvoiceTotalsAsync(id);

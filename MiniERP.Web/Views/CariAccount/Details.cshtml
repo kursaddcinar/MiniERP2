@@ -86,7 +86,9 @@
                                     </tr>
                                     <tr>
                                         <th>Vergi Numarası:</th>
-                                        <td>@(Model.TaxNumber ?? "-")</td>
+                                        <td>@(Model.TaxNumber ?? "-") 
+                                            @* Debug: @Html.Raw($"<!-- Debug: TaxNumber = '{Model.TaxNumber}' -->") *@
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Vergi Dairesi:</th>

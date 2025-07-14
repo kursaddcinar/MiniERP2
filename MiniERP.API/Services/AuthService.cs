@@ -289,5 +289,88 @@ namespace MiniERP.API.Services
 
             return principal;
         }
+
+        public async Task<ApiResponse<object>> InitializeTestUsersAsync()
+        {
+            try
+            {
+                // Check if any users already exist
+                var existingUserCount = await _unitOfWork.Users.CountAsync();
+                if (existingUserCount > 0)
+                {
+                    return ApiResponse<object>.SuccessResult(new { message = "Test users already exist" }, "Test users already exist");
+                }
+
+                var testUsers = new List<CreateUserDto>
+                {
+                    new CreateUserDto
+                    {
+                        Username = "admin",
+                        Email = "admin@test.com",
+                        FirstName = "Admin",
+                        LastName = "User",
+                        Password = "admin",
+                        RoleIds = new List<int> { 1 } // Admin role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "manager",
+                        Email = "manager@test.com",
+                        FirstName = "Manager",
+                        LastName = "User",
+                        Password = "manager",
+                        RoleIds = new List<int> { 2 } // Manager role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "employee",
+                        Email = "employee@test.com",
+                        FirstName = "Employee",
+                        LastName = "User",
+                        Password = "employee",
+                        RoleIds = new List<int> { 3 } // Employee role
+                    },
+                    new CreateUserDto
+                    {
+                        Username = "finance",
+                        Email = "finance@test.com",
+                        FirstName = "Finance",
+                        LastName = "User",
+                        Password = "finance",
+                        RoleIds = new List<int> { 4 } // Finance role
+                    }
+                };
+
+                var createdUsers = new List<string>();
+
+                foreach (var testUser in testUsers)
+                {
+                    var user = _mapper.Map<User>(testUser);
+                    user.Password = HashPassword(testUser.Password);
+                    user.CreatedDate = DateTime.Now;
+                    user.IsActive = true;
+                    user.CreatedBy = 1; // System user
+
+                    await _unitOfWork.Users.AddAsync(user);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Assign roles if provided
+                    if (testUser.RoleIds.Any())
+                    {
+                        await _unitOfWork.Users.AssignRolesAsync(user.UserID, testUser.RoleIds);
+                    }
+
+                    createdUsers.Add($"{testUser.Username}/{testUser.Password} ({testUser.RoleIds.FirstOrDefault()})");
+                    _logger.LogInformation("Test user {Username} created with role {Role}", testUser.Username, testUser.RoleIds.FirstOrDefault());
+                }
+
+                return ApiResponse<object>.SuccessResult(createdUsers, $"Successfully created {createdUsers.Count} test users");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error initializing test users");
+                return ApiResponse<object>.ErrorResult("Failed to initialize test users: " + ex.Message);
+            }
+        }
     }
 } 

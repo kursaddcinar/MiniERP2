@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MiniERP.API.DTOs;
 using MiniERP.API.Services;
+using MiniERP.API.Extensions;
 
 namespace MiniERP.API.Controllers
 {
@@ -25,6 +26,7 @@ namespace MiniERP.API.Controllers
         /// Get paginated list of cari accounts with optional search and filtering
         /// </summary>
         [HttpGet]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Finance")]
         public async Task<ActionResult<ApiResponse<PagedResult<CariAccountDto>>>> GetCariAccounts(
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
@@ -46,6 +48,7 @@ namespace MiniERP.API.Controllers
         /// Get cari account by ID
         /// </summary>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Finance")]
         public async Task<ActionResult<ApiResponse<CariAccountDto>>> GetCariAccount(int id)
         {
             var result = await _cariAccountService.GetCariAccountByIdAsync(id);
@@ -62,6 +65,7 @@ namespace MiniERP.API.Controllers
         /// Get cari account by code
         /// </summary>
         [HttpGet("by-code/{code}")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase,Finance")]
         public async Task<ActionResult<ApiResponse<CariAccountDto>>> GetCariAccountByCode(string code)
         {
             var result = await _cariAccountService.GetCariAccountByCodeAsync(code);
@@ -83,7 +87,7 @@ namespace MiniERP.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ApiResponse<CariAccountDto>.ErrorResult("Invalid input data"));
+                return BadRequest(ModelState.ToApiResponse<CariAccountDto>());
             }
 
             var result = await _cariAccountService.CreateCariAccountAsync(createCariAccountDto);
@@ -173,6 +177,7 @@ namespace MiniERP.API.Controllers
         /// Get all customers
         /// </summary>
         [HttpGet("customers")]
+        [Authorize(Roles = "Admin,Manager,Sales")]
         public async Task<ActionResult<ApiResponse<List<CariAccountDto>>>> GetCustomers()
         {
             var result = await _cariAccountService.GetCustomersAsync();
@@ -189,6 +194,7 @@ namespace MiniERP.API.Controllers
         /// Get all suppliers
         /// </summary>
         [HttpGet("suppliers")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<List<CariAccountDto>>>> GetSuppliers()
         {
             var result = await _cariAccountService.GetSuppliersAsync();
@@ -365,7 +371,7 @@ namespace MiniERP.API.Controllers
         /// Create a new cari transaction
         /// </summary>
         [HttpPost("transactions")]
-        [Authorize(Roles = "Admin,Manager,User")]
+        [Authorize(Roles = "Admin,Manager,Finance")]
         public async Task<ActionResult<ApiResponse<CariTransactionDto>>> CreateCariTransaction([FromBody] CreateCariTransactionDto createTransactionDto)
         {
             if (!ModelState.IsValid)

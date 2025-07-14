@@ -318,12 +318,10 @@ INSERT INTO CariTypes (TypeCode, TypeName, Description) VALUES
 ('HERSIKI', 'Her İkisi', 'Hem Müşteri Hem Tedarikçi');
 
 INSERT INTO Roles (RoleName, Description) VALUES
-('Admin', 'Sistem Yöneticisi'),
-('Manager', 'Genel Müdür'),
-('Sales', 'Satış Personeli'),
-('Purchase', 'Satın Alma Personeli'),
-('Warehouse', 'Depo Personeli'),
-('Finance', 'Muhasebe Personeli');
+('Admin', 'Sistem Yöneticisi - Tüm yetkiler'),
+('Manager', 'Genel Müdür - Yönetim yetkileri'),
+('Employee', 'Çalışan - Temel işlem yetkileri'),
+('Finance', 'Muhasebe Personeli - Mali işlemler');
 
 INSERT INTO Units (UnitCode, UnitName) VALUES
 ('ADET', 'Adet'),
@@ -345,24 +343,37 @@ INSERT INTO PaymentTypes (TypeCode, TypeName, Description) VALUES
 INSERT INTO Warehouses (WarehouseCode, WarehouseName, Address, City, ResponsiblePerson) VALUES
 ('ANA', 'Ana Depo', 'Merkez Mah. Sanayi Cad. No:1', 'İstanbul', 'Depo Sorumlusu');
 
-INSERT INTO Users (Username, Password, Email, FirstName, LastName, IsActive) VALUES
-('admin', '123456', 'admin@minierp.com', 'Admin', 'User', 1);
+-- Test kullanıcıları ekle (API ile uyumlu şifreler)
+INSERT INTO Users (Username, Password, Email, FirstName, LastName, IsActive, CreatedBy) VALUES
+('admin', 'admin', 'admin@minierp.com', 'Admin', 'User', 1, 1),
+('manager', 'manager', 'manager@minierp.com', 'Manager', 'User', 1, 1),
+('employee', 'employee', 'employee@minierp.com', 'Employee', 'User', 1, 1),
+('finance', 'finance', 'finance@minierp.com', 'Finance', 'User', 1, 1);
 
-INSERT INTO UserRoles (UserID, RoleID) VALUES (1, 1);
+-- Kullanıcı rollerini ata
+INSERT INTO UserRoles (UserID, RoleID) VALUES 
+(1, 1), -- admin -> Admin
+(2, 2), -- manager -> Manager  
+(3, 3), -- employee -> Employee
+(4, 4); -- finance -> Finance
 
 PRINT '================================================';
 PRINT '    MiniERPTrial Database Created Successfully!';
 PRINT '================================================';
 PRINT 'Database Name: MiniERPTrial';
-PRINT 'Admin User: admin';
-PRINT 'Admin Password: 123456';
+PRINT 'Test Users Created:';
+PRINT '- admin/admin (Admin Role)';
+PRINT '- manager/manager (Manager Role)';
+PRINT '- employee/employee (Employee Role)';
+PRINT '- finance/finance (Finance Role)';
 PRINT 'Default Warehouse: ANA';
 PRINT 'Tables Created: 16';
-PRINT 'Basic Data Loaded: YES';
+PRINT 'Basic Data + Users Loaded: YES';
 PRINT '================================================';
 PRINT 'IMPORTANT: Use MiniERPTrial as database name!';
 PRINT 'Connection String: Data Source=.;Initial Catalog=MiniERPTrial;Integrated Security=true';
 PRINT '================================================';
-PRINT 'Database is ready! You can now proceed with API development.';
+PRINT 'Database is ready! You can now start API and Web projects.';
+PRINT 'All test users are ready for role-based authentication.';
 PRINT '================================================';
 GO 

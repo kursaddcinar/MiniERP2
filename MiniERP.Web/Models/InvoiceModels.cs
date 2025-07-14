@@ -99,7 +99,7 @@ namespace MiniERP.Web.Models
         [Display(Name = "Açıklama")]
         public string? Description { get; set; }
 
-        public List<CreateSalesInvoiceDetailDto> Details { get; set; } = new List<CreateSalesInvoiceDetailDto>();
+        public List<SalesInvoiceDetailDto> Details { get; set; } = new List<SalesInvoiceDetailDto>();
     }
 
     public class SalesInvoiceDetailDto
@@ -124,6 +124,15 @@ namespace MiniERP.Web.Models
         [Required(ErrorMessage = "Ürün seçimi gereklidir")]
         [Display(Name = "Ürün")]
         public int ProductID { get; set; }
+
+        [Display(Name = "Ürün Kodu")]
+        public string ProductCode { get; set; } = string.Empty;
+
+        [Display(Name = "Ürün Adı")]
+        public string ProductName { get; set; } = string.Empty;
+
+        [Display(Name = "Birim")]
+        public string UnitName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Miktar gereklidir")]
         [Display(Name = "Miktar")]
@@ -248,7 +257,7 @@ namespace MiniERP.Web.Models
         [Display(Name = "Açıklama")]
         public string? Description { get; set; }
 
-        public List<CreatePurchaseInvoiceDetailDto> Details { get; set; } = new List<CreatePurchaseInvoiceDetailDto>();
+        public List<PurchaseInvoiceDetailDto> Details { get; set; } = new List<PurchaseInvoiceDetailDto>();
     }
 
     public class PurchaseInvoiceDetailDto
@@ -273,6 +282,15 @@ namespace MiniERP.Web.Models
         [Required(ErrorMessage = "Ürün seçimi gereklidir")]
         [Display(Name = "Ürün")]
         public int ProductID { get; set; }
+
+        [Display(Name = "Ürün Kodu")]
+        public string ProductCode { get; set; } = string.Empty;
+
+        [Display(Name = "Ürün Adı")]
+        public string ProductName { get; set; } = string.Empty;
+
+        [Display(Name = "Birim")]
+        public string UnitName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Miktar gereklidir")]
         [Display(Name = "Miktar")]

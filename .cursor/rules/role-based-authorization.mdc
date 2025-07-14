@@ -1,0 +1,150 @@
+# MiniERP Role-Based Authorization Rules
+
+## Role Definitions (Database Schema)
+Based on [Database/MiniERP_Clean.sql](mdc:Database/MiniERP_Clean.sql):
+
+### System Roles
+- **Admin**: Full system access, user management, all operations
+- **Manager**: Management level access, reporting, oversight
+- **Sales**: Sales operations, customer management, sales invoices
+- **Purchase**: Purchase operations, supplier management, purchase invoices
+- **Warehouse**: Inventory management, stock operations, warehouse management
+- **Finance**: Financial operations, payments, collections, accounting
+
+## Implementation Across Layers
+
+### 1. API Layer ([MiniERP.API](mdc:MiniERP.API))
+
+#### Controller Authorization
+```csharp
+[Authorize(Roles = "Admin,Manager")]      // Multiple roles
+[Authorize(Roles = "Admin")]              // Single role
+[Authorize]                               // Any authenticated user
+```
+
+#### Role-Based Endpoints
+- **CariAccounts**: Admin, Manager, Sales, Finance
+- **Products**: Admin, Manager, Sales, Purchase, Warehouse
+- **Stock**: Admin, Manager, Warehouse, Sales, Purchase
+- **SalesInvoices**: Admin, Manager, Sales, Finance
+- **PurchaseInvoices**: Admin, Manager, Purchase, Finance
+- **Payments**: Admin, Manager, Finance
+- **Users**: Admin only
+
+#### JWT Token Implementation
+- Roles included as claims in JWT tokens ([AuthService.cs](mdc:MiniERP.API/Services/AuthService.cs))
+- Role validation in API endpoints
+- Token generation includes all user roles
+
+### 2. Web Layer ([MiniERP.Web](mdc:MiniERP.Web))
+
+#### Controller Authorization
+```csharp
+[Authorize(Roles = "Admin,Manager")]
+public class SomeController : Controller
+```
+
+#### View-Level Authorization
+```csharp
+@if (User.IsInRole("Admin"))
+{
+    // Admin-only content
+}
+```
+
+#### Service Layer Checks
+- [AuthService.cs](mdc:MiniERP.Web/Services/AuthService.cs) provides role checking methods
+- Use `IsInRole(string role)` method for runtime checks
+
+### 3. WinForms Layer ([MiniERP.WinForms](mdc:MiniERP.WinForms))
+
+#### Form Access Control
+- Check user roles before opening forms
+- Disable/hide UI elements based on roles
+- Validate permissions at form level
+
+#### API Call Authorization
+- Include JWT token in API requests
+- Handle authorization failures gracefully
+
+## Role Permission Matrix
+
+### Admin Role
+- All operations across all modules
+- User management and role assignment
+- System configuration and settings
+
+### Manager Role
+- View all data and reports
+- Approve high-value transactions
+- Access to all modules except user management
+
+### Sales Role
+- Manage customers (CariAccounts with type Customer)
+- Create and manage sales invoices
+- View sales reports and customer balances
+- Access product catalog
+
+### Purchase Role
+- Manage suppliers (CariAccounts with type Supplier)
+- Create and manage purchase invoices
+- View purchase reports and supplier balances
+- Access product catalog
+
+### Warehouse Role
+- Manage inventory and stock levels
+- Stock transactions and movements
+- Warehouse operations
+- Product management
+
+### Finance Role
+- Manage payments and collections
+- View financial reports
+- Customer/supplier balance management
+- Invoice approval and processing
+
+## Implementation Guidelines
+
+### Database Level
+- Use [Users](mdc:MiniERP.API/Models/User.cs), [Roles](mdc:MiniERP.API/Models/Role.cs), [UserRoles](mdc:MiniERP.API/Models/UserRole.cs) tables
+- Maintain referential integrity
+- Support multiple roles per user
+
+### API Level
+- Implement role checks in controllers
+- Use `[Authorize(Roles = "...")]` attributes
+- Include role information in API responses
+
+### Web Level
+- Use cookie authentication with role claims
+- Implement authorization filters
+- Control navigation and UI based on roles
+
+### WinForms Level
+- Store user roles after login
+- Implement role-based form access
+- Control button/menu visibility
+
+## Security Considerations
+
+### Token Security
+- JWT tokens include role claims
+- Validate tokens on each API request
+- Implement proper token expiration
+
+### Role Validation
+- Always validate roles server-side
+- Don't rely on client-side role checking for security
+- Log authorization failures
+
+### Database Security
+- Use proper foreign key constraints
+- Implement soft deletes for audit trails
+- Validate role assignments
+
+## Testing Requirements
+- Test each role's access to different endpoints
+- Test role-based UI visibility
+- Test authorization failures
+- Test multi-role scenarios
+- Test role assignment and modification
