@@ -42,42 +42,68 @@ namespace MiniERP.Web.Controllers
                 if (currentUser.Success && currentUser.Data != null)
                 {
                     ViewBag.CurrentUser = currentUser.Data;
+                    ViewBag.UserRole = currentUser.Data.Role;
                 }
 
-                // Get low stock products for dashboard
-                var lowStockProducts = await _productService.GetLowStockProductsAsync();
-                if (lowStockProducts.Success && lowStockProducts.Data != null)
+                // Role-based data loading
+                var userRole = currentUser.Data?.Role ?? "Sales";
+                
+                // Products - visible to most roles
+                if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || 
+                    User.IsInRole("Purchase") || User.IsInRole("Warehouse"))
                 {
-                    ViewBag.LowStockProducts = lowStockProducts.Data;
+                    var totalProductsResponse = await _productService.GetProductsAsync(1, 1);
+                    ViewBag.TotalProducts = totalProductsResponse.Success && totalProductsResponse.Data != null ? 
+                        totalProductsResponse.Data.TotalCount : 0;
+
+                    // Low stock products for dashboard
+                    var lowStockProducts = await _productService.GetLowStockProductsAsync();
+                    if (lowStockProducts.Success && lowStockProducts.Data != null)
+                    {
+                        ViewBag.LowStockProducts = lowStockProducts.Data;
+                    }
                 }
 
-                // Get dashboard statistics
-                var totalProductsResponse = await _productService.GetProductsAsync(1, 1);
-                ViewBag.TotalProducts = totalProductsResponse.Success && totalProductsResponse.Data != null ? 
-                    totalProductsResponse.Data.TotalCount : 0;
+                // Cari Accounts - visible to most roles
+                if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || 
+                    User.IsInRole("Purchase") || User.IsInRole("Finance"))
+                {
+                    var totalCariAccountsResponse = await _cariAccountService.GetCariAccountsAsync(1, 1);
+                    ViewBag.TotalCariAccounts = totalCariAccountsResponse?.TotalCount ?? 0;
 
-                var totalCariAccountsResponse = await _cariAccountService.GetCariAccountsAsync(1, 1);
-                ViewBag.TotalCariAccounts = totalCariAccountsResponse?.TotalCount ?? 0;
+                    var activeCustomers = await _cariAccountService.GetCustomersAsync();
+                    var activeSuppliers = await _cariAccountService.GetSuppliersAsync();
+                    ViewBag.ActiveCustomers = activeCustomers?.Count ?? 0;
+                    ViewBag.ActiveSuppliers = activeSuppliers?.Count ?? 0;
+                }
 
-                var activeCustomers = await _cariAccountService.GetCustomersAsync();
-                var activeSuppliers = await _cariAccountService.GetSuppliersAsync();
-                ViewBag.ActiveCustomers = activeCustomers?.Count ?? 0;
-                ViewBag.ActiveSuppliers = activeSuppliers?.Count ?? 0;
+                // Sales Invoices - visible to sales and finance roles
+                if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || User.IsInRole("Finance"))
+                {
+                    var totalSalesInvoicesResponse = await _salesInvoiceService.GetSalesInvoicesAsync(1, 1);
+                    ViewBag.TotalSalesInvoices = totalSalesInvoicesResponse?.TotalCount ?? 0;
+                }
 
-                var totalSalesInvoicesResponse = await _salesInvoiceService.GetSalesInvoicesAsync(1, 1);
-                ViewBag.TotalSalesInvoices = totalSalesInvoicesResponse?.TotalCount ?? 0;
+                // Purchase Invoices - visible to purchase and finance roles
+                if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Purchase") || User.IsInRole("Finance"))
+                {
+                    var totalPurchaseInvoicesResponse = await _purchaseInvoiceService.GetPurchaseInvoicesAsync(1, 1);
+                    ViewBag.TotalPurchaseInvoices = totalPurchaseInvoicesResponse?.TotalCount ?? 0;
+                }
 
-                var totalPurchaseInvoicesResponse = await _purchaseInvoiceService.GetPurchaseInvoicesAsync(1, 1);
-                ViewBag.TotalPurchaseInvoices = totalPurchaseInvoicesResponse?.TotalCount ?? 0;
+                // Stock Information - visible to warehouse and management roles
+                if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Warehouse") || 
+                    User.IsInRole("Sales") || User.IsInRole("Purchase"))
+                {
+                    // Critical and out-of-stock products
+                    var criticalStockResponse = await _stockService.GetCriticalStockCardsAsync();
+                    ViewBag.CriticalStockCount = criticalStockResponse.Success && criticalStockResponse.Data != null ? 
+                        criticalStockResponse.Data.Count : 0;
 
-                // Critical and out-of-stock products
-                var criticalStockResponse = await _stockService.GetCriticalStockCardsAsync();
-                ViewBag.CriticalStockCount = criticalStockResponse.Success && criticalStockResponse.Data != null ? 
-                    criticalStockResponse.Data.Count : 0;
-
-                var outOfStockResponse = await _stockService.GetOutOfStockCardsAsync();
-                ViewBag.OutOfStockCount = outOfStockResponse.Success && outOfStockResponse.Data != null ? 
-                    outOfStockResponse.Data.Count : 0;
+                    var outOfStockResponse = await _stockService.GetOutOfStockCardsAsync();
+                    ViewBag.OutOfStockCount = outOfStockResponse.Success && outOfStockResponse.Data != null ? 
+                        outOfStockResponse.Data.Count : 0;
+                }
 
                 return View();
             }

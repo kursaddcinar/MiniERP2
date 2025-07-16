@@ -1,0 +1,631 @@
+2025-07-14 22:23:44.442 +03:00 [INF] Starting MiniERP API
+2025-07-14 22:23:44.503 +03:00 [INF] User profile is available. Using 'C:\Users\kursa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-14 22:23:44.629 +03:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5135: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Normal olarak her yuva adresi (iletişim kuralı/ağ adresi/bağlantı noktası) için yalnızca bir kullanıma izin veriliyor.
+ ---> System.Net.Sockets.SocketException (10048): Normal olarak her yuva adresi (iletişim kuralı/ağ adresi/bağlantı noktası) için yalnızca bir kullanıma izin veriliyor.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-07-14 22:23:44.684 +03:00 [FTL] Application terminated unexpectedly
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5135: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Normal olarak her yuva adresi (iletişim kuralı/ağ adresi/bağlantı noktası) için yalnızca bir kullanıma izin veriliyor.
+ ---> System.Net.Sockets.SocketException (10048): Normal olarak her yuva adresi (iletişim kuralı/ağ adresi/bağlantı noktası) için yalnızca bir kullanıma izin veriliyor.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.Run(IHost host)
+   at Program.<Main>$(String[] args) in C:\Users\kursa\source\repos\MİniERP2\MiniERP.API\Program.cs:line 164
+2025-07-14 22:37:09.220 +03:00 [INF] Starting MiniERP API
+2025-07-14 22:37:09.276 +03:00 [INF] User profile is available. Using 'C:\Users\kursa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-14 22:37:09.394 +03:00 [INF] Now listening on: http://localhost:5135
+2025-07-14 22:37:09.399 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-14 22:37:09.401 +03:00 [INF] Hosting environment: Development
+2025-07-14 22:37:09.402 +03:00 [INF] Content root path: C:\Users\kursa\source\repos\MİniERP2\MiniERP.API
+2025-07-14 22:37:16.090 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5135/api/Auth/login - application/json; charset=utf-8 47
+2025-07-14 22:37:16.138 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-14 22:37:16.161 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-14 22:37:16.180 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.LoginResponseDto]]] Login(MiniERP.API.DTOs.LoginDto) on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-14 22:37:17.567 +03:00 [INF] Executed DbCommand (51ms) [Parameters=[@__username_0='?' (Size = 50)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[Username] = @__username_0 AND [u].[IsActive] = CAST(1 AS bit)
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-14 22:37:17.722 +03:00 [INF] User warehouse logged in successfully
+2025-07-14 22:37:17.731 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.LoginResponseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:17.775 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.Login (MiniERP.API) in 1587.961ms
+2025-07-14 22:37:17.779 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-14 22:37:17.784 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 1647.3195 ms
+2025-07-14 22:37:17.793 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5135/api/Auth/login - 200 null application/json; charset=utf-8 1703.8772ms
+2025-07-14 22:37:17.842 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Auth/me - null null
+2025-07-14 22:37:17.892 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API)'
+2025-07-14 22:37:17.898 +03:00 [INF] Route matched with {action = "GetCurrentUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.UserDto]]] GetCurrentUser() on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-14 22:37:17.988 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[UserID] = @__userId_0
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-14 22:37:17.998 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.UserDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:18.003 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API) in 100.4036ms
+2025-07-14 22:37:18.006 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API)'
+2025-07-14 22:37:18.008 +03:00 [INF] HTTP GET /api/Auth/me responded 200 in 154.7946 ms
+2025-07-14 22:37:18.012 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Auth/me - 200 null application/json; charset=utf-8 170.7326ms
+2025-07-14 22:37:18.037 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1 - null null
+2025-07-14 22:37:18.048 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:18.054 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-14 22:37:18.096 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-14 22:37:18.163 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:18.181 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 122.9412ms
+2025-07-14 22:37:18.184 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:18.186 +03:00 [INF] HTTP GET /api/Products responded 200 in 142.9634 ms
+2025-07-14 22:37:18.189 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 152.6225ms
+2025-07-14 22:37:18.202 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products/low-stock - null null
+2025-07-14 22:37:18.209 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API)'
+2025-07-14 22:37:18.214 +03:00 [INF] Route matched with {action = "GetLowStockProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductDto]]]] GetLowStockProducts() on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-14 22:37:18.292 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+LEFT JOIN [StockCards] AS [s0] ON [p].[ProductID] = [s0].[ProductID]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (
+    SELECT COALESCE(SUM([s].[CurrentStock]), 0.0)
+    FROM [StockCards] AS [s]
+    WHERE [p].[ProductID] = [s].[ProductID]) <= [p].[MinStockLevel]
+ORDER BY [p].[ProductID], [p0].[CategoryID], [u].[UnitID]
+2025-07-14 22:37:18.314 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:37:18.319 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API) in 101.4866ms
+2025-07-14 22:37:18.323 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API)'
+2025-07-14 22:37:18.325 +03:00 [INF] HTTP GET /api/Products/low-stock responded 200 in 116.8568 ms
+2025-07-14 22:37:18.329 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products/low-stock - 200 null application/json; charset=utf-8 126.3143ms
+2025-07-14 22:37:18.334 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/critical - null null
+2025-07-14 22:37:18.339 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API)'
+2025-07-14 22:37:18.345 +03:00 [INF] Route matched with {action = "GetCriticalStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.StockCardDto]]]] GetCriticalStockCards() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:18.387 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[CurrentStock] <= [p].[MinStockLevel] AND [p].[MinStockLevel] > 0.0
+2025-07-14 22:37:18.427 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:37:18.436 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API) in 87.043ms
+2025-07-14 22:37:18.439 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API)'
+2025-07-14 22:37:18.441 +03:00 [INF] HTTP GET /api/Stock/cards/critical responded 200 in 102.6049 ms
+2025-07-14 22:37:18.445 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/critical - 200 null application/json; charset=utf-8 110.5534ms
+2025-07-14 22:37:18.454 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/out-of-stock - null null
+2025-07-14 22:37:18.463 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API)'
+2025-07-14 22:37:18.469 +03:00 [INF] Route matched with {action = "GetOutOfStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.StockCardDto]]]] GetOutOfStockCards() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:18.495 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[CurrentStock] <= 0.0
+2025-07-14 22:37:18.501 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:37:18.503 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API) in 30.0552ms
+2025-07-14 22:37:18.506 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API)'
+2025-07-14 22:37:18.509 +03:00 [INF] HTTP GET /api/Stock/cards/out-of-stock responded 200 in 45.9188 ms
+2025-07-14 22:37:18.513 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/out-of-stock - 200 null application/json; charset=utf-8 58.6409ms
+2025-07-14 22:37:19.906 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:19.916 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:19.927 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:19.953 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:19.985 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:19.994 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:20.000 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 68.1091ms
+2025-07-14 22:37:20.004 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:20.006 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 91.9484 ms
+2025-07-14 22:37:20.011 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 105.7607ms
+2025-07-14 22:37:21.541 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - null null
+2025-07-14 22:37:21.549 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:21.555 +03:00 [INF] Route matched with {action = "GetStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] GetStockCard(Int32) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:21.585 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:37:21.597 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:21.602 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API) in 41.7732ms
+2025-07-14 22:37:21.606 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:21.609 +03:00 [INF] HTTP GET /api/Stock/cards/3 responded 200 in 60.7680 ms
+2025-07-14 22:37:21.615 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - 200 null application/json; charset=utf-8 73.9166ms
+2025-07-14 22:37:25.063 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:25.070 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:25.072 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:25.088 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:25.105 +03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:25.112 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:25.116 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 39.4766ms
+2025-07-14 22:37:25.120 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:25.122 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 53.4487 ms
+2025-07-14 22:37:25.127 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 64.491ms
+2025-07-14 22:37:27.743 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - null null
+2025-07-14 22:37:27.751 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:27.754 +03:00 [INF] Route matched with {action = "GetStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] GetStockCard(Int32) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:27.773 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:37:27.779 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:27.782 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API) in 23.6484ms
+2025-07-14 22:37:27.785 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:27.788 +03:00 [INF] HTTP GET /api/Stock/cards/3 responded 200 in 36.8430 ms
+2025-07-14 22:37:27.793 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - 200 null application/json; charset=utf-8 49.8545ms
+2025-07-14 22:37:28.951 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - null null
+2025-07-14 22:37:28.964 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:28.968 +03:00 [INF] Route matched with {action = "GetStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] GetStockCard(Int32) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:28.975 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:37:28.982 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:28.986 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API) in 12.7385ms
+2025-07-14 22:37:28.989 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:28.992 +03:00 [INF] HTTP GET /api/Stock/cards/3 responded 200 in 28.8237 ms
+2025-07-14 22:37:28.997 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/3 - 200 null application/json; charset=utf-8 46.6394ms
+2025-07-14 22:37:31.591 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:31.599 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:31.603 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:31.612 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:31.624 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:31.632 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:31.635 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 26.6998ms
+2025-07-14 22:37:31.638 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:31.640 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 41.8889 ms
+2025-07-14 22:37:31.645 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 53.888ms
+2025-07-14 22:37:34.631 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/5 - null null
+2025-07-14 22:37:34.640 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:34.644 +03:00 [INF] Route matched with {action = "GetStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] GetStockCard(Int32) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:34.652 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:37:34.658 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:34.661 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API) in 11.6292ms
+2025-07-14 22:37:34.665 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:37:34.667 +03:00 [INF] HTTP GET /api/Stock/cards/5 responded 200 in 27.2678 ms
+2025-07-14 22:37:34.671 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/5 - 200 null application/json; charset=utf-8 39.7874ms
+2025-07-14 22:37:36.449 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:36.461 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:36.466 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:36.475 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:36.483 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:36.488 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:36.491 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 18.9565ms
+2025-07-14 22:37:36.494 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:36.497 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 36.2927 ms
+2025-07-14 22:37:36.501 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 51.374ms
+2025-07-14 22:37:41.166 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=2&PageSize=10 - null null
+2025-07-14 22:37:41.174 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:41.176 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:41.184 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:41.210 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_0 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:41.217 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:41.220 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 39.1928ms
+2025-07-14 22:37:41.224 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:41.226 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 52.7644 ms
+2025-07-14 22:37:41.231 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=2&PageSize=10 - 200 null application/json; charset=utf-8 64.9608ms
+2025-07-14 22:37:45.381 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:45.392 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:45.395 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:45.402 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:45.410 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:45.416 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:45.420 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 19.9624ms
+2025-07-14 22:37:45.424 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:45.426 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 35.6310 ms
+2025-07-14 22:37:45.431 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 50.4887ms
+2025-07-14 22:37:47.581 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - null null
+2025-07-14 22:37:47.588 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:47.591 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-14 22:37:47.600 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-14 22:37:47.606 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:47.609 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 13.4383ms
+2025-07-14 22:37:47.612 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:47.614 +03:00 [INF] HTTP GET /api/Products responded 200 in 25.9767 ms
+2025-07-14 22:37:47.617 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - 200 null application/json; charset=utf-8 36.1868ms
+2025-07-14 22:37:47.625 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - null null
+2025-07-14 22:37:47.631 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:37:47.637 +03:00 [INF] Route matched with {action = "GetActiveWarehouses", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.WarehouseDto]]]] GetActiveWarehouses() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:47.654 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [Warehouses] AS [w]
+WHERE [w].[IsActive] = CAST(1 AS bit)
+ORDER BY [w].[WarehouseName]
+2025-07-14 22:37:47.667 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.WarehouseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:37:47.675 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API) in 33.9091ms
+2025-07-14 22:37:47.679 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:37:47.681 +03:00 [INF] HTTP GET /api/Stock/warehouses/active responded 200 in 50.1585 ms
+2025-07-14 22:37:47.685 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - 200 null application/json; charset=utf-8 59.9816ms
+2025-07-14 22:37:48.970 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:48.979 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:48.982 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:48.989 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:48.997 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:49.004 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:49.008 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 20.9422ms
+2025-07-14 22:37:49.011 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:49.014 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 35.7159 ms
+2025-07-14 22:37:49.020 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 49.4316ms
+2025-07-14 22:37:49.917 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - null null
+2025-07-14 22:37:49.928 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:49.931 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-14 22:37:49.940 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-14 22:37:49.946 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:49.949 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 11.7537ms
+2025-07-14 22:37:49.951 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:37:49.953 +03:00 [INF] HTTP GET /api/Products responded 200 in 25.9739 ms
+2025-07-14 22:37:49.957 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - 200 null application/json; charset=utf-8 39.9698ms
+2025-07-14 22:37:49.962 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - null null
+2025-07-14 22:37:49.968 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:37:49.970 +03:00 [INF] Route matched with {action = "GetActiveWarehouses", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.WarehouseDto]]]] GetActiveWarehouses() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:49.975 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [Warehouses] AS [w]
+WHERE [w].[IsActive] = CAST(1 AS bit)
+ORDER BY [w].[WarehouseName]
+2025-07-14 22:37:49.979 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.WarehouseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:37:49.982 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API) in 9.0838ms
+2025-07-14 22:37:49.985 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:37:49.987 +03:00 [INF] HTTP GET /api/Stock/warehouses/active responded 200 in 19.3426 ms
+2025-07-14 22:37:49.990 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - 200 null application/json; charset=utf-8 27.7978ms
+2025-07-14 22:37:54.067 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:37:54.076 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:54.078 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:37:54.084 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:37:54.091 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:37:54.096 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:37:54.100 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 17.8191ms
+2025-07-14 22:37:54.103 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:37:54.105 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 29.8424 ms
+2025-07-14 22:37:54.109 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 41.0595ms
+2025-07-14 22:38:06.740 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - null null
+2025-07-14 22:38:06.750 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:38:06.753 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-14 22:38:06.763 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-14 22:38:06.770 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:06.774 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 15.4173ms
+2025-07-14 22:38:06.778 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-14 22:38:06.781 +03:00 [INF] HTTP GET /api/Products responded 200 in 31.9454 ms
+2025-07-14 22:38:06.787 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1000 - 200 null application/json; charset=utf-8 46.6913ms
+2025-07-14 22:38:06.794 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - null null
+2025-07-14 22:38:06.800 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:38:06.803 +03:00 [INF] Route matched with {action = "GetActiveWarehouses", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.WarehouseDto]]]] GetActiveWarehouses() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:06.816 +03:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [Warehouses] AS [w]
+WHERE [w].[IsActive] = CAST(1 AS bit)
+ORDER BY [w].[WarehouseName]
+2025-07-14 22:38:06.822 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.WarehouseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-14 22:38:06.826 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API) in 19.7158ms
+2025-07-14 22:38:06.829 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetActiveWarehouses (MiniERP.API)'
+2025-07-14 22:38:06.831 +03:00 [INF] HTTP GET /api/Stock/warehouses/active responded 200 in 31.2562 ms
+2025-07-14 22:38:06.835 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/warehouses/active - 200 null application/json; charset=utf-8 40.562ms
+2025-07-14 22:38:13.215 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:38:13.225 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:13.229 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:13.242 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:38:13.259 +03:00 [INF] Executed DbCommand (9ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:38:13.264 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:13.267 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 31.9875ms
+2025-07-14 22:38:13.272 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:13.274 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 49.7974 ms
+2025-07-14 22:38:13.279 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 64.6415ms
+2025-07-14 22:38:15.552 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/5 - null null
+2025-07-14 22:38:15.559 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:38:15.562 +03:00 [INF] Route matched with {action = "GetStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] GetStockCard(Int32) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:15.573 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:38:15.579 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:15.581 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API) in 14.6445ms
+2025-07-14 22:38:15.584 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCard (MiniERP.API)'
+2025-07-14 22:38:15.587 +03:00 [INF] HTTP GET /api/Stock/cards/5 responded 200 in 28.0231 ms
+2025-07-14 22:38:15.592 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/5 - 200 null application/json; charset=utf-8 40.3161ms
+2025-07-14 22:38:26.068 +03:00 [INF] Request starting HTTP/1.1 PUT http://localhost:5135/api/Stock/cards/5 - application/json; charset=utf-8 303
+2025-07-14 22:38:26.075 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.UpdateStockCard (MiniERP.API)'
+2025-07-14 22:38:26.081 +03:00 [INF] Route matched with {action = "UpdateStockCard", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.StockCardDto]]] UpdateStockCard(Int32, MiniERP.API.DTOs.UpdateStockCardDto) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:26.107 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID]
+FROM [StockCards] AS [s]
+WHERE [s].[StockCardID] = @__p_0
+2025-07-14 22:38:26.201 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (Precision = 18) (Scale = 3) (DbType = Decimal), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+UPDATE [StockCards] SET [CreatedBy] = @p0, [CreatedDate] = @p1, [CurrentStock] = @p2, [LastTransactionDate] = @p3, [ProductID] = @p4, [ReservedStock] = @p5, [WarehouseID] = @p6
+OUTPUT 1
+WHERE [StockCardID] = @p7;
+2025-07-14 22:38:26.215 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[StockCardID] = @__id_0
+2025-07-14 22:38:26.221 +03:00 [INF] Stok kartı 5 başarıyla güncellendi
+2025-07-14 22:38:26.224 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:26.227 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.UpdateStockCard (MiniERP.API) in 141.7273ms
+2025-07-14 22:38:26.230 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.UpdateStockCard (MiniERP.API)'
+2025-07-14 22:38:26.232 +03:00 [INF] HTTP PUT /api/Stock/cards/5 responded 200 in 157.6724 ms
+2025-07-14 22:38:26.236 +03:00 [INF] Request finished HTTP/1.1 PUT http://localhost:5135/api/Stock/cards/5 - 200 null application/json; charset=utf-8 168.1431ms
+2025-07-14 22:38:26.242 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:38:26.248 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:26.250 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:26.256 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:38:26.262 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:38:26.268 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:26.271 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 17.0701ms
+2025-07-14 22:38:26.274 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:26.277 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 29.6207 ms
+2025-07-14 22:38:26.282 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 40.181ms
+2025-07-14 22:38:34.060 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=2&PageSize=10 - null null
+2025-07-14 22:38:34.069 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:34.072 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:34.091 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:38:34.108 +03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_0 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:38:34.115 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:34.119 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 41.1887ms
+2025-07-14 22:38:34.122 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:34.125 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 56.2020 ms
+2025-07-14 22:38:34.130 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=2&PageSize=10 - 200 null application/json; charset=utf-8 70.0047ms
+2025-07-14 22:38:37.730 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - null null
+2025-07-14 22:38:37.735 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:37.738 +03:00 [INF] Route matched with {action = "GetStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.StockCardDto]]]] GetStockCards(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-14 22:38:37.744 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [StockCards] AS [s]
+2025-07-14 22:38:37.754 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID], [s0].[ProductID0], [s0].[CategoryID], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID] AS [ProductID0], [p].[CategoryID], [p].[CreatedBy] AS [CreatedBy0], [p].[CreatedDate] AS [CreatedDate0], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+    ORDER BY [p].[ProductName]
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [Units] AS [u] ON [s0].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[ProductName]
+2025-07-14 22:38:37.760 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-14 22:38:37.764 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API) in 22.4286ms
+2025-07-14 22:38:37.767 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetStockCards (MiniERP.API)'
+2025-07-14 22:38:37.770 +03:00 [INF] HTTP GET /api/Stock/cards responded 200 in 34.9373 ms
+2025-07-14 22:38:37.775 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards?PageNumber=1&PageSize=10 - 200 null application/json; charset=utf-8 45.3953ms
+2025-07-14 22:38:54.134 +03:00 [INF] Application is shutting down...

@@ -62,7 +62,7 @@ namespace MiniERP.Web.Controllers
                     LastName = "User",
                     Password = "password123",
                     ConfirmPassword = "password123",
-                    RoleIds = new List<int> { 4 } // Finance role ID
+                    Role = "Finance" // Finance role
                 };
 
                 var result = await _userService.CreateUserAsync(createUser);

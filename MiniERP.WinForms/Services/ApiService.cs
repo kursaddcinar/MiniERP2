@@ -1,8 +1,6 @@
-using System.Net.Http;
-using System.Text;
-using System.Net.Http.Headers;
+using MiniERP.WinForms.DTOs;
 using Newtonsoft.Json;
-using MiniERP.WinForms.Models;
+using System.Text;
 
 namespace MiniERP.WinForms.Services
 {
@@ -10,7 +8,6 @@ namespace MiniERP.WinForms.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
-        private string? _authToken;
 
         public ApiService()
         {
@@ -18,99 +15,79 @@ namespace MiniERP.WinForms.Services
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
             };
-            
             _httpClient = new HttpClient(handler);
-            _baseUrl = "http://localhost:5135";
-            _httpClient.BaseAddress = new Uri(_baseUrl);
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-                
-            Console.WriteLine($"ApiService: Base URL set to {_baseUrl}");
+            _baseUrl = "http://localhost:5136"; // API base URL - Match currently running API port
+        }
+
+        public async Task<ApiResponse<LoginResponseDto>> LoginAsync(LoginDto loginDto)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(loginDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{_baseUrl}/api/auth/login", content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<ApiResponse<LoginResponseDto>>(responseContent);
+                    return result ?? new ApiResponse<LoginResponseDto> { Success = false, Message = "Invalid response" };
+                }
+                else
+                {
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<LoginResponseDto>>(responseContent);
+                    return errorResult ?? new ApiResponse<LoginResponseDto> 
+                    { 
+                        Success = false, 
+                        Message = $"Login failed: {response.StatusCode}" 
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<LoginResponseDto>
+                {
+                    Success = false,
+                    Message = $"Connection error: {ex.Message}"
+                };
+            }
         }
 
         public void SetAuthToken(string token)
         {
-            _authToken = token;
             _httpClient.DefaultRequestHeaders.Authorization = 
-                new AuthenticationHeaderValue("Bearer", token);
-            
-            Console.WriteLine($"ApiService: Auth token set. Length: {token?.Length ?? 0}");
-            Console.WriteLine($"ApiService: Token preview: {token?.Substring(0, Math.Min(50, token?.Length ?? 0)) ?? "NULL"}...");
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
-
-        public void ClearAuthToken()
-        {
-            _authToken = null;
-            _httpClient.DefaultRequestHeaders.Authorization = null;
-        }
-
-        public bool IsAuthenticated => !string.IsNullOrEmpty(_authToken);
 
         public async Task<ApiResponse<T>> GetAsync<T>(string endpoint)
         {
             try
             {
-                Console.WriteLine($"API GetAsync: Sending request to {endpoint}");
-                var response = await _httpClient.GetAsync(endpoint);
-                var content = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine($"API GetAsync: Response status: {response.StatusCode}");
-                Console.WriteLine($"API GetAsync: Response content: {content}");
+                var response = await _httpClient.GetAsync($"{_baseUrl}/api/{endpoint}");
+                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    // API returns wrapped response: { "success": true, "data": {...}, "message": "..." }
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
-                    return apiResponse ?? new ApiResponse<T>
-                    {
-                        Success = false,
-                        Message = "Boş response alındı",
-                        Errors = new List<string> { "API'den boş response" }
-                    };
+                    var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return result ?? new ApiResponse<T> { Success = false, Message = "Invalid response" };
                 }
                 else
                 {
-                    // Try to parse error response
-                    try
-                    {
-                        var errorResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
-                        return errorResponse ?? new ApiResponse<T>
-                        {
-                            Success = false,
-                            Message = $"API Hatası: {response.StatusCode}",
-                            Errors = new List<string> { content }
-                        };
-                    }
-                    catch
-                    {
-                        return new ApiResponse<T>
-                        {
-                            Success = false,
-                            Message = $"API Hatası: {response.StatusCode}",
-                            Errors = new List<string> { content }
-                        };
-                    }
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return errorResult ?? new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = $"Request failed: {response.StatusCode}" 
+                    };
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"API GetAsync: HttpRequestException: {ex.Message}");
-                return new ApiResponse<T>
-                {
-                    Success = false,
-                    Message = "Bağlantı hatası",
-                    Errors = new List<string> { ex.Message }
-                };
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"API GetAsync: Exception: {ex.Message}");
                 return new ApiResponse<T>
                 {
                     Success = false,
-                    Message = "Beklenmeyen hata",
-                    Errors = new List<string> { ex.Message }
+                    Message = $"Connection error: {ex.Message}"
                 };
             }
         }
@@ -122,114 +99,30 @@ namespace MiniERP.WinForms.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                Console.WriteLine($"API PostAsync: Sending request to {endpoint}");
-                var response = await _httpClient.PostAsync(endpoint, content);
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine($"API PostAsync: Response status: {response.StatusCode}");
-                Console.WriteLine($"API PostAsync: Response content: {responseContent}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // API returns wrapped response: { "success": true, "data": {...}, "message": "..." }
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
-                    return apiResponse ?? new ApiResponse<T>
-                    {
-                        Success = false,
-                        Message = "Boş response alındı",
-                        Errors = new List<string> { "API'den boş response" }
-                    };
-                }
-                else
-                {
-                    // Try to parse error response
-                    try
-                    {
-                        var errorResponse = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
-                        return errorResponse ?? new ApiResponse<T>
-                        {
-                            Success = false,
-                            Message = $"API Hatası: {response.StatusCode}",
-                            Errors = new List<string> { responseContent }
-                        };
-                    }
-                    catch
-                    {
-                        return new ApiResponse<T>
-                        {
-                            Success = false,
-                            Message = $"API Hatası: {response.StatusCode}",
-                            Errors = new List<string> { responseContent }
-                        };
-                    }
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"API PostAsync: HttpRequestException: {ex.Message}");
-                return new ApiResponse<T>
-                {
-                    Success = false,
-                    Message = "Bağlantı hatası",
-                    Errors = new List<string> { ex.Message }
-                };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"API PostAsync: Exception: {ex.Message}");
-                return new ApiResponse<T>
-                {
-                    Success = false,
-                    Message = "Beklenmeyen hata",
-                    Errors = new List<string> { ex.Message }
-                };
-            }
-        }
-
-        public async Task<ApiResponse> PostAsync(string endpoint, object data)
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(data);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync(endpoint, content);
+                var response = await _httpClient.PostAsync($"{_baseUrl}/api/{endpoint}", content);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return new ApiResponse
-                    {
-                        Success = true,
-                        Message = "İşlem başarılı"
-                    };
+                    var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return result ?? new ApiResponse<T> { Success = false, Message = "Invalid response" };
                 }
                 else
                 {
-                    return new ApiResponse
-                    {
-                        Success = false,
-                        Message = $"API Hatası: {response.StatusCode}",
-                        Errors = new List<string> { responseContent }
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return errorResult ?? new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = $"Request failed: {response.StatusCode}" 
                     };
                 }
             }
-            catch (HttpRequestException ex)
-            {
-                return new ApiResponse
-                {
-                    Success = false,
-                    Message = "Bağlantı hatası",
-                    Errors = new List<string> { ex.Message }
-                };
-            }
             catch (Exception ex)
             {
-                return new ApiResponse
+                return new ApiResponse<T>
                 {
                     Success = false,
-                    Message = "Beklenmeyen hata",
-                    Errors = new List<string> { ex.Message }
+                    Message = $"Connection error: {ex.Message}"
                 };
             }
         }
@@ -241,90 +134,62 @@ namespace MiniERP.WinForms.Services
                 var json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PutAsync(endpoint, content);
+                var response = await _httpClient.PutAsync($"{_baseUrl}/api/{endpoint}", content);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var resultData = JsonConvert.DeserializeObject<T>(responseContent);
-                    return new ApiResponse<T>
-                    {
-                        Success = true,
-                        Data = resultData,
-                        Message = "İşlem başarılı"
-                    };
+                    var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return result ?? new ApiResponse<T> { Success = false, Message = "Invalid response" };
                 }
                 else
                 {
-                    return new ApiResponse<T>
-                    {
-                        Success = false,
-                        Message = $"API Hatası: {response.StatusCode}",
-                        Errors = new List<string> { responseContent }
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return errorResult ?? new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = $"Request failed: {response.StatusCode}" 
                     };
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                return new ApiResponse<T>
-                {
-                    Success = false,
-                    Message = "Bağlantı hatası",
-                    Errors = new List<string> { ex.Message }
-                };
             }
             catch (Exception ex)
             {
                 return new ApiResponse<T>
                 {
                     Success = false,
-                    Message = "Beklenmeyen hata",
-                    Errors = new List<string> { ex.Message }
+                    Message = $"Connection error: {ex.Message}"
                 };
             }
         }
 
-        public async Task<ApiResponse> DeleteAsync(string endpoint)
+        public async Task<ApiResponse<T>> DeleteAsync<T>(string endpoint)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync(endpoint);
+                var response = await _httpClient.DeleteAsync($"{_baseUrl}/api/{endpoint}");
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return new ApiResponse
-                    {
-                        Success = true,
-                        Message = "İşlem başarılı"
-                    };
+                    var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return result ?? new ApiResponse<T> { Success = false, Message = "Invalid response" };
                 }
                 else
                 {
-                    return new ApiResponse
-                    {
-                        Success = false,
-                        Message = $"API Hatası: {response.StatusCode}",
-                        Errors = new List<string> { responseContent }
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    return errorResult ?? new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = $"Request failed: {response.StatusCode}" 
                     };
                 }
             }
-            catch (HttpRequestException ex)
-            {
-                return new ApiResponse
-                {
-                    Success = false,
-                    Message = "Bağlantı hatası",
-                    Errors = new List<string> { ex.Message }
-                };
-            }
             catch (Exception ex)
             {
-                return new ApiResponse
+                return new ApiResponse<T>
                 {
                     Success = false,
-                    Message = "Beklenmeyen hata",
-                    Errors = new List<string> { ex.Message }
+                    Message = $"Connection error: {ex.Message}"
                 };
             }
         }
@@ -334,4 +199,4 @@ namespace MiniERP.WinForms.Services
             _httpClient?.Dispose();
         }
     }
-} 
+}

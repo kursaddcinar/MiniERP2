@@ -1,8 +1,12 @@
 # MiniERP - Küçük İşletmeler İçin ERP Sistemi
 
-Bu proje, küçük ve orta ölçekli işletmeler için geliştirilmiş kapsamlı bir ERP (Enterprise Resource Planning) sistemidir. Ana amacımız, .NET teknolojileri kullanarak hem masaüstü hem de web tabanlı uygulamalar geliştirmek ve bu uygulamaların birbiriyle tam senkronizasyon halinde çalışmasını sağlamaktır. 
+Bu proje, küçük ve orta ölçekli işletmeler için geliştirilmiş kapsamlı bir ERP (Enterprise Resource Planning) sistemidir. Ana amacımız, .NET teknolojileri kullanarak **Web API**, **Web Uygulaması** ve **Windows Forms** uygulamaları geliştirmek ve bu uygulamaların birbiriyle tam senkronizasyon halinde çalışmasını sağlamaktır. 
 
-**Proje Hedefi:** Küçük işletmelerin günlük operasyonlarını (stok, satış, alış, cari hesap) kolayca yönetebilmesi için pratik ve kullanışlı bir sistem sunmak. Sistem 4 ana aşamadan oluşur ve her aşama kendine özgü teknolojiler kullanır.
+**Proje Hedefi:** Küçük işletmelerin günlük operasyonlarını (stok, satış, alış, cari hesap) kolayca yönetebilmesi için pratik ve kullanışlı bir sistem sunmak. Sistem farklı platformlarda çalışan 3 ana uygulama içerir:
+
+1. **MiniERP.API** - .NET 8 Web API (Backend)
+2. **MiniERP.Web** - ASP.NET Core MVC Web Uygulaması
+3. **MiniERP.WinForms** - Windows Forms Masaüstü Uygulaması
 
 ## Proje Genel Görünümü
 
@@ -14,8 +18,49 @@ MiniERP sistemi, küçük işletmelerin ihtiyaçlarını karşılamak üzere tas
 - **Satış Yönetimi** (Satış faturaları ve otomatik senkronizasyon)
 - **Alış Yönetimi** (Alış faturaları ve otomatik senkronizasyon)
 - **Raporlama** (İş süreçlerini takip eden çeşitli raporlar)
+- **Rol Bazlı Yetkilendirme** (Admin, Manager, Sales, Purchase, Finance, Warehouse, Employee)
 
 **Senkronizasyon Özelliği:** Tüm işlemler (fatura onaylama, stok güncelleme, cari bakiye hesaplama) otomatik olarak gerçekleşir ve masaüstü ile web uygulaması arasında tam senkronizasyon sağlanır.
+
+## Uygulama Bileşenleri
+
+### 🖥️ Windows Forms Uygulaması (MiniERP.WinForms)
+
+Windows Forms uygulaması, masaüstü kullanıcıları için geliştirilmiş modern bir arayüze sahiptir.
+
+#### Özellikler:
+- **Modern UI Tasarım** - Web uygulamasına benzer görsel tasarım
+- **Rol Bazlı Giriş** - 7 farklı rol için hızlı test girişi
+- **API Entegrasyonu** - Backend API ile tam entegrasyon
+- **Güvenli Authentication** - JWT token bazlı kimlik doğrulama
+
+#### Test Kullanıcıları:
+- **admin** - Tüm sistem yetkilerine sahip
+- **manager** - Yönetici yetkileri
+- **sales** - Satış işlemleri
+- **purchase** - Satın alma işlemleri
+- **finance** - Mali işlemler
+- **warehouse** - Depo operasyonları
+- **employee** - Temel çalışan yetkileri
+
+*Tüm test kullanıcıları için şifre kullanıcı adı ile aynıdır.*
+
+#### Nasıl Çalıştırılır:
+```bash
+# 1. API'yi başlatın
+dotnet run --project MiniERP.API
+
+# 2. Windows Forms uygulamasını çalıştırın
+dotnet run --project MiniERP.WinForms
+```
+
+### 🌐 Web Uygulaması (MiniERP.Web)
+
+ASP.NET Core MVC ile geliştirilmiş responsive web uygulaması.
+
+### 🔧 API (MiniERP.API)
+
+.NET 8 Web API backend servisi
 
 ## Projenin 4 Aşaması
 

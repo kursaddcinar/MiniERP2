@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Html.AntiForgeryToken()
+
 @if (Model == null)
 {
     <div class="alert alert-warning">
@@ -201,15 +203,21 @@
                                         <i class="fas fa-arrow-left"></i> Geri
                                     </a>
                                     <div>
-                                        <button type="button" class="btn btn-success me-2" onclick="showStockInModal()">
-                                            <i class="fas fa-plus"></i> Stok Girişi
-                                        </button>
-                                        <button type="button" class="btn btn-danger me-2" onclick="showStockOutModal()">
-                                            <i class="fas fa-minus"></i> Stok Çıkışı
-                                        </button>
-                                        <a href="@Url.Action("Edit", new { id = Model.StockCardID })" class="btn btn-warning me-2">
-                                            <i class="fas fa-edit"></i> Düzenle
-                                        </a>
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Warehouse"))
+                                        {
+                                            <button type="button" class="btn btn-success me-2" onclick="showStockInModal()">
+                                                <i class="fas fa-plus"></i> Stok Girişi
+                                            </button>
+                                            <button type="button" class="btn btn-danger me-2" onclick="showStockOutModal()">
+                                                <i class="fas fa-minus"></i> Stok Çıkışı
+                                            </button>
+                                            <a href="@Url.Action("Edit", new { id = Model.StockCardID })" class="btn btn-warning me-2">
+                                                <i class="fas fa-edit"></i> Düzenle
+                                            </a>
+                                            <button type="button" class="btn btn-outline-danger me-2" onclick="confirmDelete(@Model.StockCardID)">
+                                                <i class="fas fa-trash"></i> Sil
+                                            </button>
+                                        }
                                         <button type="button" class="btn btn-info" onclick="showTransactionsModal()">
                                             <i class="fas fa-history"></i> Tüm Hareketler
                                         </button>
@@ -562,6 +570,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function confirmDelete(stockCardId) {
+    if (confirm('Bu stok kartını silmek istediğinizden emin misiniz?')) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '@Url.Action("Delete")';
+        
+        var idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'id';
+        idInput.value = stockCardId;
+        form.appendChild(idInput);
+        
+        // Get antiforgery token from the page
+        var token = document.querySelector('input[name="__RequestVerificationToken"]');
+        if (token) {
+            var tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token.value;
+            form.appendChild(tokenInput);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
 </script>
 
 <style>
@@ -572,4 +607,4 @@ document.addEventListener('DOMContentLoaded', function() {
 .badge {
     font-size: 0.9em;
 }
-</style> 
+</style>

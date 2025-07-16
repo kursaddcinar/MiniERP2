@@ -28,305 +28,467 @@ namespace MiniERP.WinForms.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.panelTop = new Panel();
-            this.lblUserInfo = new Label();
-            this.lblTitle = new Label();
-            this.panelSidebar = new Panel();
-            this.btnLogout = new Button();
-            this.btnSettings = new Button();
-            this.btnReports = new Button();
-            this.btnPurchases = new Button();
-            this.btnSales = new Button();
-            this.btnStock = new Button();
-            this.btnCariAccounts = new Button();
-            this.btnProducts = new Button();
-            this.panelMain = new Panel();
             this.lblWelcome = new Label();
-            this.statusStrip = new StatusStrip();
-            this.statusLabelDateTime = new ToolStripStatusLabel();
-            this.statusLabelUser = new ToolStripStatusLabel();
-            this.statusLabelApiStatus = new ToolStripStatusLabel();
-            this.timerStatusBar = new System.Windows.Forms.Timer(this.components);
+            this.lblDateTime = new Label();
+            this.btnProfile = new Button();
+            this.lblUserWelcome = new Label();
+            this.panelSidebar = new Panel();
+            this.btnDashboard = new Button();
+            this.btnCariHesaplar = new Button();
+            this.btnUrunler = new Button();
+            this.btnStokYonetimi = new Button();
+            this.btnSatisFaturaları = new Button();
+            this.btnAlisFaturalari = new Button();
+            this.btnOdemeler = new Button();
+            this.btnTahsilatlar = new Button();
+            this.btnRaporlar = new Button();
+            this.btnKullaniciYonetimi = new Button();
+            this.btnApiTest = new Button();
+            this.panelMain = new Panel();
+            this.panelDashboard = new Panel();
+            this.panelStats = new Panel();
+            this.panelQuickAccess = new Panel();
+            this.lblQuickAccess = new Label();
+            this.panelActivities = new Panel();
+            this.lblActivities = new Label();
+            this.panelSystemInfo = new Panel();
+            this.lblSystemInfo = new Label();
+            this.contextMenuProfile = new ContextMenuStrip();
+            this.toolStripMenuProfile = new ToolStripMenuItem();
+            this.toolStripMenuLogout = new ToolStripMenuItem();
             this.panelTop.SuspendLayout();
             this.panelSidebar.SuspendLayout();
             this.panelMain.SuspendLayout();
-            this.statusStrip.SuspendLayout();
+            this.panelDashboard.SuspendLayout();
+            this.contextMenuProfile.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = Color.FromArgb(0, 122, 255);
-            this.panelTop.Controls.Add(this.lblUserInfo);
-            this.panelTop.Controls.Add(this.lblTitle);
+            this.panelTop.BackColor = Color.FromArgb(37, 99, 235);
+            this.panelTop.Controls.Add(this.lblWelcome);
+            this.panelTop.Controls.Add(this.lblDateTime);
+            this.panelTop.Controls.Add(this.btnProfile);
+            this.panelTop.Controls.Add(this.lblUserWelcome);
             this.panelTop.Dock = DockStyle.Top;
             this.panelTop.Location = new Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new Size(1200, 80);
+            this.panelTop.Size = new Size(1200, 70);
             this.panelTop.TabIndex = 0;
-            // 
-            // lblUserInfo
-            // 
-            this.lblUserInfo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            this.lblUserInfo.AutoSize = true;
-            this.lblUserInfo.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            this.lblUserInfo.ForeColor = Color.White;
-            this.lblUserInfo.Location = new Point(1050, 50);
-            this.lblUserInfo.Name = "lblUserInfo";
-            this.lblUserInfo.Size = new Size(135, 19);
-            this.lblUserInfo.TabIndex = 1;
-            this.lblUserInfo.Text = "Hoş geldiniz: Kullanıcı";
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
-            this.lblTitle.ForeColor = Color.White;
-            this.lblTitle.Location = new Point(20, 20);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new Size(136, 45);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "MiniERP";
-            // 
-            // panelSidebar
-            // 
-            this.panelSidebar.BackColor = Color.FromArgb(52, 58, 64);
-            this.panelSidebar.Controls.Add(this.btnLogout);
-            this.panelSidebar.Controls.Add(this.btnSettings);
-            this.panelSidebar.Controls.Add(this.btnReports);
-            this.panelSidebar.Controls.Add(this.btnPurchases);
-            this.panelSidebar.Controls.Add(this.btnSales);
-            this.panelSidebar.Controls.Add(this.btnStock);
-            this.panelSidebar.Controls.Add(this.btnCariAccounts);
-            this.panelSidebar.Controls.Add(this.btnProducts);
-            this.panelSidebar.Dock = DockStyle.Left;
-            this.panelSidebar.Location = new Point(0, 80);
-            this.panelSidebar.Name = "panelSidebar";
-            this.panelSidebar.Size = new Size(200, 520);
-            this.panelSidebar.TabIndex = 1;
-            // 
-            // btnLogout
-            // 
-            this.btnLogout.BackColor = Color.FromArgb(220, 53, 69);
-            this.btnLogout.Dock = DockStyle.Bottom;
-            this.btnLogout.FlatAppearance.BorderSize = 0;
-            this.btnLogout.FlatStyle = FlatStyle.Flat;
-            this.btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            this.btnLogout.ForeColor = Color.White;
-            this.btnLogout.Location = new Point(0, 470);
-            this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new Size(200, 50);
-            this.btnLogout.TabIndex = 6;
-            this.btnLogout.Text = "Çıkış";
-            this.btnLogout.UseVisualStyleBackColor = false;
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnSettings.Dock = DockStyle.Top;
-            this.btnSettings.FlatAppearance.BorderSize = 0;
-            this.btnSettings.FlatStyle = FlatStyle.Flat;
-            this.btnSettings.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnSettings.ForeColor = Color.White;
-            this.btnSettings.Location = new Point(0, 250);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new Size(200, 50);
-            this.btnSettings.TabIndex = 5;
-            this.btnSettings.Text = "Ayarlar";
-            this.btnSettings.UseVisualStyleBackColor = false;
-            // 
-            // btnReports
-            // 
-            this.btnReports.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnReports.Dock = DockStyle.Top;
-            this.btnReports.FlatAppearance.BorderSize = 0;
-            this.btnReports.FlatStyle = FlatStyle.Flat;
-            this.btnReports.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnReports.ForeColor = Color.White;
-            this.btnReports.Location = new Point(0, 200);
-            this.btnReports.Name = "btnReports";
-            this.btnReports.Size = new Size(200, 50);
-            this.btnReports.TabIndex = 4;
-            this.btnReports.Text = "Raporlar";
-            this.btnReports.UseVisualStyleBackColor = false;
-            // 
-            // btnPurchases
-            // 
-            this.btnPurchases.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnPurchases.Dock = DockStyle.Top;
-            this.btnPurchases.FlatAppearance.BorderSize = 0;
-            this.btnPurchases.FlatStyle = FlatStyle.Flat;
-            this.btnPurchases.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnPurchases.ForeColor = Color.White;
-            this.btnPurchases.Location = new Point(0, 150);
-            this.btnPurchases.Name = "btnPurchases";
-            this.btnPurchases.Size = new Size(200, 50);
-            this.btnPurchases.TabIndex = 3;
-            this.btnPurchases.Text = "Satın Alma";
-            this.btnPurchases.UseVisualStyleBackColor = false;
-            // 
-            // btnSales
-            // 
-            this.btnSales.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnSales.Dock = DockStyle.Top;
-            this.btnSales.FlatAppearance.BorderSize = 0;
-            this.btnSales.FlatStyle = FlatStyle.Flat;
-            this.btnSales.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnSales.ForeColor = Color.White;
-            this.btnSales.Location = new Point(0, 100);
-            this.btnSales.Name = "btnSales";
-            this.btnSales.Size = new Size(200, 50);
-            this.btnSales.TabIndex = 2;
-            this.btnSales.Text = "Satış";
-            this.btnSales.UseVisualStyleBackColor = false;
-            // 
-            // btnStock
-            // 
-            this.btnStock.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnStock.Dock = DockStyle.Top;
-            this.btnStock.FlatAppearance.BorderSize = 0;
-            this.btnStock.FlatStyle = FlatStyle.Flat;
-            this.btnStock.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnStock.ForeColor = Color.White;
-            this.btnStock.Location = new Point(0, 50);
-            this.btnStock.Name = "btnStock";
-            this.btnStock.Size = new Size(200, 50);
-            this.btnStock.TabIndex = 1;
-            this.btnStock.Text = "Stok Yönetimi";
-            this.btnStock.UseVisualStyleBackColor = false;
-            // 
-            // btnCariAccounts
-            // 
-            this.btnCariAccounts.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnCariAccounts.Dock = DockStyle.Top;
-            this.btnCariAccounts.FlatAppearance.BorderSize = 0;
-            this.btnCariAccounts.FlatStyle = FlatStyle.Flat;
-            this.btnCariAccounts.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnCariAccounts.ForeColor = Color.White;
-            this.btnCariAccounts.Location = new Point(0, 50);
-            this.btnCariAccounts.Name = "btnCariAccounts";
-            this.btnCariAccounts.Size = new Size(200, 50);
-            this.btnCariAccounts.TabIndex = 7;
-            this.btnCariAccounts.Text = "Cari Hesaplar";
-            this.btnCariAccounts.UseVisualStyleBackColor = false;
-            // 
-            // btnProducts
-            // 
-            this.btnProducts.BackColor = Color.FromArgb(52, 58, 64);
-            this.btnProducts.Dock = DockStyle.Top;
-            this.btnProducts.FlatAppearance.BorderSize = 0;
-            this.btnProducts.FlatStyle = FlatStyle.Flat;
-            this.btnProducts.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.btnProducts.ForeColor = Color.White;
-            this.btnProducts.Location = new Point(0, 0);
-            this.btnProducts.Name = "btnProducts";
-            this.btnProducts.Size = new Size(200, 50);
-            this.btnProducts.TabIndex = 0;
-            this.btnProducts.Text = "Ürün Yönetimi";
-            this.btnProducts.UseVisualStyleBackColor = false;
-            // 
-            // panelMain
-            // 
-            this.panelMain.BackColor = Color.White;
-            this.panelMain.Controls.Add(this.lblWelcome);
-            this.panelMain.Dock = DockStyle.Fill;
-            this.panelMain.Location = new Point(200, 80);
-            this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new Size(1000, 520);
-            this.panelMain.TabIndex = 2;
             // 
             // lblWelcome
             // 
             this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            this.lblWelcome.ForeColor = Color.FromArgb(52, 58, 64);
-            this.lblWelcome.Location = new Point(50, 50);
+            this.lblWelcome.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            this.lblWelcome.ForeColor = Color.White;
+            this.lblWelcome.Location = new Point(250, 15);
             this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new Size(600, 32);
+            this.lblWelcome.Size = new Size(101, 32);
             this.lblWelcome.TabIndex = 0;
-            this.lblWelcome.Text = "MiniERP sistemine hoş geldiniz! Soldaki menüden işlemlerinizi seçin.";
+            this.lblWelcome.Text = "🏢 MiniERP";
             // 
-            // statusStrip
+            // lblDateTime
             // 
-            this.statusStrip.Items.AddRange(new ToolStripItem[] {
-                this.statusLabelDateTime,
-                this.statusLabelUser,
-                this.statusLabelApiStatus});
-            this.statusStrip.Location = new Point(0, 600);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new Size(1200, 22);
-            this.statusStrip.TabIndex = 3;
-            this.statusStrip.Text = "statusStrip1";
+            this.lblDateTime.AutoSize = true;
+            this.lblDateTime.Font = new Font("Segoe UI", 10F);
+            this.lblDateTime.ForeColor = Color.White;
+            this.lblDateTime.Location = new Point(250, 45);
+            this.lblDateTime.Name = "lblDateTime";
+            this.lblDateTime.Size = new Size(65, 19);
+            this.lblDateTime.TabIndex = 1;
+            this.lblDateTime.Text = "Tarih/Saat";
             // 
-            // statusLabelDateTime
+            // btnProfile
             // 
-            this.statusLabelDateTime.Name = "statusLabelDateTime";
-            this.statusLabelDateTime.Size = new Size(32, 17);
-            this.statusLabelDateTime.Text = "Tarih";
+            this.btnProfile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.btnProfile.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnProfile.FlatAppearance.BorderSize = 0;
+            this.btnProfile.FlatStyle = FlatStyle.Flat;
+            this.btnProfile.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            this.btnProfile.ForeColor = Color.White;
+            this.btnProfile.Location = new Point(1050, 20);
+            this.btnProfile.Name = "btnProfile";
+            this.btnProfile.Size = new Size(40, 30);
+            this.btnProfile.TabIndex = 2;
+            this.btnProfile.Text = "👤";
+            this.btnProfile.UseVisualStyleBackColor = false;
+            this.btnProfile.Click += this.BtnProfile_Click;
             // 
-            // statusLabelUser
+            // lblUserWelcome
             // 
-            this.statusLabelUser.Name = "statusLabelUser";
-            this.statusLabelUser.Size = new Size(48, 17);
-            this.statusLabelUser.Text = "Kullanıcı";
+            this.lblUserWelcome.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            this.lblUserWelcome.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            this.lblUserWelcome.ForeColor = Color.White;
+            this.lblUserWelcome.Location = new Point(800, 25);
+            this.lblUserWelcome.Name = "lblUserWelcome";
+            this.lblUserWelcome.Size = new Size(240, 20);
+            this.lblUserWelcome.TabIndex = 3;
+            this.lblUserWelcome.Text = "Hoş geldiniz, Kullanıcı";
+            this.lblUserWelcome.TextAlign = ContentAlignment.TopRight;
             // 
-            // statusLabelApiStatus
+            // panelSidebar
             // 
-            this.statusLabelApiStatus.Name = "statusLabelApiStatus";
-            this.statusLabelApiStatus.Size = new Size(69, 17);
-            this.statusLabelApiStatus.Text = "API Durumu";
+            this.panelSidebar.BackColor = Color.FromArgb(30, 58, 138);
+            this.panelSidebar.Controls.Add(this.btnDashboard);
+            this.panelSidebar.Controls.Add(this.btnCariHesaplar);
+            this.panelSidebar.Controls.Add(this.btnUrunler);
+            this.panelSidebar.Controls.Add(this.btnStokYonetimi);
+            this.panelSidebar.Controls.Add(this.btnSatisFaturaları);
+            this.panelSidebar.Controls.Add(this.btnAlisFaturalari);
+            this.panelSidebar.Controls.Add(this.btnOdemeler);
+            this.panelSidebar.Controls.Add(this.btnTahsilatlar);
+            this.panelSidebar.Controls.Add(this.btnRaporlar);
+            this.panelSidebar.Controls.Add(this.btnKullaniciYonetimi);
+            this.panelSidebar.Controls.Add(this.btnApiTest);
+            this.panelSidebar.Dock = DockStyle.Left;
+            this.panelSidebar.Location = new Point(0, 70);
+            this.panelSidebar.Name = "panelSidebar";
+            this.panelSidebar.Size = new Size(220, 630);
+            this.panelSidebar.TabIndex = 1;
             // 
-            // timerStatusBar
+            // btnDashboard
             // 
-            this.timerStatusBar.Enabled = true;
-            this.timerStatusBar.Interval = 1000;
-            this.timerStatusBar.Tick += new EventHandler(this.timerStatusBar_Tick);
+            this.btnDashboard.BackColor = Color.FromArgb(37, 99, 235);
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = FlatStyle.Flat;
+            this.btnDashboard.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            this.btnDashboard.ForeColor = Color.White;
+            this.btnDashboard.Location = new Point(10, 20);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new Size(200, 45);
+            this.btnDashboard.TabIndex = 0;
+            this.btnDashboard.Text = "📊 Dashboard";
+            this.btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnDashboard.UseVisualStyleBackColor = false;
+            this.btnDashboard.Click += this.BtnDashboard_Click;
+            // 
+            // btnCariHesaplar
+            // 
+            this.btnCariHesaplar.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnCariHesaplar.FlatAppearance.BorderSize = 0;
+            this.btnCariHesaplar.FlatStyle = FlatStyle.Flat;
+            this.btnCariHesaplar.Font = new Font("Segoe UI", 11F);
+            this.btnCariHesaplar.ForeColor = Color.White;
+            this.btnCariHesaplar.Location = new Point(10, 75);
+            this.btnCariHesaplar.Name = "btnCariHesaplar";
+            this.btnCariHesaplar.Size = new Size(200, 45);
+            this.btnCariHesaplar.TabIndex = 1;
+            this.btnCariHesaplar.Text = "👥 Cari Hesaplar";
+            this.btnCariHesaplar.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnCariHesaplar.UseVisualStyleBackColor = false;
+            this.btnCariHesaplar.Click += this.BtnCariHesaplar_Click;
+            // 
+            // btnUrunler
+            // 
+            this.btnUrunler.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnUrunler.FlatAppearance.BorderSize = 0;
+            this.btnUrunler.FlatStyle = FlatStyle.Flat;
+            this.btnUrunler.Font = new Font("Segoe UI", 11F);
+            this.btnUrunler.ForeColor = Color.White;
+            this.btnUrunler.Location = new Point(10, 130);
+            this.btnUrunler.Name = "btnUrunler";
+            this.btnUrunler.Size = new Size(200, 45);
+            this.btnUrunler.TabIndex = 2;
+            this.btnUrunler.Text = "📦 Ürünler";
+            this.btnUrunler.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnUrunler.UseVisualStyleBackColor = false;
+            this.btnUrunler.Click += this.BtnUrunler_Click;
+            // 
+            // btnStokYonetimi
+            // 
+            this.btnStokYonetimi.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnStokYonetimi.FlatAppearance.BorderSize = 0;
+            this.btnStokYonetimi.FlatStyle = FlatStyle.Flat;
+            this.btnStokYonetimi.Font = new Font("Segoe UI", 11F);
+            this.btnStokYonetimi.ForeColor = Color.White;
+            this.btnStokYonetimi.Location = new Point(10, 185);
+            this.btnStokYonetimi.Name = "btnStokYonetimi";
+            this.btnStokYonetimi.Size = new Size(200, 45);
+            this.btnStokYonetimi.TabIndex = 3;
+            this.btnStokYonetimi.Text = "📊 Stok Yönetimi";
+            this.btnStokYonetimi.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnStokYonetimi.UseVisualStyleBackColor = false;
+            this.btnStokYonetimi.Click += this.BtnStokYonetimi_Click;
+            // 
+            // btnSatisFaturaları
+            // 
+            this.btnSatisFaturaları.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnSatisFaturaları.FlatAppearance.BorderSize = 0;
+            this.btnSatisFaturaları.FlatStyle = FlatStyle.Flat;
+            this.btnSatisFaturaları.Font = new Font("Segoe UI", 11F);
+            this.btnSatisFaturaları.ForeColor = Color.White;
+            this.btnSatisFaturaları.Location = new Point(10, 240);
+            this.btnSatisFaturaları.Name = "btnSatisFaturaları";
+            this.btnSatisFaturaları.Size = new Size(200, 45);
+            this.btnSatisFaturaları.TabIndex = 4;
+            this.btnSatisFaturaları.Text = "🛒 Satış Faturaları";
+            this.btnSatisFaturaları.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnSatisFaturaları.UseVisualStyleBackColor = false;
+            this.btnSatisFaturaları.Click += this.BtnSatisFaturaları_Click;
+            // 
+            // btnAlisFaturalari
+            // 
+            this.btnAlisFaturalari.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnAlisFaturalari.FlatAppearance.BorderSize = 0;
+            this.btnAlisFaturalari.FlatStyle = FlatStyle.Flat;
+            this.btnAlisFaturalari.Font = new Font("Segoe UI", 11F);
+            this.btnAlisFaturalari.ForeColor = Color.White;
+            this.btnAlisFaturalari.Location = new Point(10, 295);
+            this.btnAlisFaturalari.Name = "btnAlisFaturalari";
+            this.btnAlisFaturalari.Size = new Size(200, 45);
+            this.btnAlisFaturalari.TabIndex = 5;
+            this.btnAlisFaturalari.Text = "🛍️ Alış Faturaları";
+            this.btnAlisFaturalari.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnAlisFaturalari.UseVisualStyleBackColor = false;
+            this.btnAlisFaturalari.Click += this.BtnAlisFaturalari_Click;
+            // 
+            // btnOdemeler
+            // 
+            this.btnOdemeler.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnOdemeler.FlatAppearance.BorderSize = 0;
+            this.btnOdemeler.FlatStyle = FlatStyle.Flat;
+            this.btnOdemeler.Font = new Font("Segoe UI", 11F);
+            this.btnOdemeler.ForeColor = Color.White;
+            this.btnOdemeler.Location = new Point(10, 350);
+            this.btnOdemeler.Name = "btnOdemeler";
+            this.btnOdemeler.Size = new Size(200, 45);
+            this.btnOdemeler.TabIndex = 6;
+            this.btnOdemeler.Text = "💳 Ödemeler";
+            this.btnOdemeler.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnOdemeler.UseVisualStyleBackColor = false;
+            this.btnOdemeler.Click += this.BtnOdemeler_Click;
+            // 
+            // btnTahsilatlar
+            // 
+            this.btnTahsilatlar.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnTahsilatlar.FlatAppearance.BorderSize = 0;
+            this.btnTahsilatlar.FlatStyle = FlatStyle.Flat;
+            this.btnTahsilatlar.Font = new Font("Segoe UI", 11F);
+            this.btnTahsilatlar.ForeColor = Color.White;
+            this.btnTahsilatlar.Location = new Point(10, 405);
+            this.btnTahsilatlar.Name = "btnTahsilatlar";
+            this.btnTahsilatlar.Size = new Size(200, 45);
+            this.btnTahsilatlar.TabIndex = 7;
+            this.btnTahsilatlar.Text = "💰 Tahsilatlar";
+            this.btnTahsilatlar.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnTahsilatlar.UseVisualStyleBackColor = false;
+            this.btnTahsilatlar.Click += this.BtnTahsilatlar_Click;
+            // 
+            // btnRaporlar
+            // 
+            this.btnRaporlar.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnRaporlar.FlatAppearance.BorderSize = 0;
+            this.btnRaporlar.FlatStyle = FlatStyle.Flat;
+            this.btnRaporlar.Font = new Font("Segoe UI", 11F);
+            this.btnRaporlar.ForeColor = Color.White;
+            this.btnRaporlar.Location = new Point(10, 460);
+            this.btnRaporlar.Name = "btnRaporlar";
+            this.btnRaporlar.Size = new Size(200, 45);
+            this.btnRaporlar.TabIndex = 8;
+            this.btnRaporlar.Text = "📈 Raporlar";
+            this.btnRaporlar.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnRaporlar.UseVisualStyleBackColor = false;
+            this.btnRaporlar.Click += this.BtnRaporlar_Click;
+            // 
+            // btnKullaniciYonetimi
+            // 
+            this.btnKullaniciYonetimi.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnKullaniciYonetimi.FlatAppearance.BorderSize = 0;
+            this.btnKullaniciYonetimi.FlatStyle = FlatStyle.Flat;
+            this.btnKullaniciYonetimi.Font = new Font("Segoe UI", 11F);
+            this.btnKullaniciYonetimi.ForeColor = Color.White;
+            this.btnKullaniciYonetimi.Location = new Point(10, 515);
+            this.btnKullaniciYonetimi.Name = "btnKullaniciYonetimi";
+            this.btnKullaniciYonetimi.Size = new Size(200, 45);
+            this.btnKullaniciYonetimi.TabIndex = 9;
+            this.btnKullaniciYonetimi.Text = "👤 Kullanıcı Yönetimi";
+            this.btnKullaniciYonetimi.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnKullaniciYonetimi.UseVisualStyleBackColor = false;
+            this.btnKullaniciYonetimi.Click += this.BtnKullaniciYonetimi_Click;
+            // 
+            // btnApiTest
+            // 
+            this.btnApiTest.BackColor = Color.FromArgb(59, 130, 246);
+            this.btnApiTest.FlatAppearance.BorderSize = 0;
+            this.btnApiTest.FlatStyle = FlatStyle.Flat;
+            this.btnApiTest.Font = new Font("Segoe UI", 11F);
+            this.btnApiTest.ForeColor = Color.White;
+            this.btnApiTest.Location = new Point(10, 570);
+            this.btnApiTest.Name = "btnApiTest";
+            this.btnApiTest.Size = new Size(200, 45);
+            this.btnApiTest.TabIndex = 10;
+            this.btnApiTest.Text = "🔧 API Test";
+            this.btnApiTest.TextAlign = ContentAlignment.MiddleLeft;
+            this.btnApiTest.UseVisualStyleBackColor = false;
+            this.btnApiTest.Click += this.BtnApiTest_Click;
+            // 
+            // panelMain
+            // 
+            this.panelMain.BackColor = Color.FromArgb(249, 250, 251);
+            this.panelMain.Controls.Add(this.panelDashboard);
+            this.panelMain.Dock = DockStyle.Fill;
+            this.panelMain.Location = new Point(220, 70);
+            this.panelMain.Name = "panelMain";
+            this.panelMain.Size = new Size(980, 630);
+            this.panelMain.TabIndex = 2;
+            // 
+            // panelDashboard
+            // 
+            this.panelDashboard.Controls.Add(this.panelStats);
+            this.panelDashboard.Controls.Add(this.panelQuickAccess);
+            this.panelDashboard.Controls.Add(this.lblQuickAccess);
+            this.panelDashboard.Controls.Add(this.panelActivities);
+            this.panelDashboard.Controls.Add(this.lblActivities);
+            this.panelDashboard.Controls.Add(this.panelSystemInfo);
+            this.panelDashboard.Controls.Add(this.lblSystemInfo);
+            this.panelDashboard.Dock = DockStyle.Fill;
+            this.panelDashboard.Location = new Point(0, 0);
+            this.panelDashboard.Name = "panelDashboard";
+            this.panelDashboard.Padding = new Padding(20);
+            this.panelDashboard.Size = new Size(980, 630);
+            this.panelDashboard.TabIndex = 0;
+            // 
+            // panelStats
+            // 
+            this.panelStats.BackColor = Color.White;
+            this.panelStats.Location = new Point(20, 20);
+            this.panelStats.Name = "panelStats";
+            this.panelStats.Size = new Size(940, 120);
+            this.panelStats.TabIndex = 0;
+            // 
+            // panelQuickAccess
+            // 
+            this.panelQuickAccess.BackColor = Color.White;
+            this.panelQuickAccess.Location = new Point(20, 180);
+            this.panelQuickAccess.Name = "panelQuickAccess";
+            this.panelQuickAccess.Size = new Size(460, 180);
+            this.panelQuickAccess.TabIndex = 1;
+            // 
+            // lblQuickAccess
+            // 
+            this.lblQuickAccess.AutoSize = true;
+            this.lblQuickAccess.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            this.lblQuickAccess.ForeColor = Color.FromArgb(55, 65, 81);
+            this.lblQuickAccess.Location = new Point(20, 150);
+            this.lblQuickAccess.Name = "lblQuickAccess";
+            this.lblQuickAccess.Size = new Size(118, 25);
+            this.lblQuickAccess.TabIndex = 2;
+            this.lblQuickAccess.Text = "Hızlı Erişim";
+            // 
+            // panelActivities
+            // 
+            this.panelActivities.BackColor = Color.White;
+            this.panelActivities.Location = new Point(500, 180);
+            this.panelActivities.Name = "panelActivities";
+            this.panelActivities.Size = new Size(460, 180);
+            this.panelActivities.TabIndex = 3;
+            // 
+            // lblActivities
+            // 
+            this.lblActivities.AutoSize = true;
+            this.lblActivities.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            this.lblActivities.ForeColor = Color.FromArgb(55, 65, 81);
+            this.lblActivities.Location = new Point(500, 150);
+            this.lblActivities.Name = "lblActivities";
+            this.lblActivities.Size = new Size(139, 25);
+            this.lblActivities.TabIndex = 4;
+            this.lblActivities.Text = "Son Aktiviteler";
+            // 
+            // panelSystemInfo
+            // 
+            this.panelSystemInfo.BackColor = Color.White;
+            this.panelSystemInfo.Location = new Point(20, 400);
+            this.panelSystemInfo.Name = "panelSystemInfo";
+            this.panelSystemInfo.Size = new Size(940, 210);
+            this.panelSystemInfo.TabIndex = 5;
+            // 
+            // lblSystemInfo
+            // 
+            this.lblSystemInfo.AutoSize = true;
+            this.lblSystemInfo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            this.lblSystemInfo.ForeColor = Color.FromArgb(55, 65, 81);
+            this.lblSystemInfo.Location = new Point(20, 370);
+            this.lblSystemInfo.Name = "lblSystemInfo";
+            this.lblSystemInfo.Size = new Size(123, 25);
+            this.lblSystemInfo.TabIndex = 6;
+            this.lblSystemInfo.Text = "Sistem Bilgisi";
+            // 
+            // contextMenuProfile
+            // 
+            this.contextMenuProfile.Items.AddRange(new ToolStripItem[] {
+            this.toolStripMenuProfile,
+            this.toolStripMenuLogout});
+            this.contextMenuProfile.Name = "contextMenuProfile";
+            this.contextMenuProfile.Size = new Size(104, 48);
+            // 
+            // toolStripMenuProfile
+            // 
+            this.toolStripMenuProfile.Name = "toolStripMenuProfile";
+            this.toolStripMenuProfile.Size = new Size(103, 22);
+            this.toolStripMenuProfile.Text = "Profil";
+            this.toolStripMenuProfile.Click += this.ToolStripMenuProfile_Click;
+            // 
+            // toolStripMenuLogout
+            // 
+            this.toolStripMenuLogout.Name = "toolStripMenuLogout";
+            this.toolStripMenuLogout.Size = new Size(103, 22);
+            this.toolStripMenuLogout.Text = "Çıkış";
+            this.toolStripMenuLogout.Click += this.ToolStripMenuLogout_Click;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(1200, 622);
+            this.ClientSize = new Size(1200, 700);
             this.Controls.Add(this.panelMain);
-            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.panelSidebar);
             this.Controls.Add(this.panelTop);
+            this.MinimumSize = new Size(1200, 700);
             this.Name = "MainForm";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "MiniERP - Ana Ekran";
             this.WindowState = FormWindowState.Maximized;
-            this.FormClosing += new FormClosingEventHandler(this.MainForm_FormClosing);
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             this.panelSidebar.ResumeLayout(false);
             this.panelMain.ResumeLayout(false);
-            this.panelMain.PerformLayout();
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
+            this.panelDashboard.ResumeLayout(false);
+            this.panelDashboard.PerformLayout();
+            this.contextMenuProfile.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
 
         #endregion
 
         private Panel panelTop;
-        private Label lblUserInfo;
-        private Label lblTitle;
-        private Panel panelSidebar;
-        private Button btnLogout;
-        private Button btnSettings;
-        private Button btnReports;
-        private Button btnPurchases;
-        private Button btnSales;
-        private Button btnStock;
-        private Button btnCariAccounts;
-        private Button btnProducts;
-        private Panel panelMain;
         private Label lblWelcome;
-        private StatusStrip statusStrip;
-        private ToolStripStatusLabel statusLabelDateTime;
-        private ToolStripStatusLabel statusLabelUser;
-        private ToolStripStatusLabel statusLabelApiStatus;
-        private System.Windows.Forms.Timer timerStatusBar;
+        private Label lblDateTime;
+        private Button btnProfile;
+        private Label lblUserWelcome;
+        private Panel panelSidebar;
+        private Button btnDashboard;
+        private Button btnCariHesaplar;
+        private Button btnUrunler;
+        private Button btnStokYonetimi;
+        private Button btnSatisFaturaları;
+        private Button btnAlisFaturalari;
+        private Button btnOdemeler;
+        private Button btnTahsilatlar;
+        private Button btnRaporlar;
+        private Button btnKullaniciYonetimi;
+        private Button btnApiTest;
+        private Panel panelMain;
+        private Panel panelDashboard;
+        private Panel panelStats;
+        private Panel panelQuickAccess;
+        private Label lblQuickAccess;
+        private Panel panelActivities;
+        private Label lblActivities;
+        private Panel panelSystemInfo;
+        private Label lblSystemInfo;
+        private ContextMenuStrip contextMenuProfile;
+        private ToolStripMenuItem toolStripMenuProfile;
+        private ToolStripMenuItem toolStripMenuLogout;
     }
-} 
+}

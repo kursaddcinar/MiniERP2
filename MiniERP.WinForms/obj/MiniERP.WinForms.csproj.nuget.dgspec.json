@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj": {}
+    "C:\\Users\\kursa\\source\\repos\\MİniERP2_form_siifirdan\\MiniERP.WinForms\\MiniERP.WinForms.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj": {
+    "C:\\Users\\kursa\\source\\repos\\MİniERP2_form_siifirdan\\MiniERP.WinForms\\MiniERP.WinForms.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
+        "projectUniqueName": "C:\\Users\\kursa\\source\\repos\\MİniERP2_form_siifirdan\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
         "projectName": "MiniERP.WinForms",
-        "projectPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
+        "projectPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2_form_siifirdan\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
         "packagesPath": "C:\\Users\\kursa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2\\MiniERP.WinForms\\obj\\",
+        "outputPath": "C:\\Users\\kursa\\source\\repos\\MİniERP2_form_siifirdan\\MiniERP.WinForms\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,15 +22,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net9.0-windows"
+          "net8.0-windows"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net9.0-windows7.0": {
-            "targetAlias": "net9.0-windows",
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
             "projectReferences": {}
           }
         },
@@ -47,12 +47,16 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net9.0-windows7.0": {
-          "targetAlias": "net9.0-windows",
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
           "dependencies": {
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.0.3, )"
             }
           },
           "imports": [

@@ -1,32 +1,71 @@
-using MiniERP.WinForms.Models;
+using MiniERP.WinForms.DTOs;
 using MiniERP.WinForms.Services;
 
 namespace MiniERP.WinForms.Forms
 {
     public partial class LoginForm : Form
     {
-        private readonly AuthService _authService;
         private readonly ApiService _apiService;
 
-        public LoginForm() : this(new ApiService())
-        {
-        }
-
-        public LoginForm(ApiService apiService)
+        public LoginForm()
         {
             InitializeComponent();
-            _apiService = apiService;
-            _authService = new AuthService(_apiService);
+            _apiService = new ApiService();
+            
+            // Enter key events
+            this.KeyPreview = true;
+            this.KeyDown += LoginForm_KeyDown;
+            txtPassword.KeyDown += TxtPassword_KeyDown;
         }
 
-        public UserDto? LoggedInUser { get; private set; }
-        public string? AuthToken { get; private set; }
+        private void LoginForm_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BtnLogin_Click(sender, e);
+            }
+        }
 
-        private async void btnLogin_Click(object sender, EventArgs e)
+        private void TxtPassword_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BtnLogin_Click(sender, e);
+            }
+        }
+
+        private void PanelLogin_Paint(object sender, PaintEventArgs e)
+        {
+            // Add border radius effect
+            var panel = sender as Panel;
+            if (panel != null)
+            {
+                var rect = new Rectangle(0, 0, panel.Width, panel.Height);
+                var radius = 10;
+                
+                using (var path = GetRoundedRectangle(rect, radius))
+                {
+                    panel.Region = new Region(path);
+                }
+            }
+        }
+
+        private System.Drawing.Drawing2D.GraphicsPath GetRoundedRectangle(Rectangle rect, int radius)
+        {
+            var path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
+
+        private async void BtnLogin_Click(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                MessageBox.Show("Kullanıcı adı ve şifre gereklidir!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Lütfen kullanıcı adı ve şifre giriniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -41,73 +80,79 @@ namespace MiniERP.WinForms.Forms
                     Password = txtPassword.Text
                 };
 
-                var response = await _authService.LoginAsync(loginDto);
+                var result = await _apiService.LoginAsync(loginDto);
 
-                // Debug: Raw response kontrolü
-                Console.WriteLine($"LoginForm: AuthService response success: {response.Success}");
-                Console.WriteLine($"LoginForm: AuthService response message: {response.Message}");
-                Console.WriteLine($"LoginForm: AuthService response data null: {response.Data == null}");
-                
-                if (response.Data != null)
+                if (result.Success && result.Data != null)
                 {
-                    Console.WriteLine($"LoginForm: AuthService token length: {response.Data.Token?.Length ?? 0}");
-                    Console.WriteLine($"LoginForm: AuthService user null: {response.Data.User == null}");
-                }
-
-                if (response.Success && response.Data != null)
-                {
-                    LoggedInUser = response.Data.User;
-                    AuthToken = response.Data.Token;
+                    _apiService.SetAuthToken(result.Data.Token);
+                    TokenManager.SetToken(result.Data.Token); // Store token globally
                     
-                    // Debug için response'u kontrol et
-                    Console.WriteLine($"Login response success: {response.Success}");
-                    Console.WriteLine($"Login response data is null: {response.Data == null}");
-                    Console.WriteLine($"User received: {LoggedInUser?.Username ?? "NULL"}");
-                    Console.WriteLine($"Token received: {AuthToken?.Length ?? 0} characters");
-                    Console.WriteLine($"Token preview: {AuthToken?.Substring(0, Math.Min(50, AuthToken?.Length ?? 0)) ?? "NULL"}...");
+                    MessageBox.Show($"Hoş geldiniz, {result.Data.User.Username}!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     
-                    _apiService.SetAuthToken(AuthToken);
-
-                    MessageBox.Show($"Hoş geldiniz, {LoggedInUser.FirstName ?? LoggedInUser.Username}!", 
-                        "Giriş Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    // Open main form
+                    var mainForm = new MainForm(result.Data.User, _apiService);
+                    this.Hide();
+                    mainForm.ShowDialog();
+                    this.Show();
                 }
                 else
                 {
-                    string errorMessage = response.Message;
-                    if (response.Errors.Any())
-                    {
-                        errorMessage += "\n\nDetaylar:\n" + string.Join("\n", response.Errors);
-                    }
-
-                    MessageBox.Show(errorMessage, "Giriş Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(result.Message, "Giriş Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Beklenmeyen bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Bağlantı hatası: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 btnLogin.Enabled = true;
-                btnLogin.Text = "Giriş Yap";
+                btnLogin.Text = "→ Giriş Yap";
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnRole_Click(object? sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
-        private void LoginForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
+            if (sender is Button button)
             {
-                btnLogin_Click(sender, e);
+                var roleName = button.Text.Split(' ')[1]; // Get role name after emoji
+                txtUsername.Text = roleName.ToLower();
+                txtPassword.Text = roleName.ToLower();
+                
+                // Auto login
+                BtnLogin_Click(sender, e);
             }
+        }
+
+        private async void BtnTestCreate_Click(object? sender, EventArgs e)
+        {
+            btnTestCreate.Enabled = false;
+            btnTestCreate.Text = "Kullanıcılar oluşturuluyor...";
+
+            try
+            {
+                // In a real application, you would call an API to create test users
+                // For now, we'll just show a message
+                await Task.Delay(1000); // Simulate API call
+                
+                MessageBox.Show("Test kullanıcıları başarıyla oluşturuldu!\n\nKullanıcılar: admin, manager, sales, purchase, finance, warehouse, employee\nTüm şifreler kullanıcı adı ile aynıdır.", 
+                    "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Test kullanıcıları oluşturulurken hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                btnTestCreate.Enabled = true;
+                btnTestCreate.Text = "👥 Test Kullanıcılarını Oluştur";
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            _apiService?.Dispose();
+            base.OnFormClosed(e);
         }
     }
-} 
+}

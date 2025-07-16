@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{52A57BE3-0668-4CC5-BE29-12A302A862A7}|MiniERP.WinForms\\MiniERP.WinForms.csproj|solutionrelative:minierp.winforms\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{52A57BE3-0668-4CC5-BE29-12A302A862A7}|MiniERP.WinForms\\MiniERP.WinForms.csproj|c:\\users\\kursa\\source\\repos\\m\u0130nierp2\\minierp.winforms\\minierp.winforms.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{52A57BE3-0668-4CC5-BE29-12A302A862A7}|MiniERP.WinForms\\MiniERP.WinForms.csproj|solutionrelative:minierp.winforms\\minierp.winforms.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F6691B59-717E-40DE-B237-97F7C944DBFD}|MiniERP.API\\MiniERP.API.csproj|c:\\users\\kursa\\source\\repos\\m\u0130nierp2\\minierp.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F6691B59-717E-40DE-B237-97F7C944DBFD}|MiniERP.API\\MiniERP.API.csproj|solutionrelative:minierp.api\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,11 +26,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MiniERP.WinForms",
+              "DocumentMoniker": "C:\\Users\\kursa\\source\\repos\\M\u0130niERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
+              "RelativeDocumentMoniker": "MiniERP.WinForms\\MiniERP.WinForms.csproj",
+              "ToolTip": "C:\\Users\\kursa\\source\\repos\\M\u0130niERP2\\MiniERP.WinForms\\MiniERP.WinForms.csproj",
+              "RelativeToolTip": "MiniERP.WinForms\\MiniERP.WinForms.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-15T21:31:37.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "AuthService.cs",
               "DocumentMoniker": "C:\\Users\\kursa\\source\\repos\\M\u0130niERP2\\MiniERP.API\\Services\\AuthService.cs",
               "RelativeDocumentMoniker": "MiniERP.API\\Services\\AuthService.cs",
@@ -44,14 +61,14 @@
               "RelativeDocumentMoniker": "MiniERP.WinForms\\Program.cs",
               "ToolTip": "C:\\Users\\kursa\\source\\repos\\M\u0130niERP2\\MiniERP.WinForms\\Program.cs",
               "RelativeToolTip": "MiniERP.WinForms\\Program.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAA1wBUAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-04T16:59:41.596Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "MiniERP.API.csproj",
               "DocumentMoniker": "C:\\Users\\kursa\\source\\repos\\M\u0130niERP2\\MiniERP.API\\MiniERP.API.csproj",
               "RelativeDocumentMoniker": "MiniERP.API\\MiniERP.API.csproj",
@@ -59,7 +76,8 @@
               "RelativeToolTip": "MiniERP.API\\MiniERP.API.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-07-04T14:41:46.589Z"
+              "WhenOpened": "2025-07-04T14:41:46.589Z",
+              "EditorCaption": ""
             }
           ]
         }

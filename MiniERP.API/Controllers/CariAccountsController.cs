@@ -82,7 +82,7 @@ namespace MiniERP.API.Controllers
         /// Create a new cari account
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<CariAccountDto>>> CreateCariAccount([FromBody] CreateCariAccountDto createCariAccountDto)
         {
             if (!ModelState.IsValid)
@@ -104,7 +104,7 @@ namespace MiniERP.API.Controllers
         /// Update an existing cari account
         /// </summary>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<CariAccountDto>>> UpdateCariAccount(int id, [FromBody] UpdateCariAccountDto updateCariAccountDto)
         {
             if (!ModelState.IsValid)
@@ -126,7 +126,7 @@ namespace MiniERP.API.Controllers
         /// Delete a cari account
         /// </summary>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<bool>>> DeleteCariAccount(int id)
         {
             var result = await _cariAccountService.DeleteCariAccountAsync(id);

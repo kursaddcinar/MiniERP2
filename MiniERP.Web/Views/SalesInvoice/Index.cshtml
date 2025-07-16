@@ -193,15 +193,18 @@
                                                     <a href="@Url.Action("Details", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-primary">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
-                                                    @if (invoice.Status == "DRAFT")
+                                                    @if (invoice.Status == "DRAFT" && (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales")))
                                                     {
                                                         <a href="@Url.Action("Edit", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-warning">
                                                             <i class="fas fa-edit"></i>
                                                         </a>
                                                     }
-                                                    <a href="@Url.Action("Delete", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-danger">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
+                                                    @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales"))
+                                                    {
+                                                        <a href="@Url.Action("Delete", new { id = invoice.InvoiceID })" class="btn btn-sm btn-outline-danger">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    }
                                                 </div>
                                             </td>
                                         </tr>

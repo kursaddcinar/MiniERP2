@@ -1,0 +1,4 @@
+2025-07-16 00:31:48.032 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/swagger - null null
+2025-07-16 00:31:48.042 +03:00 [INF] HTTP GET /swagger responded 404 in 0.3134 ms
+2025-07-16 00:31:48.051 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/swagger - 404 0 null 19.3992ms
+2025-07-16 00:31:48.070 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5135/swagger, Response status code: 404

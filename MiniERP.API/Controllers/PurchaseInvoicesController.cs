@@ -117,7 +117,7 @@ namespace MiniERP.API.Controllers
         /// Alış faturasını siler
         /// </summary>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager,Purchase")]
         public async Task<ActionResult<ApiResponse<bool>>> DeleteInvoice(int id)
         {
             var result = await _purchaseInvoiceService.DeleteInvoiceAsync(id);
