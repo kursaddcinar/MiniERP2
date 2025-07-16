@@ -409,7 +409,16 @@ namespace MiniERP.WinForms.Forms
 
         private void BtnUrunler_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Ürünler modülü açılacak", "Ürünler", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                var urunlerForm = new UrunlerForm(_currentUser, _apiService);
+                urunlerForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ürünler formu açılırken hata oluştu: {ex.Message}", "Hata", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnStokYonetimi_Click(object? sender, EventArgs e)

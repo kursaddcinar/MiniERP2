@@ -16,7 +16,7 @@ namespace MiniERP.WinForms.Services
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
             };
             _httpClient = new HttpClient(handler);
-            _baseUrl = "http://localhost:5136"; // API base URL - Match currently running API port
+            _baseUrl = "http://localhost:5135"; // API base URL - Match currently running API port
         }
 
         public async Task<ApiResponse<LoginResponseDto>> LoginAsync(LoginDto loginDto)

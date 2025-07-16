@@ -1645,3 +1645,603 @@ ORDER BY [u1].[UserID], [s].[UserRoleID]
 2025-07-16 06:38:17.801 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
 2025-07-16 06:38:17.803 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 28.5041 ms
 2025-07-16 06:38:17.807 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5136/api/auth/login - 200 null application/json; charset=utf-8 39.6874ms
+2025-07-16 14:37:14.248 +03:00 [INF] Starting MiniERP API
+2025-07-16 14:37:14.304 +03:00 [INF] User profile is available. Using 'C:\Users\kursa\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-16 14:37:14.420 +03:00 [INF] Now listening on: http://localhost:5135
+2025-07-16 14:37:14.425 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-16 14:37:14.426 +03:00 [INF] Hosting environment: Development
+2025-07-16 14:37:14.428 +03:00 [INF] Content root path: C:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API
+2025-07-16 14:37:34.864 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5135/api/Auth/login - application/json; charset=utf-8 39
+2025-07-16 14:37:34.912 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-16 14:37:34.936 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-16 14:37:34.956 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.LoginResponseDto]]] Login(MiniERP.API.DTOs.LoginDto) on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-16 14:37:36.319 +03:00 [INF] Executed DbCommand (40ms) [Parameters=[@__username_0='?' (Size = 50)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[Username] = @__username_0 AND [u].[IsActive] = CAST(1 AS bit)
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-16 14:37:36.449 +03:00 [INF] User admin logged in successfully
+2025-07-16 14:37:36.456 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.LoginResponseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:36.488 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.Login (MiniERP.API) in 1525.5252ms
+2025-07-16 14:37:36.492 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-16 14:37:36.497 +03:00 [INF] HTTP POST /api/Auth/login responded 200 in 1586.0541 ms
+2025-07-16 14:37:36.508 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5135/api/Auth/login - 200 null application/json; charset=utf-8 1645.5732ms
+2025-07-16 14:37:36.560 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Auth/me - null null
+2025-07-16 14:37:36.620 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API)'
+2025-07-16 14:37:36.627 +03:00 [INF] Route matched with {action = "GetCurrentUser", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.UserDto]]] GetCurrentUser() on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-16 14:37:36.699 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[UserID] = @__userId_0
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-16 14:37:36.706 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.UserDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:36.711 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API) in 79.6698ms
+2025-07-16 14:37:36.715 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.GetCurrentUser (MiniERP.API)'
+2025-07-16 14:37:36.717 +03:00 [INF] HTTP GET /api/Auth/me responded 200 in 144.6645 ms
+2025-07-16 14:37:36.720 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Auth/me - 200 null application/json; charset=utf-8 159.9746ms
+2025-07-16 14:37:36.750 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1 - null null
+2025-07-16 14:37:36.761 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:37:36.769 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 14:37:36.816 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 14:37:36.881 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:36.897 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 124.0858ms
+2025-07-16 14:37:36.901 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:37:36.902 +03:00 [INF] HTTP GET /api/Products responded 200 in 144.6167 ms
+2025-07-16 14:37:36.904 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 154.1502ms
+2025-07-16 14:37:36.921 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products/low-stock - null null
+2025-07-16 14:37:36.928 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API)'
+2025-07-16 14:37:36.933 +03:00 [INF] Route matched with {action = "GetLowStockProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductDto]]]] GetLowStockProducts() on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 14:37:36.992 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [s0].[StockCardID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[CurrentStock], [s0].[LastTransactionDate], [s0].[ProductID], [s0].[ReservedStock], [s0].[WarehouseID]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+LEFT JOIN [StockCards] AS [s0] ON [p].[ProductID] = [s0].[ProductID]
+WHERE [p].[IsActive] = CAST(1 AS bit) AND (
+    SELECT COALESCE(SUM([s].[CurrentStock]), 0.0)
+    FROM [StockCards] AS [s]
+    WHERE [p].[ProductID] = [s].[ProductID]) <= [p].[MinStockLevel]
+ORDER BY [p].[ProductID], [p0].[CategoryID], [u].[UnitID]
+2025-07-16 14:37:37.015 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:37.020 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API) in 83.5841ms
+2025-07-16 14:37:37.023 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetLowStockProducts (MiniERP.API)'
+2025-07-16 14:37:37.024 +03:00 [INF] HTTP GET /api/Products/low-stock responded 200 in 97.9549 ms
+2025-07-16 14:37:37.027 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products/low-stock - 200 null application/json; charset=utf-8 105.3539ms
+2025-07-16 14:37:37.033 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageNumber=1&pageSize=1 - null null
+2025-07-16 14:37:37.039 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 14:37:37.044 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 14:37:37.074 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-16 14:37:37.127 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:37.137 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 88.2142ms
+2025-07-16 14:37:37.141 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 14:37:37.143 +03:00 [INF] HTTP GET /api/CariAccounts responded 200 in 104.5557 ms
+2025-07-16 14:37:37.145 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 111.7769ms
+2025-07-16 14:37:37.157 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts/customers - null null
+2025-07-16 14:37:37.162 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCustomers (MiniERP.API)'
+2025-07-16 14:37:37.167 +03:00 [INF] Route matched with {action = "GetCustomers", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCustomers() on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 14:37:37.192 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c0].[TypeCode] IN (N'MUSTERI', N'HERSIKI')
+2025-07-16 14:37:37.198 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:37.202 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCustomers (MiniERP.API) in 30.2839ms
+2025-07-16 14:37:37.204 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCustomers (MiniERP.API)'
+2025-07-16 14:37:37.206 +03:00 [INF] HTTP GET /api/CariAccounts/customers responded 200 in 44.5421 ms
+2025-07-16 14:37:37.210 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts/customers - 200 null application/json; charset=utf-8 52.8199ms
+2025-07-16 14:37:37.215 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts/suppliers - null null
+2025-07-16 14:37:37.221 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetSuppliers (MiniERP.API)'
+2025-07-16 14:37:37.225 +03:00 [INF] Route matched with {action = "GetSuppliers", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.CariAccountDto]]]] GetSuppliers() on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 14:37:37.245 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit) AND [c0].[TypeCode] IN (N'TEDARIKCI', N'HERSIKI')
+2025-07-16 14:37:37.251 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:37.253 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetSuppliers (MiniERP.API) in 24.0335ms
+2025-07-16 14:37:37.255 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetSuppliers (MiniERP.API)'
+2025-07-16 14:37:37.256 +03:00 [INF] HTTP GET /api/CariAccounts/suppliers responded 200 in 36.0493 ms
+2025-07-16 14:37:37.259 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts/suppliers - 200 null application/json; charset=utf-8 43.9908ms
+2025-07-16 14:37:37.264 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/SalesInvoices?pageNumber=1&pageSize=1 - null null
+2025-07-16 14:37:37.267 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.SalesInvoicesController.GetInvoices (MiniERP.API)'
+2025-07-16 14:37:37.275 +03:00 [INF] Route matched with {action = "GetInvoices", controller = "SalesInvoices"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.SalesInvoiceDto]]]] GetInvoices(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.SalesInvoicesController (MiniERP.API).
+2025-07-16 14:37:37.297 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [SalesInvoices] AS [s]
+2025-07-16 14:37:37.326 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[InvoiceID], [s0].[CariID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[Description], [s0].[DueDate], [s0].[InvoiceDate], [s0].[InvoiceNo], [s0].[Status], [s0].[SubTotal], [s0].[Total], [s0].[VatAmount], [s0].[WarehouseID], [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [s].[InvoiceID], [s].[CariID], [s].[CreatedBy], [s].[CreatedDate], [s].[Description], [s].[DueDate], [s].[InvoiceDate], [s].[InvoiceNo], [s].[Status], [s].[SubTotal], [s].[Total], [s].[VatAmount], [s].[WarehouseID]
+    FROM [SalesInvoices] AS [s]
+    ORDER BY [s].[InvoiceDate] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+INNER JOIN [CariAccounts] AS [c] ON [s0].[CariID] = [c].[CariID]
+INNER JOIN [Warehouses] AS [w] ON [s0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [s0].[InvoiceDate] DESC
+2025-07-16 14:37:37.374 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.SalesInvoiceDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:37.385 +03:00 [INF] Executed action MiniERP.API.Controllers.SalesInvoicesController.GetInvoices (MiniERP.API) in 107.5896ms
+2025-07-16 14:37:37.389 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.SalesInvoicesController.GetInvoices (MiniERP.API)'
+2025-07-16 14:37:37.390 +03:00 [INF] HTTP GET /api/SalesInvoices responded 200 in 123.1688 ms
+2025-07-16 14:37:37.394 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/SalesInvoices?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 129.6562ms
+2025-07-16 14:37:37.405 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/PurchaseInvoices?pageNumber=1&pageSize=1 - null null
+2025-07-16 14:37:37.410 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.PurchaseInvoicesController.GetInvoices (MiniERP.API)'
+2025-07-16 14:37:37.415 +03:00 [INF] Route matched with {action = "GetInvoices", controller = "PurchaseInvoices"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.PurchaseInvoiceDto]]]] GetInvoices(MiniERP.API.DTOs.PaginationParameters) on controller MiniERP.API.Controllers.PurchaseInvoicesController (MiniERP.API).
+2025-07-16 14:37:37.429 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [PurchaseInvoices] AS [p]
+2025-07-16 14:37:37.460 +03:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [p0].[InvoiceID], [p0].[CariID], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[DueDate], [p0].[InvoiceDate], [p0].[InvoiceNo], [p0].[Status], [p0].[SubTotal], [p0].[Total], [p0].[VatAmount], [p0].[WarehouseID], [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM (
+    SELECT [p].[InvoiceID], [p].[CariID], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[DueDate], [p].[InvoiceDate], [p].[InvoiceNo], [p].[Status], [p].[SubTotal], [p].[Total], [p].[VatAmount], [p].[WarehouseID]
+    FROM [PurchaseInvoices] AS [p]
+    ORDER BY [p].[InvoiceDate] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [p0]
+INNER JOIN [CariAccounts] AS [c] ON [p0].[CariID] = [c].[CariID]
+INNER JOIN [Warehouses] AS [w] ON [p0].[WarehouseID] = [w].[WarehouseID]
+ORDER BY [p0].[InvoiceDate] DESC
+2025-07-16 14:37:37.499 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.PurchaseInvoiceDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:37.507 +03:00 [INF] Executed action MiniERP.API.Controllers.PurchaseInvoicesController.GetInvoices (MiniERP.API) in 88.346ms
+2025-07-16 14:37:37.510 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.PurchaseInvoicesController.GetInvoices (MiniERP.API)'
+2025-07-16 14:37:37.512 +03:00 [INF] HTTP GET /api/PurchaseInvoices responded 200 in 101.8154 ms
+2025-07-16 14:37:37.515 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/PurchaseInvoices?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 110.4632ms
+2025-07-16 14:37:37.526 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/critical - null null
+2025-07-16 14:37:37.531 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API)'
+2025-07-16 14:37:37.535 +03:00 [INF] Route matched with {action = "GetCriticalStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.StockCardDto]]]] GetCriticalStockCards() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-16 14:37:37.561 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[CurrentStock] <= [p].[MinStockLevel] AND [p].[MinStockLevel] > 0.0
+2025-07-16 14:37:37.573 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:37.580 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API) in 41.0895ms
+2025-07-16 14:37:37.583 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetCriticalStockCards (MiniERP.API)'
+2025-07-16 14:37:37.584 +03:00 [INF] HTTP GET /api/Stock/cards/critical responded 200 in 53.1648 ms
+2025-07-16 14:37:37.587 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/critical - 200 null application/json; charset=utf-8 60.1475ms
+2025-07-16 14:37:37.596 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Stock/cards/out-of-stock - null null
+2025-07-16 14:37:37.604 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API)'
+2025-07-16 14:37:37.608 +03:00 [INF] Route matched with {action = "GetOutOfStockCards", controller = "Stock"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.StockCardDto]]]] GetOutOfStockCards() on controller MiniERP.API.Controllers.StockController (MiniERP.API).
+2025-07-16 14:37:37.633 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName], [w].[WarehouseID], [w].[Address], [w].[City], [w].[CreatedBy], [w].[CreatedDate], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+FROM [StockCards] AS [s]
+INNER JOIN [Products] AS [p] ON [s].[ProductID] = [p].[ProductID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+WHERE [s].[CurrentStock] <= 0.0
+2025-07-16 14:37:37.639 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.StockCardDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:37.641 +03:00 [INF] Executed action MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API) in 29.3625ms
+2025-07-16 14:37:37.644 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.StockController.GetOutOfStockCards (MiniERP.API)'
+2025-07-16 14:37:37.646 +03:00 [INF] HTTP GET /api/Stock/cards/out-of-stock responded 200 in 42.2641 ms
+2025-07-16 14:37:37.649 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Stock/cards/out-of-stock - 200 null application/json; charset=utf-8 52.7024ms
+2025-07-16 14:37:40.350 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - null null
+2025-07-16 14:37:40.357 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:37:40.359 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 14:37:40.368 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 14:37:40.375 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:37:40.378 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 16.3953ms
+2025-07-16 14:37:40.382 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:37:40.384 +03:00 [INF] HTTP GET /api/Products responded 200 in 27.1960 ms
+2025-07-16 14:37:40.386 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 35.7815ms
+2025-07-16 14:37:40.392 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 14:37:40.396 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:37:40.401 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 14:37:40.416 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 14:37:40.424 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:37:40.431 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 27.0301ms
+2025-07-16 14:37:40.435 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:37:40.437 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 41.2686 ms
+2025-07-16 14:37:40.440 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 47.9044ms
+2025-07-16 14:59:15.666 +03:00 [INF] Request starting HTTP/1.1 POST http://localhost:5135/api/auth/login - application/json; charset=utf-8 39
+2025-07-16 14:59:15.670 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-16 14:59:15.671 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.LoginResponseDto]]] Login(MiniERP.API.DTOs.LoginDto) on controller MiniERP.API.Controllers.AuthController (MiniERP.API).
+2025-07-16 14:59:15.694 +03:00 [INF] Executed DbCommand (12ms) [Parameters=[@__username_0='?' (Size = 50)], CommandType='"Text"', CommandTimeout='30']
+SELECT [u1].[UserID], [u1].[CreatedBy], [u1].[CreatedDate], [u1].[Email], [u1].[FirstName], [u1].[IsActive], [u1].[LastName], [u1].[Password], [u1].[Username], [s].[UserRoleID], [s].[CreatedDate], [s].[RoleID], [s].[UserID], [s].[RoleID0], [s].[CreatedBy], [s].[CreatedDate0], [s].[Description], [s].[IsActive], [s].[RoleName]
+FROM (
+    SELECT TOP(1) [u].[UserID], [u].[CreatedBy], [u].[CreatedDate], [u].[Email], [u].[FirstName], [u].[IsActive], [u].[LastName], [u].[Password], [u].[Username]
+    FROM [Users] AS [u]
+    WHERE [u].[Username] = @__username_0 AND [u].[IsActive] = CAST(1 AS bit)
+) AS [u1]
+LEFT JOIN (
+    SELECT [u0].[UserRoleID], [u0].[CreatedDate], [u0].[RoleID], [u0].[UserID], [r].[RoleID] AS [RoleID0], [r].[CreatedBy], [r].[CreatedDate] AS [CreatedDate0], [r].[Description], [r].[IsActive], [r].[RoleName]
+    FROM [UserRoles] AS [u0]
+    INNER JOIN [Roles] AS [r] ON [u0].[RoleID] = [r].[RoleID]
+) AS [s] ON [u1].[UserID] = [s].[UserID]
+ORDER BY [u1].[UserID], [s].[UserRoleID]
+2025-07-16 14:59:15.700 +03:00 [INF] User admin logged in successfully
+2025-07-16 14:59:15.702 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.LoginResponseDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:59:15.704 +03:00 [INF] Executed action MiniERP.API.Controllers.AuthController.Login (MiniERP.API) in 31.299ms
+2025-07-16 14:59:15.706 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.AuthController.Login (MiniERP.API)'
+2025-07-16 14:59:15.708 +03:00 [INF] HTTP POST /api/auth/login responded 200 in 38.0135 ms
+2025-07-16 14:59:15.710 +03:00 [INF] Request finished HTTP/1.1 POST http://localhost:5135/api/auth/login - 200 null application/json; charset=utf-8 44.2009ms
+2025-07-16 14:59:18.614 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/products?pageSize=10&pageNumber=1 - null null
+2025-07-16 14:59:18.618 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 14:59:18.621 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:59:18.626 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:18.627 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 14:59:18.629 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 14:59:18.639 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 14:59:18.643 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 14:59:18.646 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:59:18.648 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:18.651 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 18.4704ms
+2025-07-16 14:59:18.653 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 16.616ms
+2025-07-16 14:59:18.655 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:59:18.657 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:18.658 +03:00 [INF] HTTP GET /api/products responded 200 in 37.8617 ms
+2025-07-16 14:59:18.660 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 34.5366 ms
+2025-07-16 14:59:18.662 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/products?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 48.0658ms
+2025-07-16 14:59:18.665 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 46.8643ms
+2025-07-16 14:59:18.708 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/products?pageSize=10&pageNumber=1 - null null
+2025-07-16 14:59:18.714 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:59:18.715 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 14:59:18.720 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 14:59:18.727 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 14:59:18.730 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 11.8695ms
+2025-07-16 14:59:18.732 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 14:59:18.734 +03:00 [INF] HTTP GET /api/products responded 200 in 21.0195 ms
+2025-07-16 14:59:18.737 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/products?pageSize=10&pageNumber=1 - 200 null application/json; charset=utf-8 29.443ms
+2025-07-16 14:59:29.466 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 14:59:29.472 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:29.474 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 14:59:29.478 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 14:59:29.481 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:29.483 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 6.4755ms
+2025-07-16 14:59:29.485 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:29.486 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 14.4914 ms
+2025-07-16 14:59:29.489 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 22.7356ms
+2025-07-16 14:59:29.493 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - null null
+2025-07-16 14:59:29.498 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:29.502 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 14:59:29.513 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 14:59:29.522 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:29.529 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 24.0536ms
+2025-07-16 14:59:29.532 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:29.534 +03:00 [INF] HTTP GET /api/Unit responded 200 in 36.3675 ms
+2025-07-16 14:59:29.537 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - 200 null application/json; charset=utf-8 43.6139ms
+2025-07-16 14:59:47.941 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 14:59:47.941 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit - null null
+2025-07-16 14:59:47.950 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:47.954 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:47.956 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 14:59:47.958 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 14:59:47.964 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 14:59:47.967 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 14:59:47.969 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:47.972 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:47.974 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 12.2314ms
+2025-07-16 14:59:47.976 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 10.8897ms
+2025-07-16 14:59:47.978 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:47.980 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:47.981 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 31.4363 ms
+2025-07-16 14:59:47.982 +03:00 [INF] HTTP GET /api/Unit responded 200 in 28.4596 ms
+2025-07-16 14:59:47.985 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 44.2975ms
+2025-07-16 14:59:47.987 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit - 200 null application/json; charset=utf-8 45.9784ms
+2025-07-16 14:59:49.678 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 14:59:49.685 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:49.686 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 14:59:49.690 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 14:59:49.694 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:49.696 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 7.4512ms
+2025-07-16 14:59:49.698 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 14:59:49.699 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 14.9066 ms
+2025-07-16 14:59:49.702 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 23.2093ms
+2025-07-16 14:59:49.706 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - null null
+2025-07-16 14:59:49.711 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:49.712 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 14:59:49.717 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 14:59:49.720 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 14:59:49.722 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 7.1501ms
+2025-07-16 14:59:49.724 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 14:59:49.725 +03:00 [INF] HTTP GET /api/Unit responded 200 in 15.2273 ms
+2025-07-16 14:59:49.728 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - 200 null application/json; charset=utf-8 21.3911ms
+2025-07-16 15:00:03.178 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 15:00:03.184 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:03.186 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:00:03.193 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:00:03.196 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:00:03.199 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 9.3636ms
+2025-07-16 15:00:03.201 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:03.203 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 19.6980 ms
+2025-07-16 15:00:03.208 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 29.3926ms
+2025-07-16 15:00:03.213 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - null null
+2025-07-16 15:00:03.217 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:00:03.219 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 15:00:03.223 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 15:00:03.227 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:00:03.229 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 7.2752ms
+2025-07-16 15:00:03.231 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:00:03.233 +03:00 [INF] HTTP GET /api/Unit responded 200 in 15.9087 ms
+2025-07-16 15:00:03.236 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - 200 null application/json; charset=utf-8 22.4386ms
+2025-07-16 15:00:09.551 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - null null
+2025-07-16 15:00:09.557 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:00:09.559 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 15:00:09.569 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 15:00:09.574 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:00:09.576 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 14.3561ms
+2025-07-16 15:00:09.578 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:00:09.580 +03:00 [INF] HTTP GET /api/Products responded 200 in 23.5791 ms
+2025-07-16 15:00:09.582 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 30.8871ms
+2025-07-16 15:00:09.586 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 15:00:09.589 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:09.591 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:00:09.595 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:00:09.598 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:00:09.600 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 6.0117ms
+2025-07-16 15:00:09.602 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:09.603 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 14.1293 ms
+2025-07-16 15:00:09.606 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 20.3546ms
+2025-07-16 15:00:11.290 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products/1 - null null
+2025-07-16 15:00:11.295 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProduct (MiniERP.API)'
+2025-07-16 15:00:11.300 +03:00 [INF] Route matched with {action = "GetProduct", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.ProductDto]]] GetProduct(Int32) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 15:00:11.340 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[@__productId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s0].[ProductID], [s0].[CategoryID], [s0].[CreatedBy], [s0].[CreatedDate], [s0].[IsActive], [s0].[MaxStockLevel], [s0].[MinStockLevel], [s0].[ProductCode], [s0].[ProductName], [s0].[PurchasePrice], [s0].[SalePrice], [s0].[UnitID], [s0].[VatRate], [s0].[CategoryID0], [s0].[CategoryCode], [s0].[CategoryName], [s0].[CreatedBy0], [s0].[CreatedDate0], [s0].[Description], [s0].[IsActive0], [s0].[UnitID0], [s0].[CreatedBy1], [s0].[CreatedDate1], [s0].[IsActive1], [s0].[UnitCode], [s0].[UnitName], [s1].[StockCardID], [s1].[CreatedBy], [s1].[CreatedDate], [s1].[CurrentStock], [s1].[LastTransactionDate], [s1].[ProductID], [s1].[ReservedStock], [s1].[WarehouseID], [s1].[WarehouseID0], [s1].[Address], [s1].[City], [s1].[CreatedBy0], [s1].[CreatedDate0], [s1].[IsActive], [s1].[ResponsiblePerson], [s1].[WarehouseCode], [s1].[WarehouseName]
+FROM (
+    SELECT TOP(1) [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID] AS [CategoryID0], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy] AS [CreatedBy0], [p0].[CreatedDate] AS [CreatedDate0], [p0].[Description], [p0].[IsActive] AS [IsActive0], [u].[UnitID] AS [UnitID0], [u].[CreatedBy] AS [CreatedBy1], [u].[CreatedDate] AS [CreatedDate1], [u].[IsActive] AS [IsActive1], [u].[UnitCode], [u].[UnitName]
+    FROM [Products] AS [p]
+    LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+    INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+    WHERE [p].[ProductID] = @__productId_0
+) AS [s0]
+LEFT JOIN (
+    SELECT [s].[StockCardID], [s].[CreatedBy], [s].[CreatedDate], [s].[CurrentStock], [s].[LastTransactionDate], [s].[ProductID], [s].[ReservedStock], [s].[WarehouseID], [w].[WarehouseID] AS [WarehouseID0], [w].[Address], [w].[City], [w].[CreatedBy] AS [CreatedBy0], [w].[CreatedDate] AS [CreatedDate0], [w].[IsActive], [w].[ResponsiblePerson], [w].[WarehouseCode], [w].[WarehouseName]
+    FROM [StockCards] AS [s]
+    INNER JOIN [Warehouses] AS [w] ON [s].[WarehouseID] = [w].[WarehouseID]
+) AS [s1] ON [s0].[ProductID] = [s1].[ProductID]
+ORDER BY [s0].[ProductID], [s0].[CategoryID0], [s0].[UnitID0], [s1].[StockCardID]
+2025-07-16 15:00:11.351 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:00:11.356 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProduct (MiniERP.API) in 53.3146ms
+2025-07-16 15:00:11.358 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProduct (MiniERP.API)'
+2025-07-16 15:00:11.360 +03:00 [INF] HTTP GET /api/Products/1 responded 200 in 64.8098 ms
+2025-07-16 15:00:11.362 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products/1 - 200 null application/json; charset=utf-8 71.9526ms
+2025-07-16 15:00:11.365 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit - null null
+2025-07-16 15:00:11.366 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 15:00:11.370 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:00:11.374 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:11.375 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 15:00:11.376 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:00:11.380 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 15:00:11.382 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:00:11.385 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:00:11.387 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:00:11.389 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 10.0948ms
+2025-07-16 15:00:11.392 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 11.0619ms
+2025-07-16 15:00:11.394 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:00:11.399 +03:00 [INF] HTTP GET /api/Unit responded 200 in 28.9646 ms
+2025-07-16 15:00:11.397 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:00:11.401 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit - 200 null application/json; charset=utf-8 36.0642ms
+2025-07-16 15:00:11.402 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 28.6121 ms
+2025-07-16 15:00:11.408 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 42.1011ms
+2025-07-16 15:01:01.482 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 15:01:01.488 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:01.490 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:01:01.496 +03:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:01:01.499 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:01.502 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 9.1494ms
+2025-07-16 15:01:01.504 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:01.506 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 18.2073 ms
+2025-07-16 15:01:01.508 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 26.2035ms
+2025-07-16 15:01:01.514 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - null null
+2025-07-16 15:01:01.517 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:01.519 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 15:01:01.523 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 15:01:01.526 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:01.529 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 7.2461ms
+2025-07-16 15:01:01.531 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:01.532 +03:00 [INF] HTTP GET /api/Unit responded 200 in 14.8176 ms
+2025-07-16 15:01:01.534 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - 200 null application/json; charset=utf-8 20.6043ms
+2025-07-16 15:01:40.748 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - null null
+2025-07-16 15:01:40.753 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:40.754 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:01:40.758 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:01:40.761 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:40.763 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 6.5761ms
+2025-07-16 15:01:40.765 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:40.767 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 14.0740 ms
+2025-07-16 15:01:40.770 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory?pageSize=100 - 200 null application/json; charset=utf-8 21.9521ms
+2025-07-16 15:01:40.775 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - null null
+2025-07-16 15:01:40.781 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:40.782 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 15:01:40.786 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 15:01:40.788 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:40.791 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 6.09ms
+2025-07-16 15:01:40.792 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:40.794 +03:00 [INF] HTTP GET /api/Unit responded 200 in 13.1385 ms
+2025-07-16 15:01:40.796 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit?pageSize=100 - 200 null application/json; charset=utf-8 20.9102ms
+2025-07-16 15:01:44.555 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - null null
+2025-07-16 15:01:44.560 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:01:44.562 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 15:01:44.570 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 15:01:44.576 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:01:44.578 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 13.0831ms
+2025-07-16 15:01:44.581 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:01:44.583 +03:00 [INF] HTTP GET /api/Products responded 200 in 23.4283 ms
+2025-07-16 15:01:44.587 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 31.9062ms
+2025-07-16 15:01:44.592 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 15:01:44.597 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:44.599 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:01:44.603 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:01:44.607 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:44.610 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 7.6932ms
+2025-07-16 15:01:44.612 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:44.614 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 17.6726 ms
+2025-07-16 15:01:44.617 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 24.8473ms
+2025-07-16 15:01:45.926 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 15:01:45.930 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Unit - null null
+2025-07-16 15:01:45.935 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:45.940 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:45.942 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:01:45.944 +03:00 [INF] Route matched with {action = "GetUnits", controller = "Unit"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.UnitDto]]]] GetUnits() on controller MiniERP.API.Controllers.UnitController (MiniERP.API).
+2025-07-16 15:01:45.950 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:01:45.953 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Units] AS [u]
+2025-07-16 15:01:45.956 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:45.960 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.UnitDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:45.963 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 14.538ms
+2025-07-16 15:01:45.965 +03:00 [INF] Executed action MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API) in 13.5878ms
+2025-07-16 15:01:45.968 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:45.970 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.UnitController.GetUnits (MiniERP.API)'
+2025-07-16 15:01:45.972 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 37.6149 ms
+2025-07-16 15:01:45.974 +03:00 [INF] HTTP GET /api/Unit responded 200 in 34.0951 ms
+2025-07-16 15:01:45.977 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 50.4713ms
+2025-07-16 15:01:45.980 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Unit - 200 null application/json; charset=utf-8 49.8769ms
+2025-07-16 15:01:48.199 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - null null
+2025-07-16 15:01:48.204 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:01:48.206 +03:00 [INF] Route matched with {action = "GetProducts", controller = "Products"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.ProductDto]]]] GetProducts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.ProductsController (MiniERP.API).
+2025-07-16 15:01:48.217 +03:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[ProductID], [p].[CategoryID], [p].[CreatedBy], [p].[CreatedDate], [p].[IsActive], [p].[MaxStockLevel], [p].[MinStockLevel], [p].[ProductCode], [p].[ProductName], [p].[PurchasePrice], [p].[SalePrice], [p].[UnitID], [p].[VatRate], [p0].[CategoryID], [p0].[CategoryCode], [p0].[CategoryName], [p0].[CreatedBy], [p0].[CreatedDate], [p0].[Description], [p0].[IsActive], [u].[UnitID], [u].[CreatedBy], [u].[CreatedDate], [u].[IsActive], [u].[UnitCode], [u].[UnitName]
+FROM [Products] AS [p]
+LEFT JOIN [ProductCategories] AS [p0] ON [p].[CategoryID] = [p0].[CategoryID]
+INNER JOIN [Units] AS [u] ON [p].[UnitID] = [u].[UnitID]
+WHERE [p].[IsActive] = CAST(1 AS bit)
+2025-07-16 15:01:48.223 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.ProductDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:01:48.226 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API) in 16.1533ms
+2025-07-16 15:01:48.228 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductsController.GetProducts (MiniERP.API)'
+2025-07-16 15:01:48.230 +03:00 [INF] HTTP GET /api/Products responded 200 in 26.7373 ms
+2025-07-16 15:01:48.235 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/Products?pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 35.9569ms
+2025-07-16 15:01:48.241 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/ProductCategory - null null
+2025-07-16 15:01:48.245 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:48.247 +03:00 [INF] Route matched with {action = "GetProductCategories", controller = "ProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[System.Collections.Generic.List`1[MiniERP.API.DTOs.ProductCategoryDto]]]] GetProductCategories() on controller MiniERP.API.Controllers.ProductCategoryController (MiniERP.API).
+2025-07-16 15:01:48.262 +03:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[CategoryID], [p].[CategoryCode], [p].[CategoryName], [p].[CreatedBy], [p].[CreatedDate], [p].[Description], [p].[IsActive]
+FROM [ProductCategories] AS [p]
+2025-07-16 15:01:48.266 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[System.Collections.Generic.List`1[[MiniERP.API.DTOs.ProductCategoryDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-07-16 15:01:48.269 +03:00 [INF] Executed action MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API) in 19.4957ms
+2025-07-16 15:01:48.272 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.ProductCategoryController.GetProductCategories (MiniERP.API)'
+2025-07-16 15:01:48.274 +03:00 [INF] HTTP GET /api/ProductCategory responded 200 in 29.5670 ms
+2025-07-16 15:01:48.277 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/ProductCategory - 200 null application/json; charset=utf-8 36.4715ms
+2025-07-16 15:02:10.166 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts/types?pageSize=100 - null null
+2025-07-16 15:02:10.172 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API)'
+2025-07-16 15:02:10.176 +03:00 [INF] Route matched with {action = "GetCariTypes", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariTypeDto]]]] GetCariTypes(Int32, Int32) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 15:02:10.189 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [CariTypes] AS [c]
+2025-07-16 15:02:10.195 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-16 15:02:10.197 +03:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-07-16 15:02:10.207 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[TypeID], [c].[CreatedBy], [c].[CreatedDate], [c].[Description], [c].[IsActive], [c].[TypeCode], [c].[TypeName]
+FROM [CariTypes] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-07-16 15:02:10.215 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariTypeDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:02:10.220 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API) in 41.329ms
+2025-07-16 15:02:10.223 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariTypes (MiniERP.API)'
+2025-07-16 15:02:10.225 +03:00 [INF] HTTP GET /api/CariAccounts/types responded 200 in 52.6826 ms
+2025-07-16 15:02:10.228 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts/types?pageSize=100 - 200 null application/json; charset=utf-8 61.7814ms
+2025-07-16 15:02:10.246 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageSize=10000 - null null
+2025-07-16 15:02:10.251 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 15:02:10.253 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 15:02:10.260 +03:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-16 15:02:10.265 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:02:10.267 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 11.0603ms
+2025-07-16 15:02:10.269 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 15:02:10.271 +03:00 [INF] HTTP GET /api/CariAccounts responded 200 in 21.1170 ms
+2025-07-16 15:02:10.274 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageSize=10000 - 200 null application/json; charset=utf-8 28.2408ms
+2025-07-16 15:02:10.297 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageSize=1000 - null null
+2025-07-16 15:02:10.302 +03:00 [INF] Executing endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 15:02:10.304 +03:00 [INF] Route matched with {action = "GetCariAccounts", controller = "CariAccounts"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[MiniERP.API.DTOs.ApiResponse`1[MiniERP.API.DTOs.PagedResult`1[MiniERP.API.DTOs.CariAccountDto]]]] GetCariAccounts(Int32, Int32, System.String, System.Nullable`1[System.Int32]) on controller MiniERP.API.Controllers.CariAccountsController (MiniERP.API).
+2025-07-16 15:02:10.309 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[CariID], [c].[Address], [c].[CariCode], [c].[CariName], [c].[City], [c].[ContactPerson], [c].[CreatedBy], [c].[CreatedDate], [c].[CreditLimit], [c].[CurrentBalance], [c].[Email], [c].[IsActive], [c].[Phone], [c].[TaxNo], [c].[TaxOffice], [c].[TypeID], [c0].[TypeID], [c0].[CreatedBy], [c0].[CreatedDate], [c0].[Description], [c0].[IsActive], [c0].[TypeCode], [c0].[TypeName]
+FROM [CariAccounts] AS [c]
+INNER JOIN [CariTypes] AS [c0] ON [c].[TypeID] = [c0].[TypeID]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-07-16 15:02:10.313 +03:00 [INF] Executing OkObjectResult, writing value of type 'MiniERP.API.DTOs.ApiResponse`1[[MiniERP.API.DTOs.PagedResult`1[[MiniERP.API.DTOs.CariAccountDto, MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], MiniERP.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-07-16 15:02:10.316 +03:00 [INF] Executed action MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API) in 9.0002ms
+2025-07-16 15:02:10.319 +03:00 [INF] Executed endpoint 'MiniERP.API.Controllers.CariAccountsController.GetCariAccounts (MiniERP.API)'
+2025-07-16 15:02:10.321 +03:00 [INF] HTTP GET /api/CariAccounts responded 200 in 19.3625 ms
+2025-07-16 15:02:10.324 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5135/api/CariAccounts?pageSize=1000 - 200 null application/json; charset=utf-8 26.5703ms
