@@ -423,12 +423,22 @@ namespace MiniERP.WinForms.Forms
 
         private void BtnStokYonetimi_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Stok Yönetimi modülü açılacak", "Stok Yönetimi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                var form = new StokYonetimiForm(_currentUser, _apiService);
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Stok Yönetimi formu açılırken hata oluştu: {ex.Message}", "Hata", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnSatisFaturaları_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Satış Faturaları modülü açılacak", "Satış Faturaları", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var satisFaturalariForm = new SatisFaturalariForm(_currentUser, _apiService);
+            satisFaturalariForm.Show();
         }
 
         private void BtnAlisFaturalari_Click(object? sender, EventArgs e)

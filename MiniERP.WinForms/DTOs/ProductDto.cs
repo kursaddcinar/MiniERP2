@@ -12,6 +12,7 @@ namespace MiniERP.WinForms.DTOs
         public string UnitName { get; set; } = string.Empty;
         public decimal SalePrice { get; set; }
         public decimal PurchasePrice { get; set; }
+        public decimal CostPrice { get; set; }
         public decimal VatRate { get; set; }
         public decimal MinStockLevel { get; set; }
         public decimal MaxStockLevel { get; set; }

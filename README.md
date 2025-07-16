@@ -546,3 +546,63 @@ README'de kullanılacak fotoğraflar (images/ klasörüne koyulacak):
 9. **cari-hesap-ekleme.png** - Cari hesap ekleme ekranı
 10. **urun-ekleme.png** - Ürün ekleme ekranı
 11. **satis-faturasi.png** - Satış faturası oluşturma
+
+### 📦 Stok Yönetimi
+
+Stok Yönetimi modülü, farklı rol yetkilerine göre çalışan kapsamlı bir stok takip sistemidir.
+
+![Stok Yönetimi](images/stok-yonetimi-demo.png)
+
+#### Rol Bazlı Yetkilendirme:
+- **Admin/Manager/Warehouse**: Tam yetki (CRUD)
+- **Sales/Purchase**: Sadece görüntüleme (Read)
+- **Finance**: Erişim yok
+
+#### Ana Özellikler:
+
+**1. Özet Kartları:**
+- **Toplam Stok** - Sistemdeki toplam stok sayısı
+- **Kritik Stok** - Minimum seviyenin altındaki ürünler
+- **Stokta Yok** - Tükenen ürünler
+- **Hareketler** - Günlük stok hareketleri
+
+**2. Arama ve Filtreleme:**
+- Ürün adı ile arama
+- Ürün kodu ile arama
+- Sayfa boyutu seçimi (10, 25, 50, 100)
+- Ara, Temizle, Özet, Rapor butonları
+
+**3. Stok Kartları Listesi:**
+- Ürün kodu ve adı
+- Depo bilgisi
+- Mevcut stok miktarı
+- Rezerve stok
+- Müsait stok
+- Stok durumu (Normal, Kritik, Yok, Fazla)
+- Son işlem tarihi
+- İşlem butonları (Detay, Düzenle, Sil)
+
+**4. İşlem Butonları:**
+- **Yeni Stok Kartı** - Yeni ürün için stok kartı oluşturma
+- **Stok Güncelle** - Toplu stok güncelleme
+- **Stok Transferi** - Depolar arası stok transferi
+
+#### Kullanım Örneği:
+```csharp
+// Stok Yönetimi formunu açma
+var form = new StokYonetimiForm(_currentUser, _apiService);
+form.ShowDialog();
+
+// Yetki kontrolü
+if (_accessLevel.Contains("C")) // Create yetkisi
+{
+    btnYeniStokKarti.Enabled = true;
+}
+```
+
+#### API Entegrasyonu:
+- `GET /api/Stock/cards` - Stok kartlarını listeleme
+- `POST /api/Stock/cards` - Yeni stok kartı ekleme
+- `PUT /api/Stock/cards/{id}` - Stok kartı güncelleme
+- `DELETE /api/Stock/cards/{id}` - Stok kartı silme
+- `GET /api/Stock/summary` - Stok özet bilgileri
