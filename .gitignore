@@ -1,0 +1,23 @@
+# Build klasörleri
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.cache
+
+# Yayın dosyaları
+*.dll
+*.exe
+*.pdb
+*.json
+*.log
+*.db
+
+# Logs klasörü
+logs/
+
+# NuGet cache
+*.csproj.FileListAbsolute.txt
