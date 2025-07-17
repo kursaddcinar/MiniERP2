@@ -104,6 +104,7 @@ namespace MiniERP.API.DTOs
         public int WarehouseID { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime? DueDate { get; set; }
+        public string Status { get; set; } = "DRAFT";
         public string? Description { get; set; }
         public List<CreatePurchaseInvoiceDetailDto> Details { get; set; } = new List<CreatePurchaseInvoiceDetailDto>();
     }

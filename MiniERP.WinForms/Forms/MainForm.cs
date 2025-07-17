@@ -443,7 +443,8 @@ namespace MiniERP.WinForms.Forms
 
         private void BtnAlisFaturalari_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Alış Faturaları modülü açılacak", "Alış Faturaları", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var alisFaturalariForm = new AlisFaturalariForm(_currentUser, _apiService);
+            alisFaturalariForm.Show();
         }
 
         private void BtnOdemeler_Click(object? sender, EventArgs e)
