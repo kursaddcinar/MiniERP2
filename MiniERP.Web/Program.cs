@@ -45,8 +45,8 @@ builder.Services.AddScoped<PaymentService>();
 
 var app = builder.Build();
 
-// Configure culture for decimal formatting
-var cultureInfo = new CultureInfo("en-US");
+// Configure culture for decimal formatting - use invariant culture for consistency
+var cultureInfo = CultureInfo.InvariantCulture;
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 

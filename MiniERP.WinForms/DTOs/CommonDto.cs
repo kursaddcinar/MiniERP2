@@ -28,3 +28,5 @@ namespace MiniERP.WinForms.DTOs
         public int PageSize { get; set; } = 10;
     }
 }
+
+

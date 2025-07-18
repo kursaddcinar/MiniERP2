@@ -127,7 +127,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV %
@@ -145,7 +145,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "SubTotal",
                 HeaderText = "Satır Toplam",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV Tutarı
@@ -154,7 +154,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "VatAmount",
                 HeaderText = "KDV Tutarı",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Net Toplam
@@ -163,7 +163,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "LineTotal",
                 HeaderText = "Net Toplam",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Grid styling
@@ -253,9 +253,9 @@ namespace MiniERP.WinForms.Forms
             // Fatura bilgilerinden toplamları göster
             if (_invoice.SubTotal > 0 || _invoice.VatAmount > 0 || _invoice.Total > 0)
             {
-                lblAraToplam.Text = _invoice.SubTotal.ToString("C2");
-                lblKDVTutari.Text = _invoice.VatAmount.ToString("C2");
-                lblGenelToplam.Text = _invoice.Total.ToString("C2");
+                lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
+                lblKDVTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
+                lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
             }
             else
             {
@@ -365,9 +365,9 @@ namespace MiniERP.WinForms.Forms
             var kdvTutari = _invoiceDetails.Sum(d => d.VatAmount);
             var genelToplam = _invoiceDetails.Sum(d => d.LineTotal);
 
-            lblAraToplam.Text = araToplam.ToString("C2");
-            lblKDVTutari.Text = kdvTutari.ToString("C2");
-            lblGenelToplam.Text = genelToplam.ToString("C2");
+            lblAraToplam.Text = araToplam.ToString("N2") + " ?";
+            lblKDVTutari.Text = kdvTutari.ToString("N2") + " ?";
+            lblGenelToplam.Text = genelToplam.ToString("N2") + " ?";
         }
 
         private void btnGeri_Click(object sender, EventArgs e)
@@ -438,3 +438,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

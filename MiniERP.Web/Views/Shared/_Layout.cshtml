@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
@@ -122,7 +122,7 @@
                     <li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" ? "active" : "")">
                         <a asp-controller="Product" asp-action="Index">
                             <i class="fas fa-box"></i>
-                            <span class="sidebar-text">ÃœrÃ¼nler</span>
+                            <span class="sidebar-text">Ürünler</span>
                         </a>
                     </li>
                 }
@@ -131,7 +131,7 @@
                     <li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Stock" ? "active" : "")">
                         <a asp-controller="Stock" asp-action="Index">
                             <i class="fas fa-warehouse"></i>
-                            <span class="sidebar-text">Stok YÃ¶netimi</span>
+                            <span class="sidebar-text">Stok Yönetimi</span>
                         </a>
                     </li>
                 }
@@ -140,7 +140,7 @@
                     <li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "SalesInvoice" ? "active" : "")">
                         <a asp-controller="SalesInvoice" asp-action="Index">
                             <i class="fas fa-file-invoice-dollar"></i>
-                            <span class="sidebar-text">SatÄ±ÅŸ FaturalarÄ±</span>
+                            <span class="sidebar-text">Satýþ Faturalarý</span>
                         </a>
                     </li>
                 }
@@ -149,23 +149,23 @@
                     <li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "PurchaseInvoice" ? "active" : "")">
                         <a asp-controller="PurchaseInvoice" asp-action="Index">
                             <i class="fas fa-file-invoice"></i>
-                            <span class="sidebar-text">AlÄ±ÅŸ FaturalarÄ±</span>
+                            <span class="sidebar-text">Alýþ Faturalarý</span>
                         </a>
                     </li>
                 }
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Finance"))
                 {
                     <li>
-                        <a href="#" onclick="alert('Ã–demeler modÃ¼lÃ¼ yakÄ±nda eklenecek!')">
+                        <a href="#" onclick="alert('Ödemeler modülü yakýnda eklenecek!')">
                             <i class="fas fa-credit-card"></i>
-                            <span class="sidebar-text">Ã–demeler</span>
+                            <span class="sidebar-text">Ödemeler</span>
                         </a>
                     </li>
                 }
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || User.IsInRole("Finance"))
                 {
                     <li>
-                        <a href="#" onclick="alert('Tahsilatlar modÃ¼lÃ¼ yakÄ±nda eklenecek!')">
+                        <a href="#" onclick="alert('Tahsilatlar modülü yakýnda eklenecek!')">
                             <i class="fas fa-money-bill-wave"></i>
                             <span class="sidebar-text">Tahsilatlar</span>
                         </a>
@@ -174,7 +174,7 @@
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Finance"))
                 {
                     <li>
-                        <a href="#" onclick="alert('Raporlar modÃ¼lÃ¼ yakÄ±nda eklenecek!')">
+                        <a href="#" onclick="alert('Raporlar modülü yakýnda eklenecek!')">
                             <i class="fas fa-chart-bar"></i>
                             <span class="sidebar-text">Raporlar</span>
                         </a>
@@ -185,7 +185,7 @@
                     <li class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "User" ? "active" : "")">
                         <a asp-controller="User" asp-action="Index">
                             <i class="fas fa-users"></i>
-                            <span class="sidebar-text">KullanÄ±cÄ± YÃ¶netimi</span>
+                            <span class="sidebar-text">Kullanýcý Yönetimi</span>
                         </a>
                     </li>
                 }
@@ -212,7 +212,7 @@
                     <span class="ms-3 fs-5">@ViewData["Title"]</span>
                 </div>
                 <div class="user-menu">
-                    <span class="text-muted">HoÅŸgeldiniz, @(User.Identity?.Name ?? "KullanÄ±cÄ±")</span>
+                    <span class="text-muted">Hoþgeldiniz, @(User.Identity?.Name ?? "Kullanýcý")</span>
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i>
@@ -222,7 +222,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
-                                    <button type="submit" class="dropdown-item">Ã‡Ä±kÄ±ÅŸ</button>
+                                    <button type="submit" class="dropdown-item">Çýkýþ</button>
                                 </form>
                             </li>
                         </ul>
@@ -294,3 +294,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

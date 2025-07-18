@@ -248,3 +248,5 @@ namespace MiniERP.WinForms.Forms
         public int TypeID { get; set; }
     }
 }
+
+

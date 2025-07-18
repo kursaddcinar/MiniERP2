@@ -27,3 +27,5 @@ namespace MiniERP.WinForms.DTOs
         public bool IsActive { get; set; } = true;
     }
 }
+
+

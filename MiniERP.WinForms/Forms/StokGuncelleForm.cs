@@ -171,3 +171,5 @@ namespace MiniERP.WinForms.Forms
         public string UpdateType { get; set; } = string.Empty;
     }
 }
+
+

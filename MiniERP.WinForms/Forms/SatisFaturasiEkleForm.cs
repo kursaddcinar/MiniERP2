@@ -121,7 +121,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat() }
             });
 
             // VAT Rate Column
@@ -140,7 +140,7 @@ namespace MiniERP.WinForms.Forms
                 HeaderText = "Toplam",
                 Width = 100,
                 ReadOnly = true,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat() }
             });
 
             // Delete Button Column
@@ -438,9 +438,9 @@ namespace MiniERP.WinForms.Forms
             decimal vatAmount = _invoiceDetails.Sum(d => d.Quantity * d.UnitPrice * d.VatRate / 100);
             decimal total = subTotal + vatAmount;
 
-            lblAraToplam.Text = subTotal.ToString("C2");
-            lblKDV.Text = vatAmount.ToString("C2");
-            lblGenelToplam.Text = total.ToString("C2");
+            lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(subTotal);
+            lblKDV.Text = Helpers.CurrencyHelper.FormatCurrency(vatAmount);
+            lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(total);
         }
 
         private async void btnKaydet_Click(object sender, EventArgs e)
@@ -610,3 +610,5 @@ namespace MiniERP.WinForms.Forms
 
     }
 }
+
+

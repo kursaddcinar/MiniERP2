@@ -203,3 +203,5 @@ namespace MiniERP.WinForms.Forms
         public DateTime LastTransactionDate { get; set; }
     }
 }
+
+

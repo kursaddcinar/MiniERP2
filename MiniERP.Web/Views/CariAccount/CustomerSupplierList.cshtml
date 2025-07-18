@@ -182,11 +182,11 @@
                                             <td class="text-end">
                                                 @if (cari.CurrentBalance > 0)
                                                 {
-                                                    <span class="text-success">@cari.CurrentBalance.ToString("C")</span>
+                                                    <span class="text-success">@cari.CurrentBalance.ToCurrency()</span>
                                                 }
                                                 else if (cari.CurrentBalance < 0)
                                                 {
-                                                    <span class="text-danger">@cari.CurrentBalance.ToString("C")</span>
+                                                    <span class="text-danger">@cari.CurrentBalance.ToCurrency()</span>
                                                 }
                                                 else
                                                 {

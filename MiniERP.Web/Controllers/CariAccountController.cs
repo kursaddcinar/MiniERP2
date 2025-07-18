@@ -26,6 +26,9 @@ namespace MiniERP.Web.Controllers
             var customers = await _cariAccountService.GetCustomersAsync();
             var suppliers = await _cariAccountService.GetSuppliersAsync();
             
+            // Toplam cari sayısını hesapla (filtrelenmemiş)
+            var totalCariCount = await _cariAccountService.GetTotalCariCountAsync();
+            
             ViewBag.SearchTerm = searchTerm;
             ViewBag.TypeId = typeId;
             ViewBag.CariTypes = cariTypes;
@@ -33,6 +36,7 @@ namespace MiniERP.Web.Controllers
             ViewBag.TotalSuppliers = suppliers.Count;
             ViewBag.TotalActiveCustomers = customers.Count(c => c.IsActive);
             ViewBag.TotalActiveSuppliers = suppliers.Count(c => c.IsActive);
+            ViewBag.TotalCariCount = totalCariCount; // Yeni eklenen toplam cari sayısı
 
             return View(cariAccounts);
         }

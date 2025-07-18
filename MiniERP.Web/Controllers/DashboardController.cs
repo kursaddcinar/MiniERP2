@@ -68,7 +68,7 @@ namespace MiniERP.Web.Controllers
                 if (User.IsInRole("Admin") || User.IsInRole("Manager") || User.IsInRole("Sales") || 
                     User.IsInRole("Purchase") || User.IsInRole("Finance"))
                 {
-                    var totalCariAccountsResponse = await _cariAccountService.GetCariAccountsAsync(1, 1);
+                    var totalCariAccountsResponse = await _cariAccountService.GetCariAccountsAsync(1, 1000);
                     ViewBag.TotalCariAccounts = totalCariAccountsResponse?.TotalCount ?? 0;
 
                     var activeCustomers = await _cariAccountService.GetCustomersAsync();
@@ -110,7 +110,7 @@ namespace MiniERP.Web.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error loading dashboard");
-                TempData["ErrorMessage"] = "Dashboard yüklenirken hata oluştu.";
+                TempData["ErrorMessage"] = "Dashboard yüklenirken hata oluştu: " + ex.Message;
                 return View();
             }
         }

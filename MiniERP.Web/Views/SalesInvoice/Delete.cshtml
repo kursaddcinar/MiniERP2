@@ -86,15 +86,15 @@
                                             </tr>
                                             <tr>
                                                 <th>Ara Toplam:</th>
-                                                <td>@Model.SubTotal.ToString("C")</td>
+                                                <td>@Model.SubTotal.ToCurrency()</td>
                                             </tr>
                                             <tr>
                                                 <th>KDV Tutarı:</th>
-                                                <td>@Model.VatAmount.ToString("C")</td>
+                                                <td>@Model.VatAmount.ToCurrency()</td>
                                             </tr>
                                             <tr>
                                                 <th><strong>Genel Toplam:</strong></th>
-                                                <td><strong class="text-success">@Model.Total.ToString("C")</strong></td>
+                                                <td><strong class="text-success">@Model.Total.ToCurrency()</strong></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -132,10 +132,10 @@
                                                             @detail.Quantity.ToString("N2")
                                                         </td>
                                                         <td class="text-end">
-                                                            @detail.UnitPrice.ToString("C")
+                                                            @detail.UnitPrice.ToCurrency()
                                                         </td>
                                                         <td class="text-end">
-                                                            <strong>@detail.NetTotal.ToString("C")</strong>
+                                                            <strong>@detail.NetTotal.ToCurrency()</strong>
                                                         </td>
                                                     </tr>
                                                 }

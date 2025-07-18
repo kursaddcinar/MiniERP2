@@ -783,3 +783,5 @@ namespace MiniERP.WinForms.Forms
         private DataGridViewButtonColumn colDelete;
     }
 }
+
+

@@ -71,7 +71,7 @@ namespace MiniERP.WinForms.Forms
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle 
                 { 
-                    Format = "C2", 
+                    Format = "N2", 
                     Alignment = DataGridViewContentAlignment.MiddleRight 
                 }
             });
@@ -84,7 +84,7 @@ namespace MiniERP.WinForms.Forms
                 Width = 120,
                 DefaultCellStyle = new DataGridViewCellStyle 
                 { 
-                    Format = "C2", 
+                    Format = "N2", 
                     Alignment = DataGridViewContentAlignment.MiddleRight,
                     Font = new Font("Segoe UI", 9F, FontStyle.Bold)
                 }
@@ -112,9 +112,9 @@ namespace MiniERP.WinForms.Forms
             lblTedarikci.Text = $"{_invoice.CariCode} - {_invoice.CariName}";
             lblDepo.Text = _invoice.WarehouseName;
             lblDurum.Text = GetStatusText(_invoice.Status);
-            lblAraToplam.Text = _invoice.SubTotal.ToString("C2");
-            lblKdvTutari.Text = _invoice.VatAmount.ToString("C2");
-            lblGenelToplam.Text = _invoice.Total.ToString("C2");
+            lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
+            lblKdvTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
+            lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
 
             // Set status color
             SetStatusColor();
@@ -166,8 +166,8 @@ namespace MiniERP.WinForms.Forms
 
                     row.Cells["Urun"].Value = $"{detail.ProductCode}\n{detail.ProductName}";
                     row.Cells["Miktar"].Value = detail.Quantity.ToString("N2");
-                    row.Cells["BirimFiyat"].Value = detail.UnitPrice.ToString("C2");
-                    row.Cells["NetToplam"].Value = detail.LineTotal.ToString("C2");
+                    row.Cells["BirimFiyat"].Value = detail.UnitPrice.ToString("N2") + " ?";
+                    row.Cells["NetToplam"].Value = detail.LineTotal.ToString("N2") + " ?";
                 }
 
                 lblKalemSayisi.Text = $"({_invoice.Details.Count} adet)";
@@ -252,3 +252,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

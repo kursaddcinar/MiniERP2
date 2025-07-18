@@ -29,8 +29,8 @@ namespace MiniERP.WinForms.Forms
             lblUnitValue.Text = _product.UnitName;
             
             // Pricing Information
-            lblSalePriceValue.Text = _product.SalePrice.ToString("C2");
-            lblPurchasePriceValue.Text = _product.PurchasePrice.ToString("C2");
+            lblSalePriceValue.Text = Helpers.CurrencyHelper.FormatCurrency(_product.SalePrice);
+            lblPurchasePriceValue.Text = Helpers.CurrencyHelper.FormatCurrency(_product.PurchasePrice);
             lblVatRateValue.Text = _product.VatRate.ToString("N2") + "%";
             
             // Stock Information
@@ -74,3 +74,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

@@ -129,3 +129,5 @@ namespace MiniERP.WinForms.DTOs
         public List<CariTransactionDto> Transactions { get; set; } = new List<CariTransactionDto>();
     }
 }
+
+

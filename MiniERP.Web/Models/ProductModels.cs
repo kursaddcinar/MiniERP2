@@ -47,6 +47,7 @@ namespace MiniERP.Web.Models
         public decimal VatRate { get; set; } = 18;
 
         [Display(Name = "Minimum Stok Seviyesi")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal MinStockLevel { get; set; }
 
         [Required(ErrorMessage = "Kategori seçimi gereklidir")]
@@ -83,6 +84,7 @@ namespace MiniERP.Web.Models
         public decimal VatRate { get; set; }
 
         [Display(Name = "Minimum Stok Seviyesi")]
+        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]
         public decimal MinStockLevel { get; set; }
 
         [Display(Name = "Aktif")]

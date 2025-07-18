@@ -122,7 +122,7 @@ namespace MiniERP.WinForms.Forms
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle 
                 { 
-                    Format = "C2",
+                    Format = "N2",
                     Alignment = DataGridViewContentAlignment.MiddleRight
                 }
             });
@@ -196,7 +196,7 @@ namespace MiniERP.WinForms.Forms
         {
             // Update summary cards
             lblToplamFatura.Text = _summary.TotalInvoices.ToString();
-            lblToplamTutar.Text = _summary.TotalAmount.ToString("C2");
+            lblToplamTutar.Text = _summary.TotalAmount.ToString("N2") + " ?";
             lblTaslakFatura.Text = _summary.DraftInvoices.ToString();
             lblOnaylaFatura.Text = _summary.ApprovedInvoices.ToString();
         }
@@ -482,3 +482,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

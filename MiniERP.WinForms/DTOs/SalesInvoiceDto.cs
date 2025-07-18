@@ -91,3 +91,5 @@ namespace MiniERP.WinForms.DTOs
         public string Reason { get; set; } = string.Empty;
     }
 }
+
+

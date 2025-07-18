@@ -42,7 +42,7 @@
                     <div class="card-body">
                         <div class="media">
                             <div class="media-body">
-                                <h5 class="card-title">@(summary.TotalAmount.ToString("C"))</h5>
+                                <h5 class="card-title">@(summary.TotalAmount.ToCurrency())</h5>
                                 <p class="card-text">Toplam Tutar</p>
                             </div>
                             <div class="align-self-center">
@@ -168,7 +168,7 @@
                                             </td>
                                             <td>@invoice.InvoiceDate.ToString("dd.MM.yyyy")</td>
                                             <td class="text-end">
-                                                <strong>@invoice.Total.ToString("C")</strong>
+                                                <strong>@invoice.Total.ToCurrency()</strong>
                                             </td>
                                             <td>
                                                 @if (invoice.Status == "DRAFT")

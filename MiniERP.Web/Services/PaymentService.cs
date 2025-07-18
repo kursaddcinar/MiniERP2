@@ -39,7 +39,7 @@ namespace MiniERP.Web.Services
                 
                 return result.Data ?? new PagedResult<PaymentDto> { Data = new List<PaymentDto>(), TotalCount = 0 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new PagedResult<PaymentDto> { Data = new List<PaymentDto>(), TotalCount = 0 };
             }
@@ -52,7 +52,7 @@ namespace MiniERP.Web.Services
                 var result = await _apiService.GetAsync<PaymentDto>($"api/Payment/{id}");
                 return result.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -146,7 +146,7 @@ namespace MiniERP.Web.Services
                 
                 return result.Data ?? new PagedResult<CollectionDto> { Data = new List<CollectionDto>(), TotalCount = 0 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new PagedResult<CollectionDto> { Data = new List<CollectionDto>(), TotalCount = 0 };
             }
@@ -159,7 +159,7 @@ namespace MiniERP.Web.Services
                 var result = await _apiService.GetAsync<CollectionDto>($"api/Collection/{id}");
                 return result.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -257,7 +257,7 @@ namespace MiniERP.Web.Services
                 var result = await _apiService.GetAsync<PaymentTypeDto>($"api/PaymentType/{id}");
                 return result.Data;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -324,3 +324,4 @@ namespace MiniERP.Web.Services
         }
     }
 } 
+

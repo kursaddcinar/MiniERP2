@@ -293,3 +293,5 @@ namespace MiniERP.WinForms.Forms
         private Label lblBaslik;
     }
 }
+
+

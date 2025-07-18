@@ -577,3 +577,5 @@ namespace MiniERP.WinForms.Forms
         public string UnitName { get; set; } = string.Empty;
     }
 }
+
+

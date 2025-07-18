@@ -520,3 +520,5 @@ namespace MiniERP.WinForms.Forms
         private DataGridView dataGridViewFaturalar;
     }
 }
+
+

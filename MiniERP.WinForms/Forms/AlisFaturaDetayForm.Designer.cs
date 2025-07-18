@@ -771,3 +771,5 @@ namespace MiniERP.WinForms.Forms
         private System.Windows.Forms.Button btnSil;
     }
 }
+
+

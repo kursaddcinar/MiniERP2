@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <div class="media">
                         <div class="media-body">
-                            <h5 class="card-title">@Model.TotalCount</h5>
+                            <h5 class="card-title">@(ViewBag.TotalCariCount ?? 0)</h5>
                             <p class="card-text">Toplam Cari</p>
                         </div>
                         <div class="align-self-center">
@@ -189,11 +189,11 @@
                                             <td class="text-end">
                                                 @if (cari.CurrentBalance > 0)
                                                 {
-                                                    <span class="text-success">@cari.CurrentBalance.ToString("C")</span>
+                                                    <span class="text-success">@cari.CurrentBalance.ToCurrency()</span>
                                                 }
                                                 else if (cari.CurrentBalance < 0)
                                                 {
-                                                    <span class="text-danger">@cari.CurrentBalance.ToString("C")</span>
+                                                    <span class="text-danger">@cari.CurrentBalance.ToCurrency()</span>
                                                 }
                                                 else
                                                 {

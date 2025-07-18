@@ -487,3 +487,5 @@ namespace MiniERP.WinForms.Forms
         private System.Windows.Forms.TextBox txtDescription;
     }
 }
+
+

@@ -85,3 +85,5 @@ namespace MiniERP.WinForms.DTOs
         public int ApprovedInvoices { get; set; }
     }
 }
+
+

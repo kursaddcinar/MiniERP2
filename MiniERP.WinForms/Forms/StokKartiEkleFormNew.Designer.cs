@@ -441,3 +441,5 @@ namespace MiniERP.WinForms.Forms
         private Label lblBilgiRezerve;
     }
 }
+
+

@@ -361,3 +361,5 @@ namespace MiniERP.WinForms.Forms
         private DataGridViewTextBoxColumn colUpdateType;
     }
 }
+
+

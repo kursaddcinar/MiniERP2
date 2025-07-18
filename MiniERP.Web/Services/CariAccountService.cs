@@ -184,5 +184,27 @@ namespace MiniERP.Web.Services
                 return null;
             }
         }
+
+        public async Task<int> GetTotalCariCountAsync()
+        {
+            try
+            {
+                var customers = await GetCustomersAsync();
+                var suppliers = await GetSuppliersAsync();
+                
+                // Müşteri ve tedarikçilerde aynı cari hesap ID'leri olabileceği için unique ID'leri alıyoruz
+                var customerIds = customers.Select(c => c.CariAccountID).ToHashSet();
+                var supplierIds = suppliers.Select(s => s.CariAccountID).ToHashSet();
+                
+                // Toplam unique cari hesap sayısı
+                var totalUniqueIds = customerIds.Union(supplierIds).Count();
+                
+                return totalUniqueIds;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+        }
     }
 } 

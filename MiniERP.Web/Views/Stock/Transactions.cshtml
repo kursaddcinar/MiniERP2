@@ -84,10 +84,10 @@
                                     <strong>@transaction.Quantity.ToString("N2")</strong> @transaction.UnitName
                                 </td>
                                 <td>
-                                    @transaction.UnitPrice.ToString("C")
+                                    @transaction.UnitPrice.ToCurrency()
                                 </td>
                                 <td>
-                                    <strong>@transaction.TotalAmount.ToString("C")</strong>
+                                    <strong>@transaction.TotalAmount.ToCurrency()</strong>
                                 </td>
                                 <td>
                                     @if (!string.IsNullOrEmpty(transaction.DocumentType))

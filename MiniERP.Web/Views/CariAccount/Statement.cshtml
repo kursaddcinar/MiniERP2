@@ -70,11 +70,11 @@
                                 <table class="table table-borderless table-sm">
                                     <tr>
                                         <th width="140">Dönem Başı Bakiye:</th>
-                                        <td><strong class="@(Model.OpeningBalance >= 0 ? "text-success" : "text-danger")">@Model.OpeningBalance.ToString("C")</strong></td>
+                                        <td><strong class="@(Model.OpeningBalance >= 0 ? "text-success" : "text-danger")">@Model.OpeningBalance.ToCurrency()</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Dönem Sonu Bakiye:</th>
-                                        <td><strong class="@(Model.ClosingBalance >= 0 ? "text-success" : "text-danger")">@Model.ClosingBalance.ToString("C")</strong></td>
+                                        <td><strong class="@(Model.ClosingBalance >= 0 ? "text-success" : "text-danger")">@Model.ClosingBalance.ToCurrency()</strong></td>
                                     </tr>
                                 </table>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="col-md-3">
                                 <div class="card bg-primary text-white">
                                     <div class="card-body text-center">
-                                        <h4>@Model.OpeningBalance.ToString("C")</h4>
+                                        <h4>@Model.OpeningBalance.ToCurrency()</h4>
                                         <p class="mb-0">Dönem Başı</p>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                             <div class="col-md-3">
                                 <div class="card bg-danger text-white">
                                     <div class="card-body text-center">
-                                        <h4>@Model.TotalDebit.ToString("C")</h4>
+                                        <h4>@Model.TotalDebit.ToCurrency()</h4>
                                         <p class="mb-0">Toplam Borç</p>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                             <div class="col-md-3">
                                 <div class="card bg-success text-white">
                                     <div class="card-body text-center">
-                                        <h4>@Model.TotalCredit.ToString("C")</h4>
+                                        <h4>@Model.TotalCredit.ToCurrency()</h4>
                                         <p class="mb-0">Toplam Alacak</p>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@
                             <div class="col-md-3">
                                 <div class="card bg-warning text-white">
                                     <div class="card-body text-center">
-                                        <h4>@Model.ClosingBalance.ToString("C")</h4>
+                                        <h4>@Model.ClosingBalance.ToCurrency()</h4>
                                         <p class="mb-0">Dönem Sonu</p>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                             <td colspan="4"><strong>DÖNEM BAŞI BAKİYE</strong></td>
                                             <td class="text-end">-</td>
                                             <td class="text-end">-</td>
-                                            <td class="text-end"><strong>@Model.OpeningBalance.ToString("C")</strong></td>
+                                            <td class="text-end"><strong>@Model.OpeningBalance.ToCurrency()</strong></td>
                                         </tr>
 
                                         @{
@@ -157,7 +157,7 @@
                                                 <td class="text-end">
                                                     @if (transaction.DebitAmount > 0)
                                                     {
-                                                        <span class="text-danger">@transaction.DebitAmount.ToString("C")</span>
+                                                        <span class="text-danger">@transaction.DebitAmount.ToCurrency()</span>
                                                     }
                                                     else
                                                     {
@@ -167,7 +167,7 @@
                                                 <td class="text-end">
                                                     @if (transaction.CreditAmount > 0)
                                                     {
-                                                        <span class="text-success">@transaction.CreditAmount.ToString("C")</span>
+                                                        <span class="text-success">@transaction.CreditAmount.ToCurrency()</span>
                                                     }
                                                     else
                                                     {
@@ -176,7 +176,7 @@
                                                 </td>
                                                 <td class="text-end">
                                                     <strong class="@(runningBalance >= 0 ? "text-success" : "text-danger")">
-                                                        @runningBalance.ToString("C")
+                                                        @runningBalance.ToCurrency()
                                                     </strong>
                                                 </td>
                                             </tr>
@@ -185,9 +185,9 @@
                                         <!-- Closing Balance Row -->
                                         <tr class="table-warning">
                                             <td colspan="4"><strong>DÖNEM SONU BAKİYE</strong></td>
-                                            <td class="text-end"><strong>@Model.TotalDebit.ToString("C")</strong></td>
-                                            <td class="text-end"><strong>@Model.TotalCredit.ToString("C")</strong></td>
-                                            <td class="text-end"><strong>@Model.ClosingBalance.ToString("C")</strong></td>
+                                            <td class="text-end"><strong>@Model.TotalDebit.ToCurrency()</strong></td>
+                                            <td class="text-end"><strong>@Model.TotalCredit.ToCurrency()</strong></td>
+                                            <td class="text-end"><strong>@Model.ClosingBalance.ToCurrency()</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>

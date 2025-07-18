@@ -170,7 +170,7 @@ namespace MiniERP.WinForms.Forms
             {
                 HeaderText = "Birim Fiyat",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
             // KDV %
@@ -187,7 +187,7 @@ namespace MiniERP.WinForms.Forms
                 HeaderText = "Toplam",
                 Width = 100,
                 ReadOnly = true,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
             // İşlem (Sil butonu)
@@ -305,9 +305,9 @@ namespace MiniERP.WinForms.Forms
             decimal vatAmount = _invoiceDetails.Sum(d => d.Quantity * d.UnitPrice * d.VatRate / 100);
             decimal total = subTotal + vatAmount;
 
-            lblAraToplam.Text = subTotal.ToString("C2");
-            lblKdvTutari.Text = vatAmount.ToString("C2");
-            lblGenelToplam.Text = total.ToString("C2");
+            lblAraToplam.Text = subTotal.ToString("N2") + " ?";
+            lblKdvTutari.Text = vatAmount.ToString("N2") + " ?";
+            lblGenelToplam.Text = total.ToString("N2") + " ?";
         }
 
         private void DataGridViewKalemler_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -581,3 +581,5 @@ namespace MiniERP.WinForms.Forms
         // ...existing code...
     }
 }
+
+

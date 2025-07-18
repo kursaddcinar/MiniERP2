@@ -85,7 +85,7 @@
                                         <th>Güncel Bakiye:</th>
                                         <td>
                                             <strong class="@(Model.CurrentBalance >= 0 ? "text-success" : "text-danger")">
-                                                @Model.CurrentBalance.ToString("C")
+                                                @Model.CurrentBalance.ToCurrency()
                                             </strong>
                                         </td>
                                     </tr>
@@ -101,7 +101,7 @@
                         {
                             <div class="alert alert-danger">
                                 <i class="fas fa-exclamation-circle"></i>
-                                <strong>Uyarı:</strong> Bu cari hesabın bakiyesi sıfır değil (@Model.CurrentBalance.ToString("C")). 
+                                <strong>Uyarı:</strong> Bu cari hesabın bakiyesi sıfır değil (@Model.CurrentBalance.ToCurrency()). 
                                 Silmeden önce bakiyeyi sıfırlamanız önerilir.
                             </div>
                         }

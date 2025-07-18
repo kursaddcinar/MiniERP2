@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-md-4 text-end">
                                 <h4 class="@(cariAccount.CurrentBalance >= 0 ? "text-success" : "text-danger") mb-1">
-                                    @cariAccount.CurrentBalance.ToString("C")
+                                    @cariAccount.CurrentBalance.ToCurrency()
                                 </h4>
                                 <p class="text-muted mb-0">Güncel Bakiye</p>
                             </div>
@@ -152,7 +152,7 @@
                                             <td class="text-end">
                                                 @if (transaction.DebitAmount > 0)
                                                 {
-                                                    <span class="text-danger fw-bold">@transaction.DebitAmount.ToString("C")</span>
+                                                    <span class="text-danger fw-bold">@transaction.DebitAmount.ToCurrency()</span>
                                                 }
                                                 else
                                                 {
@@ -162,7 +162,7 @@
                                             <td class="text-end">
                                                 @if (transaction.CreditAmount > 0)
                                                 {
-                                                    <span class="text-success fw-bold">@transaction.CreditAmount.ToString("C")</span>
+                                                    <span class="text-success fw-bold">@transaction.CreditAmount.ToCurrency()</span>
                                                 }
                                                 else
                                                 {
@@ -171,7 +171,7 @@
                                             </td>
                                             <td class="text-end">
                                                 <span class="fw-bold @(transaction.Balance >= 0 ? "text-success" : "text-danger")">
-                                                    @transaction.Balance.ToString("C")
+                                                    @transaction.Balance.ToCurrency()
                                                 </span>
                                             </td>
                                         </tr>
@@ -180,14 +180,14 @@
                                 <tfoot>
                                     <tr class="table-info">
                                         <th colspan="4">TOPLAM</th>
-                                        <th class="text-end">@Model.Sum(t => t.DebitAmount).ToString("C")</th>
-                                        <th class="text-end">@Model.Sum(t => t.CreditAmount).ToString("C")</th>
+                                        <th class="text-end">@Model.Sum(t => t.DebitAmount).ToCurrency()</th>
+                                        <th class="text-end">@Model.Sum(t => t.CreditAmount).ToCurrency()</th>
                                         <th class="text-end">
                                             @{
                                                 var finalBalance = Model.Sum(t => t.CreditAmount) - Model.Sum(t => t.DebitAmount);
                                             }
                                             <span class="fw-bold @(finalBalance >= 0 ? "text-success" : "text-danger")">
-                                                @finalBalance.ToString("C")
+                                                @finalBalance.ToCurrency()
                                             </span>
                                         </th>
                                     </tr>

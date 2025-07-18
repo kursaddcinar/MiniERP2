@@ -96,7 +96,7 @@
                                     </tr>
                                     <tr>
                                         <th>Kredi Limiti:</th>
-                                        <td><strong>@Model.CreditLimit.ToString("C")</strong></td>
+                                        <td><strong>@Model.CreditLimit.ToCurrency()</strong></td>
                                     </tr>
                                     <tr>
                                         <th>Kayıt Tarihi:</th>
@@ -145,7 +145,7 @@
                     <div class="card-body text-center">
                         <div class="mb-3">
                             <h3 class="@(Model.CurrentBalance >= 0 ? "text-success" : "text-danger")">
-                                @Model.CurrentBalance.ToString("C")
+                                @Model.CurrentBalance.ToCurrency()
                             </h3>
                             <p class="text-muted mb-0">Güncel Bakiye</p>
                         </div>
@@ -153,13 +153,13 @@
                         <div class="row text-center">
                             <div class="col-6">
                                 <div class="border-end">
-                                    <h5 class="text-primary">@Model.CreditLimit.ToString("C")</h5>
+                                    <h5 class="text-primary">@Model.CreditLimit.ToCurrency()</h5>
                                     <p class="text-muted mb-0 small">Kredi Limiti</p>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <h5 class="@(Model.CreditLimit - Model.CurrentBalance >= 0 ? "text-success" : "text-danger")">
-                                    @((Model.CreditLimit - Model.CurrentBalance).ToString("C"))
+                                    @((Model.CreditLimit - Model.CurrentBalance).ToCurrency())
                                 </h5>
                                 <p class="text-muted mb-0 small">Kullanılabilir Limit</p>
                             </div>

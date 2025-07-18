@@ -65,9 +65,9 @@ namespace MiniERP.WinForms.Forms
             txtAciklama.ReadOnly = true;
 
             // Toplamlar
-            lblAraToplam.Text = _invoice.SubTotal.ToString("C2");
-            lblKDVTutari.Text = _invoice.VatAmount.ToString("C2");
-            lblGenelToplam.Text = _invoice.Total.ToString("C2");
+            lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
+            lblKDVTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
+            lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
         }
 
         private string GetStatusText(string status)
@@ -128,7 +128,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV %
@@ -146,7 +146,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "SubTotal",
                 HeaderText = "Satır Toplam",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV Tutarı
@@ -155,7 +155,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "VatAmount",
                 HeaderText = "KDV Tutarı",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Net Toplam
@@ -164,7 +164,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "LineTotal",
                 HeaderText = "Net Toplam",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Grid styling
@@ -351,3 +351,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

@@ -60,10 +60,10 @@
                             </dd>
 
                             <dt class="col-sm-4">Birim Fiyat:</dt>
-                            <dd class="col-sm-8">@Model.UnitPrice.ToString("C")</dd>
+                            <dd class="col-sm-8">@Model.UnitPrice.ToCurrency()</dd>
 
                             <dt class="col-sm-4">Toplam Tutar:</dt>
-                            <dd class="col-sm-8"><strong>@Model.TotalAmount.ToString("C")</strong></dd>
+                            <dd class="col-sm-8"><strong>@Model.TotalAmount.ToCurrency()</strong></dd>
                         </dl>
                     </div>
                     <div class="col-md-6">
@@ -176,11 +176,11 @@
                 <div class="row text-center">
                     <div class="col-6">
                         <h6 class="text-muted">Birim Fiyat</h6>
-                        <p class="mb-0">@Model.UnitPrice.ToString("C")</p>
+                        <p class="mb-0">@Model.UnitPrice.ToCurrency()</p>
                     </div>
                     <div class="col-6">
                         <h6 class="text-muted">Toplam</h6>
-                        <p class="mb-0"><strong>@Model.TotalAmount.ToString("C")</strong></p>
+                        <p class="mb-0"><strong>@Model.TotalAmount.ToCurrency()</strong></p>
                     </div>
                 </div>
             </div>

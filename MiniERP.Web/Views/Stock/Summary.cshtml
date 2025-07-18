@@ -104,13 +104,13 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="text-center p-3 border rounded">
-                            <h4 class="text-primary mb-2">@Model.TotalStockValue.ToString("C")</h4>
+                            <h4 class="text-primary mb-2">@Model.TotalStockValue.ToCurrency()</h4>
                             <small class="text-muted">Toplam Stok Değeri</small>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="text-center p-3 border rounded">
-                            <h4 class="text-success mb-2">@Model.TotalSaleValue.ToString("C")</h4>
+                            <h4 class="text-success mb-2">@Model.TotalSaleValue.ToCurrency()</h4>
                             <small class="text-muted">Toplam Satış Değeri</small>
                         </div>
                     </div>

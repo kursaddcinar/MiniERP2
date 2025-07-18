@@ -579,3 +579,5 @@ namespace MiniERP.WinForms.Forms
         private Button btnDetaylar;
     }
 }
+
+

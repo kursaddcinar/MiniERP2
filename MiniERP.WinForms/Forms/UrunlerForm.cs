@@ -124,7 +124,7 @@ namespace MiniERP.WinForms.Forms
                 HeaderText = "Satış Fiyatı",
                 Name = "SalePrice",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2" }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat() }
             });
 
             // Stock column
@@ -433,3 +433,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

@@ -492,3 +492,5 @@ namespace MiniERP.WinForms.Forms
         private ToolStripMenuItem toolStripMenuLogout;
     }
 }
+
+

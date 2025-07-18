@@ -151,11 +151,11 @@
                                                         <td>@detail.ProductName</td>
                                                         <td class="text-center">@detail.Quantity.ToString("N2")</td>
                                                         <td class="text-center">@detail.UnitName</td>
-                                                        <td class="text-end">@detail.UnitPrice.ToString("C")</td>
+                                                        <td class="text-end">@detail.UnitPrice.ToCurrency()</td>
                                                         <td class="text-center">@detail.VatRate.ToString("N0")</td>
-                                                        <td class="text-end">@detail.LineTotal.ToString("C")</td>
-                                                        <td class="text-end">@detail.VatAmount.ToString("C")</td>
-                                                        <td class="text-end"><strong>@detail.NetTotal.ToString("C")</strong></td>
+                                                        <td class="text-end">@detail.LineTotal.ToCurrency()</td>
+                                                        <td class="text-end">@detail.VatAmount.ToCurrency()</td>
+                                                        <td class="text-end"><strong>@detail.NetTotal.ToCurrency()</strong></td>
                                                     </tr>
                                                 }
                                             }
@@ -187,15 +187,15 @@
                                         <table class="table table-borderless table-sm mb-0">
                                             <tr>
                                                 <th>Ara Toplam:</th>
-                                                <td class="text-end">@Model.SubTotal.ToString("C")</td>
+                                                <td class="text-end">@Model.SubTotal.ToCurrency()</td>
                                             </tr>
                                             <tr>
                                                 <th>KDV Tutarı:</th>
-                                                <td class="text-end">@Model.VatAmount.ToString("C")</td>
+                                                <td class="text-end">@Model.VatAmount.ToCurrency()</td>
                                             </tr>
                                             <tr class="table-primary">
                                                 <th><strong>Genel Toplam:</strong></th>
-                                                <td class="text-end"><strong>@Model.Total.ToString("C")</strong></td>
+                                                <td class="text-end"><strong>@Model.Total.ToCurrency()</strong></td>
                                             </tr>
                                         </table>
                                     </div>

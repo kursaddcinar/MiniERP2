@@ -102,7 +102,7 @@
                                 <td><strong>@product.ProductCode</strong></td>
                                 <td>@product.ProductName</td>
                                 <td>@product.CategoryName</td>
-                                <td class="text-end">@product.SalePrice.ToString("C")</td>
+                                <td class="text-end">@product.SalePrice.ToCurrency()</td>
                                 <td class="text-end">
                                     <span class="badge @(product.StockQuantity <= product.MinStockLevel ? "bg-danger" : "bg-success")">
                                         @product.StockQuantity

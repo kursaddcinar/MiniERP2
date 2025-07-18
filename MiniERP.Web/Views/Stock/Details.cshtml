@@ -175,7 +175,7 @@
                                                             @transaction.Quantity.ToString("N2")
                                                         </td>
                                                         <td class="text-center">
-                                                            @transaction.UnitPrice.ToString("C")
+                                                            @transaction.UnitPrice.ToCurrency()
                                                         </td>
                                                         <td class="text-center">
                                                             @transaction.RemainingStock.ToString("N2")
@@ -608,3 +608,4 @@ function confirmDelete(stockCardId) {
     font-size: 0.9em;
 }
 </style>
+

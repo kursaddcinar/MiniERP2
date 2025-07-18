@@ -264,7 +264,7 @@ namespace MiniERP.WinForms.Forms
             {
                 HeaderText = "Birim Fiyat",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV %
@@ -280,7 +280,7 @@ namespace MiniERP.WinForms.Forms
             {
                 HeaderText = "Tutar",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "C2", Alignment = DataGridViewContentAlignment.MiddleRight },
+                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight },
                 ReadOnly = true
             });
 
@@ -481,9 +481,9 @@ namespace MiniERP.WinForms.Forms
             var vatAmount = _invoiceDetails.Sum(d => d.VatAmount);
             var total = subTotal + vatAmount;
 
-            lblAraToplam.Text = subTotal.ToString("C2");
-            lblKdvTutari.Text = vatAmount.ToString("C2");
-            lblGenelToplam.Text = total.ToString("C2");
+            lblAraToplam.Text = subTotal.ToString("N2") + " ?";
+            lblKdvTutari.Text = vatAmount.ToString("N2") + " ?";
+            lblGenelToplam.Text = total.ToString("N2") + " ?";
         }
 
         private async void btnGuncelle_Click(object? sender, EventArgs e)
@@ -575,3 +575,5 @@ namespace MiniERP.WinForms.Forms
         }
     }
 }
+
+

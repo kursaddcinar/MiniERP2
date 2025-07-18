@@ -583,3 +583,5 @@ namespace MiniERP.WinForms.Forms
         private Label lblGenelToplam;
     }
 }
+
+

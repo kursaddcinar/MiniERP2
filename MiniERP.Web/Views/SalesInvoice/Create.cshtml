@@ -305,9 +305,19 @@
                 
                 const grandTotal = subTotal + vatTotal;
                 
-                $('#subTotal').text(subTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
-                $('#vatTotal').text(vatTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
-                $('#grandTotal').text(grandTotal.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
+                // Özel para formatlaması fonksiyonu
+                function formatCurrency(amount) {
+                    if (amount === 0 || isNaN(amount)) {
+                        return '0,00 ₺';
+                    }
+                    // Türkçe sayı formatı için manuel formatlaması
+                    const formatted = amount.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    return formatted + ' ₺';
+                }
+                
+                $('#subTotal').text(formatCurrency(subTotal));
+                $('#vatTotal').text(formatCurrency(vatTotal));
+                $('#grandTotal').text(formatCurrency(grandTotal));
             }
         });
     </script>
