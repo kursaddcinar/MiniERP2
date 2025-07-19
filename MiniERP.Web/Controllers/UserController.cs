@@ -50,7 +50,7 @@ namespace MiniERP.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                return View(user);
+                return View("Details", user);
             }
             catch (Exception ex)
             {
@@ -118,6 +118,7 @@ namespace MiniERP.Web.Controllers
 
                 var updateDto = new UpdateUserDto
                 {
+                    UserID = user.UserID,
                     Username = user.Username,
                     Email = user.Email,
                     FirstName = user.FirstName,
@@ -127,7 +128,7 @@ namespace MiniERP.Web.Controllers
                 };
 
                 ViewBag.Roles = new List<string> { "Admin", "Manager", "Sales", "Purchase", "Finance", "Warehouse", "Employee" };
-                return View(updateDto);
+                return View("Edit", updateDto);
             }
             catch (Exception ex)
             {
@@ -143,6 +144,12 @@ namespace MiniERP.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateUserDto updateDto)
         {
+            if (id != updateDto.UserID)
+            {
+                TempData["ErrorMessage"] = "Geçersiz kullanıcı ID'si.";
+                return RedirectToAction(nameof(Index));
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Roles = new List<string> { "Admin", "Manager", "Sales", "Purchase", "Finance", "Warehouse", "Employee" };
@@ -176,6 +183,7 @@ namespace MiniERP.Web.Controllers
         // POST: User/Delete/5
         [HttpPost]
         [Authorize(Roles = "Admin")] // Sadece Admin kullanıcı silebilir
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -202,6 +210,7 @@ namespace MiniERP.Web.Controllers
         // POST: User/ToggleActivation/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> ToggleActivation(int id)
         {
             try

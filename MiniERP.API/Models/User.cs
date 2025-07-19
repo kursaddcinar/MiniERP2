@@ -30,6 +30,8 @@ namespace MiniERP.API.Models
         
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         
+        public DateTime? LastLoginDate { get; set; }
+        
         public int? CreatedBy { get; set; }
         
         // Navigation Properties

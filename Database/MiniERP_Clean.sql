@@ -63,6 +63,7 @@ CREATE TABLE Users (
     LastName nvarchar(50),
     IsActive bit DEFAULT 1,
     CreatedDate datetime DEFAULT GETDATE(),
+    LastLoginDate datetime NULL,
     CreatedBy int
 );
 
@@ -175,6 +176,11 @@ CREATE TABLE StockCards (
     WarehouseID int NOT NULL,
     CurrentStock decimal(18,3) DEFAULT 0,
     ReservedStock decimal(18,3) DEFAULT 0,
+    Location nvarchar(100) NULL,
+    Notes nvarchar(500) NULL,
+    ReorderLevel decimal(18,3) DEFAULT 0,
+    ReorderQuantity decimal(18,3) DEFAULT 0,
+    IsActive bit DEFAULT 1,
     LastTransactionDate datetime,
     CreatedDate datetime DEFAULT GETDATE(),
     CreatedBy int,

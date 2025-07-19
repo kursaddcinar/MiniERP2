@@ -1,0 +1,224 @@
+@model MiniERP.Web.Models.UserDto
+
+@{
+    ViewData["Title"] = "Kullanıcı Detayları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-user"></i>
+                    Kullanıcı Detayları
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "User")">Kullanıcı Yönetimi</a></li>
+                        <li class="breadcrumb-item active">Detaylar</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Kullanıcı Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Kullanıcı Adı:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.Username
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Ad Soyad:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.FullName
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Email:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <a href="mailto:@Model.Email">@Model.Email</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Rol:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @if (Model.Roles.Any())
+                            {
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <span class="badge bg-info me-1">@role</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-muted">Rol atanmamış</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Durum:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @if (Model.IsActive)
+                            {
+                                <span class="badge bg-success">Aktif</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Pasif</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Oluşturma Tarihi:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <strong>Son Giriş:</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            @if (Model.LastLoginDate.HasValue)
+                            {
+                                @Model.LastLoginDate.Value.ToString("dd.MM.yyyy HH:mm")
+                            }
+                            else
+                            {
+                                <span class="text-muted">Hiç giriş yapmamış</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">İşlemler</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Edit" asp-route-id="@Model.UserID" class="btn btn-warning">
+                            <i class="fas fa-edit"></i>
+                            Düzenle
+                        </a>
+
+                        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                        {
+                            <form asp-action="ToggleActivation" asp-route-id="@Model.UserID" 
+                                  method="post" class="mb-2">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" 
+                                        class="btn btn-outline-@(Model.IsActive ? "secondary" : "success") w-100"
+                                        onclick="return confirm('@(Model.IsActive ? "Bu kullanıcıyı pasifleştirmek istediğinizden emin misiniz?" : "Bu kullanıcıyı aktifleştirmek istediğinizden emin misiniz?")')">
+                                    <i class="fas fa-@(Model.IsActive ? "pause" : "play")"></i>
+                                    @(Model.IsActive ? "Pasifleştir" : "Aktifleştir")
+                                </button>
+                            </form>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <form asp-action="Delete" asp-route-id="@Model.UserID" 
+                                  method="post" class="mb-2">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" 
+                                        class="btn btn-danger w-100"
+                                        onclick="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')">
+                                    <i class="fas fa-trash"></i>
+                                    Sil
+                                </button>
+                            </form>
+                        }
+
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Geri Dön
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.Roles.Any())
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title">Roller ve Yetkiler</h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var role in Model.Roles)
+                        {
+                            <div class="mb-2">
+                                <span class="badge bg-primary me-2">@role</span>
+                                @switch (role)
+                                {
+                                    case "Admin":
+                                        <small class="text-muted">Tam yetki - Tüm modüllere erişim</small>
+                                        break;
+                                    case "Manager":
+                                        <small class="text-muted">Yönetici - Çoğu modüle erişim</small>
+                                        break;
+                                    case "Sales":
+                                        <small class="text-muted">Satış - Satış ve cari işlemleri</small>
+                                        break;
+                                    case "Purchase":
+                                        <small class="text-muted">Satın Alma - Alış ve stok işlemleri</small>
+                                        break;
+                                    case "Finance":
+                                        <small class="text-muted">Finans - Ödeme ve tahsilat işlemleri</small>
+                                        break;
+                                    case "Warehouse":
+                                        <small class="text-muted">Depo - Stok ve depo işlemleri</small>
+                                        break;
+                                    case "Employee":
+                                        <small class="text-muted">Çalışan - Temel erişim</small>
+                                        break;
+                                    default:
+                                        <small class="text-muted">Özel rol</small>
+                                        break;
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

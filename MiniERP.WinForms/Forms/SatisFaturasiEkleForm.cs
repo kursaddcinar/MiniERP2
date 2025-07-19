@@ -7,6 +7,7 @@ namespace MiniERP.WinForms.Forms
     {
         private readonly UserDto _currentUser;
         private readonly ApiService _apiService;
+        private readonly InvoiceNumberGeneratorService _invoiceNumberGenerator;
         private readonly string _userRole;
         private readonly SalesInvoiceDto? _editingInvoice;
         private readonly bool _isEditMode;
@@ -21,6 +22,7 @@ namespace MiniERP.WinForms.Forms
             InitializeComponent();
             _currentUser = currentUser;
             _apiService = apiService;
+            _invoiceNumberGenerator = new InvoiceNumberGeneratorService();
             _userRole = GetPrimaryRole();
             _isEditMode = false;
             
@@ -34,6 +36,7 @@ namespace MiniERP.WinForms.Forms
             InitializeComponent();
             _currentUser = currentUser;
             _apiService = apiService;
+            _invoiceNumberGenerator = new InvoiceNumberGeneratorService();
             _userRole = GetPrimaryRole();
             _editingInvoice = invoice;
             _isEditMode = true;
@@ -69,7 +72,7 @@ namespace MiniERP.WinForms.Forms
                 dtpVadeTarihi.Value = DateTime.Now.AddDays(30);
                 
                 // Generate invoice number
-                txtFaturaNo.Text = GenerateInvoiceNumber();
+                txtFaturaNo.Text = _invoiceNumberGenerator.GenerateSalesInvoiceNumber();
                 txtFaturaNo.ReadOnly = true;
             }
         }
@@ -85,9 +88,12 @@ namespace MiniERP.WinForms.Forms
             // Set customer and warehouse will be done after loading data
         }
 
-        private string GenerateInvoiceNumber()
+        private void RegenerateInvoiceNumber()
         {
-            return $"SF{DateTime.Now:yyyyMMdd}{DateTime.Now:HHmmss}";
+            if (!_isEditMode)
+            {
+                txtFaturaNo.Text = _invoiceNumberGenerator.GenerateSalesInvoiceNumber();
+            }
         }
 
         private void SetupDataGridView()

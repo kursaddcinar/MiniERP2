@@ -254,6 +254,13 @@ namespace MiniERP.WinForms.Forms
                 return;
             }
 
+            if (_invoice.Status?.ToUpper() != "DRAFT")
+            {
+                MessageBox.Show("Sadece taslak faturalar onaylanabilir.", "Uyarı", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             var result = MessageBox.Show("Bu faturayı onaylamak istediğinizden emin misiniz?", 
                 "Fatura Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -261,21 +268,27 @@ namespace MiniERP.WinForms.Forms
             {
                 try
                 {
-                    var approveResponse = await _apiService.PostAsync<object>($"PurchaseInvoices/{_invoice.InvoiceID}/approve", new { });
+                    var approvalDto = new
+                    {
+                        InvoiceID = _invoice.InvoiceID,
+                        ApprovalNote = "WinForms uygulamasından onaylandı"
+                    };
+
+                    var approveResponse = await _apiService.PostAsync<bool>($"PurchaseInvoices/{_invoice.InvoiceID}/approve", approvalDto);
                     
-                    if (approveResponse.Success)
+                    if (approveResponse != null && approveResponse.Success)
                     {
                         MessageBox.Show("Fatura başarıyla onaylandı.", "Başarılı", 
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                         
-                        lblDurum.Text = "Onaylandı";
-                        btnOnayla.Enabled = false;
-                        btnOnayla.Text = "Onaylandı";
-                        btnDuzenle.Enabled = false;
+                        // Update invoice status and refresh UI
+                        _invoice.Status = "APPROVED";
+                        FillInvoiceData();
+                        SetupRoleBasedAccess();
                     }
                     else
                     {
-                        MessageBox.Show($"Fatura onaylanırken hata oluştu: {approveResponse.Message}", "Hata", 
+                        MessageBox.Show($"Fatura onaylanırken hata oluştu: {approveResponse?.Message}", "Hata", 
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }

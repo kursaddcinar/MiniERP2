@@ -53,6 +53,8 @@ namespace MiniERP.Web.Models
 
     public class UpdateUserDto
     {
+        public int UserID { get; set; }
+
         [Required(ErrorMessage = "Kullanıcı adı gereklidir")]
         [Display(Name = "Kullanıcı Adı")]
         public string Username { get; set; } = string.Empty;

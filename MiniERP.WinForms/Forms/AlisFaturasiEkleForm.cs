@@ -9,6 +9,7 @@ namespace MiniERP.WinForms.Forms
     {
         private readonly UserDto _currentUser;
         private readonly ApiService _apiService;
+        private readonly InvoiceNumberGeneratorService _invoiceNumberGenerator;
         private List<CariAccountDto> _suppliers = new();
         private List<WarehouseDto> _warehouses = new();
         private List<ProductDto> _products = new();
@@ -24,6 +25,7 @@ namespace MiniERP.WinForms.Forms
             InitializeComponent();
             _currentUser = currentUser;
             _apiService = apiService;
+            _invoiceNumberGenerator = new InvoiceNumberGeneratorService();
             
             InitializeForm();
             LoadComboBoxData();
@@ -35,6 +37,7 @@ namespace MiniERP.WinForms.Forms
             InitializeComponent();
             _currentUser = currentUser;
             _apiService = apiService;
+            _invoiceNumberGenerator = new InvoiceNumberGeneratorService();
             _editingInvoice = invoice;
             _isEditMode = true;
             
@@ -49,8 +52,12 @@ namespace MiniERP.WinForms.Forms
             dtpFaturaTarihi.Value = DateTime.Now;
             dtpVadeTarihi.Value = DateTime.Now.AddDays(30); // 30 gün vade
             
-            // Generate invoice number (this should come from API in real scenario)
-            txtFaturaNo.Text = $"AF{DateTime.Now:yyyyMMdd}{DateTime.Now:HHmmss}";
+            // Generate invoice number using service
+            if (!_isEditMode)
+            {
+                txtFaturaNo.Text = _invoiceNumberGenerator.GeneratePurchaseInvoiceNumber();
+                txtFaturaNo.ReadOnly = true;
+            }
             
             SetupDataGridView();
         }

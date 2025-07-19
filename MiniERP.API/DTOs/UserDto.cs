@@ -9,7 +9,12 @@ namespace MiniERP.API.DTOs
         public string? LastName { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
         public List<string> Roles { get; set; } = new List<string>();
+        
+        // Computed properties for compatibility
+        public string FullName => $"{FirstName} {LastName}".Trim();
+        public string Role => Roles.FirstOrDefault() ?? string.Empty;
     }
 
     public class CreateUserDto

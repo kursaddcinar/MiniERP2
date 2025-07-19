@@ -1,0 +1,199 @@
+@model MiniERP.Web.Models.UpdateUserDto
+
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-edit"></i>
+                    Kullanıcı Düzenle
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "User")">Kullanıcı Yönetimi</a></li>
+                        <li class="breadcrumb-item active">Düzenle</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Kullanıcı Bilgilerini Düzenle</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <input asp-for="UserID" type="hidden" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Username" class="form-label"></label>
+                                    <input asp-for="Username" class="form-control" placeholder="Kullanıcı adı giriniz" readonly />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                    <small class="form-text text-muted">Kullanıcı adı değiştirilemez</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="E-posta adresi" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FirstName" class="form-label"></label>
+                                    <input asp-for="FirstName" class="form-control" placeholder="Ad giriniz" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="LastName" class="form-label"></label>
+                                    <input asp-for="LastName" class="form-control" placeholder="Soyad giriniz" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Role" class="form-label"></label>
+                                    <select asp-for="Role" class="form-select">
+                                        <option value="">Rol seçiniz...</option>
+                                        @if (ViewBag.Roles != null)
+                                        {
+                                            @foreach (var role in (List<string>)ViewBag.Roles)
+                                            {
+                                                <option value="@role" selected="@(Model.Role == role)">@role</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+                                        <label asp-for="IsActive" class="form-check-label">
+                                            Aktif
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        @if (Model.IsActive)
+                                        {
+                                            <span class="text-success">Kullanıcı sisteme giriş yapabilir</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Kullanıcı sisteme giriş yapamaz</span>
+                                        }
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <h6 class="alert-heading"><i class="fas fa-info-circle"></i> Bilgilendirme</h6>
+                                    <ul class="mb-0">
+                                        <li>Kullanıcı adı değiştirilemez</li>
+                                        <li>Şifre değiştirmek için ayrı bir işlem gereklidir</li>
+                                        <li>Rol değişiklikleri kullanıcının yetkileri üzerinde etkili olur</li>
+                                        <li>Pasif kullanıcılar sisteme giriş yapamaz</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-action="Index" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i>
+                                        İptal
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Kaydet
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function() {
+            // Form validation
+            $('form').on('submit', function(e) {
+                var form = this;
+                
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            });
+
+            // Role change warning
+            $('#Role').on('change', function() {
+                var selectedRole = $(this).val();
+                if (selectedRole) {
+                    var roleDescriptions = {
+                        'Admin': 'Tam yetki - Tüm modüllere erişim',
+                        'Manager': 'Yönetici - Çoğu modüle erişim',
+                        'Sales': 'Satış - Satış ve cari işlemleri',
+                        'Purchase': 'Satın Alma - Alış ve stok işlemleri',
+                        'Finance': 'Finans - Ödeme ve tahsilat işlemleri',
+                        'Warehouse': 'Depo - Stok ve depo işlemleri',
+                        'Employee': 'Çalışan - Temel erişim'
+                    };
+                    
+                    var description = roleDescriptions[selectedRole] || 'Özel rol';
+                    
+                    // Show role description
+                    if (!$('#role-description').length) {
+                        $(this).after('<small id="role-description" class="form-text text-muted"></small>');
+                    }
+                    $('#role-description').text(description);
+                }
+            });
+
+            // Active status change
+            $('#IsActive').on('change', function() {
+                var statusText = $('#status-text');
+                if ($(this).is(':checked')) {
+                    statusText.removeClass('text-danger').addClass('text-success')
+                        .text('Kullanıcı sisteme giriş yapabilir');
+                } else {
+                    statusText.removeClass('text-success').addClass('text-danger')
+                        .text('Kullanıcı sisteme giriş yapamaz');
+                }
+            });
+        });
+    </script>
+}

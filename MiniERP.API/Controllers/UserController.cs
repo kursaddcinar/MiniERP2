@@ -182,6 +182,47 @@ namespace MiniERP.API.Controllers
         }
 
         /// <summary>
+        /// Kullanıcı aktiflik durumunu değiştir (Admin ve Manager yetkisi gerekir)
+        /// </summary>
+        [HttpPost("{id:int}/toggle-activation")]
+        [Authorize(Roles = "Admin,Manager")]
+        public async Task<ActionResult<ApiResponse<bool>>> ToggleUserActivation(int id)
+        {
+            var currentUserId = GetCurrentUserId();
+            
+            // Kullanıcı kendini pasif yapamaz
+            if (currentUserId == id)
+            {
+                return BadRequest(ApiResponse<bool>.ErrorResult("You cannot change your own activation status"));
+            }
+
+            // Önce kullanıcının mevcut durumunu öğren
+            var userResult = await _userService.GetUserByIdAsync(id);
+            if (!userResult.Success || userResult.Data == null)
+            {
+                return BadRequest(ApiResponse<bool>.ErrorResult("User not found"));
+            }
+
+            // Mevcut duruma göre aktif/pasif yap
+            ApiResponse<bool> result;
+            if (userResult.Data.IsActive)
+            {
+                result = await _userService.DeactivateUserAsync(id);
+            }
+            else
+            {
+                result = await _userService.ActivateUserAsync(id);
+            }
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Role göre kullanıcıları getir (Admin ve Manager yetkisi gerekir)
         /// </summary>
         [HttpGet("by-role/{roleName}")]

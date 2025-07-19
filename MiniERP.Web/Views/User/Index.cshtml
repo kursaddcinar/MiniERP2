@@ -1,4 +1,4 @@
-@model PagedResult<UserDto>
+@model PagedResult<MiniERP.Web.Models.UserDto>
 @{
     ViewData["Title"] = "Kullanıcı Yönetimi";
 }
@@ -13,9 +13,12 @@
 
     <div class="row mb-3">
         <div class="col-md-6">
-            <a asp-action="Create" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Yeni Kullanıcı
-            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Yeni Kullanıcı
+                </a>
+            }
         </div>
         <div class="col-md-6">
             <form method="get" class="d-flex">
@@ -81,19 +84,42 @@
                                                class="btn btn-outline-info" title="Detaylar">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a asp-action="Edit" asp-route-id="@user.UserID" 
-                                               class="btn btn-outline-warning" title="Düzenle">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <form asp-action="ToggleActivation" asp-route-id="@user.UserID" 
-                                                  method="post" class="d-inline">
-                                                @Html.AntiForgeryToken()
-                                                <button type="submit" 
-                                                        class="btn btn-outline-@(user.IsActive ? "secondary" : "success")" 
-                                                        title="@(user.IsActive ? "Pasifleştir" : "Aktifleştir")">
-                                                    <i class="fas fa-@(user.IsActive ? "pause" : "play")"></i>
-                                                </button>
-                                            </form>
+                                            
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                            {
+                                                <a asp-action="Edit" asp-route-id="@user.UserID" 
+                                                   class="btn btn-outline-warning" title="Düzenle">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            }
+                                            
+                                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                            {
+                                                <form asp-action="ToggleActivation" asp-route-id="@user.UserID" 
+                                                      method="post" class="d-inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" 
+                                                            class="btn btn-outline-@(user.IsActive ? "secondary" : "success")" 
+                                                            title="@(user.IsActive ? "Pasifleştir" : "Aktifleştir")"
+                                                            onclick="return confirm('@(user.IsActive ? "Bu kullanıcıyı pasifleştirmek istediğinizden emin misiniz?" : "Bu kullanıcıyı aktifleştirmek istediğinizden emin misiniz?")')">
+                                                        <i class="fas fa-@(user.IsActive ? "pause" : "play")"></i>
+                                                    </button>
+                                                </form>
+                                            }
+                                            
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <form asp-action="Delete" asp-route-id="@user.UserID" 
+                                                      method="post" class="d-inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" 
+                                                            class="btn btn-outline-danger" 
+                                                            title="Sil"
+                                                            onclick="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            }
                                         </div>
                                     </td>
                                 </tr>

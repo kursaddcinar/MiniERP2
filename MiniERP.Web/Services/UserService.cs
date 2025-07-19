@@ -68,7 +68,18 @@ namespace MiniERP.Web.Services
         {
             try
             {
-                return await _apiService.PostAsync<UserDto>("api/User", createDto);
+                // Web'deki DTO'yu API'nin beklediği formata dönüştür
+                var apiCreateDto = new
+                {
+                    Username = createDto.Username,
+                    Password = createDto.Password,
+                    Email = createDto.Email,
+                    FirstName = createDto.FirstName,
+                    LastName = createDto.LastName,
+                    RoleIds = await GetRoleIdsByNameAsync(createDto.Role)
+                };
+
+                return await _apiService.PostAsync<UserDto>("api/User", apiCreateDto);
             }
             catch (Exception ex)
             {
@@ -80,11 +91,53 @@ namespace MiniERP.Web.Services
         {
             try
             {
-                return await _apiService.PutAsync<UserDto>($"api/User/{id}", updateDto);
+                // Web'deki DTO'yu API'nin beklediği formata dönüştür
+                var apiUpdateDto = new
+                {
+                    Email = updateDto.Email,
+                    FirstName = updateDto.FirstName,
+                    LastName = updateDto.LastName,
+                    IsActive = updateDto.IsActive,
+                    RoleIds = await GetRoleIdsByNameAsync(updateDto.Role)
+                };
+
+                return await _apiService.PutAsync<UserDto>($"api/User/{id}", apiUpdateDto);
             }
             catch (Exception ex)
             {
                 return ApiResponse<UserDto>.ErrorResult($"Hata: {ex.Message}");
+            }
+        }
+
+        private Task<List<int>> GetRoleIdsByNameAsync(string roleName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(roleName))
+                    return Task.FromResult(new List<int>());
+
+                // Rol ID'lerini sabit kodlayarak çözüm sağlayalım (daha sonra API'den alınabilir)
+                var roleMapping = new Dictionary<string, int>
+                {
+                    { "Admin", 1 },
+                    { "Manager", 2 },
+                    { "Sales", 3 },
+                    { "Purchase", 4 },
+                    { "Finance", 5 },
+                    { "Warehouse", 6 },
+                    { "Employee", 7 }
+                };
+
+                if (roleMapping.ContainsKey(roleName))
+                {
+                    return Task.FromResult(new List<int> { roleMapping[roleName] });
+                }
+
+                return Task.FromResult(new List<int>());
+            }
+            catch
+            {
+                return Task.FromResult(new List<int>());
             }
         }
 

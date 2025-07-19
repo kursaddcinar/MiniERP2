@@ -1,0 +1,258 @@
+@model MiniERP.Web.Models.CreateUserDto
+
+@{
+    ViewData["Title"] = "Yeni Kullanıcı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">
+                    <i class="fas fa-user-plus"></i>
+                    Yeni Kullanıcı Oluştur
+                </h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Ana Sayfa</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "User")">Kullanıcı Yönetimi</a></li>
+                        <li class="breadcrumb-item active">Yeni Kullanıcı</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Kullanıcı Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Username" class="form-label"></label>
+                                    <input asp-for="Username" class="form-control" placeholder="Kullanıcı adı giriniz" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                    <small class="form-text text-muted">Kullanıcı adı benzersiz olmalıdır</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label"></label>
+                                    <input asp-for="Email" type="email" class="form-control" placeholder="E-posta adresi" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FirstName" class="form-label"></label>
+                                    <input asp-for="FirstName" class="form-control" placeholder="Ad giriniz" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="LastName" class="form-label"></label>
+                                    <input asp-for="LastName" class="form-control" placeholder="Soyad giriniz" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Password" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="Password" type="password" class="form-control" placeholder="Şifre giriniz" />
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                    <small class="form-text text-muted">En az 6 karakter olmalıdır</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="ConfirmPassword" class="form-label"></label>
+                                    <div class="input-group">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Şifre tekrarı" />
+                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Role" class="form-label"></label>
+                                    <select asp-for="Role" class="form-select">
+                                        <option value="">Rol seçiniz...</option>
+                                        @if (ViewBag.Roles != null)
+                                        {
+                                            @foreach (var role in (List<string>)ViewBag.Roles)
+                                            {
+                                                <option value="@role">@role</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Rol Açıklaması</label>
+                                    <div id="role-description" class="form-control-plaintext text-muted">
+                                        Rol seçiniz...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <h6 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> Önemli Bilgiler</h6>
+                                    <ul class="mb-0">
+                                        <li>Kullanıcı adı ve email benzersiz olmalıdır</li>
+                                        <li>Güçlü bir şifre seçiniz (en az 6 karakter)</li>
+                                        <li>Rol seçimi kullanıcının sistem yetkilerini belirler</li>
+                                        <li>Oluşturulan kullanıcı varsayılan olarak aktif durumda olacaktır</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-action="Index" class="btn btn-secondary">
+                                        <i class="fas fa-times"></i>
+                                        İptal
+                                    </a>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        Kullanıcı Oluştur
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function() {
+            // Password visibility toggle
+            $('#togglePassword').on('click', function() {
+                var passwordField = $('#Password');
+                var type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', type);
+                $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+            });
+
+            $('#toggleConfirmPassword').on('click', function() {
+                var confirmPasswordField = $('#ConfirmPassword');
+                var type = confirmPasswordField.attr('type') === 'password' ? 'text' : 'password';
+                confirmPasswordField.attr('type', type);
+                $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+            });
+
+            // Role descriptions
+            var roleDescriptions = {
+                'Admin': 'Tam yetki - Tüm modüllere erişim, kullanıcı yönetimi dahil',
+                'Manager': 'Yönetici - Çoğu modüle erişim, raporlama ve onay yetkileri',
+                'Sales': 'Satış - Satış faturaları ve cari hesap işlemleri',
+                'Purchase': 'Satın Alma - Alış faturaları ve stok işlemleri',
+                'Finance': 'Finans - Ödeme, tahsilat ve finansal işlemler',
+                'Warehouse': 'Depo - Stok yönetimi ve depo işlemleri',
+                'Employee': 'Çalışan - Temel erişim, sadece görüntüleme'
+            };
+
+            // Role change event
+            $('#Role').on('change', function() {
+                var selectedRole = $(this).val();
+                var description = selectedRole ? roleDescriptions[selectedRole] || 'Özel rol' : 'Rol seçiniz...';
+                $('#role-description').text(description);
+            });
+
+            // Form validation
+            $('form').on('submit', function(e) {
+                var form = this;
+                
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            });
+
+            // Password strength indicator
+            $('#Password').on('keyup', function() {
+                var password = $(this).val();
+                var strength = 0;
+                var feedback = '';
+                
+                if (password.length >= 6) strength++;
+                if (password.match(/[a-z]/)) strength++;
+                if (password.match(/[A-Z]/)) strength++;
+                if (password.match(/[0-9]/)) strength++;
+                if (password.match(/[^a-zA-Z0-9]/)) strength++;
+                
+                var strengthText = '';
+                var strengthClass = '';
+                
+                switch(strength) {
+                    case 0:
+                    case 1:
+                        strengthText = 'Çok Zayıf';
+                        strengthClass = 'text-danger';
+                        break;
+                    case 2:
+                        strengthText = 'Zayıf';
+                        strengthClass = 'text-warning';
+                        break;
+                    case 3:
+                        strengthText = 'Orta';
+                        strengthClass = 'text-info';
+                        break;
+                    case 4:
+                        strengthText = 'Güçlü';
+                        strengthClass = 'text-success';
+                        break;
+                    case 5:
+                        strengthText = 'Çok Güçlü';
+                        strengthClass = 'text-success';
+                        break;
+                }
+                
+                if (!$('#password-strength').length) {
+                    $('#Password').after('<small id="password-strength" class="form-text"></small>');
+                }
+                
+                $('#password-strength').removeClass('text-danger text-warning text-info text-success')
+                    .addClass(strengthClass).text('Şifre Güçlülüğü: ' + strengthText);
+            });
+        });
+    </script>
+}
