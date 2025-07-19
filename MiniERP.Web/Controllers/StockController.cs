@@ -413,11 +413,62 @@ namespace MiniERP.Web.Controllers
 
         #region Stok Hareketleri
 
-        public async Task<IActionResult> Transactions(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Transactions(int page = 1, int pageSize = 10, int? stockCardId = null)
         {
             try
             {
-                var result = await _stockService.GetStockTransactionsAsync(page, pageSize);
+                ApiResponse<PagedResult<StockTransactionDto>> result;
+                
+                if (stockCardId.HasValue)
+                {
+                    // Belirli stok kartına ait hareketleri getir
+                    var stockCardResult = await _stockService.GetStockCardByIdAsync(stockCardId.Value);
+                    if (stockCardResult.Success && stockCardResult.Data != null)
+                    {
+                        var stockCard = stockCardResult.Data;
+                        var allTransactions = await _stockService.GetTransactionsByProductAsync(stockCard.ProductID);
+                        
+                        if (allTransactions.Success && allTransactions.Data != null)
+                        {
+                            // Aynı depo ile filtreleme yaparak sadece bu stok kartına ait olanları al
+                            var filteredTransactions = allTransactions.Data
+                                .Where(t => t.WarehouseID == stockCard.WarehouseID)
+                                .OrderByDescending(t => t.TransactionDate)
+                                .ToList();
+                            
+                            var pagedData = filteredTransactions
+                                .Skip((page - 1) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+                            
+                            var pagedResult = new PagedResult<StockTransactionDto>(
+                                pagedData, 
+                                filteredTransactions.Count, 
+                                page, 
+                                pageSize);
+                            
+                            ViewBag.StockCardInfo = $"{stockCard.ProductCode} - {stockCard.ProductName} ({stockCard.WarehouseName})";
+                            ViewBag.StockCardId = stockCardId.Value;
+                            result = ApiResponse<PagedResult<StockTransactionDto>>.SuccessResult(pagedResult);
+                        }
+                        else
+                        {
+                            result = ApiResponse<PagedResult<StockTransactionDto>>.SuccessResult(
+                                new PagedResult<StockTransactionDto>(new List<StockTransactionDto>(), 0, page, pageSize));
+                        }
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Stok kartı bulunamadı.";
+                        result = ApiResponse<PagedResult<StockTransactionDto>>.SuccessResult(
+                            new PagedResult<StockTransactionDto>(new List<StockTransactionDto>(), 0, page, pageSize));
+                    }
+                }
+                else
+                {
+                    // Tüm hareketleri getir
+                    result = await _stockService.GetStockTransactionsAsync(page, pageSize);
+                }
                 
                 if (result.Success && result.Data != null)
                 {
@@ -504,6 +555,57 @@ namespace MiniERP.Web.Controllers
                 ModelState.AddModelError(string.Empty, "Stok hareketi oluşturulurken hata oluştu.");
                 await LoadDropdownData();
                 return View(model);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
+        public async Task<JsonResult> CreateStockTransaction([FromBody] CreateStockTransactionAjaxDto model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Json(new { success = false, message = "Geçersiz veri girişi." });
+                }
+
+                // StockCardID'den ProductID ve WarehouseID'yi al
+                var stockCard = await _stockService.GetStockCardByIdAsync(model.StockCardID);
+                if (stockCard == null || !stockCard.Success || stockCard.Data == null)
+                {
+                    return Json(new { success = false, message = "Stok kartı bulunamadı." });
+                }
+
+                // Belge numarasını sistem otomatik oluşturacak
+                var transactionDto = new CreateStockTransactionDto
+                {
+                    ProductID = stockCard.Data.ProductID,
+                    WarehouseID = stockCard.Data.WarehouseID,
+                    TransactionType = model.TransactionType == "IN" ? "GIRIS" : "CIKIS",
+                    Quantity = model.Quantity,
+                    UnitPrice = model.UnitPrice,
+                    DocumentNo = string.IsNullOrEmpty(model.DocumentNumber) 
+                        ? $"WEB-{DateTime.Now:yyyyMMddHHmmss}" 
+                        : model.DocumentNumber,
+                    Description = model.Notes,
+                    TransactionDate = DateTime.Now
+                };
+
+                var result = await _stockService.CreateStockTransactionAsync(transactionDto);
+                
+                if (result.Success)
+                {
+                    return Json(new { success = true, message = "Stok hareketi başarıyla oluşturuldu." });
+                }
+                else
+                {
+                    return Json(new { success = false, message = result.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating stock transaction via AJAX");
+                return Json(new { success = false, message = "Stok hareketi oluşturulurken hata oluştu." });
             }
         }
 

@@ -1,3 +1,4 @@
+@using MiniERP.Web.Models
 @model StockCardDto?
 
 @{
@@ -218,7 +219,7 @@
                                                 <i class="fas fa-trash"></i> Sil
                                             </button>
                                         }
-                                        <button type="button" class="btn btn-info" onclick="showTransactionsModal()">
+                                        <button type="button" class="btn btn-info" onclick="goToTransactions()">
                                             <i class="fas fa-history"></i> Tüm Hareketler
                                         </button>
                                     </div>
@@ -314,8 +315,10 @@
                             <input type="number" class="form-control" id="stockInPrice" step="0.01">
                         </div>
                         <div class="mb-3">
-                            <label for="stockInDocument" class="form-label">Belge No</label>
-                            <input type="text" class="form-control" id="stockInDocument">
+                            <label for="stockInDocument" class="form-label">Belge No 
+                                <small class="text-muted">(Boş bırakılırsa sistem otomatik oluşturacak)</small>
+                            </label>
+                            <input type="text" class="form-control" id="stockInDocument" placeholder="Otomatik: WEB-20250719123456">
                         </div>
                         <div class="mb-3">
                             <label for="stockInNotes" class="form-label">Açıklama</label>
@@ -354,8 +357,10 @@
                             <input type="number" class="form-control" id="stockOutPrice" step="0.01">
                         </div>
                         <div class="mb-3">
-                            <label for="stockOutDocument" class="form-label">Belge No</label>
-                            <input type="text" class="form-control" id="stockOutDocument">
+                            <label for="stockOutDocument" class="form-label">Belge No 
+                                <small class="text-muted">(Boş bırakılırsa sistem otomatik oluşturacak)</small>
+                            </label>
+                            <input type="text" class="form-control" id="stockOutDocument" placeholder="Otomatik: WEB-20250719123456">
                         </div>
                         <div class="mb-3">
                             <label for="stockOutNotes" class="form-label">Açıklama</label>
@@ -366,32 +371,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
                     <button type="button" class="btn btn-danger" onclick="submitStockOut()">Stok Çıkışı Yap</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tüm Hareketler Modal -->
-    <div class="modal fade" id="transactionsModal" tabindex="-1" aria-labelledby="transactionsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="transactionsModalLabel">Tüm Stok Hareketleri</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="transactionsContent">
-                        <div class="text-center">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Yükleniyor...</span>
-                            </div>
-                            <p class="mt-2">Hareketler yükleniyor...</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <a href="@Url.Action("Transactions")" class="btn btn-primary">Detaylı Sayfaya Git</a>
                 </div>
             </div>
         </div>
@@ -409,77 +388,49 @@ function showStockOutModal() {
     modal.show();
 }
 
-function showTransactionsModal() {
-    const modal = new bootstrap.Modal(document.getElementById('transactionsModal'));
-    modal.show();
-    
-    // AJAX ile tüm hareketleri yükle
-    fetch('@Url.Action("GetStockTransactions", "Stock")?stockCardId=@Model!.StockCardID')
-        .then(response => response.json())
-        .then(data => {
-            let content = '';
-            if (data.success && data.transactions.length > 0) {
-                content = '<div class="table-responsive">';
-                content += '<table class="table table-sm table-striped">';
-                content += '<thead><tr><th>Tarih</th><th>Tür</th><th>Miktar</th><th>Birim Fiyat</th><th>Belge</th></tr></thead>';
-                content += '<tbody>';
-                
-                data.transactions.forEach(function(transaction) {
-                    const badgeClass = transaction.transactionType === 'IN' ? 'bg-success' : 'bg-danger';
-                    content += '<tr>';
-                    content += '<td>' + new Date(transaction.transactionDate).toLocaleDateString('tr-TR') + '</td>';
-                    content += '<td><span class="badge ' + badgeClass + '">' + transaction.transactionType + '</span></td>';
-                    content += '<td>' + transaction.quantity.toFixed(2) + '</td>';
-                    content += '<td>' + transaction.unitPrice.toFixed(2) + ' ₺</td>';
-                    content += '<td>' + (transaction.documentNumber || '-') + '</td>';
-                    content += '</tr>';
-                });
-                
-                content += '</tbody></table></div>';
-            } else {
-                content = '<div class="text-center text-muted">';
-                content += '<i class="fas fa-inbox fa-3x mb-3"></i>';
-                content += '<p>Henüz stok hareketi bulunmuyor.</p>';
-                content += '</div>';
-            }
-            
-            document.getElementById('transactionsContent').innerHTML = content;
-        })
-        .catch(error => {
-            document.getElementById('transactionsContent').innerHTML = 
-                '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Hareketler yüklenirken hata oluştu.</div>';
-        });
+function goToTransactions() {
+    // Stok kartının hareketleri sayfasına git
+    window.location.href = '@Url.Action("Transactions", "Stock")?stockCardId=@Model!.StockCardID';
 }
 
 function submitStockIn() {
     const quantity = document.getElementById('stockInQuantity').value;
     const price = document.getElementById('stockInPrice').value;
-    const document = document.getElementById('stockInDocument').value;
+    const documentNumber = document.getElementById('stockInDocument').value;
     const notes = document.getElementById('stockInNotes').value;
+    
+    console.log('submitStockIn called', { quantity, price, documentNumber, notes });
     
     if (!quantity || quantity <= 0) {
         alert('Geçerli bir miktar giriniz.');
         return;
     }
     
+    const requestData = {
+        StockCardID: @Model!.StockCardID,
+        TransactionType: 'IN',
+        Quantity: parseFloat(quantity),
+        UnitPrice: parseFloat(price) || 0,
+        DocumentNumber: documentNumber,
+        Notes: notes
+    };
+    
+    console.log('Request data:', requestData);
+    
     // AJAX ile stok girişi yapılacak
     fetch('@Url.Action("CreateStockTransaction", "Stock")', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            StockCardID: @Model!.StockCardID,
-            TransactionType: 'IN',
-            Quantity: parseFloat(quantity),
-            UnitPrice: parseFloat(price) || 0,
-            DocumentNumber: document,
-            Notes: notes
-        })
+        body: JSON.stringify(requestData)
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response:', response);
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
         if (data.success) {
             alert('Stok girişi başarıyla tamamlandı.');
             location.reload();
@@ -488,15 +439,18 @@ function submitStockIn() {
         }
     })
     .catch(error => {
-        alert('Stok girişi sırasında hata oluştu.');
+        console.error('Error:', error);
+        alert('Stok girişi sırasında hata oluştu: ' + error.message);
     });
 }
 
 function submitStockOut() {
     const quantity = document.getElementById('stockOutQuantity').value;
     const price = document.getElementById('stockOutPrice').value;
-    const document = document.getElementById('stockOutDocument').value;
+    const documentNumber = document.getElementById('stockOutDocument').value;
     const notes = document.getElementById('stockOutNotes').value;
+    
+    console.log('submitStockOut called', { quantity, price, documentNumber, notes });
     
     if (!quantity || quantity <= 0) {
         alert('Geçerli bir miktar giriniz.');
@@ -508,24 +462,31 @@ function submitStockOut() {
         return;
     }
     
+    const requestData = {
+        StockCardID: @Model!.StockCardID,
+        TransactionType: 'OUT',
+        Quantity: parseFloat(quantity),
+        UnitPrice: parseFloat(price) || 0,
+        DocumentNumber: documentNumber,
+        Notes: notes
+    };
+    
+    console.log('Request data:', requestData);
+    
     // AJAX ile stok çıkışı yapılacak
     fetch('@Url.Action("CreateStockTransaction", "Stock")', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            StockCardID: @Model!.StockCardID,
-            TransactionType: 'OUT',
-            Quantity: parseFloat(quantity),
-            UnitPrice: parseFloat(price) || 0,
-            DocumentNumber: document,
-            Notes: notes
-        })
+        body: JSON.stringify(requestData)
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response:', response);
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
         if (data.success) {
             alert('Stok çıkışı başarıyla tamamlandı.');
             location.reload();
@@ -534,7 +495,8 @@ function submitStockOut() {
         }
     })
     .catch(error => {
-        alert('Stok çıkışı sırasında hata oluştu.');
+        console.error('Error:', error);
+        alert('Stok çıkışı sırasında hata oluştu: ' + error.message);
     });
 }
 
@@ -597,6 +559,39 @@ function confirmDelete(stockCardId) {
         form.submit();
     }
 }
+
+// Modal açıldığında belge numarası preview'larını güncelle
+document.addEventListener('DOMContentLoaded', function() {
+    // Giriş modal açıldığında
+    var stockInModal = document.getElementById('stockInModal');
+    if (stockInModal) {
+        stockInModal.addEventListener('shown.bs.modal', function () {
+            var now = new Date();
+            var timestamp = now.getFullYear().toString() + 
+                           (now.getMonth() + 1).toString().padStart(2, '0') + 
+                           now.getDate().toString().padStart(2, '0') + 
+                           now.getHours().toString().padStart(2, '0') + 
+                           now.getMinutes().toString().padStart(2, '0') + 
+                           now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('stockInDocument').placeholder = 'Otomatik: WEB-' + timestamp;
+        });
+    }
+    
+    // Çıkış modal açıldığında
+    var stockOutModal = document.getElementById('stockOutModal');
+    if (stockOutModal) {
+        stockOutModal.addEventListener('shown.bs.modal', function () {
+            var now = new Date();
+            var timestamp = now.getFullYear().toString() + 
+                           (now.getMonth() + 1).toString().padStart(2, '0') + 
+                           now.getDate().toString().padStart(2, '0') + 
+                           now.getHours().toString().padStart(2, '0') + 
+                           now.getMinutes().toString().padStart(2, '0') + 
+                           now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('stockOutDocument').placeholder = 'Otomatik: WEB-' + timestamp;
+        });
+    }
+});
 </script>
 
 <style>

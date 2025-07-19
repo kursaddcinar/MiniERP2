@@ -170,6 +170,18 @@ namespace MiniERP.Web.Models
         public string? DocumentNo { get; set; }
     }
 
+    public class CreateStockTransactionAjaxDto
+    {
+        public int StockCardID { get; set; }
+        public int ProductID { get; set; }
+        public int WarehouseID { get; set; }
+        public string TransactionType { get; set; } = string.Empty; // IN, OUT
+        public decimal Quantity { get; set; }
+        public decimal UnitPrice { get; set; } = 0;
+        public string? DocumentNumber { get; set; }
+        public string? Notes { get; set; }
+    }
+
     public class StockMovementDto
     {
         public int ProductID { get; set; }
