@@ -22,7 +22,7 @@ namespace MiniERP.WinForms.Forms
 
         private void SetupForm()
         {
-            this.Text = "Yeni Stok Kartı";
+            this.Text = "Yeni Stok Kartı (Temel)";
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -41,14 +41,6 @@ namespace MiniERP.WinForms.Forms
             numRezerveStok.Minimum = 0;
             numRezerveStok.Maximum = 999999999;
             numRezerveStok.DecimalPlaces = 2;
-
-            numMinStok.Minimum = 0;
-            numMinStok.Maximum = 999999999;
-            numMinStok.DecimalPlaces = 2;
-
-            numMaxStok.Minimum = 0;
-            numMaxStok.Maximum = 999999999;
-            numMaxStok.DecimalPlaces = 2;
         }
 
         private async void LoadComboBoxData()

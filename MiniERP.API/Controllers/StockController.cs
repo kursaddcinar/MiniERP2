@@ -197,6 +197,27 @@ namespace MiniERP.API.Controllers
         }
 
         /// <summary>
+        /// Detaylı stok günceller (işlem kaydı ile birlikte)
+        /// </summary>
+        [HttpPost("update-stock-detailed")]
+        [Authorize(Roles = "Admin,Manager,Warehouse")]
+        public async Task<ActionResult<ApiResponse<bool>>> UpdateStockDetailed([FromBody] DetailedUpdateStockDto updateStockDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiResponse<bool>.ErrorResult("Geçersiz veri"));
+            }
+
+            var result = await _stockService.UpdateStockWithTransactionAsync(updateStockDto);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Stok rezerve eder
         /// </summary>
         [HttpPost("reserve")]

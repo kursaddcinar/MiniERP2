@@ -22,7 +22,7 @@ namespace MiniERP.WinForms.Forms
 
         private void SetupForm()
         {
-            this.Text = "Stok Güncelle";
+            this.Text = "Hızlı Stok Güncelleme";
             this.Size = new Size(800, 600);
             this.StartPosition = FormStartPosition.CenterParent;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;

@@ -92,7 +92,16 @@ namespace MiniERP.Web.Services
         {
             try
             {
-                return await _apiService.PutAsync<StockCardDto>($"api/Stock/cards/{id}", updateDto);
+                // Web'den gelen UpdateStockCardDto'yu API'nin beklediği formata dönüştür
+                var apiUpdateDto = new
+                {
+                    CurrentStock = updateDto.CurrentStock,
+                    ReservedStock = updateDto.ReservedStock
+                    // API şu anda sadece bu iki alanı destekliyor
+                    // Location, Notes, MinStockLevel vb. alanlar henüz desteklenmiyor
+                };
+                
+                return await _apiService.PutAsync<StockCardDto>($"api/Stock/cards/{id}", apiUpdateDto);
             }
             catch (Exception ex)
             {
@@ -161,7 +170,19 @@ namespace MiniERP.Web.Services
         {
             try
             {
-                return await _apiService.PostAsync<bool>("api/Stock/update-stock", updateDto);
+                // Web'den gelen UpdateStockDto'yu API'nin DetailedUpdateStockDto formatına dönüştür
+                var detailedUpdateDto = new
+                {
+                    ProductID = updateDto.ProductID,
+                    WarehouseID = updateDto.WarehouseID,
+                    Quantity = updateDto.Quantity,
+                    TransactionType = updateDto.TransactionType,
+                    UnitPrice = updateDto.UnitPrice,
+                    DocumentNo = updateDto.DocumentNo,
+                    Notes = updateDto.Notes
+                };
+
+                return await _apiService.PostAsync<bool>("api/Stock/update-stock-detailed", detailedUpdateDto);
             }
             catch (Exception ex)
             {
@@ -283,7 +304,7 @@ namespace MiniERP.Web.Services
         {
             try
             {
-                return await _apiService.PostAsync<bool>("api/Stock/process-movement", movementDto);
+                return await _apiService.PostAsync<bool>("api/Stock/transfer", movementDto);
             }
             catch (Exception ex)
             {

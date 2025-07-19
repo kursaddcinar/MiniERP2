@@ -129,8 +129,18 @@ namespace MiniERP.Web.Controllers
                 {
                     var model = new UpdateStockCardDto
                     {
+                        ProductID = result.Data.ProductID,
+                        WarehouseID = result.Data.WarehouseID,
                         CurrentStock = result.Data.CurrentStock,
-                        ReservedStock = result.Data.ReservedStock
+                        ReservedStock = result.Data.ReservedStock,
+                        MinStockLevel = result.Data.MinStockLevel,
+                        MaxStockLevel = result.Data.MaxStockLevel,
+                        Location = "", // Şu anda desteklenmiyor
+                        Notes = "", // Şu anda desteklenmiyor
+                        IsActive = true, // Varsayılan değer
+                        ReorderLevel = 0, // Şu anda desteklenmiyor
+                        ReorderQuantity = 0, // Şu anda desteklenmiyor
+                        LastUpdateDate = DateTime.Now
                     };
                     
                     ViewBag.CurrentStockCard = result.Data;
@@ -223,6 +233,42 @@ namespace MiniERP.Web.Controllers
             }
             
             return RedirectToAction(nameof(Index));
+        }
+
+        #endregion
+
+        #region AJAX Actions
+
+        [HttpGet]
+        public async Task<IActionResult> GetStockInfo(int productId, int warehouseId)
+        {
+            try
+            {
+                var result = await _stockService.GetStockCardByProductAndWarehouseAsync(productId, warehouseId);
+                
+                if (result.Success && result.Data != null)
+                {
+                    return Json(new 
+                    { 
+                        success = true, 
+                        stock = result.Data.CurrentStock,
+                        reserved = result.Data.ReservedStock,
+                        available = result.Data.AvailableStock,
+                        unit = result.Data.UnitName,
+                        minLevel = result.Data.MinStockLevel,
+                        maxLevel = result.Data.MaxStockLevel
+                    });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Stok bilgisi bulunamadı" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting stock info for Product: {ProductId}, Warehouse: {WarehouseId}", productId, warehouseId);
+                return Json(new { success = false, message = "Stok bilgisi alınamadı" });
+            }
         }
 
         #endregion

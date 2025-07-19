@@ -19,6 +19,7 @@ namespace MiniERP.API.Services
         Task<ApiResponse<List<StockCardDto>>> GetOverStockCardsAsync();
         Task<ApiResponse<List<StockCardDto>>> GetOutOfStockCardsAsync();
         Task<ApiResponse<bool>> UpdateStockAsync(int productId, int warehouseId, decimal quantity, string transactionType);
+        Task<ApiResponse<bool>> UpdateStockWithTransactionAsync(DetailedUpdateStockDto updateStockDto);
         Task<ApiResponse<bool>> ReserveStockAsync(int productId, int warehouseId, decimal quantity);
         Task<ApiResponse<bool>> ReleaseReservedStockAsync(int productId, int warehouseId, decimal quantity);
 

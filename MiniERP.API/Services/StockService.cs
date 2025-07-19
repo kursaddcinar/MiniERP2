@@ -237,6 +237,65 @@ namespace MiniERP.API.Services
             }
         }
 
+        public async Task<ApiResponse<bool>> UpdateStockWithTransactionAsync(DetailedUpdateStockDto updateStockDto)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                // Otomatik belge numarası oluştur (eğer girilmediyse)
+                string documentNo = updateStockDto.DocumentNo ?? string.Empty;
+                if (string.IsNullOrEmpty(documentNo))
+                {
+                    documentNo = $"STK-{DateTime.Now:yyyyMMddHHmmss}";
+                }
+
+                // Stok işlemi kaydı oluştur
+                var transaction = new StockTransaction
+                {
+                    ProductID = updateStockDto.ProductID,
+                    WarehouseID = updateStockDto.WarehouseID,
+                    TransactionType = updateStockDto.TransactionType,
+                    Quantity = updateStockDto.Quantity,
+                    UnitPrice = updateStockDto.UnitPrice,
+                    TotalAmount = updateStockDto.Quantity * updateStockDto.UnitPrice,
+                    TransactionDate = DateTime.Now,
+                    DocumentType = "MANUEL",
+                    DocumentNo = documentNo,
+                    Description = updateStockDto.Notes
+                };
+
+                await _unitOfWork.StockTransactions.AddAsync(transaction);
+
+                // Stok kartını güncelle
+                var stockUpdateResult = await _unitOfWork.StockCards.UpdateStockAsync(
+                    updateStockDto.ProductID, 
+                    updateStockDto.WarehouseID, 
+                    updateStockDto.Quantity, 
+                    updateStockDto.TransactionType);
+
+                if (!stockUpdateResult)
+                {
+                    await _unitOfWork.RollbackTransactionAsync();
+                    return ApiResponse<bool>.ErrorResult("Stok güncellenirken hata oluştu");
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
+
+                _logger.LogInformation("Detaylı stok güncelleme başarıyla tamamlandı: Ürün {ProductId}, Depo {WarehouseId}, Miktar {Quantity}, Belge No {DocumentNo}", 
+                    updateStockDto.ProductID, updateStockDto.WarehouseID, updateStockDto.Quantity, documentNo);
+                
+                return ApiResponse<bool>.SuccessResult(true, "Stok başarıyla güncellendi ve işlem kaydı oluşturuldu");
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                _logger.LogError(ex, "Detaylı stok güncellenirken hata oluştu");
+                return ApiResponse<bool>.ErrorResult("Stok güncellenirken hata oluştu");
+            }
+        }
+
         public async Task<ApiResponse<bool>> ReserveStockAsync(int productId, int warehouseId, decimal quantity)
         {
             try

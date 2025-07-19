@@ -148,7 +148,7 @@ namespace MiniERP.WinForms.Forms
                     MovementDate = DateTime.Now
                 };
 
-                var response = await _apiService.PostAsync<object>("api/Stock/movements", movement);
+                var response = await _apiService.PostAsync<object>("Stock/transfer", movement);
                 if (response != null && response.Success)
                 {
                     MessageBox.Show("Stok transferi başarıyla gerçekleştirildi.", "Başarılı", 

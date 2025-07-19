@@ -423,14 +423,13 @@ namespace MiniERP.WinForms.Forms
             }
             else if (e.ColumnIndex == dgvStockCards.Columns["colEdit"]?.Index && _accessLevel.Contains("U"))
             {
-                // TODO: StokKartiDuzenleForm henüz oluşturulmadı  
-                // var form = new StokKartiDuzenleForm(selectedItem.StockCardID, _currentUser, _apiService);
-                // if (form.ShowDialog() == DialogResult.OK)
-                // {
-                //     LoadStockData();
-                //     LoadStockSummary();
-                // }
-                MessageBox.Show($"Stok Düzenleme formu henüz geliştirilme aşamasında.\nSeçilen Stok ID: {selectedItem.StockCardID}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Stok kartı düzenleme formu aç
+                var form = new StokKartiDuzenleForm(selectedItem.StockCardID, _currentUser, _apiService);
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadStockData();
+                    LoadStockSummary();
+                }
             }
             else if (e.ColumnIndex == dgvStockCards.Columns["colDelete"]?.Index && _accessLevel.Contains("D"))
             {

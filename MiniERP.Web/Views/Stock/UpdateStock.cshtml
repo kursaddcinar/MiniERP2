@@ -1,4 +1,4 @@
-@model UpdateStockDto
+@model MiniERP.Web.Models.UpdateStockDto
 @{
     ViewData["Title"] = "Stok Güncelle";
 }
@@ -99,8 +99,9 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label asp-for="DocumentNo" class="form-label">Belge No</label>
-                                <input asp-for="DocumentNo" class="form-control" placeholder="Belge numarası (isteğe bağlı)">
+                                <input asp-for="DocumentNo" class="form-control" placeholder="Belge numarası (boş bırakılırsa otomatik oluşturulur)">
                                 <span asp-validation-for="DocumentNo" class="text-danger"></span>
+                                <small class="form-text text-muted">Boş bırakılırsa sistem otomatik olarak STK-{tarih} formatında oluşturur</small>
                             </div>
                         </div>
                     </div>
@@ -157,7 +158,15 @@
                     </li>
                     <li class="mb-2">
                         <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Belge No:</strong> Boş bırakılırsa otomatik oluşturulur
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
                         <strong>Açıklama:</strong> İşlem nedenini belirtmek için
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        <strong>Hareket Takibi:</strong> Tüm işlemler stok hareketlerinde görüntülenir
                     </li>
                 </ul>
             </div>

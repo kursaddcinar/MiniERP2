@@ -10,6 +10,7 @@ namespace MiniERP.WinForms.Forms
         private List<ProductDto> _products = new();
         private List<WarehouseDto> _warehouses = new();
         private StockCardDto? _currentStock;
+        private bool _isLoading = false; // Loading flag eklendi
 
         public StokGuncellemeForm(ApiService apiService, UserDto currentUser)
         {
@@ -31,6 +32,19 @@ namespace MiniERP.WinForms.Forms
             
             txtMiktar.Text = "0";
             txtBirimFiyat.Text = "0";
+            
+            // Stok bilgi panelini başlangıçta gizle
+            groupBox2.Visible = false;
+            
+            // Belge numarası hakkında bilgilendirme tooltipini ekle
+            var tooltip = new ToolTip();
+            tooltip.SetToolTip(groupBox3, "Belge Numarası: Boş bırakırsanız sistem otomatik olarak oluşturacaktır. " +
+                "Manuel belge numarası girmek isterseniz benzersiz olmasına dikkat ediniz.");
+            
+            // Bilgilendirme mesajını sadece başlığa ekle
+            this.Text = "Stok Güncelleme - Mevcut Stok Görüntüleme ve Hareket Takibi";
+            
+            System.Diagnostics.Debug.WriteLine("SetupForm tamamlandı, groupBox2 gizlendi");
         }
 
         private async void StokGuncellemeForm_Load(object sender, EventArgs e)
@@ -43,6 +57,8 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
+                _isLoading = true;
+                System.Diagnostics.Debug.WriteLine("Ürünler yükleniyor...");
                 var response = await _apiService.GetAsync<PagedResult<ProductDto>>("Products?pageNumber=1&pageSize=1000");
                 if (response?.Success == true && response.Data != null)
                 {
@@ -52,12 +68,19 @@ namespace MiniERP.WinForms.Forms
                     cmbUrun.DisplayMember = "ProductName";
                     cmbUrun.ValueMember = "ProductID";
                     cmbUrun.SelectedIndex = -1;
+                    
+                    System.Diagnostics.Debug.WriteLine($"{_products.Count} ürün yüklendi");
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Ürün yükleme hatası: {ex.Message}");
                 MessageBox.Show($"Ürünler yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
 
@@ -65,6 +88,8 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
+                _isLoading = true;
+                System.Diagnostics.Debug.WriteLine("Depolar yükleniyor...");
                 var response = await _apiService.GetAsync<List<WarehouseDto>>("Stock/warehouses/active");
                 if (response?.Success == true && response.Data != null)
                 {
@@ -74,39 +99,83 @@ namespace MiniERP.WinForms.Forms
                     cmbDepo.DisplayMember = "WarehouseName";
                     cmbDepo.ValueMember = "WarehouseID";
                     cmbDepo.SelectedIndex = -1;
+                    
+                    System.Diagnostics.Debug.WriteLine($"{_warehouses.Count} depo yüklendi");
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Depo yükleme hatası: {ex.Message}");
                 MessageBox.Show($"Depolar yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
 
         private async void cmbUrun_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbUrun.SelectedValue != null && cmbUrun.SelectedValue is int productId && productId > 0)
+            if (_isLoading) return; // Loading sırasında çalışma
+            
+            try
             {
-                var selectedProduct = _products.FirstOrDefault(p => p.ProductID == productId);
-                if (selectedProduct != null)
+                // Debug: Seçim durumunu kontrol et
+                System.Diagnostics.Debug.WriteLine($"Ürün seçimi değişti. SelectedValue: {cmbUrun.SelectedValue}");
+                
+                if (cmbUrun.SelectedValue != null && cmbUrun.SelectedValue is int productId && productId > 0)
                 {
-                    // Otomatik bilgileri doldur
-                    txtBirimFiyat.Text = selectedProduct.CostPrice.ToString("F2");
-                    
-                    // Depo seçiliyse stok bilgisini yükle
-                    if (cmbDepo.SelectedValue != null)
+                    var selectedProduct = _products.FirstOrDefault(p => p.ProductID == productId);
+                    if (selectedProduct != null)
                     {
-                        await LoadCurrentStockAsync();
+                        // Otomatik bilgileri doldur
+                        txtBirimFiyat.Text = selectedProduct.CostPrice.ToString("F2");
+                        
+                        System.Diagnostics.Debug.WriteLine($"Ürün seçildi: {selectedProduct.ProductName}, Depo seçimi: {cmbDepo.SelectedValue}");
+                        
+                        // Depo seçiliyse stok bilgisini yükle
+                        if (cmbDepo.SelectedValue != null && cmbDepo.SelectedValue is int warehouseId && warehouseId > 0)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Stok bilgisi yüklenecek...");
+                            await LoadCurrentStockAsync();
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("Depo henüz seçilmemiş veya geçersiz");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ürün seçimi sırasında hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void cmbDepo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbDepo.SelectedValue != null && cmbUrun.SelectedValue != null)
+            if (_isLoading) return; // Loading sırasında çalışma
+            
+            try
             {
-                await LoadCurrentStockAsync();
+                // Debug: Seçim durumunu kontrol et
+                System.Diagnostics.Debug.WriteLine($"Depo seçimi değişti. SelectedValue: {cmbDepo.SelectedValue}");
+                
+                if (cmbDepo.SelectedValue != null && cmbDepo.SelectedValue is int warehouseId && warehouseId > 0 &&
+                    cmbUrun.SelectedValue != null && cmbUrun.SelectedValue is int productId && productId > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Hem ürün ({productId}) hem depo ({warehouseId}) seçili, stok bilgisi yüklenecek...");
+                    await LoadCurrentStockAsync();
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Depo: {cmbDepo.SelectedValue}, Ürün: {cmbUrun.SelectedValue} - Stok bilgisi yüklenmeyecek");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Depo seçimi sırasında hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -116,13 +185,33 @@ namespace MiniERP.WinForms.Forms
             {
                 if (cmbUrun.SelectedValue is int productId && cmbDepo.SelectedValue is int warehouseId)
                 {
-                    var response = await _apiService.GetAsync<StockCardDto>($"Stock/product/{productId}/warehouse/{warehouseId}");
+                    // Web projesi ile aynı endpoint'i kullan (api/ prefix'i ApiService tarafından ekleniyor)
+                    var apiUrl = $"Stock/cards/by-product-warehouse?productId={productId}&warehouseId={warehouseId}";
+                    System.Diagnostics.Debug.WriteLine($"API çağrısı yapılıyor: {apiUrl}");
+                    Console.WriteLine($"[DEBUG] API çağrısı: {apiUrl}");
+                    Console.WriteLine($"[DEBUG] Full URL will be: http://localhost:5135/api/{apiUrl}");
+                    
+                    var response = await _apiService.GetAsync<StockCardDto>(apiUrl);
+                    
+                    System.Diagnostics.Debug.WriteLine($"API yanıtı: Success={response?.Success}, Data={response?.Data != null}, Message={response?.Message}");
+                    Console.WriteLine($"[DEBUG] API yanıtı: Success={response?.Success}, Data={response?.Data != null}, Message={response?.Message}");
+                    
                     if (response?.Success == true && response.Data != null)
                     {
                         _currentStock = response.Data;
                         
-                        // Mevcut stok bilgilerini göster
-                        lblMevcutStokBilgi.Text = $"Mevcut Stok: {_currentStock.CurrentStock:N2} {_currentStock.UnitName ?? "Adet"}";
+                        // Mevcut stok bilgilerini detaylı göster
+                        var lastTransactionText = _currentStock.LastTransactionDate.HasValue 
+                            ? _currentStock.LastTransactionDate.Value.ToString("dd.MM.yyyy HH:mm")
+                            : "Hiç işlem yok";
+                            
+                        lblMevcutStokBilgi.Text = $"Mevcut Stok: {_currentStock.CurrentStock:N2} {_currentStock.UnitName ?? "Adet"}\n" +
+                                                $"Kullanılabilir: {_currentStock.AvailableStock:N2} (Rezerve: {_currentStock.ReservedStock:N2})\n" +
+                                                $"Son İşlem: {lastTransactionText}\n" +
+                                                $"Durum: {GetStockStatusText(_currentStock.StockStatus)}";
+                        
+                        System.Diagnostics.Debug.WriteLine($"Stok bilgisi güncellendi: {lblMevcutStokBilgi.Text}");
+                        Console.WriteLine($"[DEBUG] Stok bilgisi güncellendi, groupBox2 görünür yapılıyor");
                         
                         // Kart2'yi görünür yap
                         groupBox2.Visible = true;
@@ -131,20 +220,46 @@ namespace MiniERP.WinForms.Forms
                     {
                         // Stok bulunamadı
                         _currentStock = null;
-                        lblMevcutStokBilgi.Text = "Bu ürün için bu depoda stok kaydı bulunamadı. İlk giriş yapılacak.";
+                        lblMevcutStokBilgi.Text = "Bu ürün için bu depoda stok kaydı bulunamadı.\n" +
+                                                "İlk giriş yapılacak. Sistem yeni stok kartı oluşturacaktır.";
                         groupBox2.Visible = true;
+                        
+                        System.Diagnostics.Debug.WriteLine($"Stok bulunamadı: {response?.Message}");
+                        Console.WriteLine($"[DEBUG] Stok bulunamadı, yeni stok kartı mesajı gösteriliyor");
                     }
+                }
+                else
+                {
+                    var debugMsg = $"Geçersiz seçim - ProductID: {cmbUrun.SelectedValue}, WarehouseID: {cmbDepo.SelectedValue}";
+                    System.Diagnostics.Debug.WriteLine(debugMsg);
+                    Console.WriteLine($"[DEBUG] {debugMsg}");
                 }
             }
             catch (Exception ex)
             {
+                var errorMsg = $"LoadCurrentStockAsync Hata: {ex.Message}";
+                System.Diagnostics.Debug.WriteLine(errorMsg);
+                Console.WriteLine($"[ERROR] {errorMsg}");
+                
                 MessageBox.Show($"Stok bilgisi yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
                 _currentStock = null;
-                lblMevcutStokBilgi.Text = "Stok bilgisi yüklenemedi.";
+                lblMevcutStokBilgi.Text = "Stok bilgisi yüklenemedi.\nLütfen ürün ve depo seçimini kontrol ediniz.";
                 groupBox2.Visible = true;
             }
+        }
+
+        private string GetStockStatusText(string status)
+        {
+            return status switch
+            {
+                "NORMAL" => "Normal",
+                "CRITICAL" => "Kritik Seviye",
+                "OVER" => "Fazla Stok",
+                "OUT" => "Stok Yok",
+                _ => "Bilinmiyor"
+            };
         }
 
         private async void btnStokGuncelle_Click(object sender, EventArgs e)
@@ -188,21 +303,41 @@ namespace MiniERP.WinForms.Forms
                     }
                 }
 
-                // API'ye gönderilecek DTO
-                var updateDto = new DTOs.UpdateStockDto
+                // Onay isteği
+                var movementTypeText = cmbIslemTuru.SelectedItem?.ToString() == "Giriş" ? "giriş" : "çıkış";
+                var result = MessageBox.Show($"Stok {movementTypeText} işlemi gerçekleştirilecek.\n\n" +
+                    $"Ürün: {cmbUrun.Text}\n" +
+                    $"Depo: {cmbDepo.Text}\n" +
+                    $"Miktar: {miktar:N2}\n" +
+                    $"Birim Fiyat: {birimFiyat:N2} TL\n\n" +
+                    "Devam etmek istiyor musunuz?", 
+                    "Stok Güncelleme Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                    return;
+
+                // API'ye gönderilecek DetailedUpdateStockDto (API ile uyumlu alan adları)
+                var updateDto = new DTOs.DetailedUpdateStockDto
                 {
                     ProductID = (int)cmbUrun.SelectedValue,
                     WarehouseID = (int)cmbDepo.SelectedValue,
-                    Quantity = cmbIslemTuru.SelectedItem?.ToString() == "Giriş" ? miktar : -miktar,
+                    Quantity = miktar, // Pozitif miktar, yön TransactionType ile belirtiliyor
                     UnitPrice = birimFiyat,
-                    MovementType = cmbIslemTuru.SelectedItem?.ToString() == "Giriş" ? "IN" : "OUT",
-                    Description = txtAciklama.Text
+                    TransactionType = cmbIslemTuru.SelectedItem?.ToString() == "Giriş" ? "GIRIS" : "CIKIS", // API'nin beklediği format
+                    Notes = txtAciklama.Text, // API'nin beklediği alan adı
+                    DocumentNo = null // txtBelgeNo eklendikten sonra: string.IsNullOrWhiteSpace(txtBelgeNo.Text) ? null : txtBelgeNo.Text,
                 };
 
-                var response = await _apiService.PostAsync<bool>("Stock/update", updateDto);
+                Console.WriteLine($"[DEBUG] Gönderilecek DTO: ProductID={updateDto.ProductID}, WarehouseID={updateDto.WarehouseID}, Quantity={updateDto.Quantity}, TransactionType={updateDto.TransactionType}");
+
+                // Yeni API endpoint'ini kullan (transaction logging ile)
+                var response = await _apiService.PostAsync<bool>("Stock/update-stock-detailed", updateDto);
+                
+                Console.WriteLine($"[DEBUG] Update Response: Success={response?.Success}, Message={response?.Message}");
+                
                 if (response?.Success == true)
                 {
-                    MessageBox.Show("Stok başarıyla güncellendi.", "Başarılı", 
+                    MessageBox.Show("Stok başarıyla güncellendi ve işlem kaydedildi.", "Başarılı", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     
                     // Formu temizle ve stok bilgisini yenile
@@ -231,7 +366,11 @@ namespace MiniERP.WinForms.Forms
         {
             txtMiktar.Text = "0";
             txtAciklama.Clear();
+            // txtBelgeNo.Clear(); // Designer'a eklendikten sonra bu satırı açacağız
             cmbIslemTuru.SelectedIndex = 0;
+            
+            // Stok bilgi panelini gizle
+            groupBox2.Visible = false;
             
             // Birim fiyatı ürün seçiminden sonra otomatik doldurulacak
         }
