@@ -111,7 +111,7 @@ namespace MiniERP.API.Repositories
             if (invoice == null || invoice.Status != "DRAFT") return false;
 
             invoice.Status = "APPROVED";
-            return await SaveChangesAsync();
+            return true; // UnitOfWork will handle SaveChanges
         }
 
         public async Task<bool> CancelInvoiceAsync(int invoiceId)
@@ -120,7 +120,7 @@ namespace MiniERP.API.Repositories
             if (invoice == null) return false;
 
             invoice.Status = "CANCELLED";
-            return await SaveChangesAsync();
+            return true; // UnitOfWork will handle SaveChanges
         }
 
         public async Task<decimal> GetTotalPurchaseAmountAsync(DateTime? fromDate = null, DateTime? toDate = null)

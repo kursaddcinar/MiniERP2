@@ -42,6 +42,7 @@ builder.Services.AddScoped<PurchaseInvoiceService>();
 builder.Services.AddScoped<CariAccountService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PaymentService>();
+builder.Services.AddScoped<InvoiceNumberGeneratorService>();
 
 var app = builder.Build();
 

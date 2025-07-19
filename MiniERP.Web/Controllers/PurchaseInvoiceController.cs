@@ -12,17 +12,20 @@ namespace MiniERP.Web.Controllers
         private readonly CariAccountService _cariAccountService;
         private readonly ProductService _productService;
         private readonly ApiService _apiService;
+        private readonly InvoiceNumberGeneratorService _invoiceNumberGenerator;
 
         public PurchaseInvoiceController(
             PurchaseInvoiceService purchaseInvoiceService,
             CariAccountService cariAccountService,
             ProductService productService,
-            ApiService apiService)
+            ApiService apiService,
+            InvoiceNumberGeneratorService invoiceNumberGenerator)
         {
             _purchaseInvoiceService = purchaseInvoiceService;
             _cariAccountService = cariAccountService;
             _productService = productService;
             _apiService = apiService;
+            _invoiceNumberGenerator = invoiceNumberGenerator;
         }
 
         // GET: PurchaseInvoice
@@ -66,7 +69,13 @@ namespace MiniERP.Web.Controllers
             ViewBag.Suppliers = suppliers;
             ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
-            return View();
+            // Otomatik fatura numarası oluştur
+            var model = new CreatePurchaseInvoiceDto
+            {
+                InvoiceNo = _invoiceNumberGenerator.GenerateUniquePurchaseInvoiceNumber()
+            };
+
+            return View(model);
         }
 
         // POST: PurchaseInvoice/Create
@@ -77,6 +86,12 @@ namespace MiniERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Eğer fatura numarası boş ise otomatik oluştur
+                if (string.IsNullOrWhiteSpace(createDto.InvoiceNo))
+                {
+                    createDto.InvoiceNo = _invoiceNumberGenerator.GenerateUniquePurchaseInvoiceNumber();
+                }
+
                 var result = await _purchaseInvoiceService.CreatePurchaseInvoiceAsync(createDto);
                 if (result.Success)
                 {

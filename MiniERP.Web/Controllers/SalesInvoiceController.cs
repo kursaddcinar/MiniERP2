@@ -12,17 +12,20 @@ namespace MiniERP.Web.Controllers
         private readonly CariAccountService _cariAccountService;
         private readonly ProductService _productService;
         private readonly ApiService _apiService;
+        private readonly InvoiceNumberGeneratorService _invoiceNumberGenerator;
 
         public SalesInvoiceController(
             SalesInvoiceService salesInvoiceService,
             CariAccountService cariAccountService,
             ProductService productService,
-            ApiService apiService)
+            ApiService apiService,
+            InvoiceNumberGeneratorService invoiceNumberGenerator)
         {
             _salesInvoiceService = salesInvoiceService;
             _cariAccountService = cariAccountService;
             _productService = productService;
             _apiService = apiService;
+            _invoiceNumberGenerator = invoiceNumberGenerator;
         }
 
         // GET: SalesInvoice
@@ -66,7 +69,13 @@ namespace MiniERP.Web.Controllers
             ViewBag.Customers = customers;
             ViewBag.Warehouses = warehousesResponse?.Data ?? new List<WarehouseDto>();
 
-            return View();
+            // Otomatik fatura numarası oluştur
+            var model = new CreateSalesInvoiceDto
+            {
+                InvoiceNo = _invoiceNumberGenerator.GenerateUniqueSalesInvoiceNumber()
+            };
+
+            return View(model);
         }
 
         // POST: SalesInvoice/Create
@@ -77,6 +86,12 @@ namespace MiniERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Eğer fatura numarası boş ise otomatik oluştur
+                if (string.IsNullOrWhiteSpace(createDto.InvoiceNo))
+                {
+                    createDto.InvoiceNo = _invoiceNumberGenerator.GenerateUniqueSalesInvoiceNumber();
+                }
+
                 var result = await _salesInvoiceService.CreateSalesInvoiceAsync(createDto);
                 if (result.Success)
                 {

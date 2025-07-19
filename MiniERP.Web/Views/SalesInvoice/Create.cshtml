@@ -38,7 +38,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="InvoiceNo" class="form-label">Fatura No</label>
-                                    <input asp-for="InvoiceNo" class="form-control" />
+                                    <div class="input-group">
+                                        <input asp-for="InvoiceNo" class="form-control" readonly />
+                                        <button type="button" class="btn btn-outline-secondary" onclick="generateNewInvoiceNumber()" title="Yeni fatura numarası oluştur">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                    <small class="form-text text-muted">Fatura numarası otomatik oluşturulmuştur</small>
                                     <span asp-validation-for="InvoiceNo" class="text-danger"></span>
                                 </div>
                             </div>
@@ -319,6 +325,21 @@
                 $('#vatTotal').text(formatCurrency(vatTotal));
                 $('#grandTotal').text(formatCurrency(grandTotal));
             }
+
+            // Yeni fatura numarası oluştur
+            window.generateNewInvoiceNumber = function() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+                
+                const newInvoiceNo = `SF-${year}${month}${day}-${hours}${minutes}${seconds}-${milliseconds}`;
+                $('#InvoiceNo').val(newInvoiceNo);
+            };
         });
     </script>
 } 

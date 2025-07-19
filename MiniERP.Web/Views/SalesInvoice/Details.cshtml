@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- Anti-forgery token for AJAX calls -->
+@Html.AntiForgeryToken()
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -257,15 +260,60 @@
 <script>
 function approveInvoice(invoiceId) {
     if (confirm('Bu faturayı onaylamak istediğinizden emin misiniz?')) {
-        // TODO: Implement approval functionality
-        alert('Onaylama özelliği henüz tamamlanmamıştır.');
+        // Form oluştur ve gönder
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '@Url.Action("Approve", "SalesInvoice")/' + invoiceId;
+        
+        // Anti-forgery token ekle
+        const token = document.querySelector('input[name="__RequestVerificationToken"]');
+        if (token) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token.value;
+            form.appendChild(tokenInput);
+        }
+        
+        // Description için input ekle
+        const descInput = document.createElement('input');
+        descInput.type = 'hidden';
+        descInput.name = 'description';
+        descInput.value = 'Web üzerinden onaylandı';
+        form.appendChild(descInput);
+        
+        document.body.appendChild(form);
+        form.submit();
     }
 }
 
 function cancelInvoice(invoiceId) {
-    if (confirm('Bu faturayı iptal etmek istediğinizden emin misiniz?')) {
-        // TODO: Implement cancellation functionality
-        alert('İptal etme özelliği henüz tamamlanmamıştır.');
+    const reason = prompt('İptal nedeni giriniz:');
+    if (reason && reason.trim() !== '') {
+        // Form oluştur ve gönder
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '@Url.Action("Cancel", "SalesInvoice")/' + invoiceId;
+        
+        // Anti-forgery token ekle
+        const token = document.querySelector('input[name="__RequestVerificationToken"]');
+        if (token) {
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token.value;
+            form.appendChild(tokenInput);
+        }
+        
+        // Reason için input ekle
+        const reasonInput = document.createElement('input');
+        reasonInput.type = 'hidden';
+        reasonInput.name = 'reason';
+        reasonInput.value = reason;
+        form.appendChild(reasonInput);
+        
+        document.body.appendChild(form);
+        form.submit();
     }
 }
 

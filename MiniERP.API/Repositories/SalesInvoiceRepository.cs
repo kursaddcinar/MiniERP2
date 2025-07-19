@@ -111,7 +111,7 @@ namespace MiniERP.API.Repositories
             if (invoice == null || invoice.Status != "DRAFT") return false;
 
             invoice.Status = "APPROVED";
-            return await SaveChangesAsync();
+            return true; // UnitOfWork will handle SaveChanges
         }
 
         public async Task<bool> CancelInvoiceAsync(int invoiceId)
@@ -120,7 +120,7 @@ namespace MiniERP.API.Repositories
             if (invoice == null) return false;
 
             invoice.Status = "CANCELLED";
-            return await SaveChangesAsync();
+            return true; // UnitOfWork will handle SaveChanges
         }
 
         public async Task<decimal> GetTotalSalesAmountAsync(DateTime? fromDate = null, DateTime? toDate = null)
@@ -182,7 +182,7 @@ namespace MiniERP.API.Repositories
             invoice.VatAmount = invoice.SalesInvoiceDetails.Sum(d => d.VatAmount);
             invoice.Total = invoice.SalesInvoiceDetails.Sum(d => d.NetTotal);
 
-            return await SaveChangesAsync();
+            return true; // UnitOfWork will handle SaveChanges
         }
 
         public async Task<string?> GetLastInvoiceNoAsync(string prefix)

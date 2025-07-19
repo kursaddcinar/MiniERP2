@@ -93,27 +93,27 @@ namespace MiniERP.Web.Services
             }
         }
 
-        public async Task<ApiResponse<PurchaseInvoiceDto>> ApprovePurchaseInvoiceAsync(int id, InvoiceApprovalDto approvalDto)
+        public async Task<ApiResponse<bool>> ApprovePurchaseInvoiceAsync(int id, InvoiceApprovalDto approvalDto)
         {
             try
             {
-                return await _apiService.PostAsync<PurchaseInvoiceDto>($"api/PurchaseInvoices/{id}/approve", approvalDto);
+                return await _apiService.PostAsync<bool>($"api/PurchaseInvoices/{id}/approve", approvalDto);
             }
             catch (Exception ex)
             {
-                return ApiResponse<PurchaseInvoiceDto>.ErrorResult($"Hata: {ex.Message}");
+                return ApiResponse<bool>.ErrorResult($"Hata: {ex.Message}");
             }
         }
 
-        public async Task<ApiResponse<PurchaseInvoiceDto>> CancelPurchaseInvoiceAsync(int id, InvoiceCancellationDto cancellationDto)
+        public async Task<ApiResponse<bool>> CancelPurchaseInvoiceAsync(int id, InvoiceCancellationDto cancellationDto)
         {
             try
             {
-                return await _apiService.PostAsync<PurchaseInvoiceDto>($"api/PurchaseInvoices/{id}/cancel", cancellationDto);
+                return await _apiService.PostAsync<bool>($"api/PurchaseInvoices/{id}/cancel", cancellationDto);
             }
             catch (Exception ex)
             {
-                return ApiResponse<PurchaseInvoiceDto>.ErrorResult($"Hata: {ex.Message}");
+                return ApiResponse<bool>.ErrorResult($"Hata: {ex.Message}");
             }
         }
 
