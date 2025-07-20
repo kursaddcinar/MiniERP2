@@ -1,7 +1,9 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MiniERP.API.DTOs;
 using MiniERP.API.Models;
 using MiniERP.API.Repositories;
+using MiniERP.API.Data;
 
 namespace MiniERP.API.Services
 {
@@ -10,12 +12,14 @@ namespace MiniERP.API.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<UserService> _logger;
+        private readonly AppDbContext _context;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserService> logger)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UserService> logger, AppDbContext context)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _logger = logger;
+            _context = context;
         }
 
         public async Task<ApiResponse<PagedResult<UserDto>>> GetUsersAsync(PaginationParameters parameters)
@@ -152,16 +156,24 @@ namespace MiniERP.API.Services
                     return ApiResponse<bool>.ErrorResult("User not found");
                 }
 
+                // Önce UserRoles tablosundan bu kullanıcının rol ilişkilerini sil
+                var userRoles = await _context.UserRoles.Where(ur => ur.UserID == id).ToListAsync();
+                if (userRoles.Any())
+                {
+                    _context.UserRoles.RemoveRange(userRoles);
+                }
+
+                // Sonra kullanıcıyı sil
                 await _unitOfWork.Users.DeleteAsync(user);
                 await _unitOfWork.SaveChangesAsync();
 
-                _logger.LogInformation("User {UserId} deleted successfully", id);
+                _logger.LogInformation("User {UserId} and related roles deleted successfully", id);
                 return ApiResponse<bool>.SuccessResult(true, "User deleted successfully");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting user {UserId}", id);
-                return ApiResponse<bool>.ErrorResult("An error occurred while deleting user");
+                _logger.LogError(ex, "Error deleting user {UserId}: {Message}", id, ex.Message);
+                return ApiResponse<bool>.ErrorResult($"An error occurred while deleting user: {ex.Message}");
             }
         }
 

@@ -464,7 +464,17 @@ namespace MiniERP.WinForms.Forms
 
         private void BtnKullaniciYonetimi_Click(object? sender, EventArgs e)
         {
-            MessageBox.Show("Kullanıcı Yönetimi modülü açılacak", "Kullanıcı Yönetimi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                var userService = new UserService(_apiService);
+                var kullaniciYonetimiForm = new KullaniciYonetimiForm(userService, _currentUser.Role, _currentUser.UserID);
+                kullaniciYonetimiForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kullanıcı yönetimi formu açılırken hata oluştu: {ex.Message}", 
+                    "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnApiTest_Click(object? sender, EventArgs e)
