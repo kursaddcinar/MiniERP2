@@ -287,17 +287,29 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
-                var response = await _apiService.GetAsync<PagedResult<ProductCategoryDto>>("ProductCategory?pageSize=100");
-                if (response != null && response.Success && response.Data?.Data != null)
+                // ProductCategory endpoint List<ProductCategoryDto> döndürüyor, PagedResult değil
+                var response = await _apiService.GetAsync<List<ProductCategoryDto>>("ProductCategory");
+                if (response != null && response.Success && response.Data != null)
                 {
-                    _categories = response.Data.Data;
+                    _categories = response.Data;
+                    PopulateCategoriesCombo();
+                    System.Diagnostics.Debug.WriteLine($"Loaded {_categories.Count} categories");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to load categories: {response?.Message}");
+                    // Fallback - boş kategoriler listesi ile devam et
+                    _categories = new List<ProductCategoryDto>();
                     PopulateCategoriesCombo();
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Category loading exception: {ex.Message}");
                 MessageBox.Show($"Kategoriler yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _categories = new List<ProductCategoryDto>();
+                PopulateCategoriesCombo();
             }
         }
 
@@ -306,14 +318,20 @@ namespace MiniERP.WinForms.Forms
             cmbKategori.Items.Clear();
             cmbKategori.Items.Add(new { Text = "Tüm Kategoriler", Value = -1 });
             
-            foreach (var category in _categories.Where(c => c.IsActive))
+            var activeCategories = _categories.Where(c => c.IsActive).ToList();
+            System.Diagnostics.Debug.WriteLine($"Active categories: {activeCategories.Count} out of {_categories.Count}");
+            
+            foreach (var category in activeCategories)
             {
                 cmbKategori.Items.Add(new { Text = category.CategoryName, Value = category.CategoryID });
+                System.Diagnostics.Debug.WriteLine($"Added category: {category.CategoryName} (ID: {category.CategoryID})");
             }
             
             cmbKategori.DisplayMember = "Text";
             cmbKategori.ValueMember = "Value";
             cmbKategori.SelectedIndex = 0;
+            
+            System.Diagnostics.Debug.WriteLine($"ComboBox populated with {cmbKategori.Items.Count} items");
         }
 
         private async Task LoadProductsAsync()
@@ -323,10 +341,10 @@ namespace MiniERP.WinForms.Forms
                 // Build query parameters
                 var queryParams = new List<string>();
                 
-                // Add search filter
+                // Add search filter - API'de searchTerm parametresi kullanılıyor
                 if (!string.IsNullOrWhiteSpace(txtArama.Text))
                 {
-                    queryParams.Add($"search={Uri.EscapeDataString(txtArama.Text)}");
+                    queryParams.Add($"searchTerm={Uri.EscapeDataString(txtArama.Text)}");
                 }
                 
                 // Add category filter
@@ -346,23 +364,29 @@ namespace MiniERP.WinForms.Forms
                 
                 var queryString = queryParams.Count > 0 ? "?" + string.Join("&", queryParams) : "";
                 
+                System.Diagnostics.Debug.WriteLine($"API çağrısı: products{queryString}");
+                
                 var response = await _apiService.GetAsync<PagedResult<ProductDto>>($"products{queryString}");
                 if (response != null && response.Success && response.Data?.Data != null)
                 {
                     _allProducts = response.Data.Data;
                     _totalCount = response.Data.TotalCount;
                     
+                    System.Diagnostics.Debug.WriteLine($"Yüklenen ürün sayısı: {_allProducts.Count}/{_totalCount}");
+                    
                     dataGridViewUrunler.DataSource = _allProducts;
                     UpdateStatistics();
                 }
                 else
                 {
-                    MessageBox.Show("Ürünler yüklenirken hata oluştu.", "Hata", 
+                    System.Diagnostics.Debug.WriteLine($"Ürün yükleme hatası: {response?.Message}");
+                    MessageBox.Show("Ürünler yüklenirken hata oluştu: " + (response?.Message ?? "Bilinmeyen hata"), "Hata", 
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"LoadProductsAsync Exception: {ex.Message}");
                 MessageBox.Show($"Ürünler yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

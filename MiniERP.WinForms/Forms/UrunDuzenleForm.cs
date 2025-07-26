@@ -24,6 +24,13 @@ namespace MiniERP.WinForms.Forms
             await LoadCategoriesAsync();
             await LoadUnitsAsync();
             LoadProductData();
+            
+            // Maksimum stok kontrolünün görünür olduğundan emin olalım
+            lblMaxStock.Visible = true;
+            numMaxStock.Visible = true;
+            
+            // Panel otomatik scroll özelliğini etkinleştir
+            panelMain.AutoScroll = true;
         }
 
         private async Task LoadCategoriesAsync()

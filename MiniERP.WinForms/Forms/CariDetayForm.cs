@@ -52,7 +52,7 @@ namespace MiniERP.WinForms.Forms
                     lblEmailValue.Text = _cariAccount.Email ?? "-";
                     lblCariTipiValue.Text = _cariAccount.TypeName;
                     lblVergiDairesiValue.Text = _cariAccount.TaxOffice ?? "-";
-                    lblVergiNoValue.Text = _cariAccount.TaxNumber ?? "-";
+                    lblVergiNoValue.Text = _cariAccount.TaxNo ?? "-";
                     lblKrediLimitDetayValue.Text = $"₺{_cariAccount.CreditLimit:N2}";
                     lblKayitTarihiValue.Text = _cariAccount.CreatedDate.ToString("dd.MM.yyyy HH:mm");
 
@@ -162,11 +162,9 @@ namespace MiniERP.WinForms.Forms
                 
                 if (result == DialogResult.OK && duzenleForm.IsUpdated && duzenleForm.UpdatedCari != null)
                 {
-                    // Güncellenmiş veriyi al ve formu yenile
+                    // Güncellenmiş veriyi al ve formu yenile - mesaj gösterme kaldırıldı, form kendi mesajını gösteriyor
                     _cariAccount = duzenleForm.UpdatedCari;
                     LoadCariDetails();
-                    MessageBox.Show("Cari bilgileri başarıyla güncellendi!", "Başarılı", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)

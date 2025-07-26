@@ -103,7 +103,7 @@ namespace MiniERP.WinForms.Forms
                 txtIletisimKisi.Text = _originalCari.ContactPerson ?? "";
                 txtTelefon.Text = _originalCari.Phone ?? "";
                 txtEPosta.Text = _originalCari.Email ?? "";
-                txtVergiNumarasi.Text = _originalCari.TaxNumber ?? "";
+                txtVergiNumarasi.Text = _originalCari.TaxNo ?? "";
                 txtVergiDairesi.Text = _originalCari.TaxOffice ?? "";
                 txtKrediLimiti.Text = _originalCari.CreditLimit.ToString("F2");
                 txtAdres.Text = _originalCari.Address ?? "";

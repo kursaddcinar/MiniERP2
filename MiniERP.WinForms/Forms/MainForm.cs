@@ -9,6 +9,7 @@ namespace MiniERP.WinForms.Forms
         private readonly UserDto _currentUser;
         private readonly ApiService _apiService;
         private System.Windows.Forms.Timer? _timeTimer;
+        private System.Windows.Forms.Timer? _dashboardTimer;
         
         // Access control matrix
         private readonly Dictionary<string, Dictionary<string, string>> _accessMatrix = new()
@@ -69,11 +70,18 @@ namespace MiniERP.WinForms.Forms
 
         private void InitializeTimer()
         {
+            // Saat timer'ı
             _timeTimer = new System.Windows.Forms.Timer();
             _timeTimer.Interval = 1000; // 1 second
             _timeTimer.Tick += (s, e) => UpdateDateTime();
             _timeTimer.Start();
             UpdateDateTime();
+            
+            // Dashboard yenileme timer'ı - 5 dakikada bir
+            _dashboardTimer = new System.Windows.Forms.Timer();
+            _dashboardTimer.Interval = 300000; // 5 minutes
+            _dashboardTimer.Tick += async (s, e) => await LoadDashboardDataAsync();
+            _dashboardTimer.Start();
         }
 
         private void UpdateDateTime()
@@ -138,22 +146,187 @@ namespace MiniERP.WinForms.Forms
 
         private void LoadDashboardData()
         {
-            CreateStatsCards();
-            CreateQuickAccessButtons();
-            CreateRecentActivities();
-            CreateSystemInfo();
+            // Dashboard verilerini asenkron olarak yükle
+            Task.Run(async () => await LoadDashboardDataAsync());
         }
 
-        private void CreateStatsCards()
+        private async Task LoadDashboardDataAsync()
+        {
+            try
+            {
+                var stats = await GetDashboardStatsAsync();
+                
+                // UI thread'de dashboard kartlarını oluştur
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => CreateStatsCards(stats)));
+                }
+                else
+                {
+                    CreateStatsCards(stats);
+                }
+                
+                // Diğer UI bileşenlerini oluştur
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => {
+                        CreateQuickAccessButtons();
+                        CreateRecentActivities();
+                        CreateSystemInfo();
+                    }));
+                }
+                else
+                {
+                    CreateQuickAccessButtons();
+                    CreateRecentActivities();
+                    CreateSystemInfo();
+                }
+            }
+            catch (Exception)
+            {
+                // Hata durumunda varsayılan değerlerle devam et
+                var defaultStats = new DashboardStatsDto();
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => CreateStatsCards(defaultStats)));
+                }
+                else
+                {
+                    CreateStatsCards(defaultStats);
+                }
+            }
+        }
+
+        private async Task<DashboardStatsDto> GetDashboardStatsAsync()
+        {
+            var stats = new DashboardStatsDto();
+            
+            try
+            {
+                // Paralel olarak API çağrılarını yap
+                var tasks = new List<Task>();
+                
+                // Ürün sayısını al
+                tasks.Add(Task.Run(async () => {
+                    try
+                    {
+                        var productsResponse = await _apiService.GetAsync<PagedResult<ProductDto>>("Products?pageSize=1");
+                        if (productsResponse?.Success == true && productsResponse.Data != null)
+                        {
+                            stats.TotalProducts = productsResponse.Data.TotalCount;
+                        }
+                    }
+                    catch { /* Ignore individual failures */ }
+                }));
+                
+                // Cari hesap sayılarını al
+                tasks.Add(Task.Run(async () => {
+                    try
+                    {
+                        var cariResponse = await _apiService.GetAsync<PagedResult<CariAccountDto>>("CariAccounts?pageSize=10000");
+                        if (cariResponse?.Success == true && cariResponse.Data?.Data != null)
+                        {
+                            var allCari = cariResponse.Data.Data;
+                            stats.TotalCariAccounts = allCari.Count;
+                            stats.ActiveCustomers = allCari.Count(c => c.IsCustomer || 
+                                (c.TypeName != null && c.TypeName.ToLower().Contains("müşteri")));
+                            stats.ActiveSuppliers = allCari.Count(c => c.IsSupplier || 
+                                (c.TypeName != null && c.TypeName.ToLower().Contains("tedarikçi")));
+                        }
+                    }
+                    catch { /* Ignore individual failures */ }
+                }));
+                
+                // Satış faturalarını al
+                tasks.Add(Task.Run(async () => {
+                    try
+                    {
+                        var salesResponse = await _apiService.GetAsync<PagedResult<object>>("SalesInvoices?pageSize=1");
+                        if (salesResponse?.Success == true && salesResponse.Data != null)
+                        {
+                            stats.TotalSalesInvoices = salesResponse.Data.TotalCount;
+                        }
+                    }
+                    catch { /* Ignore individual failures */ }
+                }));
+                
+                // Alış faturalarını al
+                tasks.Add(Task.Run(async () => {
+                    try
+                    {
+                        var purchaseResponse = await _apiService.GetAsync<PagedResult<object>>("PurchaseInvoices?pageSize=1");
+                        if (purchaseResponse?.Success == true && purchaseResponse.Data != null)
+                        {
+                            stats.TotalPurchaseInvoices = purchaseResponse.Data.TotalCount;
+                        }
+                    }
+                    catch { /* Ignore individual failures */ }
+                }));
+                
+                // Kritik stok sayısını al
+                tasks.Add(Task.Run(async () => {
+                    try
+                    {
+                        var stockResponse = await _apiService.GetAsync<List<object>>("Stock/cards/critical");
+                        if (stockResponse?.Success == true && stockResponse.Data != null)
+                        {
+                            stats.CriticalStockCount = stockResponse.Data.Count;
+                        }
+                    }
+                    catch { /* Ignore individual failures */ }
+                }));
+                
+                // Tüm task'lerin tamamlanmasını bekle
+                await Task.WhenAll(tasks);
+            }
+            catch (Exception ex)
+            {
+                // Genel hata durumunda log'la ama devam et
+                System.Diagnostics.Debug.WriteLine($"Dashboard stats error: {ex.Message}");
+            }
+            
+            return stats;
+        }
+
+        private void CreateStatsCards(DashboardStatsDto stats)
         {
             panelStats.Controls.Clear();
             var userRole = GetPrimaryRole();
-            var cards = GetStatsCardsForRole(userRole);
+            var cards = GetStatsCardsForRole(userRole, stats);
             
             int cardWidth = 220;
             int cardHeight = 100;
             int spacing = 20;
             
+            // Refresh butonu ekle
+            var refreshButton = new Button
+            {
+                Text = "🔄 Yenile",
+                Size = new Size(80, 30),
+                Location = new Point(panelStats.Width - 100, 5),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right,
+                BackColor = Color.FromArgb(59, 130, 246),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 8F)
+            };
+            refreshButton.FlatAppearance.BorderSize = 0;
+            refreshButton.Click += async (s, e) => {
+                refreshButton.Enabled = false;
+                refreshButton.Text = "⏳ Yükleniyor...";
+                try
+                {
+                    await LoadDashboardDataAsync();
+                }
+                finally
+                {
+                    refreshButton.Enabled = true;
+                    refreshButton.Text = "🔄 Yenile";
+                }
+            };
+            panelStats.Controls.Add(refreshButton);
+            
+            // Dashboard kartlarını ekle
             for (int i = 0; i < cards.Count; i++)
             {
                 var card = CreateStatCard(cards[i].Title, cards[i].Value, cards[i].Icon, cards[i].Color);
@@ -163,40 +336,40 @@ namespace MiniERP.WinForms.Forms
             }
         }
 
-        private List<(string Title, string Value, string Icon, Color Color)> GetStatsCardsForRole(string role)
+        private List<DashboardCardDto> GetStatsCardsForRole(string role, DashboardStatsDto stats)
         {
             return role switch
             {
-                "Admin" => new List<(string, string, string, Color)>
+                "Admin" => new List<DashboardCardDto>
                 {
-                    ("TOPLAM ÜRÜN", "21", "📦", Color.FromArgb(139, 69, 19)),
-                    ("SATIŞ FATURALARI", "3", "🛒", Color.FromArgb(34, 197, 94)),
-                    ("ALIŞ FATURALARI", "5", "🛍️", Color.FromArgb(59, 130, 246)),
-                    ("KRİTİK STOK", "10", "⚠️", Color.FromArgb(249, 115, 22))
+                    new() { Title = "TOPLAM ÜRÜN", Value = stats.TotalProducts.ToString(), Icon = "📦", Color = Color.FromArgb(139, 69, 19) },
+                    new() { Title = "SATIŞ FATURALARI", Value = stats.TotalSalesInvoices.ToString(), Icon = "🛒", Color = Color.FromArgb(34, 197, 94) },
+                    new() { Title = "ALIŞ FATURALARI", Value = stats.TotalPurchaseInvoices.ToString(), Icon = "🛍️", Color = Color.FromArgb(59, 130, 246) },
+                    new() { Title = "KRİTİK STOK", Value = stats.CriticalStockCount.ToString(), Icon = "⚠️", Color = Color.FromArgb(249, 115, 22) }
                 },
-                "Finance" => new List<(string, string, string, Color)>
+                "Finance" => new List<DashboardCardDto>
                 {
-                    ("SATIŞ FATURALARI", "3", "🛒", Color.FromArgb(34, 197, 94)),
-                    ("ALIŞ FATURALARI", "5", "🛍️", Color.FromArgb(59, 130, 246))
+                    new() { Title = "SATIŞ FATURALARI", Value = stats.TotalSalesInvoices.ToString(), Icon = "🛒", Color = Color.FromArgb(34, 197, 94) },
+                    new() { Title = "ALIŞ FATURALARI", Value = stats.TotalPurchaseInvoices.ToString(), Icon = "🛍️", Color = Color.FromArgb(59, 130, 246) }
                 },
-                "Sales" => new List<(string, string, string, Color)>
+                "Sales" => new List<DashboardCardDto>
                 {
-                    ("SATIŞ FATURALARI", "3", "🛒", Color.FromArgb(34, 197, 94)),
-                    ("TOPLAM CARİ", "15", "👥", Color.FromArgb(168, 85, 247))
+                    new() { Title = "SATIŞ FATURALARI", Value = stats.TotalSalesInvoices.ToString(), Icon = "🛒", Color = Color.FromArgb(34, 197, 94) },
+                    new() { Title = "TOPLAM CARİ", Value = stats.ActiveCustomers.ToString(), Icon = "👥", Color = Color.FromArgb(168, 85, 247) }
                 },
-                "Purchase" => new List<(string, string, string, Color)>
+                "Purchase" => new List<DashboardCardDto>
                 {
-                    ("ALIŞ FATURALARI", "5", "🛍️", Color.FromArgb(59, 130, 246)),
-                    ("TOPLAM CARİ", "15", "👥", Color.FromArgb(168, 85, 247))
+                    new() { Title = "ALIŞ FATURALARI", Value = stats.TotalPurchaseInvoices.ToString(), Icon = "🛍️", Color = Color.FromArgb(59, 130, 246) },
+                    new() { Title = "TOPLAM CARİ", Value = stats.ActiveSuppliers.ToString(), Icon = "👥", Color = Color.FromArgb(168, 85, 247) }
                 },
-                "Warehouse" => new List<(string, string, string, Color)>
+                "Warehouse" => new List<DashboardCardDto>
                 {
-                    ("TOPLAM ÜRÜN", "21", "📦", Color.FromArgb(139, 69, 19)),
-                    ("KRİTİK STOK", "10", "⚠️", Color.FromArgb(249, 115, 22))
+                    new() { Title = "TOPLAM ÜRÜN", Value = stats.TotalProducts.ToString(), Icon = "📦", Color = Color.FromArgb(139, 69, 19) },
+                    new() { Title = "KRİTİK STOK", Value = stats.CriticalStockCount.ToString(), Icon = "⚠️", Color = Color.FromArgb(249, 115, 22) }
                 },
-                _ => new List<(string, string, string, Color)>
+                _ => new List<DashboardCardDto>
                 {
-                    ("TOPLAM ÜRÜN", "21", "📦", Color.FromArgb(139, 69, 19))
+                    new() { Title = "TOPLAM ÜRÜN", Value = stats.TotalProducts.ToString(), Icon = "📦", Color = Color.FromArgb(139, 69, 19) }
                 }
             };
         }
@@ -485,6 +658,9 @@ namespace MiniERP.WinForms.Forms
         private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
             _timeTimer?.Stop();
+            _timeTimer?.Dispose();
+            _dashboardTimer?.Stop();
+            _dashboardTimer?.Dispose();
             _apiService?.Dispose();
         }
     }

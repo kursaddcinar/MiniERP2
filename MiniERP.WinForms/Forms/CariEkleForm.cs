@@ -142,7 +142,7 @@ namespace MiniERP.WinForms.Forms
                     CariCode = txtCariKodu.Text.Trim(),
                     CariName = txtCariAdi.Text.Trim(),
                     TypeID = (int)selectedType.Value,
-                    TaxNumber = txtVergiNo.Text.Trim(),
+                    TaxNo = txtVergiNo.Text.Trim(),
                     TaxOffice = txtVergiDairesi.Text.Trim(),
                     ContactPerson = txtIletisimKisi.Text.Trim(),
                     Phone = txtTelefon.Text.Trim(),

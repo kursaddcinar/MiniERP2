@@ -464,7 +464,7 @@ namespace MiniERP.WinForms.Forms
                 
                 if (result == DialogResult.OK && cariEkleForm.IsDataSaved)
                 {
-                    // Refresh data after successful save
+                    // Refresh data after successful save - mesaj gösterme kaldırıldı, form kendi mesajını gösteriyor
                     await LoadCariAccountsAsync();
                     await LoadDashboardDataAsync();
                 }
@@ -508,12 +508,7 @@ namespace MiniERP.WinForms.Forms
                 contextMenu.Items.Add("🗑️ Sil", null, (s, e) => DeleteCari(cari));
             }
 
-            // Additional finance-specific actions
-            if (_userRole == "Finance" || _userRole == "Admin" || _userRole == "Manager")
-            {
-                contextMenu.Items.Add(new ToolStripSeparator());
-                contextMenu.Items.Add("💰 Bakiye Detayı", null, (s, e) => ShowBalanceDetails(cari));
-            }
+            // Additional finance-specific actions - Bakiye Detayı butonu kaldırıldı
 
             contextMenu.Show(dataGridViewCari, dataGridViewCari.PointToClient(Cursor.Position));
         }
@@ -576,10 +571,8 @@ namespace MiniERP.WinForms.Forms
                 
                 if (result == DialogResult.OK && duzenleForm.IsUpdated)
                 {
-                    // Grid'i yenile
+                    // Grid'i yenile - mesaj gösterme kaldırıldı, form kendi mesajını gösteriyor
                     await LoadCariAccountsAsync();
-                    MessageBox.Show("Cari bilgileri başarıyla güncellendi!", "Başarılı", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)
@@ -611,12 +604,9 @@ namespace MiniERP.WinForms.Forms
                 {
                     try
                     {
-                        // Grid'i ve dashboard'u yenile
+                        // Grid'i ve dashboard'u yenile - mesaj gösterme kaldırıldı, form kendi mesajını gösteriyor
                         await LoadCariAccountsAsync();
                         await LoadDashboardDataAsync();
-                        
-                        MessageBox.Show("Cari hesap başarıyla silindi.", "Başarılı", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception refreshEx)
                     {

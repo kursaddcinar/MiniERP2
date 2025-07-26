@@ -230,6 +230,7 @@ namespace MiniERP.WinForms.Forms
             // 
             this.txtVergiNumarasi.Font = new Font("Segoe UI", 10F);
             this.txtVergiNumarasi.Location = new Point(30, 335);
+            this.txtVergiNumarasi.MaxLength = 10;
             this.txtVergiNumarasi.Name = "txtVergiNumarasi";
             this.txtVergiNumarasi.Size = new Size(320, 25);
             this.txtVergiNumarasi.TabIndex = 13;
