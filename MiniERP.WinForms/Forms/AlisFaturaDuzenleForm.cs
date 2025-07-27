@@ -20,24 +20,50 @@ namespace MiniERP.WinForms.Forms
 
         public AlisFaturaDuzenleForm(UserDto currentUser, ApiService apiService, PurchaseInvoiceDto invoice)
         {
-            InitializeComponent();
-            _currentUser = currentUser;
-            _apiService = apiService;
-            _invoice = invoice;
-            
-            InitializeForm();
-            LoadInvoiceForEdit();
+            try
+            {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm Constructor başlatıldı - InvoiceID: {invoice?.InvoiceID}\n");
+                
+                InitializeComponent();
+                _currentUser = currentUser;
+                _apiService = apiService;
+                _invoice = invoice ?? throw new ArgumentNullException(nameof(invoice));
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm Constructor InitializeComponent tamamlandı\n");
+                
+                // Load eventini manuel olarak subscribe et
+                this.Load += AlisFaturaDuzenleForm_Load;
+                
+                InitializeForm();
+                LoadInvoiceForEdit();
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm Constructor tamamlandı\n");
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm Constructor hatası: {ex.Message}\n");
+                MessageBox.Show($"Form oluşturulurken hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
         }
 
-        private async void AlisFaturaDuzenleForm_Load(object sender, EventArgs e)
+        private async void AlisFaturaDuzenleForm_Load(object? sender, EventArgs e)
         {
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm_Load başlatıldı\n");
+            
             await LoadComboBoxData();
+            
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadComboBoxData tamamlandı, SetEditModeValues çağrılıyor\n");
+            
+            // Form verilerini ayarla (ComboBox verileri yüklendikten sonra, fatura detaylarından önce)
+            SetEditModeValues();
+            
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SetEditModeValues tamamlandı, LoadInvoiceDetails çağrılıyor\n");
             
             // Fatura detaylarını yükle
             await LoadInvoiceDetails();
             
-            // Form verilerini ayarla (ComboBox verileri yüklendikten sonra)
-            SetEditModeValues();
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm_Load tamamlandı\n");
         }
 
         private void InitializeForm()
@@ -66,6 +92,7 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturaDuzenleForm LoadComboBoxData başlatıldı\n");
                 this.Cursor = Cursors.WaitCursor;
                 
                 // Load suppliers
@@ -76,15 +103,21 @@ namespace MiniERP.WinForms.Forms
                     if (cariResponse.Success && cariResponse.Data != null)
                     {
                         _suppliers = cariResponse.Data;
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçiler yüklendi: {_suppliers.Count} adet\n");
                         
                         cmbTedarikci.DataSource = _suppliers;
                         cmbTedarikci.ValueMember = "CariAccountID";
                         cmbTedarikci.DisplayMember = "CariName";
                         cmbTedarikci.SelectedIndex = -1;
                     }
+                    else
+                    {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçi API hatası - Success: {cariResponse?.Success}, Data null: {cariResponse?.Data == null}\n");
+                    }
                 }
                 catch (Exception ex)
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçi yükleme hatası: {ex.Message}\n");
                     MessageBox.Show($"Tedarikçiler yüklenirken hata oluştu: {ex.Message}");
                 }
 
@@ -96,15 +129,21 @@ namespace MiniERP.WinForms.Forms
                     if (warehouseResponse.Success && warehouseResponse.Data != null)
                     {
                         _warehouses = warehouseResponse.Data;
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depolar yüklendi: {_warehouses.Count} adet\n");
                         
                         cmbDepo.DataSource = _warehouses;
                         cmbDepo.ValueMember = "WarehouseID";
                         cmbDepo.DisplayMember = "WarehouseName";
                         cmbDepo.SelectedIndex = -1;
                     }
+                    else
+                    {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo API hatası - Success: {warehouseResponse?.Success}, Data null: {warehouseResponse?.Data == null}\n");
+                    }
                 }
                 catch (Exception ex)
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo yükleme hatası: {ex.Message}\n");
                     MessageBox.Show($"Depolar yüklenirken hata oluştu: {ex.Message}");
                 }
 
@@ -116,11 +155,17 @@ namespace MiniERP.WinForms.Forms
                     if (productResponse.Success && productResponse.Data != null)
                     {
                         _products = productResponse.Data.Data;
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Ürünler yüklendi: {_products.Count} adet\n");
                         UpdateProductColumnDataSource();
+                    }
+                    else
+                    {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Ürün API hatası - Success: {productResponse?.Success}, Data null: {productResponse?.Data == null}\n");
                     }
                 }
                 catch (Exception ex)
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Ürün yükleme hatası: {ex.Message}\n");
                     MessageBox.Show($"Ürünler yüklenirken hata oluştu: {ex.Message}");
                 }
             }
@@ -135,8 +180,7 @@ namespace MiniERP.WinForms.Forms
                 // Ürün kolonunun datasource'unu güncelle
                 UpdateProductColumnDataSource();
                 
-                // ComboBox verileri yüklendikten sonra fatura verilerini ayarla - KALDIRILDI
-                // SetEditModeValues(); // Bu artık Form_Load'da yapılacak
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadComboBoxData tamamlandı\n");
             }
         }
 
@@ -157,39 +201,93 @@ namespace MiniERP.WinForms.Forms
 
             try
             {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SetEditModeValues başlatıldı - InvoiceID: {_invoice.InvoiceID}, CariID: {_invoice.CariID}, WarehouseID: {_invoice.WarehouseID}\n");
+                
                 // Tedarikçi seç
                 if (_invoice.CariID > 0 && _suppliers.Any())
                 {
-                    cmbTedarikci.SelectedValue = _invoice.CariID;
-                    if (cmbTedarikci.SelectedValue == null)
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçi seçiliyor - CariID: {_invoice.CariID}, Suppliers count: {_suppliers.Count}\n");
+                    
+                    // UI thread'de çalıştır
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        // Debug: Tedarikçi seçilemedi
-                        var supplier = _suppliers.FirstOrDefault(s => s.CariAccountID == _invoice.CariID);
-                        if (supplier != null)
+                        cmbTedarikci.SelectedValue = _invoice.CariID;
+                        if (cmbTedarikci.SelectedValue == null)
                         {
-                            cmbTedarikci.SelectedItem = supplier;
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SelectedValue ile tedarikçi seçilemedi, manuel arama yapılıyor\n");
+                            // Debug: Tedarikçi seçilemedi
+                            var supplier = _suppliers.FirstOrDefault(s => s.CariAccountID == _invoice.CariID);
+                            if (supplier != null)
+                            {
+                                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Manuel tedarikçi bulundu: {supplier.CariName}\n");
+                                cmbTedarikci.SelectedItem = supplier;
+                            }
+                            else
+                            {
+                                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Manuel tedarikçi bulunamadı - CariID: {_invoice.CariID}\n");
+                                // Tedarikçi listesindeki tüm ID'leri logla
+                                foreach (var s in _suppliers.Take(5))
+                                {
+                                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Mevcut tedarikçi - ID: {s.CariAccountID}, Name: {s.CariName}\n");
+                                }
+                            }
                         }
-                    }
+                        else
+                        {
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçi başarıyla seçildi\n");
+                        }
+                    });
+                }
+                else
+                {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Tedarikçi seçilemiyor - CariID: {_invoice.CariID}, Suppliers empty: {!_suppliers.Any()}\n");
                 }
 
                 // Depo seç
                 if (_invoice.WarehouseID > 0 && _warehouses.Any())
                 {
-                    cmbDepo.SelectedValue = _invoice.WarehouseID;
-                    if (cmbDepo.SelectedValue == null)
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo seçiliyor - WarehouseID: {_invoice.WarehouseID}, Warehouses count: {_warehouses.Count}\n");
+                    
+                    // UI thread'de çalıştır
+                    this.Invoke((MethodInvoker)delegate
                     {
-                        // Debug: Depo seçilemedi
-                        var warehouse = _warehouses.FirstOrDefault(w => w.WarehouseID == _invoice.WarehouseID);
-                        if (warehouse != null)
+                        cmbDepo.SelectedValue = _invoice.WarehouseID;
+                        if (cmbDepo.SelectedValue == null)
                         {
-                            cmbDepo.SelectedItem = warehouse;
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SelectedValue ile depo seçilemedi, manuel arama yapılıyor\n");
+                            // Debug: Depo seçilemedi
+                            var warehouse = _warehouses.FirstOrDefault(w => w.WarehouseID == _invoice.WarehouseID);
+                            if (warehouse != null)
+                            {
+                                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Manuel depo bulundu: {warehouse.WarehouseName}\n");
+                                cmbDepo.SelectedItem = warehouse;
+                            }
+                            else
+                            {
+                                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Manuel depo bulunamadı - WarehouseID: {_invoice.WarehouseID}\n");
+                                // Depo listesindeki tüm ID'leri logla
+                                foreach (var w in _warehouses)
+                                {
+                                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Mevcut depo - ID: {w.WarehouseID}, Name: {w.WarehouseName}\n");
+                                }
+                            }
                         }
-                    }
+                        else
+                        {
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo başarıyla seçildi\n");
+                        }
+                    });
+                }
+                else
+                {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo seçilemiyor - WarehouseID: {_invoice.WarehouseID}, Warehouses empty: {!_warehouses.Any()}\n");
                 }
 
                 // Durum seç
                 if (!string.IsNullOrEmpty(_invoice.Status))
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Durum seçiliyor - Status: {_invoice.Status}\n");
+                    
                     for (int i = 0; i < cmbDurum.Items.Count; i++)
                     {
                         var item = cmbDurum.Items[i];
@@ -198,15 +296,23 @@ namespace MiniERP.WinForms.Forms
                             var value = item.GetType().GetProperty("Value")?.GetValue(item)?.ToString();
                             if (value == _invoice.Status)
                             {
+                                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Durum bulundu ve seçildi: {value}\n");
                                 cmbDurum.SelectedIndex = i;
                                 break;
                             }
                         }
                     }
                 }
+                else
+                {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Status boş veya null\n");
+                }
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SetEditModeValues tamamlandı\n");
             }
             catch (Exception ex)
             {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SetEditModeValues hatası: {ex.Message}\n");
                 MessageBox.Show($"Form değerleri ayarlanırken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -218,6 +324,7 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadInvoiceDetails başlatıldı - InvoiceID: {_invoice.InvoiceID}\n");
                 _invoiceDetails.Clear();
 
                 // Fatura detaylarını API'den çek - details endpoint'ini kullan
@@ -225,6 +332,7 @@ namespace MiniERP.WinForms.Forms
                 if (response?.Success == true && response.Data != null)
                 {
                     var invoice = response.Data;
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: API'den fatura detayları alındı - Details count: {invoice.Details?.Count ?? 0}\n");
                     
                     // Fatura detaylarını yükle
                     if (invoice.Details != null && invoice.Details.Count > 0)
@@ -233,6 +341,8 @@ namespace MiniERP.WinForms.Forms
                         {
                             // Ürün bilgilerini API'den al
                             var product = _products?.FirstOrDefault(p => p.ProductID == detail.ProductID);
+                            
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Detail yükleniyor - ProductID: {detail.ProductID}, ProductName: {detail.ProductName}, Quantity: {detail.Quantity}\n");
                             
                             _invoiceDetails.Add(new PurchaseInvoiceDetailItem
                             {
@@ -248,6 +358,8 @@ namespace MiniERP.WinForms.Forms
                             });
                         }
                         
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Invoice details yüklendi: {_invoiceDetails.Count} adet\n");
+                        
                         // DataGridView'i güncelle - SATIŞTA OLDUĞU GİBİ
                         RefreshGrid();
                         
@@ -256,15 +368,20 @@ namespace MiniERP.WinForms.Forms
                     }
                     else
                     {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: API'den gelen fatura detayları boş\n");
                         // Detay yok, boş grid göster
                         RefreshGrid();
                     }
                 }
                 else
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: API details endpoint hatası - Success: {response?.Success}, fallback yapılıyor\n");
+                    
                     // Fallback: Fatura ile gelen detayları kontrol et
                     if (_invoice.Details != null && _invoice.Details.Any())
                     {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Fallback - _invoice.Details kullanılıyor: {_invoice.Details.Count} adet\n");
+                        
                         foreach (var detail in _invoice.Details)
                         {
                             // Ürün bilgilerini API'den al
@@ -292,6 +409,7 @@ namespace MiniERP.WinForms.Forms
                     }
                     else
                     {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: _invoice.Details de boş, boş grid gösteriliyor\n");
                         // Detay yok, boş grid göster
                         RefreshGrid();
                     }
@@ -299,6 +417,7 @@ namespace MiniERP.WinForms.Forms
             }
             catch (Exception ex)
             {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadInvoiceDetails hatası: {ex.Message}\n");
                 MessageBox.Show($"Fatura detayları yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 

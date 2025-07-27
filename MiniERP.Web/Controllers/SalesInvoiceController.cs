@@ -30,9 +30,9 @@ namespace MiniERP.Web.Controllers
 
         // GET: SalesInvoice
         [Authorize(Roles = "Admin,Manager,Sales,Finance")]
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10, string searchTerm = "", string status = "", DateTime? startDate = null, DateTime? endDate = null)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 10, string? searchTerm = null, string? status = null, DateTime? startDate = null, DateTime? endDate = null)
         {
-            var invoices = await _salesInvoiceService.GetSalesInvoicesAsync(pageNumber, pageSize, searchTerm, status, startDate, endDate);
+            var invoices = await _salesInvoiceService.GetSalesInvoicesAsync(pageNumber, pageSize, searchTerm ?? "", status ?? "", startDate, endDate);
             var summary = await _salesInvoiceService.GetSalesInvoiceSummaryAsync(startDate, endDate);
 
             ViewBag.SearchTerm = searchTerm;

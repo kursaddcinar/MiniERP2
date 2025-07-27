@@ -37,20 +37,55 @@
                         <option value="">Tüm Kategoriler</option>
                         @if (ViewBag.Categories != null)
                         {
-                                                         @foreach (var category in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Categories)
-                             {
-                                 <option value="@category.Value" selected="@(category.Value == ViewBag.CategoryId?.ToString())">@category.Text</option>
-                             }
+                            @foreach (var category in (List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Categories)
+                            {
+                                @if (category.Value == ViewBag.CategoryId?.ToString())
+                                {
+                                    <option value="@category.Value" selected>@category.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Value">@category.Text</option>
+                                }
+                            }
                         }
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Sayfa Boyutu</label>
                     <select name="pageSize" class="form-select">
-                        <option value="10" selected="@(ViewBag.PageSize == 10)">10</option>
-                        <option value="20" selected="@(ViewBag.PageSize == 20)">20</option>
-                        <option value="50" selected="@(ViewBag.PageSize == 50)">50</option>
-                        <option value="100" selected="@(ViewBag.PageSize == 100)">100</option>
+                        @if (ViewBag.PageSize == 10)
+                        {
+                            <option value="10" selected>10</option>
+                        }
+                        else
+                        {
+                            <option value="10">10</option>
+                        }
+                        @if (ViewBag.PageSize == 20)
+                        {
+                            <option value="20" selected>20</option>
+                        }
+                        else
+                        {
+                            <option value="20">20</option>
+                        }
+                        @if (ViewBag.PageSize == 50)
+                        {
+                            <option value="50" selected>50</option>
+                        }
+                        else
+                        {
+                            <option value="50">50</option>
+                        }
+                        @if (ViewBag.PageSize == 100)
+                        {
+                            <option value="100" selected>100</option>
+                        }
+                        else
+                        {
+                            <option value="100">100</option>
+                        }
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -219,3 +254,68 @@
         </div>
     }
 </div> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kategori seçimi değiştiğinde otomatik form submit
+        const categorySelect = document.querySelector('select[name="categoryId"]');
+        if (categorySelect) {
+            categorySelect.addEventListener('change', function() {
+                // Kategori değiştiğinde arama metnini temizle
+                const searchInput = document.querySelector('input[name="search"]');
+                if (searchInput) {
+                    searchInput.value = '';
+                }
+                
+                // Sayfa numarasını 1'e reset et
+                const form = this.closest('form');
+                const pageInput = form.querySelector('input[name="page"]');
+                if (pageInput) {
+                    pageInput.value = '1';
+                } else {
+                    // Gizli input yoksa oluştur
+                    const hiddenPageInput = document.createElement('input');
+                    hiddenPageInput.type = 'hidden';
+                    hiddenPageInput.name = 'page';
+                    hiddenPageInput.value = '1';
+                    form.appendChild(hiddenPageInput);
+                }
+                form.submit();
+            });
+        }
+        
+        // Arama kutusuna yazıldığında kategori seçimini temizle
+        const searchInput = document.querySelector('input[name="search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                if (this.value.trim() !== '') {
+                    const categorySelect = document.querySelector('select[name="categoryId"]');
+                    if (categorySelect) {
+                        categorySelect.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Sayfa boyutu değiştiğinde otomatik form submit
+        const pageSizeSelect = document.querySelector('select[name="pageSize"]');
+        if (pageSizeSelect) {
+            pageSizeSelect.addEventListener('change', function() {
+                // Sayfa numarasını 1'e reset et
+                const form = this.closest('form');
+                const pageInput = form.querySelector('input[name="page"]');
+                if (pageInput) {
+                    pageInput.value = '1';
+                } else {
+                    // Gizli input yoksa oluştur
+                    const hiddenPageInput = document.createElement('input');
+                    hiddenPageInput.type = 'hidden';
+                    hiddenPageInput.name = 'page';
+                    hiddenPageInput.value = '1';
+                    form.appendChild(hiddenPageInput);
+                }
+                form.submit();
+            });
+        }
+    });
+</script>

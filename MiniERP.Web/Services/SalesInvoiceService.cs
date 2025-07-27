@@ -34,9 +34,57 @@ namespace MiniERP.Web.Services
                     queryParams.Add($"endDate={endDate.Value:yyyy-MM-dd}");
 
                 var queryString = string.Join("&", queryParams);
-                var result = await _apiService.GetAsync<PagedResult<SalesInvoiceDto>>($"api/SalesInvoices?{queryString}");
                 
-                return result.Data ?? new PagedResult<SalesInvoiceDto> { Data = new List<SalesInvoiceDto>(), TotalCount = 0 };
+                // İlk önce tüm faturaları çek (pagination olmadan)
+                var allResult = await _apiService.GetAsync<PagedResult<SalesInvoiceDto>>($"api/SalesInvoices");
+                
+                if (allResult?.Data?.Data != null)
+                {
+                    var filteredData = allResult.Data.Data.AsQueryable();
+                    
+                    // Client-side filtreleme uygula
+                    if (!string.IsNullOrEmpty(searchTerm))
+                    {
+                        filteredData = filteredData.Where(x => 
+                            x.InvoiceNo.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            x.CariName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            x.CariCode.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+                    }
+                    
+                    if (!string.IsNullOrEmpty(status))
+                    {
+                        filteredData = filteredData.Where(x => x.Status == status);
+                    }
+                    
+                    if (startDate.HasValue)
+                    {
+                        filteredData = filteredData.Where(x => x.InvoiceDate >= startDate.Value);
+                    }
+                    
+                    if (endDate.HasValue)
+                    {
+                        filteredData = filteredData.Where(x => x.InvoiceDate <= endDate.Value);
+                    }
+                    
+                    var totalCount = filteredData.Count();
+                    var pagedData = filteredData
+                        .Skip((pageNumber - 1) * pageSize)
+                        .Take(pageSize)
+                        .ToList();
+                    
+                    return new PagedResult<SalesInvoiceDto>
+                    {
+                        Data = pagedData,
+                        TotalCount = totalCount,
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+                        HasNext = pageNumber < (int)Math.Ceiling((double)totalCount / pageSize),
+                        HasPrevious = pageNumber > 1
+                    };
+                }
+                
+                return new PagedResult<SalesInvoiceDto> { Data = new List<SalesInvoiceDto>(), TotalCount = 0 };
             }
             catch (Exception ex)
             {

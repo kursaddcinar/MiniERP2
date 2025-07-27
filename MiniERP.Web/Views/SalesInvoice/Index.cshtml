@@ -1,3 +1,5 @@
+@using MiniERP.Web.Models
+@using MiniERP.Web.Helpers
 @model PagedResult<SalesInvoiceDto>
 
 @{
@@ -111,9 +113,30 @@
                             <label class="form-label">Durum</label>
                             <select name="status" class="form-select">
                                 <option value="">Tümü</option>
-                                <option value="DRAFT" selected="@(ViewBag.Status == "DRAFT")">Taslak</option>
-                                <option value="APPROVED" selected="@(ViewBag.Status == "APPROVED")">Onaylı</option>
-                                <option value="CANCELLED" selected="@(ViewBag.Status == "CANCELLED")">İptal</option>
+                                @if (ViewBag.Status == "DRAFT")
+                                {
+                                    <option value="DRAFT" selected>Taslak</option>
+                                }
+                                else
+                                {
+                                    <option value="DRAFT">Taslak</option>
+                                }
+                                @if (ViewBag.Status == "APPROVED")
+                                {
+                                    <option value="APPROVED" selected>Onaylı</option>
+                                }
+                                else
+                                {
+                                    <option value="APPROVED">Onaylı</option>
+                                }
+                                @if (ViewBag.Status == "CANCELLED")
+                                {
+                                    <option value="CANCELLED" selected>İptal</option>
+                                }
+                                else
+                                {
+                                    <option value="CANCELLED">İptal</option>
+                                }
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -284,4 +307,32 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Status değiştiğinde otomatik form submit
+        const statusSelect = document.querySelector('select[name="status"]');
+        if (statusSelect) {
+            statusSelect.addEventListener('change', function() {
+                this.closest('form').submit();
+            });
+        }
+        
+        // Tarih değiştiğinde otomatik form submit
+        const startDateInput = document.querySelector('input[name="startDate"]');
+        const endDateInput = document.querySelector('input[name="endDate"]');
+        
+        if (startDateInput) {
+            startDateInput.addEventListener('change', function() {
+                this.closest('form').submit();
+            });
+        }
+        
+        if (endDateInput) {
+            endDateInput.addEventListener('change', function() {
+                this.closest('form').submit();
+            });
+        }
+    });
+</script> 

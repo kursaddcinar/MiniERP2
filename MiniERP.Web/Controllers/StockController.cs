@@ -59,6 +59,19 @@ namespace MiniERP.Web.Controllers
                 
                 if (result.Success && result.Data != null)
                 {
+                    // Kategori bilgisini almak için ürün detaylarını çek
+                    if (result.Data.ProductID > 0)
+                    {
+                        var productResult = await _productService.GetProductByIdAsync(result.Data.ProductID);
+                        if (productResult.Success && productResult.Data != null)
+                        {
+                            result.Data.CategoryName = productResult.Data.CategoryName;
+                        }
+                    }
+                    
+                    // Son güncelleme tarihini dinamik olarak ayarla
+                    result.Data.LastUpdateDate = result.Data.LastTransactionDate ?? result.Data.CreatedDate;
+                    
                     return View(result.Data);
                 }
                 else

@@ -69,10 +69,13 @@
                                         <th>Ürün Adı:</th>
                                         <td><strong>@Model!.ProductName</strong></td>
                                     </tr>
-                                    <tr>
-                                        <th>Kategori:</th>
-                                        <td>@Model!.CategoryName</td>
-                                    </tr>
+                                    @if (!string.IsNullOrEmpty(Model!.CategoryName))
+                                    {
+                                        <tr>
+                                            <th>Kategori:</th>
+                                            <td>@Model!.CategoryName</td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <th>Birim:</th>
                                         <td>@Model!.UnitName</td>
@@ -91,11 +94,7 @@
                                         <td><strong>@Model!.WarehouseName</strong></td>
                                     </tr>
                                     <tr>
-                                        <th>Lokasyon:</th>
-                                        <td>@Model!.Location</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Güncelleme:</th>
+                                        <th>Son Güncelleme:</th>
                                         <td>@Model!.LastUpdateDate.ToString("dd.MM.yyyy HH:mm")</td>
                                     </tr>
                                 </table>

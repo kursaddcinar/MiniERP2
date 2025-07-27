@@ -20,6 +20,7 @@ namespace MiniERP.WinForms.Forms
         private readonly ApiService _apiService;
         private List<StockCardDto> _stockCards = new();
         private List<WarehouseDto> _warehouses = new();
+        private bool _isInitializing = true;
 
         public StokTransferiForm(UserDto currentUser, ApiService apiService)
         {
@@ -52,11 +53,23 @@ namespace MiniERP.WinForms.Forms
             {
                 btnTransfer.Enabled = false;
 
+                // Debug log
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: StokTransferiForm LoadComboBoxData başlatıldı\n");
+
                 // Stok kartlarını yükle
                 var stockResponse = await _apiService.GetAsync<PagedResult<StockCardDto>>("Stock/cards?PageNumber=1&PageSize=1000");
                 if (stockResponse != null && stockResponse.Success && stockResponse.Data != null)
                 {
                     _stockCards = stockResponse.Data.Data.ToList();
+                    
+                    // Debug log
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Stok kartları yüklendi: {_stockCards.Count} adet\n");
+                    
+                    // İlk birkaç stok kartının detayını log'la
+                    foreach (var sc in _stockCards.Take(5))
+                    {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: StokKart - ProductID: {sc.ProductID}, WarehouseID: {sc.WarehouseID}, CurrentStock: {sc.CurrentStock}, ProductName: {sc.ProductName}\n");
+                    }
                     
                     // Ürünleri benzersiz şekilde al ve ComboBoxItem'e çevir
                     var products = _stockCards
@@ -75,16 +88,27 @@ namespace MiniERP.WinForms.Forms
                 }
                 else
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Stok kartları yüklenemedi - Response: {stockResponse?.Success}, Data: {stockResponse?.Data != null}\n");
                     MessageBox.Show("Stok kartları yüklenemedi. API bağlantısını kontrol edin.", "Hata", 
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _stockCards = new List<StockCardDto>();
                 }
                 
                 // Depoları API'den yükle - HEPSİNİ ComboBoxItem OLARAK YAP
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depolar yüklenmeye başlanıyor - API çağrısı yapılıyor\n");
                 var warehouseResponse = await _apiService.GetAsync<List<WarehouseDto>>("Stock/warehouses/active");
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Warehouse API Response - Success: {warehouseResponse?.Success}, Data: {warehouseResponse?.Data != null}, Count: {warehouseResponse?.Data?.Count ?? 0}\n");
+                
                 if (warehouseResponse != null && warehouseResponse.Success && warehouseResponse.Data != null)
                 {
                     _warehouses = warehouseResponse.Data;
+                    
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depolar başarıyla yüklendi: {_warehouses.Count} adet\n");
+                    foreach (var warehouse in _warehouses)
+                    {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depo: ID={warehouse.WarehouseID}, Name={warehouse.WarehouseName}, Active={warehouse.IsActive}\n");
+                    }
                     
                     // İlk yükleme sırasında boş ComboBox'lar
                     cmbFromWarehouse.DataSource = null;
@@ -97,15 +121,20 @@ namespace MiniERP.WinForms.Forms
                 }
                 else
                 {
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: Depolar yüklenemedi - API hatası\n");
                     MessageBox.Show("Depolar yüklenemedi. API bağlantısını kontrol edin.", "Hata", 
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _warehouses = new List<WarehouseDto>();
                 }
 
                 btnTransfer.Enabled = true;
+                _isInitializing = false; // İlk yükleme tamamlandı
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadComboBoxData tamamlandı, _isInitializing = false\n");
             }
             catch (Exception ex)
             {
+                _isInitializing = false;
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: LoadComboBoxData hatası: {ex.Message}\n");
                 MessageBox.Show($"Veriler yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -113,11 +142,13 @@ namespace MiniERP.WinForms.Forms
 
         private void CmbProduct_SelectedIndexChanged(object? sender, EventArgs e)
         {
+            if (_isInitializing) return;
             UpdateWarehouseOptions();
         }
 
         private void CmbFromWarehouse_SelectedIndexChanged(object? sender, EventArgs e)
         {
+            if (_isInitializing) return;
             UpdateStockInfo();
             UpdateToWarehouseOptions();
         }
@@ -154,6 +185,7 @@ namespace MiniERP.WinForms.Forms
             if (cmbProduct.SelectedItem is ComboBoxItem productItem)
             {
                 int productId = productItem.Value;
+                
                 var availableWarehouses = _stockCards
                     .Where(x => x.ProductID == productId && x.CurrentStock > 0)
                     .Select(x => _warehouses.FirstOrDefault(w => w.WarehouseID == x.WarehouseID))

@@ -423,15 +423,30 @@ namespace MiniERP.WinForms.Forms
                 case "Düzenle":
                     try
                     {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturalariForm - Düzenle butonu tıklandı, InvoiceID: {invoice?.InvoiceID}\n");
+                        
+                        if (invoice == null)
+                        {
+                            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturalariForm - Invoice null, işlem iptal\n");
+                            MessageBox.Show("Fatura bilgisi bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        
                         var editForm = new AlisFaturaDuzenleForm(_currentUser, _apiService, invoice);
+                        
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturalariForm - EditForm oluşturuldu, ShowDialog açılıyor\n");
+                        
                         editForm.InvoiceUpdated += async (s, e) => await LoadInvoicesAsync();
                         if (editForm.ShowDialog() == DialogResult.OK)
                         {
                             await LoadInvoicesAsync(); // Listeyi yenile
                         }
+                        
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturalariForm - ShowDialog kapandı\n");
                     }
                     catch (Exception ex)
                     {
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: AlisFaturalariForm - Düzenleme formu hatası: {ex.Message}\n");
                         MessageBox.Show($"Düzenleme formu açılırken hata oluştu: {ex.Message}", "Hata", 
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
