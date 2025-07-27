@@ -11,12 +11,28 @@ namespace MiniERP.WinForms.Forms
         private List<WarehouseDto> _warehouses = new();
         private StockCardDto? _currentStock;
         private bool _isLoading = false; // Loading flag eklendi
+        private readonly int? _preSelectedProductId;
+        private readonly int? _preSelectedWarehouseId;
+        private readonly string? _preSelectedTransactionType;
 
         public StokGuncellemeForm(ApiService apiService, UserDto currentUser)
         {
             InitializeComponent();
             _apiService = apiService;
             _currentUser = currentUser;
+            
+            SetupForm();
+        }
+
+        // Detay formdan giriş/çıkış için kullanılacak constructor
+        public StokGuncellemeForm(ApiService apiService, UserDto currentUser, StockCardDto stockCard, string transactionType)
+        {
+            InitializeComponent();
+            _apiService = apiService;
+            _currentUser = currentUser;
+            _preSelectedProductId = stockCard.ProductID;
+            _preSelectedWarehouseId = stockCard.WarehouseID;
+            _preSelectedTransactionType = transactionType;
             
             SetupForm();
         }
@@ -51,6 +67,46 @@ namespace MiniERP.WinForms.Forms
         {
             await LoadProductsAsync();
             await LoadWarehousesAsync();
+            
+            // Pre-selected değerleri ayarla
+            if (_preSelectedProductId.HasValue && _preSelectedWarehouseId.HasValue)
+            {
+                // İşlem türünü ayarla ve kilitle
+                if (!string.IsNullOrEmpty(_preSelectedTransactionType))
+                {
+                    cmbIslemTuru.Text = _preSelectedTransactionType == "IN" ? "Giriş" : "Çıkış";
+                    cmbIslemTuru.Enabled = false; // İşlem türü değiştirilemez
+                }
+                
+                // Ürün ve depoyu seç ve kilitle
+                if (_products.Any() && _warehouses.Any())
+                {
+                    var selectedProduct = _products.FirstOrDefault(p => p.ProductID == _preSelectedProductId.Value);
+                    var selectedWarehouse = _warehouses.FirstOrDefault(w => w.WarehouseID == _preSelectedWarehouseId.Value);
+                    
+                    if (selectedProduct != null)
+                    {
+                        cmbUrun.SelectedValue = selectedProduct.ProductID;
+                        cmbUrun.Enabled = false; // Ürün değiştirilemez
+                    }
+                    
+                    if (selectedWarehouse != null)
+                    {
+                        cmbDepo.SelectedValue = selectedWarehouse.WarehouseID;
+                        cmbDepo.Enabled = false; // Depo değiştirilemez
+                    }
+                    
+                    // İşlem türünü set et ve kilitle
+                    if (!string.IsNullOrEmpty(_preSelectedTransactionType))
+                    {
+                        cmbIslemTuru.SelectedItem = _preSelectedTransactionType == "IN" ? "Giriş" : "Çıkış";
+                        cmbIslemTuru.Enabled = false; // İşlem türü değiştirilemez
+                    }
+                    
+                    // Stok bilgilerini otomatik yükle
+                    await LoadCurrentStockAsync();
+                }
+            }
         }
 
         private async Task LoadProductsAsync()

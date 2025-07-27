@@ -94,15 +94,23 @@ namespace MiniERP.WinForms.DTOs
         public decimal Quantity { get; set; }
         public string? Description { get; set; }
         public DateTime MovementDate { get; set; }
+        public string? Notes { get; set; }
     }
 
     public class StockSummaryDto
     {
-        public int TotalStock { get; set; }
-        public int CriticalStock { get; set; }
-        public int OutOfStock { get; set; }
-        public int TodayMovements { get; set; }
-        public decimal TotalValue { get; set; }
+        public int TotalProducts { get; set; }
+        public int ActiveProducts { get; set; }
+        public int CriticalStockProducts { get; set; }
+        public int OverStockProducts { get; set; }
+        public int OutOfStockProducts { get; set; }
+        public decimal TotalStockValue { get; set; }
+        public decimal TotalSaleValue { get; set; }
+        public int TotalTransactions { get; set; }
+        public decimal TotalIncoming { get; set; }
+        public decimal TotalOutgoing { get; set; }
+        public decimal TotalIncomingValue { get; set; }
+        public decimal TotalOutgoingValue { get; set; }
     }
 
     public class StockCardDisplayDto

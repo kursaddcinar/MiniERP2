@@ -112,11 +112,12 @@ namespace MiniERP.WinForms.Forms
                 btnKaydet.Enabled = false;
                 lblDurum.Text = "Kaydediliyor...";
 
-                // Sadece düzenlenebilir alanları gönder
+                // Sadece düzenlenebilir alanları gönder + son işlem tarihini güncelle
                 var updateData = new
                 {
                     CurrentStock = numMevcutStok.Value,
-                    ReservedStock = numRezerveStok.Value
+                    ReservedStock = numRezerveStok.Value,
+                    LastTransactionDate = DateTime.Now
                 };
 
                 var response = await _apiService.PutAsync<StockCardDto>($"Stock/cards/{_stockCardId}", updateData);

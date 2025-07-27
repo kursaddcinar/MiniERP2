@@ -29,6 +29,7 @@ namespace MiniERP.API.Services
         Task<ApiResponse<StockTransactionDto>> CreateStockTransactionAsync(CreateStockTransactionDto createTransactionDto);
         Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByProductIdAsync(int productId);
         Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByWarehouseIdAsync(int warehouseId);
+        Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByStockCardIdAsync(int stockCardId);
         Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<ApiResponse<List<StockTransactionDto>>> GetIncomingTransactionsAsync(DateTime? fromDate = null, DateTime? toDate = null);
         Task<ApiResponse<List<StockTransactionDto>>> GetOutgoingTransactionsAsync(DateTime? fromDate = null, DateTime? toDate = null);

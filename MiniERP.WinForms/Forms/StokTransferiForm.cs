@@ -3,6 +3,17 @@ using MiniERP.WinForms.Services;
 
 namespace MiniERP.WinForms.Forms
 {
+    public class ComboBoxItem
+    {
+        public int Value { get; set; }
+        public string Text { get; set; } = string.Empty;
+        
+        public override string ToString()
+        {
+            return Text;
+        }
+    }
+
     public partial class StokTransferiForm : Form
     {
         private readonly UserDto _currentUser;
@@ -46,11 +57,20 @@ namespace MiniERP.WinForms.Forms
                 if (stockResponse != null && stockResponse.Success && stockResponse.Data != null)
                 {
                     _stockCards = stockResponse.Data.Data.ToList();
-                    var products = _stockCards.Select(x => new { x.ProductID, x.ProductName, x.ProductCode }).Distinct().ToList();
+                    
+                    // Ürünleri benzersiz şekilde al ve ComboBoxItem'e çevir
+                    var products = _stockCards
+                        .GroupBy(x => x.ProductID)
+                        .Select(g => new ComboBoxItem 
+                        { 
+                            Value = g.Key, 
+                            Text = g.First().ProductName 
+                        })
+                        .ToList();
                     
                     cmbProduct.DataSource = products;
-                    cmbProduct.DisplayMember = "ProductName";
-                    cmbProduct.ValueMember = "ProductID";
+                    cmbProduct.DisplayMember = "Text";
+                    cmbProduct.ValueMember = "Value";
                     cmbProduct.SelectedIndex = -1;
                 }
                 else
@@ -60,11 +80,20 @@ namespace MiniERP.WinForms.Forms
                     _stockCards = new List<StockCardDto>();
                 }
                 
-                // Depoları API'den yükle
+                // Depoları API'den yükle - HEPSİNİ ComboBoxItem OLARAK YAP
                 var warehouseResponse = await _apiService.GetAsync<List<WarehouseDto>>("Stock/warehouses/active");
                 if (warehouseResponse != null && warehouseResponse.Success && warehouseResponse.Data != null)
                 {
                     _warehouses = warehouseResponse.Data;
+                    
+                    // İlk yükleme sırasında boş ComboBox'lar
+                    cmbFromWarehouse.DataSource = null;
+                    cmbFromWarehouse.Items.Clear();
+                    cmbFromWarehouse.SelectedIndex = -1;
+
+                    cmbToWarehouse.DataSource = null;
+                    cmbToWarehouse.Items.Clear();
+                    cmbToWarehouse.SelectedIndex = -1;
                 }
                 else
                 {
@@ -72,16 +101,6 @@ namespace MiniERP.WinForms.Forms
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _warehouses = new List<WarehouseDto>();
                 }
-
-                cmbFromWarehouse.DataSource = _warehouses.ToList();
-                cmbFromWarehouse.DisplayMember = "WarehouseName";
-                cmbFromWarehouse.ValueMember = "WarehouseID";
-                cmbFromWarehouse.SelectedIndex = -1;
-
-                cmbToWarehouse.DataSource = _warehouses.ToList();
-                cmbToWarehouse.DisplayMember = "WarehouseName";
-                cmbToWarehouse.ValueMember = "WarehouseID";
-                cmbToWarehouse.SelectedIndex = -1;
 
                 btnTransfer.Enabled = true;
             }
@@ -100,35 +119,68 @@ namespace MiniERP.WinForms.Forms
         private void CmbFromWarehouse_SelectedIndexChanged(object? sender, EventArgs e)
         {
             UpdateStockInfo();
+            UpdateToWarehouseOptions();
+        }
+
+        private void UpdateToWarehouseOptions()
+        {
+            if (cmbFromWarehouse.SelectedItem is ComboBoxItem selectedFromItem)
+            {
+                // ToWarehouse için seçilen FromWarehouse hariç tüm depoları göster
+                var availableToWarehouses = _warehouses
+                    .Where(w => w.WarehouseID != selectedFromItem.Value)
+                    .Select(w => new ComboBoxItem 
+                    { 
+                        Value = w.WarehouseID, 
+                        Text = w.WarehouseName 
+                    }).ToList();
+                
+                cmbToWarehouse.DataSource = null;
+                cmbToWarehouse.DataSource = availableToWarehouses;
+                cmbToWarehouse.DisplayMember = "Text";
+                cmbToWarehouse.ValueMember = "Value";
+                cmbToWarehouse.SelectedIndex = -1;
+            }
+            else
+            {
+                // FromWarehouse seçilmemişse ToWarehouse'u temizle
+                cmbToWarehouse.DataSource = null;
+                cmbToWarehouse.Items.Clear();
+            }
         }
 
         private void UpdateWarehouseOptions()
         {
-            if (cmbProduct.SelectedValue != null)
+            if (cmbProduct.SelectedItem is ComboBoxItem productItem)
             {
-                int productId = (int)cmbProduct.SelectedValue;
+                int productId = productItem.Value;
                 var availableWarehouses = _stockCards
                     .Where(x => x.ProductID == productId && x.CurrentStock > 0)
                     .Select(x => _warehouses.FirstOrDefault(w => w.WarehouseID == x.WarehouseID))
                     .Where(x => x != null)
                     .Distinct()
+                    .Select(w => new ComboBoxItem { Value = w!.WarehouseID, Text = w.WarehouseName })
                     .ToList();
 
-                // ComboBox binding'lerini güvenli şekilde güncelle
-                cmbFromWarehouse.SelectedIndex = -1;
+                // FromWarehouse ComboBox'ını güncelle
                 cmbFromWarehouse.DataSource = null;
                 cmbFromWarehouse.DataSource = availableWarehouses;
-                cmbFromWarehouse.DisplayMember = "WarehouseName";
-                cmbFromWarehouse.ValueMember = "WarehouseID";
+                cmbFromWarehouse.DisplayMember = "Text";
+                cmbFromWarehouse.ValueMember = "Value";
                 cmbFromWarehouse.SelectedIndex = -1;
 
-                // ToWarehouse için tüm depoları göster
-                cmbToWarehouse.SelectedIndex = -1;
+                // ToWarehouse'u temizle - FromWarehouse seçildikten sonra dolacak
                 cmbToWarehouse.DataSource = null;
-                cmbToWarehouse.DataSource = _warehouses.ToList();
-                cmbToWarehouse.DisplayMember = "WarehouseName";
-                cmbToWarehouse.ValueMember = "WarehouseID";
+                cmbToWarehouse.Items.Clear();
                 cmbToWarehouse.SelectedIndex = -1;
+            }
+            else
+            {
+                // Product seçilmemişse her iki depo ComboBox'ını da temizle
+                cmbFromWarehouse.DataSource = null;
+                cmbFromWarehouse.Items.Clear();
+                cmbToWarehouse.DataSource = null;
+                cmbToWarehouse.Items.Clear();
             }
         }
 
@@ -136,10 +188,11 @@ namespace MiniERP.WinForms.Forms
         {
             try
             {
-                if (cmbProduct.SelectedValue != null && cmbFromWarehouse.SelectedValue != null)
+                if (cmbProduct.SelectedItem is ComboBoxItem productItem && 
+                    cmbFromWarehouse.SelectedItem is ComboBoxItem warehouseItem)
                 {
-                    int productId = (int)cmbProduct.SelectedValue;
-                    int warehouseId = (int)cmbFromWarehouse.SelectedValue;
+                    int productId = productItem.Value;
+                    int warehouseId = warehouseItem.Value;
 
                     var stockCard = _stockCards.FirstOrDefault(x => x.ProductID == productId && x.WarehouseID == warehouseId);
                     if (stockCard != null)
@@ -175,14 +228,24 @@ namespace MiniERP.WinForms.Forms
             {
                 btnTransfer.Enabled = false;
 
+                // SelectedItem kullanarak güvenli value alımları
+                if (!(cmbProduct.SelectedItem is ComboBoxItem productItem) ||
+                    !(cmbFromWarehouse.SelectedItem is ComboBoxItem fromItem) ||
+                    !(cmbToWarehouse.SelectedItem is ComboBoxItem toItem))
+                {
+                    MessageBox.Show("Lütfen tüm alanları doğru şekilde doldurun.", "Eksik Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 var movement = new CreateStockMovementDto
                 {
-                    ProductID = (int)cmbProduct.SelectedValue!,
-                    FromWarehouseID = (int)cmbFromWarehouse.SelectedValue!,
-                    ToWarehouseID = (int)cmbToWarehouse.SelectedValue!,
+                    ProductID = productItem.Value,
+                    FromWarehouseID = fromItem.Value,
+                    ToWarehouseID = toItem.Value,
                     Quantity = numMiktar.Value,
                     Description = txtAciklama.Text,
-                    MovementDate = DateTime.Now
+                    MovementDate = DateTime.Now,
+                    Notes = txtAciklama.Text
                 };
 
                 var response = await _apiService.PostAsync<object>("Stock/transfer", movement);
@@ -218,26 +281,44 @@ namespace MiniERP.WinForms.Forms
 
         private bool ValidateForm()
         {
-            if (cmbProduct.SelectedIndex == -1)
+            if (cmbProduct.SelectedIndex == -1 || cmbProduct.SelectedItem == null)
             {
                 MessageBox.Show("Lütfen bir ürün seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (cmbFromWarehouse.SelectedIndex == -1)
+            if (cmbFromWarehouse.SelectedIndex == -1 || cmbFromWarehouse.SelectedItem == null)
             {
                 MessageBox.Show("Lütfen kaynak depo seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (cmbToWarehouse.SelectedIndex == -1)
+            if (cmbToWarehouse.SelectedIndex == -1 || cmbToWarehouse.SelectedItem == null)
             {
                 MessageBox.Show("Lütfen hedef depo seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
-            if (cmbFromWarehouse.SelectedValue != null && cmbToWarehouse.SelectedValue != null && 
-                (int)cmbFromWarehouse.SelectedValue == (int)cmbToWarehouse.SelectedValue)
+            // ComboBoxItem kontrolü - SelectedItem kullan
+            if (!(cmbProduct.SelectedItem is ComboBoxItem productItem))
+            {
+                MessageBox.Show("Ürün seçiminde hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!(cmbFromWarehouse.SelectedItem is ComboBoxItem fromItem))
+            {
+                MessageBox.Show("Kaynak depo seçiminde hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (!(cmbToWarehouse.SelectedItem is ComboBoxItem toItem))
+            {
+                MessageBox.Show("Hedef depo seçiminde hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (fromItem.Value == toItem.Value)
             {
                 MessageBox.Show("Kaynak ve hedef depo aynı olamaz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
@@ -247,6 +328,21 @@ namespace MiniERP.WinForms.Forms
             {
                 MessageBox.Show("Transfer miktarı 0'dan büyük olmalıdır.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
+            }
+
+            // Mevcut stoklardan büyük transfer miktarı kontrolü
+            try
+            {
+                var stockCard = _stockCards.FirstOrDefault(x => x.ProductID == productItem.Value && x.WarehouseID == fromItem.Value);
+                if (stockCard != null && numMiktar.Value > stockCard.CurrentStock)
+                {
+                    MessageBox.Show($"Transfer miktarı mevcut stoktan ({stockCard.CurrentStock}) fazla olamaz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+            catch
+            {
+                // Stok kontrolünde hata olursa devam et
             }
 
             return true;

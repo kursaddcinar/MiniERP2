@@ -43,10 +43,8 @@ namespace MiniERP.WinForms.Forms
             this.btnAra = new Button();
             this.cmbPageSize = new ComboBox();
             this.lblSayfaBoyutu = new Label();
-            this.txtUrunKodu = new TextBox();
-            this.lblUrunKodu = new Label();
-            this.txtUrunAdi = new TextBox();
-            this.lblUrunAdi = new Label();
+            this.txtArama = new TextBox();
+            this.lblArama = new Label();
             this.lblAramaFiltreleme = new Label();
             this.panelSummary = new Panel();
             this.panelHareketler = new Panel();
@@ -299,10 +297,8 @@ namespace MiniERP.WinForms.Forms
             this.panelSearch.Controls.Add(this.btnAra);
             this.panelSearch.Controls.Add(this.cmbPageSize);
             this.panelSearch.Controls.Add(this.lblSayfaBoyutu);
-            this.panelSearch.Controls.Add(this.txtUrunKodu);
-            this.panelSearch.Controls.Add(this.lblUrunKodu);
-            this.panelSearch.Controls.Add(this.txtUrunAdi);
-            this.panelSearch.Controls.Add(this.lblUrunAdi);
+            this.panelSearch.Controls.Add(this.txtArama);
+            this.panelSearch.Controls.Add(this.lblArama);
             this.panelSearch.Controls.Add(this.lblAramaFiltreleme);
             this.panelSearch.Dock = DockStyle.Top;
             this.panelSearch.Location = new Point(0, 160);
@@ -380,37 +376,25 @@ namespace MiniERP.WinForms.Forms
             this.lblSayfaBoyutu.TabIndex = 5;
             this.lblSayfaBoyutu.Text = "Sayfa Boyutu:";
             // 
-            // txtUrunKodu
+            // txtArama
             // 
-            this.txtUrunKodu.Location = new Point(130, 75);
-            this.txtUrunKodu.Name = "txtUrunKodu";
-            this.txtUrunKodu.Size = new Size(120, 23);
-            this.txtUrunKodu.TabIndex = 4;
+            this.txtArama.Font = new Font("Segoe UI", 10F);
+            this.txtArama.Location = new Point(100, 75);
+            this.txtArama.Name = "txtArama";
+            this.txtArama.PlaceholderText = "Stok Adı veya Kodu arayın...";
+            this.txtArama.Size = new Size(250, 27);
+            this.txtArama.TabIndex = 2;
+            this.txtArama.KeyPress += new KeyPressEventHandler(this.TxtArama_KeyPress);
             // 
-            // lblUrunKodu
+            // lblArama
             // 
-            this.lblUrunKodu.AutoSize = true;
-            this.lblUrunKodu.Location = new Point(130, 55);
-            this.lblUrunKodu.Name = "lblUrunKodu";
-            this.lblUrunKodu.Size = new Size(68, 15);
-            this.lblUrunKodu.TabIndex = 3;
-            this.lblUrunKodu.Text = "Ürün Kodu:";
-            // 
-            // txtUrunAdi
-            // 
-            this.txtUrunAdi.Location = new Point(20, 75);
-            this.txtUrunAdi.Name = "txtUrunAdi";
-            this.txtUrunAdi.Size = new Size(100, 23);
-            this.txtUrunAdi.TabIndex = 2;
-            // 
-            // lblUrunAdi
-            // 
-            this.lblUrunAdi.AutoSize = true;
-            this.lblUrunAdi.Location = new Point(20, 55);
-            this.lblUrunAdi.Name = "lblUrunAdi";
-            this.lblUrunAdi.Size = new Size(57, 15);
-            this.lblUrunAdi.TabIndex = 1;
-            this.lblUrunAdi.Text = "Ürün Adı:";
+            this.lblArama.AutoSize = true;
+            this.lblArama.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            this.lblArama.Location = new Point(100, 55);
+            this.lblArama.Name = "lblArama";
+            this.lblArama.Size = new Size(49, 19);
+            this.lblArama.TabIndex = 1;
+            this.lblArama.Text = "Arama";
             // 
             // lblAramaFiltreleme
             // 
@@ -742,10 +726,8 @@ namespace MiniERP.WinForms.Forms
         private Button btnAra;
         private ComboBox cmbPageSize;
         private Label lblSayfaBoyutu;
-        private TextBox txtUrunKodu;
-        private Label lblUrunKodu;
-        private TextBox txtUrunAdi;
-        private Label lblUrunAdi;
+        private TextBox txtArama;
+        private Label lblArama;
         private Label lblAramaFiltreleme;
         private Panel panelSummary;
         private Panel panelHareketler;

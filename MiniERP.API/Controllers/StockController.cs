@@ -329,6 +329,17 @@ namespace MiniERP.API.Controllers
         }
 
         /// <summary>
+        /// Stok kartı ID'sine göre son stok işlemlerini getirir
+        /// </summary>
+        [HttpGet("transactions/by-stockcard/{stockCardId}")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
+        public async Task<ActionResult<ApiResponse<List<StockTransactionDto>>>> GetTransactionsByStockCard(int stockCardId)
+        {
+            var result = await _stockService.GetTransactionsByStockCardIdAsync(stockCardId);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Tarih aralığına göre stok işlemlerini getirir
         /// </summary>
         [HttpGet("transactions/by-date-range")]
@@ -497,6 +508,7 @@ namespace MiniERP.API.Controllers
         /// Stok özetini getirir
         /// </summary>
         [HttpGet("summary")]
+        [Authorize(Roles = "Admin,Manager,Warehouse,Sales,Purchase")]
         public async Task<ActionResult<ApiResponse<StockSummaryDto>>> GetStockSummary()
         {
             var result = await _stockService.GetStockSummaryAsync();

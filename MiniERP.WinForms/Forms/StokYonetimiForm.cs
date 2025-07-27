@@ -143,40 +143,24 @@ namespace MiniERP.WinForms.Forms
                     var data = response.Data;
                     
                     // Summary kartlarını güncelle
-                    lblToplamStok.Text = data.TotalStock.ToString();
-                    lblKritikStok.Text = data.CriticalStock.ToString();
-                    lblStokYok.Text = data.OutOfStock.ToString();
-                    lblHareketler.Text = data.TodayMovements.ToString();
+                    lblToplamStok.Text = data.TotalProducts.ToString();
+                    lblKritikStok.Text = data.CriticalStockProducts.ToString();
+                    lblStokYok.Text = data.OutOfStockProducts.ToString();
+                    lblHareketler.Text = data.TotalTransactions.ToString();
                 }
                 else
                 {
-                    // API çağrısı başarısız - summary kartlarını sıfırla
-                    lblToplamStok.Text = "0";
-                    lblKritikStok.Text = "0";
-                    lblStokYok.Text = "0";
-                    lblHareketler.Text = "0";
+                    throw new Exception($"API Hatası: {response?.Message ?? "Bilinmeyen hata"}");
                 }
             }
             catch (Exception ex)
             {
-                // Hata durumunda summary kartlarını sıfırla
-                lblToplamStok.Text = "0";
-                lblKritikStok.Text = "0";
-                lblStokYok.Text = "0";
-                lblHareketler.Text = "0";
+                MessageBox.Show($"Stok özeti yüklenirken hata oluştu:\n{ex.Message}\n\nLütfen API bağlantısını kontrol edin.", 
+                    "API Bağlantı Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
-                MessageBox.Show($"Stok özeti yüklenirken hata oluştu: {ex.Message}", "Hata", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Form'u kapat
+                this.Close();
             }
-        }
-
-        private void LoadSummaryTestData()
-        {
-            // Test özet verileri
-            lblToplamStok.Text = "20";
-            lblKritikStok.Text = "3";
-            lblStokYok.Text = "2";
-            lblHareketler.Text = "15";
         }
 
         private async void LoadStockData()
@@ -188,16 +172,16 @@ namespace MiniERP.WinForms.Forms
 
                 var queryParams = new List<string>
                 {
-                    $"page={_currentPage}",
-                    $"pageSize={_pageSize}"
+                    $"PageNumber={_currentPage}",
+                    $"PageSize={_pageSize}"
                 };
 
-                // Arama filtrelerini ekle
-                if (!string.IsNullOrWhiteSpace(txtUrunAdi.Text))
-                    queryParams.Add($"productName={Uri.EscapeDataString(txtUrunAdi.Text)}");
-
-                if (!string.IsNullOrWhiteSpace(txtUrunKodu.Text))
-                    queryParams.Add($"productCode={Uri.EscapeDataString(txtUrunKodu.Text)}");
+                // Arama filtrelerini ekle - tek alanda hem ad hem kod aranabilir
+                if (!string.IsNullOrWhiteSpace(txtArama.Text))
+                {
+                    string searchTerm = txtArama.Text.Trim();
+                    queryParams.Add($"SearchTerm={Uri.EscapeDataString(searchTerm)}");
+                }
 
                 var queryString = string.Join("&", queryParams);
                 
@@ -238,20 +222,19 @@ namespace MiniERP.WinForms.Forms
                 }
                 else
                 {
-                    // API çağrısı başarısız - verileri temizle
-                    _stockCards.Clear();
-                    _filteredStockCards.Clear();
-                    lblDurum.Text = "API bağlantısı kurulamadı - Veri yüklenemedi";
-                    lblDurum.ForeColor = Color.Red;
+                    throw new Exception($"API Hatası: {response?.Message ?? "Stok verileri alınamadı"}");
                 }
             }
             catch (Exception ex)
             {
-                // Hata durumunda verileri temizle
-                _stockCards.Clear();
-                _filteredStockCards.Clear();
-                lblDurum.Text = $"API hatası: {ex.Message}";
+                MessageBox.Show($"Stok verileri yüklenirken hata oluştu:\n{ex.Message}\n\nLütfen API bağlantısını kontrol edin.", 
+                    "API Bağlantı Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                lblDurum.Text = "API bağlantı hatası";
                 lblDurum.ForeColor = Color.Red;
+                
+                // Form'u kapat
+                this.Close();
             }
             finally
             {
@@ -327,8 +310,7 @@ namespace MiniERP.WinForms.Forms
 
         private void BtnTemizle_Click(object? sender, EventArgs e)
         {
-            txtUrunAdi.Clear();
-            txtUrunKodu.Clear();
+            txtArama.Clear();
             _currentPage = 1;
             LoadStockData();
         }
@@ -345,6 +327,15 @@ namespace MiniERP.WinForms.Forms
                       $"Mevcut Sayfa: {_currentPage} / {_totalPages}";
                       
             MessageBox.Show(ozet, "Stok Özeti", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void TxtArama_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                BtnAra_Click(sender, e);
+            }
         }
 
         private void BtnRapor_Click(object? sender, EventArgs e)
@@ -416,10 +407,17 @@ namespace MiniERP.WinForms.Forms
 
             if (e.ColumnIndex == dgvStockCards.Columns["colView"]?.Index)
             {
-                // TODO: StokDetayForm henüz oluşturulmadı
-                // var form = new StokDetayForm(selectedItem.StockCardID, _currentUser, _apiService);
-                // form.ShowDialog();
-                MessageBox.Show($"Stok Detay formu henüz geliştirilme aşamasında.\nSeçilen Stok ID: {selectedItem.StockCardID}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Stok detay formu aç - ApiService ve CurrentUser'ı geçir
+                var form = new StokDetayForm(selectedItem.StockCardID, selectedItem.ProductCode, _currentUser, _apiService);
+                
+                // Event handler'ı bağla
+                form.StockDataChanged += (s, args) =>
+                {
+                    LoadStockData();
+                    LoadStockSummary();
+                };
+                
+                form.ShowDialog();
             }
             else if (e.ColumnIndex == dgvStockCards.Columns["colEdit"]?.Index && _accessLevel.Contains("U"))
             {
@@ -465,80 +463,6 @@ namespace MiniERP.WinForms.Forms
                 MessageBox.Show($"Stok kartı silinirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void LoadTestData()
-        {
-            _stockCards.Clear();
-            _filteredStockCards.Clear();
-
-            var testItems = new List<StockCardDisplayDto>
-            {
-                new StockCardDisplayDto
-                {
-                    StockCardID = 1,
-                    ProductCode = "CAY001",
-                    ProductName = "Bergamot Aromalı Çay (50 Gr)",
-                    WarehouseName = "Ana Depo", 
-                    CurrentStock = 100,
-                    ReservedStock = 10,
-                    AvailableStock = 90,
-                    StockStatus = "Normal",
-                    LastTransactionDate = DateTime.Now.ToString("dd.MM.yyyy"),
-                    UnitName = "Adet"
-                },
-                new StockCardDisplayDto
-                {
-                    StockCardID = 2,
-                    ProductCode = "DETERJAN001", 
-                    ProductName = "Laundry Detergent (3kg)",
-                    WarehouseName = "Ana Depo",
-                    CurrentStock = 0,
-                    ReservedStock = 0,
-                    AvailableStock = 0,
-                    StockStatus = "Yok",
-                    LastTransactionDate = DateTime.Now.AddDays(-5).ToString("dd.MM.yyyy"),
-                    UnitName = "Adet"
-                },
-                new StockCardDisplayDto
-                {
-                    StockCardID = 3,
-                    ProductCode = "BISKUVI001",
-                    ProductName = "Milk Chocolate Biscuits (150g)",
-                    WarehouseName = "Ana Depo",
-                    CurrentStock = 5,
-                    ReservedStock = 0,
-                    AvailableStock = 5,
-                    StockStatus = "Kritik",
-                    LastTransactionDate = DateTime.Now.AddDays(-2).ToString("dd.MM.yyyy"),
-                    UnitName = "Adet"
-                },
-                new StockCardDisplayDto
-                {
-                    StockCardID = 4,
-                    ProductCode = "LAPTOP001",
-                    ProductName = "Dell Laptop 15.6 inch",
-                    WarehouseName = "Ana Depo",
-                    CurrentStock = 15,
-                    ReservedStock = 0,
-                    AvailableStock = 15,
-                    StockStatus = "Normal",
-                    LastTransactionDate = DateTime.Now.AddDays(-1).ToString("dd.MM.yyyy"),
-                    UnitName = "Adet"
-                }
-            };
-
-            foreach (var item in testItems)
-            {
-                _stockCards.Add(item);
-                _filteredStockCards.Add(item);
-            }
-            
-            _totalRecords = testItems.Count;
-            _totalPages = 1;
-            _currentPage = 1;
-            
-            UpdatePaginationInfo();
         }
 
         private void BtnOncekiSayfa_Click(object? sender, EventArgs e)

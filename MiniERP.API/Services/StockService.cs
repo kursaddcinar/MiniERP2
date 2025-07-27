@@ -429,6 +429,35 @@ namespace MiniERP.API.Services
             }
         }
 
+        public async Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByStockCardIdAsync(int stockCardId)
+        {
+            try
+            {
+                // İlk önce StockCard'ı getir
+                var stockCard = await _unitOfWork.StockCards.GetByIdAsync(stockCardId);
+                if (stockCard == null)
+                    return ApiResponse<List<StockTransactionDto>>.ErrorResult("Stok kartı bulunamadı");
+
+                // ProductId'ye göre transactions getir ve sonra WarehouseId filtrele
+                var allTransactions = await _unitOfWork.StockTransactions.GetByProductIdAsync(stockCard.ProductID);
+                
+                // WarehouseId'ye göre filtrele ve en son 10 transaction'ı al
+                var filteredTransactions = allTransactions
+                    .Where(t => t.WarehouseID == stockCard.WarehouseID)
+                    .OrderByDescending(t => t.TransactionDate)
+                    .Take(10)
+                    .ToList();
+                
+                var transactionDtos = _mapper.Map<List<StockTransactionDto>>(filteredTransactions);
+                return ApiResponse<List<StockTransactionDto>>.SuccessResult(transactionDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Stok kartı {StockCardId} için stok işlemleri getirilirken hata oluştu", stockCardId);
+                return ApiResponse<List<StockTransactionDto>>.ErrorResult("Stok işlemleri getirilirken hata oluştu");
+            }
+        }
+
         public async Task<ApiResponse<List<StockTransactionDto>>> GetTransactionsByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             try
@@ -685,17 +714,35 @@ namespace MiniERP.API.Services
         {
             try
             {
+                // Tüm stok kartlarını al
+                var allStockCards = await _unitOfWork.StockCards.GetAllAsync();
+                var totalProducts = allStockCards.Count();
+                
+                // Aktif ürünleri al (CurrentStock > 0)
+                var activeProducts = allStockCards.Count(sc => sc.CurrentStock > 0);
+                
                 var totalStockValue = await _unitOfWork.StockCards.GetTotalStockValueAsync();
                 var criticalStockCount = (await _unitOfWork.StockCards.GetCriticalStockCardsAsync()).Count();
                 var outOfStockCount = (await _unitOfWork.StockCards.GetOutOfStockCardsAsync()).Count();
                 var totalIncomingValue = await _unitOfWork.StockTransactions.GetTotalIncomingValueAsync();
                 var totalOutgoingValue = await _unitOfWork.StockTransactions.GetTotalOutgoingValueAsync();
+                
+                // Toplam transaction sayısını al
+                var allTransactions = await _unitOfWork.StockTransactions.GetAllAsync();
+                var totalTransactions = allTransactions.Count();
 
                 var summary = new StockSummaryDto
                 {
-                    TotalStockValue = totalStockValue,
+                    TotalProducts = totalProducts,
+                    ActiveProducts = activeProducts,
                     CriticalStockProducts = criticalStockCount,
+                    OverStockProducts = 0, // Bu hesaplama için logic eklenebilir
                     OutOfStockProducts = outOfStockCount,
+                    TotalStockValue = totalStockValue,
+                    TotalSaleValue = 0, // Bu hesaplama için logic eklenebilir
+                    TotalTransactions = totalTransactions,
+                    TotalIncoming = 0, // Miktar bazlı hesaplama için logic eklenebilir
+                    TotalOutgoing = 0, // Miktar bazlı hesaplama için logic eklenebilir
                     TotalIncomingValue = totalIncomingValue,
                     TotalOutgoingValue = totalOutgoingValue
                 };
