@@ -196,7 +196,7 @@ namespace MiniERP.WinForms.Forms
         {
             // Update summary cards
             lblToplamFatura.Text = _summary.TotalInvoices.ToString();
-            lblToplamTutar.Text = _summary.TotalAmount.ToString("N2") + " ?";
+            lblToplamTutar.Text = _summary.TotalAmount.ToString("N2") + " TL";
             lblTaslakFatura.Text = _summary.DraftInvoices.ToString();
             lblOnaylaFatura.Text = _summary.ApprovedInvoices.ToString();
         }
@@ -406,7 +406,13 @@ namespace MiniERP.WinForms.Forms
                     {
                         var detayForm = new AlisFaturaDetayForm(_apiService, _currentUser, invoice);
                         detayForm.InvoiceDeleted += async (s, e) => await LoadInvoicesAsync();
-                        detayForm.ShowDialog();
+                        
+                        if (detayForm.ShowDialog() == DialogResult.OK)
+                        {
+                            // Fatura güncellendiğinde (onaylandı, düzenlendi vb.) listeyi yenile
+                            await LoadInvoicesAsync();
+                            await LoadInvoiceSummaryAsync();
+                        }
                     }
                     catch (Exception ex)
                     {

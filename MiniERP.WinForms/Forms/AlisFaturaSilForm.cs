@@ -112,9 +112,9 @@ namespace MiniERP.WinForms.Forms
             lblTedarikci.Text = $"{_invoice.CariCode} - {_invoice.CariName}";
             lblDepo.Text = _invoice.WarehouseName;
             lblDurum.Text = GetStatusText(_invoice.Status);
-            lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
-            lblKdvTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
-            lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
+            lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " TL";
+            lblKdvTutari.Text = _invoice.VatAmount.ToString("N2") + " TL";
+            lblGenelToplam.Text = _invoice.Total.ToString("N2") + " TL";
 
             // Set status color
             SetStatusColor();
@@ -166,8 +166,8 @@ namespace MiniERP.WinForms.Forms
 
                     row.Cells["Urun"].Value = $"{detail.ProductCode}\n{detail.ProductName}";
                     row.Cells["Miktar"].Value = detail.Quantity.ToString("N2");
-                    row.Cells["BirimFiyat"].Value = detail.UnitPrice.ToString("N2") + " ?";
-                    row.Cells["NetToplam"].Value = detail.LineTotal.ToString("N2") + " ?";
+                    row.Cells["BirimFiyat"].Value = detail.UnitPrice.ToString("N2") + " TL";
+                    row.Cells["NetToplam"].Value = detail.LineTotal.ToString("N2") + " TL";
                 }
 
                 lblKalemSayisi.Text = $"({_invoice.Details.Count} adet)";

@@ -26,8 +26,18 @@ namespace MiniERP.WinForms.Forms
             _invoice = invoice;
             
             InitializeForm();
-            _ = LoadComboBoxData(); // Fire and forget
             LoadInvoiceForEdit();
+        }
+
+        private async void AlisFaturaDuzenleForm_Load(object sender, EventArgs e)
+        {
+            await LoadComboBoxData();
+            
+            // Fatura detaylarını yükle
+            await LoadInvoiceDetails();
+            
+            // Form verilerini ayarla (ComboBox verileri yüklendikten sonra)
+            SetEditModeValues();
         }
 
         private void InitializeForm()
@@ -122,8 +132,11 @@ namespace MiniERP.WinForms.Forms
             {
                 this.Cursor = Cursors.Default;
                 
-                // ComboBox verileri yüklendikten sonra fatura verilerini ayarla
-                await SetEditModeValues();
+                // Ürün kolonunun datasource'unu güncelle
+                UpdateProductColumnDataSource();
+                
+                // ComboBox verileri yüklendikten sonra fatura verilerini ayarla - KALDIRILDI
+                // SetEditModeValues(); // Bu artık Form_Load'da yapılacak
             }
         }
 
@@ -138,42 +151,67 @@ namespace MiniERP.WinForms.Forms
             txtAciklama.Text = _invoice.Description ?? "";
         }
 
-        private async Task SetEditModeValues()
+        private void SetEditModeValues()
         {
             if (_invoice == null) return;
 
-            // Tedarikçi seç
-            if (_invoice.CariID > 0)
+            try
             {
-                cmbTedarikci.SelectedValue = _invoice.CariID;
-            }
-
-            // Depo seç
-            if (_invoice.WarehouseID > 0)
-            {
-                cmbDepo.SelectedValue = _invoice.WarehouseID;
-            }
-
-            // Durum seç
-            if (!string.IsNullOrEmpty(_invoice.Status))
-            {
-                for (int i = 0; i < cmbDurum.Items.Count; i++)
+                // Tedarikçi seç
+                if (_invoice.CariID > 0 && _suppliers.Any())
                 {
-                    var item = cmbDurum.Items[i];
-                    if (item != null)
+                    cmbTedarikci.SelectedValue = _invoice.CariID;
+                    if (cmbTedarikci.SelectedValue == null)
                     {
-                        var value = item.GetType().GetProperty("Value")?.GetValue(item)?.ToString();
-                        if (value == _invoice.Status)
+                        // Debug: Tedarikçi seçilemedi
+                        var supplier = _suppliers.FirstOrDefault(s => s.CariAccountID == _invoice.CariID);
+                        if (supplier != null)
                         {
-                            cmbDurum.SelectedIndex = i;
-                            break;
+                            cmbTedarikci.SelectedItem = supplier;
+                        }
+                    }
+                }
+
+                // Depo seç
+                if (_invoice.WarehouseID > 0 && _warehouses.Any())
+                {
+                    cmbDepo.SelectedValue = _invoice.WarehouseID;
+                    if (cmbDepo.SelectedValue == null)
+                    {
+                        // Debug: Depo seçilemedi
+                        var warehouse = _warehouses.FirstOrDefault(w => w.WarehouseID == _invoice.WarehouseID);
+                        if (warehouse != null)
+                        {
+                            cmbDepo.SelectedItem = warehouse;
+                        }
+                    }
+                }
+
+                // Durum seç
+                if (!string.IsNullOrEmpty(_invoice.Status))
+                {
+                    for (int i = 0; i < cmbDurum.Items.Count; i++)
+                    {
+                        var item = cmbDurum.Items[i];
+                        if (item != null)
+                        {
+                            var value = item.GetType().GetProperty("Value")?.GetValue(item)?.ToString();
+                            if (value == _invoice.Status)
+                            {
+                                cmbDurum.SelectedIndex = i;
+                                break;
+                            }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Form değerleri ayarlanırken hata oluştu: {ex.Message}", "Hata", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
-            // Fatura detaylarını yükle
-            await LoadInvoiceDetails();
+            // Fatura detayları Form_Load'da yüklenecek
         }
 
         private async Task LoadInvoiceDetails()
@@ -182,39 +220,26 @@ namespace MiniERP.WinForms.Forms
             {
                 _invoiceDetails.Clear();
 
-                // Önce fatura ile gelen detayları kontrol et
-                if (_invoice.Details != null && _invoice.Details.Any())
+                // Fatura detaylarını API'den çek - details endpoint'ini kullan
+                var response = await _apiService.GetAsync<PurchaseInvoiceDto>($"PurchaseInvoices/{_invoice.InvoiceID}/details");
+                if (response?.Success == true && response.Data != null)
                 {
-                    foreach (var detail in _invoice.Details)
+                    var invoice = response.Data;
+                    
+                    // Fatura detaylarını yükle
+                    if (invoice.Details != null && invoice.Details.Count > 0)
                     {
-                        _invoiceDetails.Add(new PurchaseInvoiceDetailItem
+                        foreach (var detail in invoice.Details)
                         {
-                            ProductID = detail.ProductID,
-                            ProductCode = detail.ProductCode,
-                            ProductName = detail.ProductName,
-                            UnitName = "Adet",
-                            Quantity = detail.Quantity,
-                            UnitPrice = detail.UnitPrice,
-                            VatRate = detail.VatRate,
-                            VatAmount = detail.VatAmount,
-                            LineTotal = detail.LineTotal
-                        });
-                    }
-                }
-                else
-                {
-                    // Fatura ile detay gelmemişse API'den ayrı çek
-                    var response = await _apiService.GetAsync<PurchaseInvoiceDto>($"PurchaseInvoices/{_invoice.InvoiceID}");
-                    if (response?.Success == true && response.Data?.Details != null && response.Data.Details.Any())
-                    {
-                        foreach (var detail in response.Data.Details)
-                        {
+                            // Ürün bilgilerini API'den al
+                            var product = _products?.FirstOrDefault(p => p.ProductID == detail.ProductID);
+                            
                             _invoiceDetails.Add(new PurchaseInvoiceDetailItem
                             {
                                 ProductID = detail.ProductID,
                                 ProductCode = detail.ProductCode,
                                 ProductName = detail.ProductName,
-                                UnitName = "Adet",
+                                UnitName = product?.UnitName ?? "Adet",
                                 Quantity = detail.Quantity,
                                 UnitPrice = detail.UnitPrice,
                                 VatRate = detail.VatRate,
@@ -222,15 +247,63 @@ namespace MiniERP.WinForms.Forms
                                 LineTotal = detail.LineTotal
                             });
                         }
+                        
+                        // DataGridView'i güncelle - SATIŞTA OLDUĞU GİBİ
+                        RefreshGrid();
+                        
+                        // Toplamları hesapla
+                        CalculateTotals();
+                    }
+                    else
+                    {
+                        // Detay yok, boş grid göster
+                        RefreshGrid();
                     }
                 }
-
-                RefreshGrid();
+                else
+                {
+                    // Fallback: Fatura ile gelen detayları kontrol et
+                    if (_invoice.Details != null && _invoice.Details.Any())
+                    {
+                        foreach (var detail in _invoice.Details)
+                        {
+                            // Ürün bilgilerini API'den al
+                            var product = _products?.FirstOrDefault(p => p.ProductID == detail.ProductID);
+                            
+                            _invoiceDetails.Add(new PurchaseInvoiceDetailItem
+                            {
+                                ProductID = detail.ProductID,
+                                ProductCode = detail.ProductCode,
+                                ProductName = detail.ProductName,
+                                UnitName = product?.UnitName ?? "Adet",
+                                Quantity = detail.Quantity,
+                                UnitPrice = detail.UnitPrice,
+                                VatRate = detail.VatRate,
+                                VatAmount = detail.VatAmount,
+                                LineTotal = detail.LineTotal
+                            });
+                        }
+                        
+                        // DataGridView'i güncelle - SATIŞTA OLDUĞU GİBİ
+                        RefreshGrid();
+                        
+                        // Toplamları hesapla
+                        CalculateTotals();
+                    }
+                    else
+                    {
+                        // Detay yok, boş grid göster
+                        RefreshGrid();
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Fatura detayları yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                // Hata durumunda da boş grid göster
+                RefreshGrid();
             }
         }
 
@@ -243,8 +316,9 @@ namespace MiniERP.WinForms.Forms
             // Ürün column (ComboBox)
             var productColumn = new DataGridViewComboBoxColumn
             {
+                DataPropertyName = "ProductID",
                 HeaderText = "Ürün",
-                Width = 300,
+                Width = 250,
                 DataSource = _products,
                 ValueMember = "ProductID",
                 DisplayMember = "ProductName"
@@ -254,33 +328,47 @@ namespace MiniERP.WinForms.Forms
             // Miktar
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "Quantity",
                 HeaderText = "Miktar",
-                Width = 100,
+                Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+            });
+
+            // Birim
+            dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "UnitName",
+                HeaderText = "Birim",
+                Width = 60,
+                ReadOnly = true,
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
             });
 
             // Birim Fiyat
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
-                Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                Width = 100,
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV %
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "VatRate",
                 HeaderText = "KDV %",
-                Width = 80,
+                Width = 60,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Tutar
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "LineTotal",
                 HeaderText = "Tutar",
-                Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight },
+                Width = 100,
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight },
                 ReadOnly = true
             });
 
@@ -337,38 +425,9 @@ namespace MiniERP.WinForms.Forms
 
         private void RefreshGrid()
         {
-            dataGridViewKalemler.Rows.Clear();
-
-            foreach (var detail in _invoiceDetails)
-            {
-                var rowIndex = dataGridViewKalemler.Rows.Add();
-                var row = dataGridViewKalemler.Rows[rowIndex];
-                
-                // Set values safely
-                try
-                {
-                    // Product ComboBox - only set if product exists in list
-                    if (detail.ProductID > 0 && _products.Any(p => p.ProductID == detail.ProductID))
-                    {
-                        row.Cells[0].Value = detail.ProductID;
-                    }
-                    
-                    row.Cells[1].Value = detail.Quantity;
-                    row.Cells[2].Value = detail.UnitPrice;
-                    row.Cells[3].Value = detail.VatRate;
-                    row.Cells[4].Value = detail.LineTotal;
-                    row.Cells[5].Value = "Sil";
-                }
-                catch
-                {
-                    // If there's an error setting ComboBox value, leave it empty
-                    row.Cells[1].Value = detail.Quantity;
-                    row.Cells[2].Value = detail.UnitPrice;
-                    row.Cells[3].Value = detail.VatRate;
-                    row.Cells[4].Value = detail.LineTotal;
-                    row.Cells[5].Value = "Sil";
-                }
-            }
+            // DataGridView'i güncelle - SATIŞTA OLDUĞU GİBİ
+            dataGridViewKalemler.DataSource = null;
+            dataGridViewKalemler.DataSource = _invoiceDetails;
             
             CalculateTotals();
         }
@@ -390,12 +449,16 @@ namespace MiniERP.WinForms.Forms
                         if (product != null)
                         {
                             detail.ProductID = productId;
-                            detail.UnitPrice = product.SalePrice;
+                            detail.ProductCode = product.ProductCode;
+                            detail.ProductName = product.ProductName;
+                            detail.UnitName = product.UnitName ?? "Adet";
+                            detail.UnitPrice = product.PurchasePrice > 0 ? product.PurchasePrice : product.SalePrice;
                             detail.VatRate = 20; // Default KDV
                             
                             // Update UI
-                            row.Cells[2].Value = detail.UnitPrice;
-                            row.Cells[3].Value = detail.VatRate;
+                            row.Cells[2].Value = detail.UnitName;
+                            row.Cells[3].Value = detail.UnitPrice;
+                            row.Cells[4].Value = detail.VatRate;
                         }
                     }
                     break;
@@ -405,14 +468,14 @@ namespace MiniERP.WinForms.Forms
                         detail.Quantity = quantity;
                     }
                     break;
-                case 2: // Unit Price
-                    if (row.Cells[2].Value != null && decimal.TryParse(row.Cells[2].Value.ToString(), out decimal unitPrice))
+                case 3: // Unit Price (birim sütunu readonly olduğu için 2 değil 3)
+                    if (row.Cells[3].Value != null && decimal.TryParse(row.Cells[3].Value.ToString(), out decimal unitPrice))
                     {
                         detail.UnitPrice = unitPrice;
                     }
                     break;
-                case 3: // VAT Rate
-                    if (row.Cells[3].Value != null && decimal.TryParse(row.Cells[3].Value.ToString(), out decimal vatRate))
+                case 4: // VAT Rate
+                    if (row.Cells[4].Value != null && decimal.TryParse(row.Cells[4].Value.ToString(), out decimal vatRate))
                     {
                         detail.VatRate = vatRate;
                     }
@@ -426,19 +489,19 @@ namespace MiniERP.WinForms.Forms
             detail.LineTotal = subTotal + vatAmount;
 
             // Update UI with calculated values
-            row.Cells[4].Value = detail.LineTotal;
+            row.Cells[5].Value = detail.LineTotal;
 
             CalculateTotals();
         }
 
         private void DataGridViewKalemler_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 5) // Sil butonu
+            if (e.RowIndex >= 0 && e.ColumnIndex == 6) // Sil butonu (son kolon)
             {
                 if (e.RowIndex < _invoiceDetails.Count)
                 {
                     _invoiceDetails.RemoveAt(e.RowIndex);
-                    RefreshGrid();
+                    RefreshGrid(); // DataSource kullanacak
                 }
             }
         }
@@ -462,11 +525,12 @@ namespace MiniERP.WinForms.Forms
                     UnitPrice = 0,
                     VatRate = 20,
                     VatAmount = 0,
-                    LineTotal = 0
+                    LineTotal = 0,
+                    UnitName = "Adet"
                 };
 
                 _invoiceDetails.Add(newDetail);
-                RefreshGrid();
+                RefreshGrid(); // DataSource kullanacak
             }
             catch (Exception ex)
             {
@@ -481,9 +545,9 @@ namespace MiniERP.WinForms.Forms
             var vatAmount = _invoiceDetails.Sum(d => d.VatAmount);
             var total = subTotal + vatAmount;
 
-            lblAraToplam.Text = subTotal.ToString("N2") + " ?";
-            lblKdvTutari.Text = vatAmount.ToString("N2") + " ?";
-            lblGenelToplam.Text = total.ToString("N2") + " ?";
+            lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(subTotal);
+            lblKdvTutari.Text = Helpers.CurrencyHelper.FormatCurrency(vatAmount);
+            lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(total);
         }
 
         private async void btnGuncelle_Click(object? sender, EventArgs e)

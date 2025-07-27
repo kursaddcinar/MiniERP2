@@ -157,6 +157,9 @@ namespace MiniERP.WinForms.Forms
             dataGridViewFaturalar.AllowUserToAddRows = false;
             dataGridViewFaturalar.AllowUserToDeleteRows = false;
             dataGridViewFaturalar.RowHeadersVisible = false;
+            
+            // Add event handlers
+            dataGridViewFaturalar.CellFormatting += DataGridViewFaturalar_CellFormatting;
         }
 
         private async void SatisFaturalariForm_Load(object sender, EventArgs e)
@@ -196,7 +199,7 @@ namespace MiniERP.WinForms.Forms
         {
             // Update summary cards
             lblToplamFatura.Text = _summary.TotalInvoices.ToString();
-            lblToplamTutar.Text = _summary.TotalAmount.ToString("N2") + " ?";
+            lblToplamTutar.Text = _summary.TotalAmount.ToString("N2") + " TL";
             lblTaslakFatura.Text = _summary.DraftInvoices.ToString();
             lblOnaylaFatura.Text = _summary.ApprovedInvoices.ToString();
         }
@@ -261,10 +264,11 @@ namespace MiniERP.WinForms.Forms
             // Filter by status
             if (cmbDurum.SelectedItem != null && cmbDurum.SelectedItem.ToString() != "Tümü")
             {
-                string selectedStatus = cmbDurum.SelectedItem.ToString() ?? "";
-                if (!string.IsNullOrEmpty(selectedStatus))
+                string selectedStatusTurkish = cmbDurum.SelectedItem.ToString() ?? "";
+                string selectedStatusEnglish = ConvertStatusToEnglish(selectedStatusTurkish);
+                if (!string.IsNullOrEmpty(selectedStatusEnglish))
                 {
-                    filteredInvoices = filteredInvoices.Where(i => i.Status == selectedStatus);
+                    filteredInvoices = filteredInvoices.Where(i => i.Status.ToUpper() == selectedStatusEnglish.ToUpper());
                 }
             }
 
@@ -386,7 +390,7 @@ namespace MiniERP.WinForms.Forms
             try
             {
                 // Önce tam fatura bilgisini API'den çek (detaylarıyla birlikte)
-                var response = await _apiService.GetAsync<SalesInvoiceDto>($"SalesInvoices/{invoice.InvoiceID}");
+                var response = await _apiService.GetAsync<SalesInvoiceDto>($"SalesInvoices/{invoice.InvoiceID}/details");
                 if (response?.Success == true && response.Data != null)
                 {
                     var fullInvoice = response.Data;
@@ -535,6 +539,68 @@ namespace MiniERP.WinForms.Forms
         private void dtpBitis_ValueChanged(object sender, EventArgs e)
         {
             ApplyFilters();
+        }
+
+        private string ConvertStatusToEnglish(string turkishStatus)
+        {
+            return turkishStatus switch
+            {
+                "Taslak" => "DRAFT",
+                "Onaylandı" => "APPROVED", 
+                "İptal Edildi" => "CANCELLED",
+                "Beklemede" => "PENDING",
+                "İşleniyor" => "PROCESSING",
+                "Ödendi" => "PAID",
+                _ => turkishStatus
+            };
+        }
+
+        private void DataGridViewFaturalar_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            // Format status column
+            if (dataGridViewFaturalar.Columns[e.ColumnIndex].DataPropertyName == "Status")
+            {
+                if (e.Value != null)
+                {
+                    string status = e.Value.ToString() ?? "";
+                    switch (status.ToUpper())
+                    {
+                        case "DRAFT":
+                            e.Value = "Taslak";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(180, 83, 9);
+                            break;
+                        case "APPROVED":
+                            e.Value = "Onaylandı";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(22, 163, 74);
+                            break;
+                        case "CANCELLED":
+                        case "CANCELED":
+                            e.Value = "İptal Edildi";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(220, 38, 38);
+                            break;
+                        case "PENDING":
+                            e.Value = "Beklemede";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(59, 130, 246);
+                            break;
+                        case "PROCESSING":
+                            e.Value = "İşleniyor";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(168, 85, 247);
+                            break;
+                        case "PAID":
+                            e.Value = "Ödendi";
+                            if (e.CellStyle != null)
+                                e.CellStyle.ForeColor = Color.FromArgb(34, 197, 94);
+                            break;
+                    }
+                }
+            }
         }
 
         protected override void OnFormClosed(FormClosedEventArgs e)

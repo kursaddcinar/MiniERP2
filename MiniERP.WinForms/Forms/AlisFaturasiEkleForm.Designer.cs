@@ -230,8 +230,10 @@ namespace MiniERP.WinForms.Forms
             this.pnlKalemlerTop.Controls.Add(this.btnKalemEkle);
             this.pnlKalemlerTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlKalemlerTop.Location = new System.Drawing.Point(15, 27);
+            this.pnlKalemlerTop.Margin = new System.Windows.Forms.Padding(0, 0, 0, 5);
             this.pnlKalemlerTop.Name = "pnlKalemlerTop";
-            this.pnlKalemlerTop.Size = new System.Drawing.Size(1130, 40);
+            this.pnlKalemlerTop.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.pnlKalemlerTop.Size = new System.Drawing.Size(1130, 35);
             this.pnlKalemlerTop.TabIndex = 1;
             // 
             // btnKalemEkle
@@ -251,12 +253,14 @@ namespace MiniERP.WinForms.Forms
             // 
             // dataGridViewKalemler
             // 
+            this.dataGridViewKalemler.AllowUserToAddRows = false;
             this.dataGridViewKalemler.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewKalemler.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewKalemler.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewKalemler.Dock = System.Windows.Forms.DockStyle.Fill;
+            //this.dataGridViewKalemler.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewKalemler.Location = new System.Drawing.Point(15, 67);
             this.dataGridViewKalemler.Name = "dataGridViewKalemler";
+            this.dataGridViewKalemler.RowHeadersWidth = 51;
             this.dataGridViewKalemler.Size = new System.Drawing.Size(1130, 248);
             this.dataGridViewKalemler.TabIndex = 0;
             // 

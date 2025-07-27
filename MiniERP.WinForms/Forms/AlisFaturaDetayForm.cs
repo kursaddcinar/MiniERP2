@@ -65,9 +65,9 @@ namespace MiniERP.WinForms.Forms
             txtAciklama.ReadOnly = true;
 
             // Toplamlar
-            lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
-            lblKDVTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
-            lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
+            lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.SubTotal);
+            lblKDVTutari.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.VatAmount);
+            lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.Total);
         }
 
         private string GetStatusText(string status)
@@ -128,7 +128,7 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV %
@@ -140,13 +140,13 @@ namespace MiniERP.WinForms.Forms
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
-            // Satır Toplam
+            // Satır Toplam (miktar * fiyat - KDV hariç)
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "SubTotal",
                 HeaderText = "Satır Toplam",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // KDV Tutarı
@@ -155,16 +155,16 @@ namespace MiniERP.WinForms.Forms
                 DataPropertyName = "VatAmount",
                 HeaderText = "KDV Tutarı",
                 Width = 100,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
-            // Net Toplam
+            // Net Toplam (satır toplam + KDV)
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "LineTotal",
+                DataPropertyName = "NetTotal",
                 HeaderText = "Net Toplam",
                 Width = 120,
-                DefaultCellStyle = new DataGridViewCellStyle { Format = "N2", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = new DataGridViewCellStyle { Format = Helpers.CurrencyHelper.GetDataGridViewCurrencyFormat(), Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             // Grid styling
@@ -217,10 +217,12 @@ namespace MiniERP.WinForms.Forms
             var role = GetUserRole();
 
             // Onay butonu sadece yetkili roller için görünür
-            btnOnayla.Visible = role == "Admin" || role == "Manager" || role == "Purchase";
+            bool canApprove = role == "Admin" || role == "Manager" || role == "Purchase";
+            btnOnayla.Visible = canApprove;
 
             // Düzenle butonu sadece yetkili roller için görünür
-            btnDuzenle.Visible = role == "Admin" || role == "Manager" || role == "Purchase";
+            bool canEdit = role == "Admin" || role == "Manager" || role == "Purchase";
+            btnDuzenle.Visible = canEdit;
 
             // Sil butonu sadece Admin ve Manager için görünür
             btnSil.Visible = role == "Admin" || role == "Manager";
@@ -233,16 +235,36 @@ namespace MiniERP.WinForms.Forms
             btnGeri.Visible = true;
 
             // Fatura durumuna göre buton durumları
-            if (_invoice.Status?.ToUpper() == "APPROVED")
+            string invoiceStatus = _invoice.Status?.ToUpper() ?? "";
+            
+            if (invoiceStatus == "DRAFT")
             {
+                // Taslak durumunda: Onayla butonu etkin, düzenle butonu etkin
+                if (canApprove)
+                {
+                    btnOnayla.Enabled = true;
+                    btnOnayla.Text = "Onayla";
+                }
+                
+                if (canEdit)
+                {
+                    btnDuzenle.Enabled = true;
+                    btnDuzenle.Visible = true;
+                }
+            }
+            else if (invoiceStatus == "APPROVED")
+            {
+                // Onaylı durumunda: Onayla butonu devre dışı, düzenle butonu gizli
                 btnOnayla.Enabled = false;
                 btnOnayla.Text = "Onaylandı";
+                btnDuzenle.Visible = false; // Onaylı faturaları düzenleyemez
             }
-            else if (_invoice.Status?.ToUpper() == "CANCELLED")
+            else if (invoiceStatus == "CANCELLED")
             {
+                // İptal edilmiş durumunda: Tüm işlem butonları devre dışı
                 btnOnayla.Enabled = false;
                 btnDuzenle.Enabled = false;
-                btnSil.Enabled = false; // İptal edilmiş faturaları silme
+                btnSil.Enabled = false;
             }
         }
 
@@ -285,6 +307,10 @@ namespace MiniERP.WinForms.Forms
                         _invoice.Status = "APPROVED";
                         FillInvoiceData();
                         SetupRoleBasedAccess();
+                        
+                        // Parent formu bilgilendir ve kapat
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                     }
                     else
                     {

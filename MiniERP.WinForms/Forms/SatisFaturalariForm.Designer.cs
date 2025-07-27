@@ -328,9 +328,9 @@ namespace MiniERP.WinForms.Forms
             this.cmbDurum.FormattingEnabled = true;
             this.cmbDurum.Items.AddRange(new object[] {
             "Tümü",
-            "DRAFT",
-            "APPROVED",
-            "CANCELLED"});
+            "Taslak",
+            "Onaylandı",
+            "İptal Edildi"});
             this.cmbDurum.Location = new System.Drawing.Point(293, 28);
             this.cmbDurum.Name = "cmbDurum";
             this.cmbDurum.Size = new System.Drawing.Size(168, 23);

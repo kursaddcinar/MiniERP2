@@ -482,8 +482,8 @@ namespace MiniERP.WinForms.Forms
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel6.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel6.Controls.Add(this.lblAraToplam, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.label12, 0, 1);
@@ -494,10 +494,10 @@ namespace MiniERP.WinForms.Forms
             this.tableLayoutPanel6.Location = new System.Drawing.Point(677, 3);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 3;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(444, 61);
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(444, 80);
             this.tableLayoutPanel6.TabIndex = 2;
             // 
             // label11
@@ -506,7 +506,7 @@ namespace MiniERP.WinForms.Forms
             this.label11.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(260, 20);
+            this.label11.Size = new System.Drawing.Size(288, 25);
             this.label11.TabIndex = 0;
             this.label11.Text = "Ara Toplam:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -516,20 +516,20 @@ namespace MiniERP.WinForms.Forms
             this.lblAraToplam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.lblAraToplam.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblAraToplam.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblAraToplam.Location = new System.Drawing.Point(269, 0);
+            this.lblAraToplam.Location = new System.Drawing.Point(297, 0);
             this.lblAraToplam.Name = "lblAraToplam";
-            this.lblAraToplam.Size = new System.Drawing.Size(172, 20);
+            this.lblAraToplam.Size = new System.Drawing.Size(144, 25);
             this.lblAraToplam.TabIndex = 1;
-            this.lblAraToplam.Text = "₺105.000,00";
+            this.lblAraToplam.Text = "105.000,00 TL";
             this.lblAraToplam.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label12
             // 
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.label12.Location = new System.Drawing.Point(3, 20);
+            this.label12.Location = new System.Drawing.Point(3, 25);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(260, 20);
+            this.label12.Size = new System.Drawing.Size(288, 25);
             this.label12.TabIndex = 2;
             this.label12.Text = "KDV Tutarı:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -539,20 +539,20 @@ namespace MiniERP.WinForms.Forms
             this.lblKDVTutari.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
             this.lblKDVTutari.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblKDVTutari.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblKDVTutari.Location = new System.Drawing.Point(269, 20);
+            this.lblKDVTutari.Location = new System.Drawing.Point(297, 25);
             this.lblKDVTutari.Name = "lblKDVTutari";
-            this.lblKDVTutari.Size = new System.Drawing.Size(172, 20);
+            this.lblKDVTutari.Size = new System.Drawing.Size(144, 25);
             this.lblKDVTutari.TabIndex = 3;
-            this.lblKDVTutari.Text = "₺18.900,00";
+            this.lblKDVTutari.Text = "18.900,00 TL";
             this.lblKDVTutari.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label13
             // 
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.label13.Location = new System.Drawing.Point(3, 40);
+            this.label13.Location = new System.Drawing.Point(3, 50);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(260, 21);
+            this.label13.Size = new System.Drawing.Size(288, 30);
             this.label13.TabIndex = 4;
             this.label13.Text = "Genel Toplam:";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -561,13 +561,13 @@ namespace MiniERP.WinForms.Forms
             // 
             this.lblGenelToplam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.lblGenelToplam.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblGenelToplam.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblGenelToplam.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblGenelToplam.ForeColor = System.Drawing.Color.White;
-            this.lblGenelToplam.Location = new System.Drawing.Point(269, 40);
+            this.lblGenelToplam.Location = new System.Drawing.Point(297, 50);
             this.lblGenelToplam.Name = "lblGenelToplam";
-            this.lblGenelToplam.Size = new System.Drawing.Size(172, 21);
+            this.lblGenelToplam.Size = new System.Drawing.Size(144, 30);
             this.lblGenelToplam.TabIndex = 5;
-            this.lblGenelToplam.Text = "₺123.900,00";
+            this.lblGenelToplam.Text = "123.900,00 TL";
             this.lblGenelToplam.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tableLayoutPanel7

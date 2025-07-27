@@ -61,13 +61,15 @@ namespace MiniERP.WinForms.Forms
             if (_isEditMode && _editingInvoice != null)
             {
                 // Edit mode - load invoice data
-                this.Text = "Satış Faturası Düzenle";
+                this.Text = "Satış Faturası Düzenle - " + _editingInvoice.InvoiceNo;
+                lblTitle.Text = "📄 SATIŞ FATURASI DÜZENLE";
                 LoadInvoiceData(_editingInvoice);
             }
             else
             {
                 // Add mode - set default values
                 this.Text = "Yeni Satış Faturası";
+                lblTitle.Text = "📄 YENİ SATIŞ FATURASI";
                 dtpFaturaTarihi.Value = DateTime.Now;
                 dtpVadeTarihi.Value = DateTime.Now.AddDays(30);
                 

@@ -169,12 +169,12 @@ namespace MiniERP.WinForms.Forms
             this.tableLayoutPanel2.Controls.Add(this.label15, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.lblGenelToplam, 2, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 250);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 225);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1130, 45);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1130, 70);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // lblAraToplam
@@ -184,9 +184,9 @@ namespace MiniERP.WinForms.Forms
             this.lblAraToplam.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblAraToplam.Location = new System.Drawing.Point(498, 0);
             this.lblAraToplam.Name = "lblAraToplam";
-            this.lblAraToplam.Size = new System.Drawing.Size(114, 30);
+            this.lblAraToplam.Size = new System.Drawing.Size(114, 35);
             this.lblAraToplam.TabIndex = 0;
-            this.lblAraToplam.Text = "₺0,00";
+            this.lblAraToplam.Text = "0,00 TL";
             this.lblAraToplam.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label12
@@ -218,9 +218,9 @@ namespace MiniERP.WinForms.Forms
             this.lblKDV.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblKDV.Location = new System.Drawing.Point(718, 0);
             this.lblKDV.Name = "lblKDV";
-            this.lblKDV.Size = new System.Drawing.Size(114, 30);
+            this.lblKDV.Size = new System.Drawing.Size(114, 35);
             this.lblKDV.TabIndex = 3;
-            this.lblKDV.Text = "₺0,00";
+            this.lblKDV.Text = "0,00 TL";
             this.lblKDV.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label15
@@ -228,9 +228,9 @@ namespace MiniERP.WinForms.Forms
             this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.label15.Location = new System.Drawing.Point(398, 30);
+            this.label15.Location = new System.Drawing.Point(398, 35);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(94, 15);
+            this.label15.Size = new System.Drawing.Size(94, 35);
             this.label15.TabIndex = 4;
             this.label15.Text = "Genel Toplam:";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -242,11 +242,11 @@ namespace MiniERP.WinForms.Forms
             this.lblGenelToplam.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblGenelToplam.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.lblGenelToplam.ForeColor = System.Drawing.Color.White;
-            this.lblGenelToplam.Location = new System.Drawing.Point(498, 30);
+            this.lblGenelToplam.Location = new System.Drawing.Point(498, 35);
             this.lblGenelToplam.Name = "lblGenelToplam";
-            this.lblGenelToplam.Size = new System.Drawing.Size(334, 15);
+            this.lblGenelToplam.Size = new System.Drawing.Size(334, 35);
             this.lblGenelToplam.TabIndex = 5;
-            this.lblGenelToplam.Text = "₺0,00";
+            this.lblGenelToplam.Text = "0,00 TL";
             this.lblGenelToplam.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pnlDetayGrid

@@ -13,9 +13,9 @@ namespace MiniERP.WinForms.Helpers
         public static string FormatCurrency(decimal amount)
         {
             if (amount == 0)
-                return "0,00 ₺";
+                return "0,00 TL";
             
-            return amount.ToString("N2", CultureInfo.GetCultureInfo("tr-TR")) + " ₺";
+            return amount.ToString("N2", CultureInfo.GetCultureInfo("tr-TR")) + " TL";
         }
         
         /// <summary>

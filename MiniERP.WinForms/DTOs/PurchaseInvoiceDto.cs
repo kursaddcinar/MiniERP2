@@ -50,11 +50,16 @@ namespace MiniERP.WinForms.DTOs
         public int ProductID { get; set; }
         public string ProductCode { get; set; } = string.Empty;
         public string ProductName { get; set; } = string.Empty;
+        public string UnitName { get; set; } = string.Empty;
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal VatRate { get; set; }
         public decimal VatAmount { get; set; }
         public decimal LineTotal { get; set; }
+        // Satır toplam = miktar * fiyat (KDV hariç)
+        public decimal SubTotal => Quantity * UnitPrice;
+        // Net toplam = satır toplam + KDV tutarı
+        public decimal NetTotal => SubTotal + VatAmount;
         public string? Description { get; set; }
     }
 

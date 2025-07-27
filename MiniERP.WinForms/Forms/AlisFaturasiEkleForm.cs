@@ -29,6 +29,9 @@ namespace MiniERP.WinForms.Forms
             
             InitializeForm();
             LoadComboBoxData();
+            
+            // Form gösterildikten sonra grid başlıklarını kontrol et
+            this.Shown += (s, e) => EnsureGridHeaders();
         }
 
         // Edit constructor
@@ -44,6 +47,9 @@ namespace MiniERP.WinForms.Forms
             InitializeForm();
             LoadComboBoxData();
             LoadInvoiceForEdit();
+            
+            // Form gösterildikten sonra grid başlıklarını kontrol et
+            this.Shown += (s, e) => EnsureGridHeaders();
         }
 
         private void InitializeForm()
@@ -138,6 +144,9 @@ namespace MiniERP.WinForms.Forms
                 {
                     SetEditModeValues();
                 }
+                
+                // Grid başlıklarını yeniden ayarla (herhangi bir sorun varsa)
+                EnsureGridHeaders();
             }
         }
 
@@ -149,65 +158,103 @@ namespace MiniERP.WinForms.Forms
             }
         }
 
+        private void EnsureGridHeaders()
+        {
+            System.Diagnostics.Debug.WriteLine("EnsureGridHeaders called");
+            System.Diagnostics.Debug.WriteLine($"Column count: {dataGridViewKalemler.Columns.Count}");
+            
+            // Eğer sütun başlıkları kaybolmuşsa yeniden ayarla
+            if (dataGridViewKalemler.Columns.Count > 0)
+            {
+                if (dataGridViewKalemler.Columns.Count >= 6)
+                {
+                    dataGridViewKalemler.Columns[0].HeaderText = "Ürün";
+                    dataGridViewKalemler.Columns[1].HeaderText = "Miktar";
+                    dataGridViewKalemler.Columns[2].HeaderText = "Birim Fiyat";
+                    dataGridViewKalemler.Columns[3].HeaderText = "KDV %";
+                    dataGridViewKalemler.Columns[4].HeaderText = "Toplam";
+                    dataGridViewKalemler.Columns[5].HeaderText = "İşlem";
+                    
+                    System.Diagnostics.Debug.WriteLine("Grid headers set successfully");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Not enough columns: {dataGridViewKalemler.Columns.Count}");
+                }
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("No columns found, calling SetupDataGridView");
+                SetupDataGridView();
+            }
+        }
+
         private void SetupDataGridView()
         {
+            System.Diagnostics.Debug.WriteLine("SetupDataGridView called");
+            
             dataGridViewKalemler.Columns.Clear();
             dataGridViewKalemler.AutoGenerateColumns = false;
 
-            // Ürün column (ComboBox) - will be populated later
+            // Product ComboBox Column - WITH DataPropertyName
             var productColumn = new DataGridViewComboBoxColumn
             {
+                DataPropertyName = "ProductID",
                 HeaderText = "Ürün",
                 Width = 200,
-                ValueMember = "ProductID",
-                DisplayMember = "ProductName"
+                DisplayMember = "ProductName",
+                ValueMember = "ProductID"
             };
             dataGridViewKalemler.Columns.Add(productColumn);
 
-            // Miktar
+            // Quantity Column
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "Quantity",
                 HeaderText = "Miktar",
                 Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
-            // Birim Fiyat
+            // Unit Price Column
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "UnitPrice",
                 HeaderText = "Birim Fiyat",
                 Width = 100,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
-            // KDV %
+            // VAT Rate Column
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "VatRate",
                 HeaderText = "KDV %",
                 Width = 80,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N0" }
             });
 
-            // Toplam
+            // Line Total Column (Read-only)
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
+                DataPropertyName = "LineTotal",
                 HeaderText = "Toplam",
                 Width = 100,
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
-            // İşlem (Sil butonu)
+            // Delete Button Column
             var deleteColumn = new DataGridViewButtonColumn
             {
                 HeaderText = "İşlem",
-                Text = "Sil",
+                Text = "🗑️",
                 UseColumnTextForButtonValue = true,
-                Width = 80
+                Width = 60
             };
             dataGridViewKalemler.Columns.Add(deleteColumn);
 
-            // Grid settings
+            // Grid settings - EXACTLY like SatisFaturasi
             dataGridViewKalemler.EnableHeadersVisualStyles = false;
             dataGridViewKalemler.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(52, 73, 94);
             dataGridViewKalemler.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
@@ -215,7 +262,6 @@ namespace MiniERP.WinForms.Forms
             dataGridViewKalemler.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(247, 248, 249);
             dataGridViewKalemler.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewKalemler.AllowUserToAddRows = false;
-            dataGridViewKalemler.AllowUserToDeleteRows = false;
             dataGridViewKalemler.RowHeadersVisible = false;
 
             // Events
@@ -223,6 +269,14 @@ namespace MiniERP.WinForms.Forms
             dataGridViewKalemler.CellClick += DataGridViewKalemler_CellClick;
             dataGridViewKalemler.CurrentCellDirtyStateChanged += DataGridViewKalemler_CurrentCellDirtyStateChanged;
             dataGridViewKalemler.DataError += DataGridViewKalemler_DataError;
+            
+            // Final check for headers - debug
+            System.Diagnostics.Debug.WriteLine($"Headers visible: {dataGridViewKalemler.ColumnHeadersVisible}");
+            System.Diagnostics.Debug.WriteLine($"Column count after setup: {dataGridViewKalemler.Columns.Count}");
+            for (int i = 0; i < dataGridViewKalemler.Columns.Count; i++)
+            {
+                System.Diagnostics.Debug.WriteLine($"Column {i}: '{dataGridViewKalemler.Columns[i].HeaderText}'");
+            }
         }
 
         private void DataGridViewKalemler_DataError(object? sender, DataGridViewDataErrorEventArgs e)
@@ -312,9 +366,9 @@ namespace MiniERP.WinForms.Forms
             decimal vatAmount = _invoiceDetails.Sum(d => d.Quantity * d.UnitPrice * d.VatRate / 100);
             decimal total = subTotal + vatAmount;
 
-            lblAraToplam.Text = subTotal.ToString("N2") + " ?";
-            lblKdvTutari.Text = vatAmount.ToString("N2") + " ?";
-            lblGenelToplam.Text = total.ToString("N2") + " ?";
+            lblAraToplam.Text = subTotal.ToString("N2") + " TL";
+            lblKdvTutari.Text = vatAmount.ToString("N2") + " TL";
+            lblGenelToplam.Text = total.ToString("N2") + " TL";
         }
 
         private void DataGridViewKalemler_CellClick(object? sender, DataGridViewCellEventArgs e)

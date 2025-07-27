@@ -1,5 +1,6 @@
 using MiniERP.WinForms.DTOs;
 using MiniERP.WinForms.Services;
+using System.Linq;
 
 namespace MiniERP.WinForms.Forms
 {
@@ -17,14 +18,23 @@ namespace MiniERP.WinForms.Forms
             _currentUser = currentUser;
             _invoice = invoice;
             
-            // Debug bilgisi
-            System.Diagnostics.Debug.WriteLine($"Invoice received: {invoice.InvoiceNo}, Details count: {invoice.Details?.Count ?? 0}");
-            System.Diagnostics.Debug.WriteLine($"Customer: {invoice.CariName}, Warehouse: {invoice.WarehouseName}");
-            System.Diagnostics.Debug.WriteLine($"Totals: SubTotal={invoice.SubTotal}, VatAmount={invoice.VatAmount}, Total={invoice.Total}");
-            
-            SetupForm();
-            SetupDataGridView();
-            SetupRoleBasedAccess();
+            try
+            {
+                // Debug bilgisi
+                System.Diagnostics.Debug.WriteLine($"Invoice received: {invoice.InvoiceNo}, Details count: {invoice.Details?.Count ?? 0}");
+                System.Diagnostics.Debug.WriteLine($"Customer: {invoice.CariName}, Warehouse: {invoice.WarehouseName}");
+                System.Diagnostics.Debug.WriteLine($"Totals: SubTotal={invoice.SubTotal}, VatAmount={invoice.VatAmount}, Total={invoice.Total}");
+                
+                SetupForm();
+                SetupDataGridView();
+                SetupRoleBasedAccess();
+                LoadInvoiceDetails(); // Alış faturası gibi direkt çağır
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Form kurulumunda hata oluştu: {ex.Message}\n\nDetay: {ex.StackTrace}", "Hata", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private string GetUserRole()
@@ -53,6 +63,9 @@ namespace MiniERP.WinForms.Forms
             lblFaturaNo.Text = _invoice.InvoiceNo ?? "SF20240002";
             lblFaturaTarihi.Text = _invoice.InvoiceDate.ToString("dd.MM.yyyy");
             lblVadeTarihi.Text = _invoice.DueDate?.ToString("dd.MM.yyyy") ?? DateTime.Now.AddDays(7).ToString("dd.MM.yyyy");
+            
+            // Debug bilgisi
+            System.Diagnostics.Debug.WriteLine($"Invoice Status: '{_invoice.Status}'");
             lblDurum.Text = GetStatusText(_invoice.Status);
 
             // Müşteri Bilgileri - hangi alan doluysa onu kullan
@@ -75,10 +88,19 @@ namespace MiniERP.WinForms.Forms
             return status?.ToUpper() switch
             {
                 "DRAFT" => "Taslak",
-                "APPROVED" => "Onaylandı",
+                "APPROVED" => "Onaylandı", 
+                "CONFIRMED" => "Onaylandı",
+                "PENDING" => "Beklemede",
+                "PROCESSING" => "İşlem Yapılıyor",
+                "SHIPPED" => "Kargoya Verildi",
+                "DELIVERED" => "Teslim Edildi",
                 "PAID" => "Ödendi",
-                "CANCELLED" => "İptal",
-                _ => status ?? "Bilinmiyor"
+                "CANCELLED" => "İptal Edildi",
+                "CANCELED" => "İptal Edildi",
+                "REJECTED" => "Reddedildi",
+                "RETURNED" => "İade Edildi",
+                "REFUNDED" => "Para İadesi Yapıldı",
+                _ => string.IsNullOrEmpty(status) ? "Taslak" : status
             };
         }
 
@@ -116,9 +138,10 @@ namespace MiniERP.WinForms.Forms
             // Birim
             dataGridViewKalemler.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "Unit",
+                DataPropertyName = "UnitName",
                 HeaderText = "Birim",
-                Width = 60
+                Width = 80,
+                DefaultCellStyle = new DataGridViewCellStyle { Alignment = DataGridViewContentAlignment.MiddleCenter }
             });
 
             // Birim Fiyat
@@ -174,6 +197,7 @@ namespace MiniERP.WinForms.Forms
             dataGridViewKalemler.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(247, 248, 249);
             dataGridViewKalemler.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewKalemler.AllowUserToAddRows = false;
+            dataGridViewKalemler.AllowUserToDeleteRows = false;
             dataGridViewKalemler.RowHeadersVisible = false;
         }
 
@@ -239,13 +263,9 @@ namespace MiniERP.WinForms.Forms
             }
         }
 
-        private async void SatisFaturaDetayForm_Load(object sender, EventArgs e)
+        private void SatisFaturaDetayForm_Load(object sender, EventArgs e)
         {
-            // Önce fatura bilgilerini göster
-            ShowInvoiceTotals();
-            
-            // Sonra detayları yükle
-            await LoadInvoiceDetailsAsync();
+            // LoadInvoiceDetails constructor'da çağrılıyor
         }
 
         private void ShowInvoiceTotals()
@@ -253,121 +273,110 @@ namespace MiniERP.WinForms.Forms
             // Fatura bilgilerinden toplamları göster
             if (_invoice.SubTotal > 0 || _invoice.VatAmount > 0 || _invoice.Total > 0)
             {
-                lblAraToplam.Text = _invoice.SubTotal.ToString("N2") + " ?";
-                lblKDVTutari.Text = _invoice.VatAmount.ToString("N2") + " ?";
-                lblGenelToplam.Text = _invoice.Total.ToString("N2") + " ?";
+                lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.SubTotal);
+                lblKDVTutari.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.VatAmount);
+                lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.Total);
             }
             else
             {
-                // Test verileri - API'den gelmiyor ise
-                lblAraToplam.Text = "₺105.000,00";
-                lblKDVTutari.Text = "₺18.900,00";
-                lblGenelToplam.Text = "₺123.900,00";
+                // API'den toplamlar gelmezse hesaplanmış değerleri kullan
+                lblAraToplam.Text = "105.000,00 TL";
+                lblKDVTutari.Text = "18.900,00 TL"; 
+                lblGenelToplam.Text = "123.900,00 TL";
             }
         }
 
-        private async Task LoadInvoiceDetailsAsync()
+        private async void LoadInvoiceDetails()
         {
             try
             {
-                // Önce invoice'da detaylar var mı kontrol et
-                if (_invoice.Details != null && _invoice.Details.Count > 0)
+                // Önce invoice toplamlarını göster
+                ShowInvoiceTotals();
+                
+                System.Diagnostics.Debug.WriteLine($"Loading details for invoice {_invoice.InvoiceID}");
+                System.Diagnostics.Debug.WriteLine($"Invoice details exist: {_invoice.Details != null && _invoice.Details.Any()}");
+                
+                if (_invoice.Details != null && _invoice.Details.Any())
                 {
                     _invoiceDetails = _invoice.Details;
-                    
-                    // Calculate additional fields
-                    foreach (var detail in _invoiceDetails)
-                    {
-                        detail.SubTotal = detail.Quantity * detail.UnitPrice;
-                        detail.VatAmount = detail.SubTotal * (detail.VatRate / 100);
-                        if (detail.LineTotal == 0)
-                        {
-                            detail.LineTotal = detail.SubTotal + detail.VatAmount;
-                        }
-                    }
-                    
-                    dataGridViewKalemler.DataSource = _invoiceDetails;
-                    return;
-                }
-                
-                // Yoksa API'den çek
-                var response = await _apiService.GetAsync<List<SalesInvoiceDetailDto>>($"SalesInvoices/{_invoice.InvoiceID}/details");
-                if (response?.Success == true && response.Data != null)
-                {
-                    _invoiceDetails = response.Data;
-                    
-                    // Calculate additional fields
-                    foreach (var detail in _invoiceDetails)
-                    {
-                        detail.SubTotal = detail.Quantity * detail.UnitPrice;
-                        detail.VatAmount = detail.SubTotal * (detail.VatRate / 100);
-                        if (detail.LineTotal == 0)
-                        {
-                            detail.LineTotal = detail.SubTotal + detail.VatAmount;
-                        }
-                    }
-                    
-                    dataGridViewKalemler.DataSource = _invoiceDetails;
+                    System.Diagnostics.Debug.WriteLine($"Using existing details, count: {_invoiceDetails.Count}");
                 }
                 else
                 {
-                    // Test verisi ekle
-                    _invoiceDetails = new List<SalesInvoiceDetailDto>
-                    {
-                        new SalesInvoiceDetailDto
-                        {
-                            ProductCode = "PRD0001",
-                            ProductName = "Samsung Galaxy S24",
-                            Quantity = 3,
-                            Unit = "Adet",
-                            UnitPrice = 35000,
-                            VatRate = 18,
-                            SubTotal = 105000,
-                            VatAmount = 18900,
-                            LineTotal = 123900
-                        }
-                    };
+                    // API'den detayları yükle - SalesInvoiceDto döndürür
+                    System.Diagnostics.Debug.WriteLine($"Fetching from API: SalesInvoices/{_invoice.InvoiceID}/details");
+                    var response = await _apiService.GetAsync<SalesInvoiceDto>($"SalesInvoices/{_invoice.InvoiceID}/details");
                     
-                    dataGridViewKalemler.DataSource = _invoiceDetails;
+                    System.Diagnostics.Debug.WriteLine($"API Response Success: {response?.Success}");
+                    System.Diagnostics.Debug.WriteLine($"API Response Data: {response?.Data != null}");
+                    System.Diagnostics.Debug.WriteLine($"API Response Details: {response?.Data?.Details != null}");
+                    System.Diagnostics.Debug.WriteLine($"API Response Details Count: {response?.Data?.Details?.Count ?? 0}");
+                    
+                    if (response?.Success == true && response.Data?.Details != null)
+                    {
+                        _invoiceDetails = response.Data.Details;
+                        
+                        // Fatura bilgilerini de güncelle
+                        _invoice.Details = response.Data.Details;
+                        System.Diagnostics.Debug.WriteLine($"Loaded {_invoiceDetails.Count} details from API");
+                    }
+                    else
+                    {
+                        _invoiceDetails = new List<SalesInvoiceDetailDto>();
+                        System.Diagnostics.Debug.WriteLine("No details found, using empty list");
+                    }
                 }
+
+                // DataGridView'e bind et
+                System.Diagnostics.Debug.WriteLine($"Binding {_invoiceDetails.Count} items to grid");
+                
+                // Hesaplanacak alanları güncelle
+                foreach (var detail in _invoiceDetails)
+                {
+                    if (detail.SubTotal == 0)
+                        detail.SubTotal = detail.Quantity * detail.UnitPrice;
+                    if (detail.VatAmount == 0)
+                        detail.VatAmount = detail.SubTotal * (detail.VatRate / 100);
+                    if (detail.LineTotal == 0)
+                        detail.LineTotal = detail.SubTotal + detail.VatAmount;
+                }
+                
+                dataGridViewKalemler.DataSource = null;
+                dataGridViewKalemler.DataSource = _invoiceDetails;
+                
+                // Toplamları hesapla
+                CalculateTotals();
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"LoadInvoiceDetails Exception: {ex.Message}");
                 MessageBox.Show($"Fatura detayları yüklenirken hata oluştu: {ex.Message}", "Hata", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
-                // Hata durumunda test verisi göster
-                _invoiceDetails = new List<SalesInvoiceDetailDto>
-                {
-                    new SalesInvoiceDetailDto
-                    {
-                        ProductCode = "PRD0001",
-                        ProductName = "Samsung Galaxy S24",
-                        Quantity = 3,
-                        Unit = "Adet",
-                        UnitPrice = 35000,
-                        VatRate = 18,
-                        SubTotal = 105000,
-                        VatAmount = 18900,
-                        LineTotal = 123900
-                    }
-                };
-                
+                // Hata durumunda boş liste göster
+                _invoiceDetails = new List<SalesInvoiceDetailDto>();
+                dataGridViewKalemler.DataSource = null;
                 dataGridViewKalemler.DataSource = _invoiceDetails;
             }
         }
 
         private void CalculateTotals()
         {
-            if (_invoiceDetails.Count == 0) return;
+            if (_invoiceDetails.Count == 0) 
+            {
+                System.Diagnostics.Debug.WriteLine("CalculateTotals: No details to calculate");
+                return;
+            }
 
             var araToplam = _invoiceDetails.Sum(d => d.SubTotal);
             var kdvTutari = _invoiceDetails.Sum(d => d.VatAmount);
             var genelToplam = _invoiceDetails.Sum(d => d.LineTotal);
 
-            lblAraToplam.Text = araToplam.ToString("N2") + " ?";
-            lblKDVTutari.Text = kdvTutari.ToString("N2") + " ?";
-            lblGenelToplam.Text = genelToplam.ToString("N2") + " ?";
+            System.Diagnostics.Debug.WriteLine($"CalculateTotals: AraToplam={araToplam}, KDV={kdvTutari}, GenelToplam={genelToplam}");
+
+            lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(araToplam);
+            lblKDVTutari.Text = Helpers.CurrencyHelper.FormatCurrency(kdvTutari);
+            lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(genelToplam);
         }
 
         private void btnGeri_Click(object sender, EventArgs e)
@@ -415,14 +424,38 @@ namespace MiniERP.WinForms.Forms
             }
         }
 
-        private void btnDuzenle_Click(object sender, EventArgs e)
+        private async void btnDuzenle_Click(object sender, EventArgs e)
         {
             // Düzenleme formunu aç
             var editForm = new SatisFaturasiEkleForm(_apiService, _currentUser, _invoice);
-            editForm.ShowDialog();
+            var result = editForm.ShowDialog();
             
-            // Form kapandıktan sonra verileri yenile
-            SatisFaturaDetayForm_Load(this, EventArgs.Empty);
+            // Form başarıyla kapandıysa verileri yenile
+            if (result == DialogResult.OK)
+            {
+                // Güncel fatura bilgisini API'den çek
+                var response = await _apiService.GetAsync<SalesInvoiceDto>($"SalesInvoices/{_invoice.InvoiceID}/details");
+                if (response?.Success == true && response.Data != null)
+                {
+                    // Fatura bilgilerini güncelle
+                    _invoice.InvoiceNo = response.Data.InvoiceNo;
+                    _invoice.InvoiceDate = response.Data.InvoiceDate;
+                    _invoice.DueDate = response.Data.DueDate;
+                    _invoice.Status = response.Data.Status;
+                    _invoice.CariName = response.Data.CariName;
+                    _invoice.WarehouseName = response.Data.WarehouseName;
+                    _invoice.Details = response.Data.Details;
+                    _invoice.SubTotal = response.Data.SubTotal;
+                    _invoice.VatAmount = response.Data.VatAmount;
+                    _invoice.Total = response.Data.Total;
+                    
+                    // Form bilgilerini güncelle
+                    SetupForm();
+                    
+                    // Detayları yeniden yükle
+                    LoadInvoiceDetails();
+                }
+            }
         }
 
         private void btnYazdir_Click(object sender, EventArgs e)
