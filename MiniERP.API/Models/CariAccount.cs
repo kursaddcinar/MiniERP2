@@ -60,7 +60,5 @@ namespace MiniERP.API.Models
         public virtual ICollection<CariTransaction> CariTransactions { get; set; } = new List<CariTransaction>();
         public virtual ICollection<SalesInvoice> SalesInvoices { get; set; } = new List<SalesInvoice>();
         public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; } = new List<PurchaseInvoice>();
-        public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-        public virtual ICollection<Collection> Collections { get; set; } = new List<Collection>();
     }
 } 

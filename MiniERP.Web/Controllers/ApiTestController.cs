@@ -9,18 +9,15 @@ namespace MiniERP.Web.Controllers
     public class ApiTestController : Controller
     {
         private readonly UserService _userService;
-        private readonly PaymentService _paymentService;
         private readonly ProductService _productService;
         private readonly CariAccountService _cariAccountService;
 
         public ApiTestController(
             UserService userService,
-            PaymentService paymentService,
             ProductService productService,
             CariAccountService cariAccountService)
         {
             _userService = userService;
-            _paymentService = paymentService;
             _productService = productService;
             _cariAccountService = cariAccountService;
         }
@@ -90,85 +87,6 @@ namespace MiniERP.Web.Controllers
             catch (Exception ex)
             {
                 ViewBag.TestResult = "User Roles API - Error: " + ex.Message;
-                return View("TestResult");
-            }
-        }
-
-        #endregion
-
-        #region Payment Tests
-
-        [HttpGet]
-        public async Task<IActionResult> TestPayments()
-        {
-            try
-            {
-                var payments = await _paymentService.GetPaymentsAsync();
-                ViewBag.TestResult = "Payments API - Success";
-                ViewBag.Data = payments;
-                return View("TestResult");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.TestResult = "Payments API - Error: " + ex.Message;
-                return View("TestResult");
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> TestCollections()
-        {
-            try
-            {
-                var collections = await _paymentService.GetCollectionsAsync();
-                ViewBag.TestResult = "Collections API - Success";
-                ViewBag.Data = collections;
-                return View("TestResult");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.TestResult = "Collections API - Error: " + ex.Message;
-                return View("TestResult");
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> TestPaymentTypes()
-        {
-            try
-            {
-                var paymentTypesResult = await _paymentService.GetPaymentTypesAsync();
-                ViewBag.TestResult = "Payment Types API - " + (paymentTypesResult.Success ? "Success" : "Error: " + paymentTypesResult.Message);
-                ViewBag.Data = paymentTypesResult;
-                return View("TestResult");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.TestResult = "Payment Types API - Error: " + ex.Message;
-                return View("TestResult");
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> TestCreatePaymentType()
-        {
-            try
-            {
-                var createPaymentType = new CreatePaymentTypeDto
-                {
-                    TypeCode = "TEST" + DateTime.Now.Ticks,
-                    TypeName = "Test Payment Type",
-                    Description = "Test payment type created from API test"
-                };
-
-                var result = await _paymentService.CreatePaymentTypeAsync(createPaymentType);
-                ViewBag.TestResult = "Create Payment Type API - " + (result.Success ? "Success" : "Error: " + result.Message);
-                ViewBag.Data = result;
-                return View("TestResult");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.TestResult = "Create Payment Type API - Error: " + ex.Message;
                 return View("TestResult");
             }
         }
@@ -309,39 +227,6 @@ namespace MiniERP.Web.Controllers
             catch (Exception ex)
             {
                 results.Add(new { API = "User Roles", Status = "Error", Message = ex.Message });
-            }
-
-            // Test Payments
-            try
-            {
-                var payments = await _paymentService.GetPaymentsAsync();
-                results.Add(new { API = "Payments", Status = "Success", Count = payments.Data?.Count ?? 0 });
-            }
-            catch (Exception ex)
-            {
-                results.Add(new { API = "Payments", Status = "Error", Message = ex.Message });
-            }
-
-            // Test Collections
-            try
-            {
-                var collections = await _paymentService.GetCollectionsAsync();
-                results.Add(new { API = "Collections", Status = "Success", Count = collections.Data?.Count ?? 0 });
-            }
-            catch (Exception ex)
-            {
-                results.Add(new { API = "Collections", Status = "Error", Message = ex.Message });
-            }
-
-            // Test Payment Types
-            try
-            {
-                var paymentTypesResult = await _paymentService.GetPaymentTypesAsync();
-                results.Add(new { API = "Payment Types", Status = paymentTypesResult.Success ? "Success" : "Error", Count = paymentTypesResult.Data?.Count ?? 0, Message = paymentTypesResult.Message });
-            }
-            catch (Exception ex)
-            {
-                results.Add(new { API = "Payment Types", Status = "Error", Message = ex.Message });
             }
 
             // Test Categories

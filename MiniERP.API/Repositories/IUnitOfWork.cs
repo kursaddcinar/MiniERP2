@@ -17,9 +17,6 @@ namespace MiniERP.API.Repositories
         IGenericRepository<Models.SalesInvoiceDetail> SalesInvoiceDetails { get; }
         IPurchaseInvoiceRepository PurchaseInvoices { get; }
         IGenericRepository<Models.PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; }
-        IGenericRepository<Models.PaymentType> PaymentTypes { get; }
-        IPaymentRepository Payments { get; }
-        ICollectionRepository Collections { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

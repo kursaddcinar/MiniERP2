@@ -1,6 +1,7 @@
 using MiniERP.WinForms.DTOs;
 using MiniERP.WinForms.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -94,18 +95,94 @@ namespace MiniERP.WinForms.Forms
             colBakiye.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
         }
 
-        private void LoadHareketler()
+        private async void LoadHareketler()
         {
             try
             {
-                // Örnek veriler - resimde görülenler
+                // Önce API'den veri çekmeyi dene
+                var result = await _apiService.GetCariStatementAsync(_cariAccount.CariID);
+                
+                if (result.Success && result.Data != null && result.Data.Transactions != null && result.Data.Transactions.Count > 0)
+                {
+                    LoadDynamicStatement(result.Data);
+                }
+                else
+                {
+                    // API'den veri gelmezse örnek veri göster
+                    LoadSampleData();
+                }
+            }
+            catch (Exception)
+            {
+                // Hata durumunda örnek veri göster
                 LoadSampleData();
             }
-            catch (Exception ex)
+        }
+
+        private void LoadDynamicStatement(CariStatementDto statement)
+        {
+            // DataGrid'i temizle
+            dataGridViewHareketler.Rows.Clear();
+            
+            // Özet bilgileri güncelle
+            lblDonemBasiBakiyeValue.Text = $"₺{statement.OpeningBalance:N2}";
+            lblToplamBorcValue.Text = $"₺{statement.TotalDebit:N2}";
+            lblToplamAlacakValue.Text = $"₺{statement.TotalCredit:N2}";
+            lblDonemSonuValue.Text = $"₺{statement.ClosingBalance:N2}";
+            
+            // DÖNEM BAŞI BAKİYE satırı
+            int donemBasiIndex = dataGridViewHareketler.Rows.Add(
+                "DÖNEM BAŞI BAKİYE", "", "", "", "-", "-", $"₺{statement.OpeningBalance:N2}"
+            );
+            DataGridViewRow donemBasiRow = dataGridViewHareketler.Rows[donemBasiIndex];
+            donemBasiRow.DefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230);
+            donemBasiRow.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            
+            // Hareketleri tarihe göre sırala
+            var sortedTransactions = statement.Transactions.OrderBy(t => t.TransactionDate).ToList();
+            
+            foreach (var transaction in sortedTransactions)
             {
-                MessageBox.Show($"Hareketler yüklenirken hata oluştu: {ex.Message}", 
-                    "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Borç/Alacak tutarlarını belirle
+                string borcTutar = "-";
+                string alacakTutar = "-";
+                
+                if (transaction.DebitAmount > 0)
+                {
+                    borcTutar = $"₺{transaction.DebitAmount:N2}";
+                }
+                
+                if (transaction.CreditAmount > 0)
+                {
+                    alacakTutar = $"₺{transaction.CreditAmount:N2}";
+                }
+                
+                // Satırı ekle
+                dataGridViewHareketler.Rows.Add(
+                    transaction.TransactionDate.ToString("dd.MM.yyyy"),
+                    transaction.DocumentType?.ToUpper() ?? "HAREKET",
+                    transaction.DocumentNo ?? "-",
+                    transaction.Description ?? $"{transaction.DocumentType}: {transaction.DocumentNo}",
+                    borcTutar,
+                    alacakTutar,
+                    $"₺{transaction.Balance:N2}"
+                );
             }
+            
+            // DÖNEM SONU BAKİYE satırı
+            int donemSonuIndex = dataGridViewHareketler.Rows.Add(
+                "DÖNEM SONU BAKİYE", "", "", "", 
+                statement.TotalDebit > 0 ? $"₺{statement.TotalDebit:N2}" : "-",
+                statement.TotalCredit > 0 ? $"₺{statement.TotalCredit:N2}" : "-",
+                $"₺{statement.ClosingBalance:N2}"
+            );
+            DataGridViewRow donemSonuRow = dataGridViewHareketler.Rows[donemSonuIndex];
+            donemSonuRow.DefaultCellStyle.BackColor = Color.FromArgb(219, 234, 254);
+            donemSonuRow.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            donemSonuRow.DefaultCellStyle.ForeColor = Color.FromArgb(30, 58, 138);
+            
+            // Renkleri ayarla
+            ApplyRowColors();
         }
 
         private void LoadSampleData()
@@ -153,10 +230,10 @@ namespace MiniERP.WinForms.Forms
             donemSonuRow.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
 
             // Renkleri ayarla
-            SetRowColors();
+            ApplyRowColors();
         }
 
-        private void SetRowColors()
+        private void ApplyRowColors()
         {
             foreach (DataGridViewRow row in dataGridViewHareketler.Rows)
             {

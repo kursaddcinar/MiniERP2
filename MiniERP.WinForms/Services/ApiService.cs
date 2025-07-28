@@ -194,6 +194,27 @@ namespace MiniERP.WinForms.Services
             }
         }
 
+        // Cari Hareket İşlemleri
+        public async Task<ApiResponse<PagedResult<CariTransactionDto>>> GetCariTransactionsAsync(int cariId, int pageNumber = 1, int pageSize = 100)
+        {
+            return await GetAsync<PagedResult<CariTransactionDto>>($"cariaccounts/{cariId}/transactions?pageNumber={pageNumber}&pageSize={pageSize}");
+        }
+
+        public async Task<ApiResponse<CariStatementDto>> GetCariStatementAsync(int cariId, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var dateParams = string.Empty;
+            if (startDate.HasValue)
+            {
+                dateParams += $"&startDate={startDate.Value:yyyy-MM-dd}";
+            }
+            if (endDate.HasValue)
+            {
+                dateParams += $"&endDate={endDate.Value:yyyy-MM-dd}";
+            }
+            
+            return await GetAsync<CariStatementDto>($"cariaccounts/{cariId}/statement?{dateParams.TrimStart('&')}");
+        }
+
         public void Dispose()
         {
             _httpClient?.Dispose();

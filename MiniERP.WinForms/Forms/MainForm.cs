@@ -131,8 +131,8 @@ namespace MiniERP.WinForms.Forms
         private void UpdateButtonStyles()
         {
             var buttons = new[] { btnCariHesaplar, btnUrunler, btnStokYonetimi, 
-                                btnSatisFaturaları, btnAlisFaturalari, btnOdemeler, 
-                                btnTahsilatlar, btnRaporlar, btnKullaniciYonetimi, btnApiTest };
+                                btnSatisFaturaları, btnAlisFaturalari, 
+                                btnKullaniciYonetimi, btnApiTest };
 
             foreach (var btn in buttons)
             {
@@ -618,21 +618,6 @@ namespace MiniERP.WinForms.Forms
         {
             var alisFaturalariForm = new AlisFaturalariForm(_currentUser, _apiService);
             alisFaturalariForm.Show();
-        }
-
-        private void BtnOdemeler_Click(object? sender, EventArgs e)
-        {
-            MessageBox.Show("Ödemeler modülü açılacak", "Ödemeler", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void BtnTahsilatlar_Click(object? sender, EventArgs e)
-        {
-            MessageBox.Show("Tahsilatlar modülü açılacak", "Tahsilatlar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void BtnRaporlar_Click(object? sender, EventArgs e)
-        {
-            MessageBox.Show("Raporlar modülü açılacak", "Raporlar", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BtnKullaniciYonetimi_Click(object? sender, EventArgs e)

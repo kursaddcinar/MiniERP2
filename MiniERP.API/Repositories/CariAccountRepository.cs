@@ -25,8 +25,6 @@ namespace MiniERP.API.Repositories
                 .Include(c => c.CariTransactions)
                 .Include(c => c.SalesInvoices)
                 .Include(c => c.PurchaseInvoices)
-                .Include(c => c.Payments)
-                .Include(c => c.Collections)
                 .FirstOrDefaultAsync(c => c.CariID == cariId);
         }
 

@@ -40,9 +40,6 @@ namespace MiniERP.WinForms.Forms
             this.btnStokYonetimi = new Button();
             this.btnSatisFaturaları = new Button();
             this.btnAlisFaturalari = new Button();
-            this.btnOdemeler = new Button();
-            this.btnTahsilatlar = new Button();
-            this.btnRaporlar = new Button();
             this.btnKullaniciYonetimi = new Button();
             this.btnApiTest = new Button();
             this.panelMain = new Panel();
@@ -136,9 +133,6 @@ namespace MiniERP.WinForms.Forms
             this.panelSidebar.Controls.Add(this.btnStokYonetimi);
             this.panelSidebar.Controls.Add(this.btnSatisFaturaları);
             this.panelSidebar.Controls.Add(this.btnAlisFaturalari);
-            this.panelSidebar.Controls.Add(this.btnOdemeler);
-            this.panelSidebar.Controls.Add(this.btnTahsilatlar);
-            this.panelSidebar.Controls.Add(this.btnRaporlar);
             this.panelSidebar.Controls.Add(this.btnKullaniciYonetimi);
             this.panelSidebar.Controls.Add(this.btnApiTest);
             this.panelSidebar.Dock = DockStyle.Left;
@@ -243,54 +237,6 @@ namespace MiniERP.WinForms.Forms
             this.btnAlisFaturalari.UseVisualStyleBackColor = false;
             this.btnAlisFaturalari.Click += this.BtnAlisFaturalari_Click;
             // 
-            // btnOdemeler
-            // 
-            this.btnOdemeler.BackColor = Color.FromArgb(59, 130, 246);
-            this.btnOdemeler.FlatAppearance.BorderSize = 0;
-            this.btnOdemeler.FlatStyle = FlatStyle.Flat;
-            this.btnOdemeler.Font = new Font("Segoe UI", 11F);
-            this.btnOdemeler.ForeColor = Color.White;
-            this.btnOdemeler.Location = new Point(10, 350);
-            this.btnOdemeler.Name = "btnOdemeler";
-            this.btnOdemeler.Size = new Size(200, 45);
-            this.btnOdemeler.TabIndex = 6;
-            this.btnOdemeler.Text = "💳 Ödemeler";
-            this.btnOdemeler.TextAlign = ContentAlignment.MiddleLeft;
-            this.btnOdemeler.UseVisualStyleBackColor = false;
-            this.btnOdemeler.Click += this.BtnOdemeler_Click;
-            // 
-            // btnTahsilatlar
-            // 
-            this.btnTahsilatlar.BackColor = Color.FromArgb(59, 130, 246);
-            this.btnTahsilatlar.FlatAppearance.BorderSize = 0;
-            this.btnTahsilatlar.FlatStyle = FlatStyle.Flat;
-            this.btnTahsilatlar.Font = new Font("Segoe UI", 11F);
-            this.btnTahsilatlar.ForeColor = Color.White;
-            this.btnTahsilatlar.Location = new Point(10, 405);
-            this.btnTahsilatlar.Name = "btnTahsilatlar";
-            this.btnTahsilatlar.Size = new Size(200, 45);
-            this.btnTahsilatlar.TabIndex = 7;
-            this.btnTahsilatlar.Text = "💰 Tahsilatlar";
-            this.btnTahsilatlar.TextAlign = ContentAlignment.MiddleLeft;
-            this.btnTahsilatlar.UseVisualStyleBackColor = false;
-            this.btnTahsilatlar.Click += this.BtnTahsilatlar_Click;
-            // 
-            // btnRaporlar
-            // 
-            this.btnRaporlar.BackColor = Color.FromArgb(59, 130, 246);
-            this.btnRaporlar.FlatAppearance.BorderSize = 0;
-            this.btnRaporlar.FlatStyle = FlatStyle.Flat;
-            this.btnRaporlar.Font = new Font("Segoe UI", 11F);
-            this.btnRaporlar.ForeColor = Color.White;
-            this.btnRaporlar.Location = new Point(10, 460);
-            this.btnRaporlar.Name = "btnRaporlar";
-            this.btnRaporlar.Size = new Size(200, 45);
-            this.btnRaporlar.TabIndex = 8;
-            this.btnRaporlar.Text = "📈 Raporlar";
-            this.btnRaporlar.TextAlign = ContentAlignment.MiddleLeft;
-            this.btnRaporlar.UseVisualStyleBackColor = false;
-            this.btnRaporlar.Click += this.BtnRaporlar_Click;
-            // 
             // btnKullaniciYonetimi
             // 
             this.btnKullaniciYonetimi.BackColor = Color.FromArgb(59, 130, 246);
@@ -298,7 +244,7 @@ namespace MiniERP.WinForms.Forms
             this.btnKullaniciYonetimi.FlatStyle = FlatStyle.Flat;
             this.btnKullaniciYonetimi.Font = new Font("Segoe UI", 11F);
             this.btnKullaniciYonetimi.ForeColor = Color.White;
-            this.btnKullaniciYonetimi.Location = new Point(10, 515);
+            this.btnKullaniciYonetimi.Location = new Point(10, 350);
             this.btnKullaniciYonetimi.Name = "btnKullaniciYonetimi";
             this.btnKullaniciYonetimi.Size = new Size(200, 45);
             this.btnKullaniciYonetimi.TabIndex = 9;
@@ -473,9 +419,6 @@ namespace MiniERP.WinForms.Forms
         private Button btnStokYonetimi;
         private Button btnSatisFaturaları;
         private Button btnAlisFaturalari;
-        private Button btnOdemeler;
-        private Button btnTahsilatlar;
-        private Button btnRaporlar;
         private Button btnKullaniciYonetimi;
         private Button btnApiTest;
         private Panel panelMain;

@@ -1,6 +1,7 @@
 using MiniERP.WinForms.DTOs;
 using MiniERP.WinForms.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,7 +11,7 @@ namespace MiniERP.WinForms.Forms
     {
         private readonly ApiService _apiService;
         private readonly string _userRole;
-        private CariAccountDto _cariAccount;
+        private CariAccountDto _cariAccount = null!;
 
         public CariHareketleriForm(CariAccountDto cariAccount, string userRole)
         {
@@ -79,17 +80,123 @@ namespace MiniERP.WinForms.Forms
             colBakiye.DefaultCellStyle.Format = "N2";
         }
 
-        private void LoadHareketler()
+        private async void LoadHareketler()
         {
             try
             {
-                // Örnek veriler - gerçek API'den gelecek
+                // Önce API'den veri çekmeyi dene
+                var result = await _apiService.GetCariTransactionsAsync(_cariAccount.CariID, 1, 100);
+                
+                if (result.Success && result.Data != null && result.Data.Data != null && result.Data.Data.Count > 0)
+                {
+                    LoadDynamicData(result.Data.Data);
+                }
+                else
+                {
+                    // API'den veri gelmezse örnek veri göster
+                    LoadSampleData();
+                }
+            }
+            catch (Exception)
+            {
+                // Hata durumunda örnek veri göster
                 LoadSampleData();
             }
-            catch (Exception ex)
+        }
+
+        private void LoadDynamicData(List<CariTransactionDto> transactions)
+        {
+            // DataGrid'i temizle
+            dataGridViewHareketler.Rows.Clear();
+            
+            decimal bakiye = 0;
+            decimal toplamBorc = 0;
+            decimal toplamAlacak = 0;
+            
+            // Hareketleri tarihe göre sırala
+            var sortedTransactions = transactions.OrderBy(t => t.TransactionDate).ToList();
+            
+            foreach (var transaction in sortedTransactions)
             {
-                MessageBox.Show($"Hareketler yüklenirken hata oluştu: {ex.Message}", 
-                    "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Bakiyeyi güncelle
+                bakiye = transaction.Balance;
+                
+                // Borç/Alacak tutarlarını belirle
+                string borcTutar = "-";
+                string alacakTutar = "-";
+                
+                if (transaction.DebitAmount > 0)
+                {
+                    borcTutar = $"₺{transaction.DebitAmount:N2}";
+                    toplamBorc += transaction.DebitAmount;
+                }
+                
+                if (transaction.CreditAmount > 0)
+                {
+                    alacakTutar = $"₺{transaction.CreditAmount:N2}";
+                    toplamAlacak += transaction.CreditAmount;
+                }
+                
+                // Satırı ekle
+                dataGridViewHareketler.Rows.Add(
+                    transaction.TransactionDate.ToString("dd.MM.yyyy\nHH:mm"),
+                    transaction.DocumentType?.ToUpper() ?? "HAREKET",
+                    transaction.DocumentNo ?? "-",
+                    transaction.Description ?? $"{transaction.DocumentType}: {transaction.DocumentNo}",
+                    borcTutar,
+                    alacakTutar,
+                    $"₺{bakiye:N2}"
+                );
+            }
+            
+            // TOPLAM satırını ekle
+            int toplamRowIndex = dataGridViewHareketler.Rows.Add(
+                "TOPLAM",
+                "",
+                "",
+                "",
+                toplamBorc > 0 ? $"₺{toplamBorc:N2}" : "-",
+                toplamAlacak > 0 ? $"₺{toplamAlacak:N2}" : "-",
+                $"₺{bakiye:N2}"
+            );
+
+            // TOPLAM satırının stilini ayarla
+            DataGridViewRow toplamRow = dataGridViewHareketler.Rows[toplamRowIndex];
+            toplamRow.DefaultCellStyle.BackColor = Color.FromArgb(219, 234, 254);
+            toplamRow.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            toplamRow.DefaultCellStyle.ForeColor = Color.FromArgb(30, 58, 138);
+
+            // Renkleri ayarla
+            ApplyRowColors();
+        }
+
+        private void ApplyRowColors()
+        {
+            // Bakiye sütunu renklerini ayarla
+            foreach (DataGridViewRow row in dataGridViewHareketler.Rows)
+            {
+                if (row.Cells[colBakiye.Index].Value != null)
+                {
+                    string? bakiyeText = row.Cells[colBakiye.Index].Value?.ToString();
+                    if (!string.IsNullOrEmpty(bakiyeText) && bakiyeText.Contains("₺") && !bakiyeText.Contains("-"))
+                    {
+                        row.Cells[colBakiye.Index].Style.ForeColor = Color.FromArgb(34, 197, 94);
+                    }
+                }
+                
+                // Borç sütunu kırmızı
+                if (row.Cells[colBorc.Index].Value != null && 
+                    row.Cells[colBorc.Index].Value.ToString() != "-")
+                {
+                    row.Cells[colBorc.Index].Style.ForeColor = Color.FromArgb(239, 68, 68);
+                }
+                
+                // Alacak sütunu yeşil
+                if (row.Cells[colAlacak.Index].Value != null && 
+                    row.Cells[colAlacak.Index].Value.ToString() != "-")
+                {
+                    row.Cells[colAlacak.Index].Style.ForeColor = Color.FromArgb(34, 197, 94);
+                }
             }
         }
 

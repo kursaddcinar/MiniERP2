@@ -25,6 +25,9 @@ namespace MiniERP.WinForms.Forms
                 System.Diagnostics.Debug.WriteLine($"Customer: {invoice.CariName}, Warehouse: {invoice.WarehouseName}");
                 System.Diagnostics.Debug.WriteLine($"Totals: SubTotal={invoice.SubTotal}, VatAmount={invoice.VatAmount}, Total={invoice.Total}");
                 
+                // Log dosyasına da yaz
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm açıldı - Fatura: {invoice.InvoiceNo}, Status: {invoice.Status}, User: {currentUser.Username}\n");
+                
                 SetupForm();
                 SetupDataGridView();
                 SetupRoleBasedAccess();
@@ -81,6 +84,14 @@ namespace MiniERP.WinForms.Forms
             // Açıklama
             txtAciklama.Text = _invoice.Description ?? "";
             txtAciklama.ReadOnly = true;
+
+            // Toplamlar - alış faturası gibi
+            lblAraToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.SubTotal);
+            lblKDVTutari.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.VatAmount);
+            lblGenelToplam.Text = Helpers.CurrencyHelper.FormatCurrency(_invoice.Total);
+            
+            // Debug log
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - FillInvoiceData tamamlandı. Status: {_invoice.Status}\n");
         }
 
         private string GetStatusText(string status)
@@ -203,63 +214,73 @@ namespace MiniERP.WinForms.Forms
 
         private void SetupRoleBasedAccess()
         {
+            // Debug log
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - SetupRoleBasedAccess başladı. Fatura Status: {_invoice.Status}, User: {_currentUser.Username}\n");
+            
             var userRole = GetUserRole();
 
-            // Buton yetkileri
-            switch (userRole)
+            // Rol bazlı buton yetkileri
+            bool canApprove = userRole == "Admin" || userRole == "Manager" || userRole == "Finance";
+            btnOnayla.Visible = canApprove;
+
+            // Düzenle butonu sadece yetkili roller için görünür
+            bool canEdit = userRole == "Admin" || userRole == "Manager" || userRole == "Sales";
+            btnDuzenle.Visible = canEdit;
+
+            // Yazdır ve PDF butonları tüm roller için görünür
+            btnYazdir.Visible = true;
+            btnPDF.Visible = true;
+
+            // Geri butonu tüm roller için görünür
+            btnGeri.Visible = true;
+
+            // Fatura durumuna göre buton durumları
+            string invoiceStatus = _invoice.Status?.ToUpper() ?? "";
+            
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Invoice Status: '{invoiceStatus}', User Role: '{userRole}'\n");
+            
+            if (invoiceStatus == "DRAFT")
             {
-                case "Admin":
-                    // Admin tüm işlemleri yapabilir
+                // Taslak durumunda: Onayla butonu etkin, düzenle butonu etkin
+                if (canApprove)
+                {
                     btnOnayla.Enabled = true;
+                    btnOnayla.Text = "Onayla";
+                }
+                
+                if (canEdit)
+                {
                     btnDuzenle.Enabled = true;
-                    btnYazdir.Enabled = true;
-                    btnPDF.Enabled = true;
-                    break;
-
-                case "Manager":
-                    // Manager onay, düzenleme, yazdırma yapabilir
-                    btnOnayla.Enabled = true;
-                    btnDuzenle.Enabled = true;
-                    btnYazdir.Enabled = true;
-                    btnPDF.Enabled = true;
-                    break;
-
-                case "Sales":
-                    // Sales sadece görüntüleme ve yazdırma
-                    btnOnayla.Enabled = false;
-                    btnDuzenle.Enabled = _invoice.Status == "DRAFT"; // Sadece taslakları düzenleyebilir
-                    btnYazdir.Enabled = true;
-                    btnPDF.Enabled = true;
-                    break;
-
-                case "Finance":
-                    // Finance onay ve yazdırma yapabilir
-                    btnOnayla.Enabled = true;
-                    btnDuzenle.Enabled = false;
-                    btnYazdir.Enabled = true;
-                    btnPDF.Enabled = true;
-                    break;
-
-                default: // Employee
-                    // Employee sadece görüntüleme
-                    btnOnayla.Enabled = false;
-                    btnDuzenle.Enabled = false;
-                    btnYazdir.Enabled = true;
-                    btnPDF.Enabled = true;
-                    break;
+                    btnDuzenle.Visible = true;
+                }
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - DRAFT durumu: Onayla enabled, Düzenle visible\n");
             }
-
-            // İptal edilmiş faturalar düzenlenemez
-            if (_invoice.Status == "CANCELLED")
+            else if (invoiceStatus == "APPROVED" || invoiceStatus == "CONFIRMED")
             {
+                // Onaylı durumunda: Onayla butonu devre dışı, düzenle butonu gizli
+                btnOnayla.Enabled = false;
+                btnOnayla.Text = "Onaylandı";
+                btnDuzenle.Visible = false; // Onaylı faturaları düzenleyemez
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - APPROVED durumu: Onayla disabled, Düzenle hidden\n");
+            }
+            else if (invoiceStatus == "CANCELLED" || invoiceStatus == "CANCELED")
+            {
+                // İptal edilmiş durumunda: Tüm işlem butonları devre dışı
                 btnOnayla.Enabled = false;
                 btnDuzenle.Enabled = false;
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - CANCELLED durumu: Tüm butonlar disabled\n");
             }
-
-            // Ödenmiş faturalar düzenlenemez
-            if (_invoice.Status == "PAID")
+            else if (invoiceStatus == "PAID")
             {
+                // Ödenmiş durumunda: Düzenleme yapılamaz
                 btnDuzenle.Enabled = false;
+                btnOnayla.Enabled = false;
+                btnOnayla.Text = "Ödendi";
+                
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - PAID durumu: Düzenleme ve onay disabled\n");
             }
         }
 
@@ -386,21 +407,41 @@ namespace MiniERP.WinForms.Forms
 
         private async void btnOnayla_Click(object sender, EventArgs e)
         {
-            if (_invoice.Status != "DRAFT")
+            // Debug log
+            File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - btnOnayla_Click başladı. Invoice Status: {_invoice.Status}, User: {_currentUser.Username}\n");
+            
+            if (_invoice.Status?.ToUpper() == "APPROVED" || _invoice.Status?.ToUpper() == "CONFIRMED")
+            {
+                MessageBox.Show("Bu fatura zaten onaylanmış.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Fatura zaten onaylı\n");
+                return;
+            }
+
+            if (_invoice.Status?.ToUpper() != "DRAFT")
             {
                 MessageBox.Show("Sadece taslak faturalar onaylanabilir.", "Uyarı", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Fatura taslak değil: {_invoice.Status}\n");
                 return;
             }
 
             var result = MessageBox.Show("Bu faturayı onaylamak istediğinizden emin misiniz?", 
-                "Fatura Onaylama", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                "Fatura Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
                 try
                 {
-                    var response = await _apiService.PutAsync<object>($"SalesInvoices/{_invoice.InvoiceID}/approve", new { });
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Onay API'sine istek gönderiliyor...\n");
+                    
+                    var approvalDto = new
+                    {
+                        InvoiceID = _invoice.InvoiceID,
+                        ApprovalNote = "WinForms uygulamasından onaylandı"
+                    };
+
+                    var response = await _apiService.PutAsync<object>($"SalesInvoices/{_invoice.InvoiceID}/approve", approvalDto);
+                    
                     if (response?.Success == true)
                     {
                         MessageBox.Show("Fatura başarıyla onaylandı.", "Başarılı", 
@@ -409,18 +450,26 @@ namespace MiniERP.WinForms.Forms
                         _invoice.Status = "APPROVED";
                         FillInvoiceData();
                         SetupRoleBasedAccess();
+                        
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Fatura başarıyla onaylandı\n");
                     }
                     else
                     {
                         MessageBox.Show($"Fatura onaylanırken hata oluştu: {response?.Message}", "Hata", 
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - API onay hatası: {response?.Message}\n");
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Fatura onaylanırken hata oluştu: {ex.Message}", "Hata", 
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Onay exception: {ex.Message}\n");
                 }
+            }
+            else
+            {
+                File.AppendAllText("debug.log", $"{DateTime.Now:dd.MM.yyyy HH:mm:ss}: SatisFaturaDetayForm - Kullanıcı onayı iptal etti\n");
             }
         }
 

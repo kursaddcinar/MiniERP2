@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MiniERP.Web.Services;
 using System.Globalization;
+using System.Text;
+
+// Set encoding to UTF-8
+Console.OutputEncoding = Encoding.UTF8;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +45,6 @@ builder.Services.AddScoped<SalesInvoiceService>();
 builder.Services.AddScoped<PurchaseInvoiceService>();
 builder.Services.AddScoped<CariAccountService>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<InvoiceNumberGeneratorService>();
 
 var app = builder.Build();
@@ -50,6 +53,15 @@ var app = builder.Build();
 var cultureInfo = CultureInfo.InvariantCulture;
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+// Configure request localization for Turkish
+var supportedCultures = new[] { "tr-TR", "en-US" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("tr-TR")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

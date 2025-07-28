@@ -143,28 +143,6 @@ namespace MiniERP.API.Mappings
                 .ForMember(dest => dest.NetTotal, opt => opt.MapFrom(src => src.NetTotal));
             CreateMap<CreatePurchaseInvoiceDetailDto, PurchaseInvoiceDetail>();
 
-            // PaymentType mappings
-            CreateMap<PaymentType, PaymentTypeDto>()
-                .ForMember(dest => dest.PaymentCount, opt => opt.MapFrom(src => src.Payments.Count))
-                .ForMember(dest => dest.CollectionCount, opt => opt.MapFrom(src => src.Collections.Count));
-            CreateMap<CreatePaymentTypeDto, PaymentType>();
-            CreateMap<UpdatePaymentTypeDto, PaymentType>();
-
-            // Payment mappings
-            CreateMap<Payment, PaymentDto>()
-                .ForMember(dest => dest.CariCode, opt => opt.MapFrom(src => src.CariAccount.CariCode))
-                .ForMember(dest => dest.CariName, opt => opt.MapFrom(src => src.CariAccount.CariName))
-                .ForMember(dest => dest.PaymentTypeName, opt => opt.MapFrom(src => src.PaymentType.TypeName));
-            CreateMap<CreatePaymentDto, Payment>();
-            CreateMap<UpdatePaymentDto, Payment>();
-
-            // Collection mappings
-            CreateMap<Collection, CollectionDto>()
-                .ForMember(dest => dest.CariCode, opt => opt.MapFrom(src => src.CariAccount.CariCode))
-                .ForMember(dest => dest.CariName, opt => opt.MapFrom(src => src.CariAccount.CariName))
-                .ForMember(dest => dest.PaymentTypeName, opt => opt.MapFrom(src => src.PaymentType.TypeName));
-            CreateMap<CreateCollectionDto, Collection>();
-            CreateMap<UpdateCollectionDto, Collection>();
         }
     }
 } 

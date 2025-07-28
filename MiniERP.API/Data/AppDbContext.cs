@@ -26,9 +26,6 @@ namespace MiniERP.API.Data
         public DbSet<SalesInvoiceDetail> SalesInvoiceDetails { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
         public DbSet<PurchaseInvoiceDetail> PurchaseInvoiceDetails { get; set; }
-        public DbSet<PaymentType> PaymentTypes { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<Collection> Collections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -81,18 +78,6 @@ namespace MiniERP.API.Data
 
             modelBuilder.Entity<PurchaseInvoice>()
                 .HasIndex(pi => pi.InvoiceNo)
-                .IsUnique();
-
-            modelBuilder.Entity<PaymentType>()
-                .HasIndex(pt => pt.TypeCode)
-                .IsUnique();
-
-            modelBuilder.Entity<Payment>()
-                .HasIndex(p => p.PaymentNo)
-                .IsUnique();
-
-            modelBuilder.Entity<Collection>()
-                .HasIndex(c => c.CollectionNo)
                 .IsUnique();
 
             // Decimal precision settings
@@ -223,26 +208,6 @@ namespace MiniERP.API.Data
                 .HasOne(pid => pid.Product)
                 .WithMany(p => p.PurchaseInvoiceDetails)
                 .HasForeignKey(pid => pid.ProductID);
-
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.CariAccount)
-                .WithMany(ca => ca.Payments)
-                .HasForeignKey(p => p.CariID);
-
-            modelBuilder.Entity<Payment>()
-                .HasOne(p => p.PaymentType)
-                .WithMany(pt => pt.Payments)
-                .HasForeignKey(p => p.PaymentTypeID);
-
-            modelBuilder.Entity<Collection>()
-                .HasOne(c => c.CariAccount)
-                .WithMany(ca => ca.Collections)
-                .HasForeignKey(c => c.CariID);
-
-            modelBuilder.Entity<Collection>()
-                .HasOne(c => c.PaymentType)
-                .WithMany(pt => pt.Collections)
-                .HasForeignKey(c => c.PaymentTypeID);
 
             modelBuilder.Entity<CariTransaction>()
                 .HasOne(ct => ct.CariAccount)
