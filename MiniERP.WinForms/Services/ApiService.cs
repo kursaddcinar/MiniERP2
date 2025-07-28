@@ -32,24 +32,77 @@ namespace MiniERP.WinForms.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = JsonConvert.DeserializeObject<ApiResponse<LoginResponseDto>>(responseContent);
-                    return result ?? new ApiResponse<LoginResponseDto> { Success = false, Message = "Invalid response" };
+                    return result ?? new ApiResponse<LoginResponseDto> { Success = false, Message = "Geçersiz yanıt alındı" };
                 }
                 else
                 {
-                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<LoginResponseDto>>(responseContent);
-                    return errorResult ?? new ApiResponse<LoginResponseDto> 
-                    { 
-                        Success = false, 
-                        Message = $"Login failed: {response.StatusCode}" 
+                    // Try to parse error response first
+                    try
+                    {
+                        var errorResult = JsonConvert.DeserializeObject<ApiResponse<LoginResponseDto>>(responseContent);
+                        if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
+                        {
+                            return errorResult;
+                        }
+                    }
+                    catch
+                    {
+                        // If parsing fails, continue with status code handling
+                    }
+
+                    // Handle specific HTTP status codes with user-friendly messages
+                    return response.StatusCode switch
+                    {
+                        System.Net.HttpStatusCode.Unauthorized => new ApiResponse<LoginResponseDto> 
+                        { 
+                            Success = false, 
+                            Message = "Kullanıcı adı veya şifre hatalı" 
+                        },
+                        System.Net.HttpStatusCode.Forbidden => new ApiResponse<LoginResponseDto> 
+                        { 
+                            Success = false, 
+                            Message = "Bu hesaba erişim yetkiniz bulunmuyor" 
+                        },
+                        System.Net.HttpStatusCode.BadRequest => new ApiResponse<LoginResponseDto> 
+                        { 
+                            Success = false, 
+                            Message = "Geçersiz giriş bilgileri" 
+                        },
+                        System.Net.HttpStatusCode.InternalServerError => new ApiResponse<LoginResponseDto> 
+                        { 
+                            Success = false, 
+                            Message = "Sunucu hatası. Lütfen daha sonra tekrar deneyin" 
+                        },
+                        _ => new ApiResponse<LoginResponseDto> 
+                        { 
+                            Success = false, 
+                            Message = "Giriş yapılırken bir hata oluştu" 
+                        }
                     };
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException)
             {
                 return new ApiResponse<LoginResponseDto>
                 {
                     Success = false,
-                    Message = $"Connection error: {ex.Message}"
+                    Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin"
+                };
+            }
+            catch (TaskCanceledException)
+            {
+                return new ApiResponse<LoginResponseDto>
+                {
+                    Success = false,
+                    Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin"
+                };
+            }
+            catch (Exception)
+            {
+                return new ApiResponse<LoginResponseDto>
+                {
+                    Success = false,
+                    Message = "Beklenmeyen bir hata oluştu"
                 };
             }
         }

@@ -91,11 +91,27 @@ namespace MiniERP.API.Controllers
 
             // Kullanıcı sadece kendi bilgilerini güncelleyebilir, Admin ve Manager herkesi güncelleyebilir
             var currentUserId = GetCurrentUserId();
-            var isAdminOrManager = User.IsInRole("Admin") || User.IsInRole("Manager");
+            var isAdmin = User.IsInRole("Admin");
+            var isManager = User.IsInRole("Manager");
+            var isAdminOrManager = isAdmin || isManager;
             
             if (!isAdminOrManager && currentUserId != id)
             {
                 return Forbid();
+            }
+
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcıyı düzenleyemez
+            if (isManager && !isAdmin)
+            {
+                var targetUserResult = await _userService.GetUserByIdAsync(id);
+                if (targetUserResult.Success && targetUserResult.Data != null)
+                {
+                    var targetUserRoles = targetUserResult.Data.Roles ?? new List<string>();
+                    if (targetUserRoles.Contains("Admin"))
+                    {
+                        return BadRequest(ApiResponse<UserDto>.ErrorResult("Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez"));
+                    }
+                }
             }
 
             // Eğer kullanıcı kendi bilgilerini güncelliyorsa, rol değiştirme yetkisi yok
@@ -189,6 +205,8 @@ namespace MiniERP.API.Controllers
         public async Task<ActionResult<ApiResponse<bool>>> ToggleUserActivation(int id)
         {
             var currentUserId = GetCurrentUserId();
+            var isAdmin = User.IsInRole("Admin");
+            var isManager = User.IsInRole("Manager");
             
             // Kullanıcı kendini pasif yapamaz
             if (currentUserId == id)
@@ -201,6 +219,16 @@ namespace MiniERP.API.Controllers
             if (!userResult.Success || userResult.Data == null)
             {
                 return BadRequest(ApiResponse<bool>.ErrorResult("User not found"));
+            }
+
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcının aktiflik durumunu değiştiremez
+            if (isManager && !isAdmin)
+            {
+                var targetUserRoles = userResult.Data.Roles ?? new List<string>();
+                if (targetUserRoles.Contains("Admin"))
+                {
+                    return BadRequest(ApiResponse<bool>.ErrorResult("Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıların aktiflik durumunu değiştiremez"));
+                }
             }
 
             // Mevcut duruma göre aktif/pasif yap

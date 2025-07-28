@@ -68,6 +68,7 @@ namespace MiniERP.Web.Controllers
                 }
                 else
                 {
+                    // Hata mesajını direkt göster (API'den Türkçe geliyor)
                     ModelState.AddModelError(string.Empty, result.Message);
                     _logger.LogWarning($"Login failed for user {model.Username}: {result.Message}");
                 }

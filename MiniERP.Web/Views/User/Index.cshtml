@@ -85,7 +85,13 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             
-                                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                            @{
+                                                // Manager kullanıcısı Admin kullanıcılarını düzenleyemez
+                                                bool canEdit = User.IsInRole("Admin") || 
+                                                             (User.IsInRole("Manager") && !user.Roles.Contains("Admin"));
+                                            }
+                                            
+                                            @if (canEdit)
                                             {
                                                 <a asp-action="Edit" asp-route-id="@user.UserID" 
                                                    class="btn btn-outline-warning" title="Düzenle">
@@ -93,7 +99,7 @@
                                                 </a>
                                             }
                                             
-                                            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                                            @if (canEdit)
                                             {
                                                 <form asp-action="ToggleActivation" asp-route-id="@user.UserID" 
                                                       method="post" class="d-inline">

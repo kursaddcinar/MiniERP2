@@ -165,6 +165,79 @@ namespace MiniERP.WinForms.Forms
                     Width = 70
                 });
             }
+
+            // CellFormatting event'ini ekle - Manager için Admin kullanıcılarına butonları disable etmek için
+            dgvKullanicilar.CellFormatting += DgvKullanicilar_CellFormatting;
+        }
+
+        private void DgvKullanicilar_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < _kullanicilar.Count)
+            {
+                var user = _kullanicilar[e.RowIndex];
+                var columnName = dgvKullanicilar.Columns[e.ColumnIndex].Name;
+
+                // Manager için Admin kullanıcılarına edit ve status butonlarını disable et
+                if (_currentUserRole == "Manager" && user.Roles.Contains("Admin"))
+                {
+                    if (columnName == "EditButton" || columnName == "StatusButton")
+                    {
+                        e.Value = "🚫 Yetki Yok";
+                        e.FormattingApplied = true;
+                        
+                        // Cell'in style'ını değiştir
+                        var cell = dgvKullanicilar.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                        cell.Style.BackColor = Color.LightGray;
+                        cell.Style.ForeColor = Color.DarkGray;
+                    }
+                }
+            }
+        }
+
+        private string TranslateApiMessage(string? message)
+        {
+            if (string.IsNullOrEmpty(message))
+                return "Bilinmeyen hata oluştu.";
+
+            // API'den gelen İngilizce mesajları Türkçe'ye çevir
+            var translations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "User not found", "Kullanıcı bulunamadı" },
+                { "Invalid username or password", "Kullanıcı adı veya şifre hatalı" },
+                { "You cannot delete your own account", "Kendi hesabınızı silemezsiniz" },
+                { "You cannot change your own activation status", "Kendi hesabınızın durumunu değiştiremezsiniz" },
+                { "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez", "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez" },
+                { "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıların aktiflik durumunu değiştiremez", "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıların aktiflik durumunu değiştiremez" },
+                { "Invalid input data", "Geçersiz veri girişi" },
+                { "User activated successfully", "Kullanıcı başarıyla aktifleştirildi" },
+                { "User deactivated successfully", "Kullanıcı başarıyla pasifleştirildi" },
+                { "User deleted successfully", "Kullanıcı başarıyla silindi" },
+                { "User updated successfully", "Kullanıcı başarıyla güncellendi" },
+                { "User created successfully", "Kullanıcı başarıyla oluşturuldu" },
+                { "Access denied", "Erişim reddedildi" },
+                { "Forbidden", "Yasaklı işlem" },
+                { "Bad Request", "Geçersiz istek" },
+                { "Internal Server Error", "Sunucu hatası" },
+                { "An error occurred", "Bir hata oluştu" }
+            };
+
+            // Tam eşleşme ara
+            if (translations.ContainsKey(message))
+            {
+                return translations[message];
+            }
+
+            // Kısmi eşleşme ara
+            foreach (var translation in translations)
+            {
+                if (message.Contains(translation.Key, StringComparison.OrdinalIgnoreCase))
+                {
+                    return message.Replace(translation.Key, translation.Value, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            // Çeviri bulunamazsa orijinal mesajı döndür
+            return message;
         }
 
         private async void LoadUsers()
@@ -266,6 +339,17 @@ namespace MiniERP.WinForms.Forms
                 var selectedUser = _kullanicilar[e.RowIndex];
                 var columnName = dgvKullanicilar.Columns[e.ColumnIndex].Name;
 
+                // Manager için Admin kullanıcılarına butonları tamamen engelle
+                if (_currentUserRole == "Manager" && selectedUser.Roles.Contains("Admin"))
+                {
+                    if (columnName == "EditButton" || columnName == "StatusButton")
+                    {
+                        MessageBox.Show("Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları yönetemez.", 
+                            "Yetkisiz İşlem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+
                 switch (columnName)
                 {
                     case "DetailButton":
@@ -320,6 +404,9 @@ namespace MiniERP.WinForms.Forms
                 return;
             }
 
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcının aktiflik durumunu değiştiremez
+            // Bu kontrol CellClick'te yapılıyor artık
+
             string action = kullanici.IsActive ? "pasifleştirmek" : "aktifleştirmek";
             var result = MessageBox.Show($"{kullanici.Username} kullanıcısını {action} istediğinizden emin misiniz?", 
                 "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -333,12 +420,12 @@ namespace MiniERP.WinForms.Forms
                     
                     if (response.Success)
                     {
-                        MessageBox.Show(response.Message, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(TranslateApiMessage(response.Message), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadUsers();
                     }
                     else
                     {
-                        MessageBox.Show(response.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(TranslateApiMessage(response.Message), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
@@ -351,9 +438,7 @@ namespace MiniERP.WinForms.Forms
                     this.Cursor = Cursors.Default;
                 }
             }
-        }
-
-        private async Task DeleteUser(UserDto kullanici)
+        }        private async Task DeleteUser(UserDto kullanici)
         {
             if (kullanici.UserID == _currentUserId)
             {
@@ -379,7 +464,7 @@ namespace MiniERP.WinForms.Forms
                     }
                     else
                     {
-                        MessageBox.Show(response.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(TranslateApiMessage(response.Message), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 catch (Exception ex)
@@ -429,6 +514,14 @@ namespace MiniERP.WinForms.Forms
             }
 
             var selectedUser = _kullanicilar[dgvKullanicilar.SelectedRows[0].Index];
+
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcıyı düzenleyemez
+            if (_currentUserRole == "Manager" && selectedUser.Roles.Contains("Admin"))
+            {
+                MessageBox.Show("Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez.", 
+                    "Yetkisiz İşlem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             
             using (var duzenleForm = new KullaniciDuzenleForm(_userService, selectedUser.UserID))
             {
@@ -483,7 +576,7 @@ namespace MiniERP.WinForms.Forms
                 }
                 else
                 {
-                    MessageBox.Show(response.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(TranslateApiMessage(response.Message), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

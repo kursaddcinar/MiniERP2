@@ -116,6 +116,17 @@ namespace MiniERP.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
+                // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcıyı düzenleyemez
+                if (User.IsInRole("Manager") && !User.IsInRole("Admin"))
+                {
+                    var targetUserRoles = user.Roles ?? new List<string>();
+                    if (targetUserRoles.Contains("Admin"))
+                    {
+                        TempData["ErrorMessage"] = "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
                 var updateDto = new UpdateUserDto
                 {
                     UserID = user.UserID,
@@ -148,6 +159,30 @@ namespace MiniERP.Web.Controllers
             {
                 TempData["ErrorMessage"] = "Geçersiz kullanıcı ID'si.";
                 return RedirectToAction(nameof(Index));
+            }
+
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcıyı düzenleyemez
+            if (User.IsInRole("Manager") && !User.IsInRole("Admin"))
+            {
+                try
+                {
+                    var targetUser = await _userService.GetUserByIdAsync(id);
+                    if (targetUser != null)
+                    {
+                        var targetUserRoles = targetUser.Roles ?? new List<string>();
+                        if (targetUserRoles.Contains("Admin"))
+                        {
+                            TempData["ErrorMessage"] = "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıları düzenleyemez.";
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error checking target user role for ID: {id}");
+                    TempData["ErrorMessage"] = "Yetki kontrolü sırasında hata oluştu.";
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             if (!ModelState.IsValid)
@@ -213,6 +248,30 @@ namespace MiniERP.Web.Controllers
         [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> ToggleActivation(int id)
         {
+            // Manager yetkisindeki kullanıcı Admin yetkisindeki kullanıcının aktiflik durumunu değiştiremez
+            if (User.IsInRole("Manager") && !User.IsInRole("Admin"))
+            {
+                try
+                {
+                    var targetUser = await _userService.GetUserByIdAsync(id);
+                    if (targetUser != null)
+                    {
+                        var targetUserRoles = targetUser.Roles ?? new List<string>();
+                        if (targetUserRoles.Contains("Admin"))
+                        {
+                            TempData["ErrorMessage"] = "Manager yetkisindeki kullanıcılar Admin yetkisindeki kullanıcıların aktiflik durumunu değiştiremez.";
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error checking target user role for activation toggle, ID: {id}");
+                    TempData["ErrorMessage"] = "Yetki kontrolü sırasında hata oluştu.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
             try
             {
                 var result = await _userService.ToggleUserActivationAsync(id);

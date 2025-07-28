@@ -88,6 +88,17 @@ namespace MiniERP.Web.Services
             return _httpContextAccessor.HttpContext?.User.IsInRole(role) == true;
         }
 
+        public List<string> GetCurrentUserRoles()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            if (user == null) return new List<string>();
+            
+            return user.Claims
+                .Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)
+                .Select(c => c.Value)
+                .ToList();
+        }
+
         public async Task<ApiResponse<UserDto>> GetCurrentUserAsync()
         {
             var token = GetCurrentToken();
@@ -103,7 +114,7 @@ namespace MiniERP.Web.Services
         public async Task<ApiResponse<object>> InitializeTestUsersAsync()
         {
             // Call special initialization endpoint that doesn't require authentication
-            return await _apiService.PostAsync<object>("api/Auth/initialize-test-users", null);
+            return await _apiService.PostAsync<object>("api/Auth/initialize-test-users", new { });
         }
     }
 } 

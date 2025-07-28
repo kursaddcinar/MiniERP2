@@ -48,16 +48,66 @@ namespace MiniERP.Web.Services
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
-                return result ?? new ApiResponse<T> { Success = false, Message = "Response is null" };
+                return result ?? new ApiResponse<T> { Success = false, Message = "Geçersiz yanıt alındı" };
             }
             else
             {
-                return new ApiResponse<T> { Success = false, Message = $"HTTP {response.StatusCode}: {content}" };
+                // Try to parse error response first
+                try
+                {
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
+                    if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        return errorResult;
+                    }
+                }
+                catch
+                {
+                    // If parsing fails, continue with status code handling
+                }
+
+                // Handle specific HTTP status codes with user-friendly messages
+                return response.StatusCode switch
+                {
+                    System.Net.HttpStatusCode.Unauthorized => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Oturum süreniz dolmuş. Lütfen tekrar giriş yapın" 
+                    },
+                    System.Net.HttpStatusCode.Forbidden => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Bu işleme erişim yetkiniz bulunmuyor" 
+                    },
+                    System.Net.HttpStatusCode.NotFound => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İstenen kaynak bulunamadı" 
+                    },
+                    System.Net.HttpStatusCode.InternalServerError => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Sunucu hatası. Lütfen daha sonra tekrar deneyin" 
+                    },
+                    _ => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İşlem sırasında bir hata oluştu" 
+                    }
+                };
             }
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            return new ApiResponse<T> { Success = false, Message = ex.Message };
+            return new ApiResponse<T> { Success = false, Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin" };
+        }
+        catch (TaskCanceledException)
+        {
+            return new ApiResponse<T> { Success = false, Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin" };
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<T> { Success = false, Message = "Beklenmeyen bir hata oluştu" };
         }
     }
 
@@ -77,16 +127,71 @@ namespace MiniERP.Web.Services
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
-                return result ?? new ApiResponse<T> { Success = false, Message = "Response is null" };
+                return result ?? new ApiResponse<T> { Success = false, Message = "Geçersiz yanıt alındı" };
             }
             else
             {
-                return new ApiResponse<T> { Success = false, Message = $"HTTP {response.StatusCode}: {responseContent}" };
+                // Try to parse error response first
+                try
+                {
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        return errorResult;
+                    }
+                }
+                catch
+                {
+                    // If parsing fails, continue with status code handling
+                }
+
+                // Handle specific HTTP status codes with user-friendly messages
+                return response.StatusCode switch
+                {
+                    System.Net.HttpStatusCode.Unauthorized => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Kullanıcı adı veya şifre hatalı" 
+                    },
+                    System.Net.HttpStatusCode.Forbidden => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Bu işleme erişim yetkiniz bulunmuyor" 
+                    },
+                    System.Net.HttpStatusCode.BadRequest => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Geçersiz istek bilgileri" 
+                    },
+                    System.Net.HttpStatusCode.InternalServerError => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Sunucu hatası. Lütfen daha sonra tekrar deneyin" 
+                    },
+                    System.Net.HttpStatusCode.NotFound => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İstenen kaynak bulunamadı" 
+                    },
+                    _ => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İşlem sırasında bir hata oluştu" 
+                    }
+                };
             }
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            return new ApiResponse<T> { Success = false, Message = ex.Message };
+            return new ApiResponse<T> { Success = false, Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin" };
+        }
+        catch (TaskCanceledException)
+        {
+            return new ApiResponse<T> { Success = false, Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin" };
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<T> { Success = false, Message = "Beklenmeyen bir hata oluştu" };
         }
     }
 
@@ -106,16 +211,71 @@ namespace MiniERP.Web.Services
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
-                return result ?? new ApiResponse<T> { Success = false, Message = "Response is null" };
+                return result ?? new ApiResponse<T> { Success = false, Message = "Geçersiz yanıt alındı" };
             }
             else
             {
-                return new ApiResponse<T> { Success = false, Message = $"HTTP {response.StatusCode}: {responseContent}" };
+                // Try to parse error response first
+                try
+                {
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                    if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        return errorResult;
+                    }
+                }
+                catch
+                {
+                    // If parsing fails, continue with status code handling
+                }
+
+                // Handle specific HTTP status codes with user-friendly messages
+                return response.StatusCode switch
+                {
+                    System.Net.HttpStatusCode.Unauthorized => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Oturum süreniz dolmuş. Lütfen tekrar giriş yapın" 
+                    },
+                    System.Net.HttpStatusCode.Forbidden => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Bu işleme erişim yetkiniz bulunmuyor" 
+                    },
+                    System.Net.HttpStatusCode.BadRequest => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Geçersiz istek bilgileri" 
+                    },
+                    System.Net.HttpStatusCode.NotFound => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Güncellenecek kayıt bulunamadı" 
+                    },
+                    System.Net.HttpStatusCode.InternalServerError => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Sunucu hatası. Lütfen daha sonra tekrar deneyin" 
+                    },
+                    _ => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İşlem sırasında bir hata oluştu" 
+                    }
+                };
             }
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            return new ApiResponse<T> { Success = false, Message = ex.Message };
+            return new ApiResponse<T> { Success = false, Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin" };
+        }
+        catch (TaskCanceledException)
+        {
+            return new ApiResponse<T> { Success = false, Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin" };
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<T> { Success = false, Message = "Beklenmeyen bir hata oluştu" };
         }
     }
 
@@ -132,16 +292,71 @@ namespace MiniERP.Web.Services
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
-                return result ?? new ApiResponse<T> { Success = false, Message = "Response is null" };
+                return result ?? new ApiResponse<T> { Success = false, Message = "Geçersiz yanıt alındı" };
             }
             else
             {
-                return new ApiResponse<T> { Success = false, Message = $"HTTP {response.StatusCode}: {content}" };
+                // Try to parse error response first
+                try
+                {
+                    var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(content);
+                    if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
+                    {
+                        return errorResult;
+                    }
+                }
+                catch
+                {
+                    // If parsing fails, continue with status code handling
+                }
+
+                // Handle specific HTTP status codes with user-friendly messages
+                return response.StatusCode switch
+                {
+                    System.Net.HttpStatusCode.Unauthorized => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Oturum süreniz dolmuş. Lütfen tekrar giriş yapın" 
+                    },
+                    System.Net.HttpStatusCode.Forbidden => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Bu işleme erişim yetkiniz bulunmuyor" 
+                    },
+                    System.Net.HttpStatusCode.NotFound => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Silinecek kayıt bulunamadı" 
+                    },
+                    System.Net.HttpStatusCode.Conflict => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Bu kayıt başka yerlerden kullanıldığı için silinemiyor" 
+                    },
+                    System.Net.HttpStatusCode.InternalServerError => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "Sunucu hatası. Lütfen daha sonra tekrar deneyin" 
+                    },
+                    _ => new ApiResponse<T> 
+                    { 
+                        Success = false, 
+                        Message = "İşlem sırasında bir hata oluştu" 
+                    }
+                };
             }
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            return new ApiResponse<T> { Success = false, Message = ex.Message };
+            return new ApiResponse<T> { Success = false, Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin" };
+        }
+        catch (TaskCanceledException)
+        {
+            return new ApiResponse<T> { Success = false, Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin" };
+        }
+        catch (Exception)
+        {
+            return new ApiResponse<T> { Success = false, Message = "Beklenmeyen bir hata oluştu" };
         }
     }
     }

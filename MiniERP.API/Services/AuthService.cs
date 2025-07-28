@@ -28,14 +28,34 @@ namespace MiniERP.API.Services
         {
             try
             {
-                var user = await _unitOfWork.Users.AuthenticateAsync(loginDto.Username, loginDto.Password);
+                // İlk olarak kullanıcının var olup olmadığını kontrol et (aktiflik durumu önemli değil)
+                var existingUser = await _unitOfWork.Users.GetByUsernameAsync(loginDto.Username);
                 
-                if (user == null)
+                if (existingUser == null)
                 {
-                    return ApiResponse<LoginResponseDto>.ErrorResult("Invalid username or password");
+                    return ApiResponse<LoginResponseDto>.ErrorResult("Kullanıcı adı veya şifre hatalı");
+                }
+                
+                // Şifreyi kontrol et
+                if (!VerifyPassword(loginDto.Password, existingUser.Password))
+                {
+                    return ApiResponse<LoginResponseDto>.ErrorResult("Kullanıcı adı veya şifre hatalı");
+                }
+                
+                // Kullanıcı pasifse özel hata mesajı ver
+                if (!existingUser.IsActive)
+                {
+                    return ApiResponse<LoginResponseDto>.ErrorResult("Hesabınız pasif durumda. Lütfen yöneticinizle iletişime geçin");
+                }
+                
+                // Kullanıcı bilgilerini roller ile birlikte al
+                var userWithRoles = await _unitOfWork.Users.GetUserWithRolesAsync(existingUser.UserID);
+                if (userWithRoles == null)
+                {
+                    return ApiResponse<LoginResponseDto>.ErrorResult("Kullanıcı bilgileri alınamadı");
                 }
 
-                var userDto = _mapper.Map<UserDto>(user);
+                var userDto = _mapper.Map<UserDto>(userWithRoles);
                 var token = GenerateJwtToken(userDto);
 
                 var response = new LoginResponseDto
@@ -45,12 +65,12 @@ namespace MiniERP.API.Services
                 };
 
                 _logger.LogInformation("User {Username} logged in successfully", loginDto.Username);
-                return ApiResponse<LoginResponseDto>.SuccessResult(response, "Login successful");
+                return ApiResponse<LoginResponseDto>.SuccessResult(response, "Giriş başarılı");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during login for user {Username}", loginDto.Username);
-                return ApiResponse<LoginResponseDto>.ErrorResult("An error occurred during login");
+                return ApiResponse<LoginResponseDto>.ErrorResult("Giriş yapılırken bir hata oluştu");
             }
         }
 
@@ -61,14 +81,14 @@ namespace MiniERP.API.Services
                 // Check if username is unique
                 if (!await _unitOfWork.Users.IsUsernameUniqueAsync(createUserDto.Username))
                 {
-                    return ApiResponse<UserDto>.ErrorResult("Username already exists");
+                    return ApiResponse<UserDto>.ErrorResult("Bu kullanıcı adı zaten kullanılıyor");
                 }
 
                 // Check if email is unique
                 if (!string.IsNullOrEmpty(createUserDto.Email) && 
                     !await _unitOfWork.Users.IsEmailUniqueAsync(createUserDto.Email))
                 {
-                    return ApiResponse<UserDto>.ErrorResult("Email already exists");
+                    return ApiResponse<UserDto>.ErrorResult("Bu e-posta adresi zaten kullanılıyor");
                 }
 
                 var user = _mapper.Map<User>(createUserDto);
@@ -89,12 +109,12 @@ namespace MiniERP.API.Services
                 var userDto = _mapper.Map<UserDto>(userWithRoles);
 
                 _logger.LogInformation("User {Username} registered successfully", createUserDto.Username);
-                return ApiResponse<UserDto>.SuccessResult(userDto, "User registered successfully");
+                return ApiResponse<UserDto>.SuccessResult(userDto, "Kullanıcı başarıyla kaydedildi");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during user registration for {Username}", createUserDto.Username);
-                return ApiResponse<UserDto>.ErrorResult("An error occurred during registration");
+                return ApiResponse<UserDto>.ErrorResult("Kullanıcı kaydı sırasında bir hata oluştu");
             }
         }
 
