@@ -6,11 +6,13 @@ namespace MiniERP.Web.Services
     {
         private readonly ApiService _apiService;
         private readonly AuthService _authService;
+        private readonly ILogger<ProductService> _logger;
 
-        public ProductService(ApiService apiService, AuthService authService)
+        public ProductService(ApiService apiService, AuthService authService, ILogger<ProductService> logger)
         {
             _apiService = apiService;
             _authService = authService;
+            _logger = logger;
         }
 
         private void EnsureAuthenticated()
@@ -107,8 +109,29 @@ namespace MiniERP.Web.Services
 
         public async Task<ApiResponse<ProductCategoryDto>> CreateCategoryAsync(CreateProductCategoryDto createDto)
         {
-            EnsureAuthenticated();
-            return await _apiService.PostAsync<ProductCategoryDto>("api/ProductCategory", createDto);
+            try
+            {
+                _logger.LogInformation("ProductService: Starting CreateCategoryAsync with data: {@CreateDto}", createDto);
+                EnsureAuthenticated();
+                
+                _logger.LogInformation("ProductService: Making API call to create category");
+                var result = await _apiService.PostAsync<ProductCategoryDto>("api/ProductCategory", createDto);
+                
+                _logger.LogInformation("ProductService: CreateCategoryAsync completed. Success: {Success}, Message: {Message}", 
+                    result.Success, result.Message);
+                
+                if (!result.Success)
+                {
+                    _logger.LogError("ProductService: CreateCategoryAsync failed with errors: {@Errors}", result.Errors);
+                }
+                
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ProductService: Exception in CreateCategoryAsync with data: {@CreateDto}", createDto);
+                return ApiResponse<ProductCategoryDto>.ErrorResult($"Exception occurred: {ex.Message}");
+            }
         }
 
         public async Task<ApiResponse<ProductCategoryDto>> UpdateCategoryAsync(int id, UpdateProductCategoryDto updateDto)

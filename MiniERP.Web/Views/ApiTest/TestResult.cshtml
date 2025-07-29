@@ -17,9 +17,9 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <div class="alert @(ViewBag.TestResult.ToString().Contains("Success") ? "alert-success" : "alert-danger")" role="alert">
+                            <div class="alert @(ViewBag.TestResult.ToString().Contains("Success") || ViewBag.TestResult.ToString().Contains("Completed") ? "alert-success" : "alert-danger")" role="alert">
                                 <h4 class="alert-heading">
-                                    @if (ViewBag.TestResult.ToString().Contains("Success"))
+                                    @if (ViewBag.TestResult.ToString().Contains("Success") || ViewBag.TestResult.ToString().Contains("Completed"))
                                     {
                                         <i class="fas fa-check-circle"></i>
                                     }

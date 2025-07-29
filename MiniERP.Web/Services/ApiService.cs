@@ -10,15 +10,19 @@ namespace MiniERP.Web.Services
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<ApiService> _logger;
 
-        public ApiService(HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public ApiService(HttpClient httpClient, IConfiguration configuration, IHttpContextAccessor httpContextAccessor, ILogger<ApiService> logger)
         {
             _httpClient = httpClient;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
             
             var baseUrl = _configuration.GetSection("ApiSettings:BaseUrl").Value;
             _httpClient.BaseAddress = new Uri(baseUrl ?? "https://localhost:7071/");
+            
+            _logger.LogInformation("ApiService: Initialized with base URL: {BaseUrl}", _httpClient.BaseAddress);
         }
 
             public void SetAuthToken(string token)
@@ -115,38 +119,51 @@ namespace MiniERP.Web.Services
     {
         try
         {
+            _logger.LogInformation("ApiService: Starting POST request to {Endpoint} with data: {@Data}", endpoint, data);
+            
             // Set token from session if available
             SetTokenFromSession();
             
             var json = JsonConvert.SerializeObject(data);
+            _logger.LogDebug("ApiService: Request JSON: {Json}", json);
+            
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             
+            _logger.LogInformation("ApiService: Sending POST request to {Endpoint}", endpoint);
             var response = await _httpClient.PostAsync(endpoint, content);
             var responseContent = await response.Content.ReadAsStringAsync();
+            
+            _logger.LogInformation("ApiService: Received response. Status: {StatusCode}, Content Length: {ContentLength}", 
+                response.StatusCode, responseContent.Length);
+            _logger.LogInformation("ApiService: Response content: {ResponseContent}", responseContent);
             
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
+                _logger.LogInformation("ApiService: POST request successful. Result Success: {Success}", result?.Success);
                 return result ?? new ApiResponse<T> { Success = false, Message = "Geçersiz yanıt alındı" };
             }
             else
             {
+                _logger.LogWarning("ApiService: POST request failed with status: {StatusCode}", response.StatusCode);
+                
                 // Try to parse error response first
                 try
                 {
                     var errorResult = JsonConvert.DeserializeObject<ApiResponse<T>>(responseContent);
                     if (errorResult != null && !string.IsNullOrEmpty(errorResult.Message))
                     {
+                        _logger.LogError("ApiService: API returned error: {Message}", errorResult.Message);
                         return errorResult;
                     }
                 }
-                catch
+                catch (Exception parseEx)
                 {
-                    // If parsing fails, continue with status code handling
+                    _logger.LogError(parseEx, "ApiService: Failed to parse error response");
                 }
 
                 // Handle specific HTTP status codes with user-friendly messages
-                return response.StatusCode switch
+                var errorMessage = response.StatusCode switch
                 {
                     System.Net.HttpStatusCode.Unauthorized => new ApiResponse<T> 
                     { 
@@ -179,18 +196,24 @@ namespace MiniERP.Web.Services
                         Message = "İşlem sırasında bir hata oluştu" 
                     }
                 };
+                
+                _logger.LogError("ApiService: Returning error response: {Message}", errorMessage.Message);
+                return errorMessage;
             }
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException httpEx)
         {
+            _logger.LogError(httpEx, "ApiService: HTTP request exception in POST {Endpoint}", endpoint);
             return new ApiResponse<T> { Success = false, Message = "Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin" };
         }
-        catch (TaskCanceledException)
+        catch (TaskCanceledException timeoutEx)
         {
+            _logger.LogError(timeoutEx, "ApiService: Timeout exception in POST {Endpoint}", endpoint);
             return new ApiResponse<T> { Success = false, Message = "İşlem zaman aşımına uğradı. Lütfen tekrar deneyin" };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "ApiService: Unexpected exception in POST {Endpoint} with data: {@Data}", endpoint, data);
             return new ApiResponse<T> { Success = false, Message = "Beklenmeyen bir hata oluştu" };
         }
     }

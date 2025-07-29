@@ -8,6 +8,15 @@ Console.OutputEncoding = Encoding.UTF8;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
+// Add File Logging
+var logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "debug.log");
+builder.Logging.AddProvider(new FileLoggerProvider(logFilePath));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

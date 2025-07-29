@@ -8,18 +8,18 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">🚀 API Test Centre</h3>
-                    <p class="card-text">Tüm yeni API endpoint'lerini test edebileceğiniz merkezi test paneli</p>
+                    <p class="card-text">Tüm API endpoint'lerini test edebileceğiniz merkezi test paneli. Her test debug loglara yazılır.</p>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <!-- Comprehensive Test -->
-                        <div class="col-md-12 mb-4">
+                    <!-- Comprehensive Test -->
+                    <div class="row mb-4">
+                        <div class="col-12">
                             <div class="card bg-primary text-white">
                                 <div class="card-header">
                                     <h5><i class="fas fa-rocket"></i> Comprehensive Test</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>Tüm API'leri tek seferde test et</p>
+                                    <p>Tüm API'leri tek seferde test et ve sonuçları incele</p>
                                     <a href="@Url.Action("TestAllApis", "ApiTest")" class="btn btn-light btn-lg">
                                         <i class="fas fa-play"></i> Tüm API'leri Test Et
                                     </a>
@@ -61,12 +61,20 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="list-group">
+                                        <a href="@Url.Action("TestProducts", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-boxes"></i> Get Products
+                                        </a>
                                         <a href="@Url.Action("TestCategories", "ApiTest")" class="list-group-item list-group-item-action">
                                             <i class="fas fa-tags"></i> Get Categories
                                         </a>
                                         <a href="@Url.Action("TestUnits", "ApiTest")" class="list-group-item list-group-item-action">
                                             <i class="fas fa-balance-scale"></i> Get Units
                                         </a>
+                                        <form method="post" action="@Url.Action("TestCreateProduct", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test Product
+                                            </button>
+                                        </form>
                                         <form method="post" action="@Url.Action("TestCreateCategory", "ApiTest")" class="mt-2">
                                             <button type="submit" class="btn btn-success btn-sm">
                                                 <i class="fas fa-plus"></i> Create Test Category
@@ -90,14 +98,134 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="list-group">
+                                        <a href="@Url.Action("TestCariAccounts", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-list"></i> Get Cari Accounts
+                                        </a>
                                         <a href="@Url.Action("TestCariTypes", "ApiTest")" class="list-group-item list-group-item-action">
                                             <i class="fas fa-list-alt"></i> Get Cari Types
+                                        </a>
+                                        <form method="post" action="@Url.Action("TestCreateCariAccount", "ApiTest")" class="mt-2">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-plus"></i> Create Test Cari Account
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock Management Tests -->
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="fas fa-warehouse"></i> Stock Management</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="@Url.Action("TestStockCards", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-clipboard-list"></i> Get Stock Cards
+                                        </a>
+                                        <a href="@Url.Action("TestWarehouses", "ApiTest")" class="list-group-item list-group-item-action">
+                                            <i class="fas fa-building"></i> Get Warehouses
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- API Status Information -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-info-circle"></i> Test Bilgileri</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6><i class="fas fa-check-circle text-success"></i> Get Testleri</h6>
+                                            <ul>
+                                                <li>Users - Kullanıcı listesi</li>
+                                                <li>User Roles - Kullanıcı rolleri</li>
+                                                <li>Products - Ürün listesi (paginated)</li>
+                                                <li>Categories - Kategori listesi</li>
+                                                <li>Units - Birim listesi</li>
+                                                <li>Cari Accounts - Cari hesap listesi (paginated)</li>
+                                                <li>Cari Types - Cari tip listesi</li>
+                                                <li>Stock Cards - Stok kart listesi (paginated)</li>
+                                                <li>Warehouses - Depo listesi</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6><i class="fas fa-plus-circle text-primary"></i> Create Testleri</h6>
+                                            <ul>
+                                                <li>Create User - Test kullanıcısı oluşturma</li>
+                                                <li>Create Product - Test ürünü oluşturma</li>
+                                                <li>Create Category - Test kategorisi oluşturma</li>
+                                                <li>Create Unit - Test birimi oluşturma</li>
+                                                <li>Create Cari Account - Test cari hesabı oluşturma</li>
+                                            </ul>
+
+                                            <h6 class="mt-3"><i class="fas fa-bug text-warning"></i> Debug Logs</h6>
+                                            <p class="small">Tüm API testleri debug loglara yazılır. Test sonuçlarını takip etmek için debug.log dosyasını kontrol edebilirsiniz.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    .list-group-item:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    
+    .list-group-item:last-child {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    .btn {
+        border-radius: 20px;
+    }
+    
+    .fas {
+        margin-right: 8px;
+    }
+
+    .list-group-item {
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+</style>
                 </div>
             </div>
         </div>
