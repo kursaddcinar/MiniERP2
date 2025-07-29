@@ -21,8 +21,6 @@ namespace MiniERP.Web.Services
             
             var baseUrl = _configuration.GetSection("ApiSettings:BaseUrl").Value;
             _httpClient.BaseAddress = new Uri(baseUrl ?? "https://localhost:7071/");
-            
-            _logger.LogInformation("ApiService: Initialized with base URL: {BaseUrl}", _httpClient.BaseAddress);
         }
 
             public void SetAuthToken(string token)
@@ -119,23 +117,14 @@ namespace MiniERP.Web.Services
     {
         try
         {
-            _logger.LogInformation("ApiService: Starting POST request to {Endpoint} with data: {@Data}", endpoint, data);
-            
             // Set token from session if available
             SetTokenFromSession();
             
             var json = JsonConvert.SerializeObject(data);
-            _logger.LogDebug("ApiService: Request JSON: {Json}", json);
-            
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             
-            _logger.LogInformation("ApiService: Sending POST request to {Endpoint}", endpoint);
             var response = await _httpClient.PostAsync(endpoint, content);
             var responseContent = await response.Content.ReadAsStringAsync();
-            
-            _logger.LogInformation("ApiService: Received response. Status: {StatusCode}, Content Length: {ContentLength}", 
-                response.StatusCode, responseContent.Length);
-            _logger.LogInformation("ApiService: Response content: {ResponseContent}", responseContent);
             
             if (response.IsSuccessStatusCode)
             {

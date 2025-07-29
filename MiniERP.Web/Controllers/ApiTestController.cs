@@ -146,8 +146,6 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("=== API TEST: Starting Create Category Test ===");
-                
                 var createCategory = new CreateProductCategoryDto
                 {
                     CategoryCode = "TEST" + DateTime.Now.ToString("HHmmss"),
@@ -155,22 +153,16 @@ namespace MiniERP.Web.Controllers
                     Description = "Test category created from API test"
                 };
 
-                _logger.LogInformation("API TEST: Created category DTO: {@CreateCategory}", createCategory);
-
                 var result = await _productService.CreateCategoryAsync(createCategory);
-                
-                _logger.LogInformation("API TEST: Create Category completed. Success: {Success}, Message: {Message}", 
-                    result.Success, result.Message);
                 
                 ViewBag.TestResult = "Create Category API - " + (result.Success ? "Success" : "Error: " + result.Message);
                 ViewBag.Data = result;
                 
-                _logger.LogInformation("=== API TEST: Create Category Test Completed ===");
                 return View("TestResult");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "=== API TEST: Create Category Test Failed ===");
+                _logger.LogError(ex, "API Test: Create Category Test Failed");
                 ViewBag.TestResult = "Create Category API - Error: " + ex.Message;
                 return View("TestResult");
             }
@@ -226,11 +218,9 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Cari Accounts endpoint");
                 var cariAccountsResult = await _cariAccountService.GetCariAccountsAsync(1, 10);
                 ViewBag.TestResult = "Cari Accounts API - Success";
                 ViewBag.Data = cariAccountsResult;
-                _logger.LogInformation("API Test: Cari Accounts endpoint test completed successfully");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -246,8 +236,6 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Create Cari Account endpoint");
-                
                 // Önce cari tiplerini al
                 var cariTypes = await _cariAccountService.GetCariTypesAsync();
                 if (cariTypes == null || !cariTypes.Any())
@@ -272,7 +260,6 @@ namespace MiniERP.Web.Controllers
                 var result = await _cariAccountService.CreateCariAccountAsync(createCari);
                 ViewBag.TestResult = "Create Cari Account API - " + (result.Success ? "Success" : "Error: " + result.Message);
                 ViewBag.Data = result;
-                _logger.LogInformation("API Test: Create Cari Account endpoint test completed with status: {Status}", result.Success ? "Success" : "Error");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -292,11 +279,9 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Products endpoint");
                 var productsResult = await _productService.GetProductsAsync(1, 10);
                 ViewBag.TestResult = "Products API - " + (productsResult.Success ? "Success" : "Error: " + productsResult.Message);
                 ViewBag.Data = productsResult;
-                _logger.LogInformation("API Test: Products endpoint test completed with status: {Status}", productsResult.Success ? "Success" : "Error");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -312,8 +297,6 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Create Product endpoint");
-                
                 // Önce kategori ve birim listelerini al
                 var categoriesResult = await _productService.GetCategoriesAsync();
                 var unitsResult = await _productService.GetUnitsAsync();
@@ -342,7 +325,6 @@ namespace MiniERP.Web.Controllers
                 var result = await _productService.CreateProductAsync(createProduct);
                 ViewBag.TestResult = "Create Product API - " + (result.Success ? "Success" : "Error: " + result.Message);
                 ViewBag.Data = result;
-                _logger.LogInformation("API Test: Create Product endpoint test completed with status: {Status}", result.Success ? "Success" : "Error");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -362,11 +344,9 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Stock Cards endpoint");
                 var stockCardsResult = await _stockService.GetStockCardsAsync(1, 10);
                 ViewBag.TestResult = "Stock Cards API - " + (stockCardsResult.Success ? "Success" : "Error: " + stockCardsResult.Message);
                 ViewBag.Data = stockCardsResult;
-                _logger.LogInformation("API Test: Stock Cards endpoint test completed with status: {Status}", stockCardsResult.Success ? "Success" : "Error");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -382,11 +362,9 @@ namespace MiniERP.Web.Controllers
         {
             try
             {
-                _logger.LogInformation("API Test: Testing Warehouses endpoint");
                 var warehousesResult = await _stockService.GetWarehousesAsync();
                 ViewBag.TestResult = "Warehouses API - " + (warehousesResult.Success ? "Success" : "Error: " + warehousesResult.Message);
                 ViewBag.Data = warehousesResult;
-                _logger.LogInformation("API Test: Warehouses endpoint test completed with status: {Status}", warehousesResult.Success ? "Success" : "Error");
                 return View("TestResult");
             }
             catch (Exception ex)
@@ -406,14 +384,11 @@ namespace MiniERP.Web.Controllers
         {
             var results = new List<object>();
 
-            _logger.LogInformation("API Test: Starting comprehensive API test");
-
             // Test Users GET
             try
             {
                 var users = await _userService.GetUsersAsync();
                 results.Add(new { API = "Users (GET)", Status = "Success", Count = users.Data?.Count ?? 0 });
-                _logger.LogInformation("API Test: Users GET test completed successfully");
             }
             catch (Exception ex)
             {
@@ -437,7 +412,6 @@ namespace MiniERP.Web.Controllers
 
                 var userResult = await _userService.CreateUserAsync(createUser);
                 results.Add(new { API = "User (CREATE)", Status = userResult.Success ? "Success" : "Error", Message = userResult.Message });
-                _logger.LogInformation("API Test: User CREATE test completed with status: {Status}", userResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -450,7 +424,6 @@ namespace MiniERP.Web.Controllers
             {
                 var rolesResult = await _userService.GetRolesAsync();
                 results.Add(new { API = "User Roles (GET)", Status = rolesResult.Success ? "Success" : "Error", Count = rolesResult.Data?.Count ?? 0, Message = rolesResult.Message });
-                _logger.LogInformation("API Test: User Roles test completed with status: {Status}", rolesResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -463,7 +436,6 @@ namespace MiniERP.Web.Controllers
             {
                 var categoriesResult = await _productService.GetCategoriesAsync();
                 results.Add(new { API = "Categories (GET)", Status = categoriesResult.Success ? "Success" : "Error", Count = categoriesResult.Data?.Count ?? 0, Message = categoriesResult.Message });
-                _logger.LogInformation("API Test: Categories GET test completed with status: {Status}", categoriesResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -483,7 +455,6 @@ namespace MiniERP.Web.Controllers
 
                 var categoryResult = await _productService.CreateCategoryAsync(createCategory);
                 results.Add(new { API = "Category (CREATE)", Status = categoryResult.Success ? "Success" : "Error", Message = categoryResult.Message });
-                _logger.LogInformation("API Test: Category CREATE test completed with status: {Status}", categoryResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -496,7 +467,6 @@ namespace MiniERP.Web.Controllers
             {
                 var unitsResult = await _productService.GetUnitsAsync();
                 results.Add(new { API = "Units (GET)", Status = unitsResult.Success ? "Success" : "Error", Count = unitsResult.Data?.Count ?? 0, Message = unitsResult.Message });
-                _logger.LogInformation("API Test: Units GET test completed with status: {Status}", unitsResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -516,7 +486,6 @@ namespace MiniERP.Web.Controllers
 
                 var unitResult = await _productService.CreateUnitAsync(createUnit);
                 results.Add(new { API = "Unit (CREATE)", Status = unitResult.Success ? "Success" : "Error", Message = unitResult.Message });
-                _logger.LogInformation("API Test: Unit CREATE test completed with status: {Status}", unitResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -529,7 +498,6 @@ namespace MiniERP.Web.Controllers
             {
                 var productsResult = await _productService.GetProductsAsync(1, 10);
                 results.Add(new { API = "Products (GET)", Status = productsResult.Success ? "Success" : "Error", Count = productsResult.Data?.Data?.Count ?? 0, Message = productsResult.Message });
-                _logger.LogInformation("API Test: Products GET test completed with status: {Status}", productsResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -561,12 +529,10 @@ namespace MiniERP.Web.Controllers
 
                     var productResult = await _productService.CreateProductAsync(createProduct);
                     results.Add(new { API = "Product (CREATE)", Status = productResult.Success ? "Success" : "Error", Message = productResult.Message });
-                    _logger.LogInformation("API Test: Product CREATE test completed with status: {Status}", productResult.Success ? "Success" : "Error");
                 }
                 else
                 {
                     results.Add(new { API = "Product (CREATE)", Status = "Error", Message = "Category veya Unit bulunamadı" });
-                    _logger.LogError("API Test: Product CREATE test failed - Category or Unit not found");
                 }
             }
             catch (Exception ex)
@@ -580,7 +546,6 @@ namespace MiniERP.Web.Controllers
             {
                 var cariTypes = await _cariAccountService.GetCariTypesAsync();
                 results.Add(new { API = "Cari Types (GET)", Status = "Success", Count = cariTypes.Count });
-                _logger.LogInformation("API Test: Cari Types test completed successfully");
             }
             catch (Exception ex)
             {
@@ -593,7 +558,6 @@ namespace MiniERP.Web.Controllers
             {
                 var cariAccountsResult = await _cariAccountService.GetCariAccountsAsync(1, 10);
                 results.Add(new { API = "Cari Accounts (GET)", Status = "Success", Count = cariAccountsResult.Data?.Count ?? 0 });
-                _logger.LogInformation("API Test: Cari Accounts test completed successfully");
             }
             catch (Exception ex)
             {
@@ -622,12 +586,10 @@ namespace MiniERP.Web.Controllers
 
                     var cariResult = await _cariAccountService.CreateCariAccountAsync(createCari);
                     results.Add(new { API = "CariAccount (CREATE)", Status = cariResult.Success ? "Success" : "Error", Message = cariResult.Message });
-                    _logger.LogInformation("API Test: CariAccount CREATE test completed with status: {Status}", cariResult.Success ? "Success" : "Error");
                 }
                 else
                 {
                     results.Add(new { API = "CariAccount (CREATE)", Status = "Error", Message = "Cari tipi bulunamadı" });
-                    _logger.LogError("API Test: CariAccount CREATE test failed - Cari type not found");
                 }
             }
             catch (Exception ex)
@@ -641,7 +603,6 @@ namespace MiniERP.Web.Controllers
             {
                 var stockCardsResult = await _stockService.GetStockCardsAsync(1, 10);
                 results.Add(new { API = "Stock Cards (GET)", Status = stockCardsResult.Success ? "Success" : "Error", Count = stockCardsResult.Data?.Data?.Count ?? 0, Message = stockCardsResult.Message });
-                _logger.LogInformation("API Test: Stock Cards test completed with status: {Status}", stockCardsResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
@@ -654,15 +615,12 @@ namespace MiniERP.Web.Controllers
             {
                 var warehousesResult = await _stockService.GetWarehousesAsync();
                 results.Add(new { API = "Warehouses (GET)", Status = warehousesResult.Success ? "Success" : "Error", Count = warehousesResult.Data?.Data?.Count ?? 0, Message = warehousesResult.Message });
-                _logger.LogInformation("API Test: Warehouses test completed with status: {Status}", warehousesResult.Success ? "Success" : "Error");
             }
             catch (Exception ex)
             {
                 results.Add(new { API = "Warehouses (GET)", Status = "Error", Message = ex.Message });
                 _logger.LogError(ex, "API Test: Warehouses test failed");
             }
-
-            _logger.LogInformation("API Test: Comprehensive API test completed. Total tests run: {Count}", results.Count);
 
             ViewBag.TestResult = "All APIs Test - Completed";
             ViewBag.Data = results;
