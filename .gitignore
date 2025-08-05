@@ -21,3 +21,7 @@ logs/
 
 # NuGet cache
 *.csproj.FileListAbsolute.txt
+
+.VSCodeCounter/
+.cursor/
+.vscode/
