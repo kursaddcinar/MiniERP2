@@ -1,0 +1,305 @@
+"filename", "language", "Markdown", "C#", "XML", "MS SQL", "ASP.NET Razor", "PostCSS", "JavaScript", "comment", "blank", "total"
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\Database\Database_Documentation.md", "Markdown", 135, 0, 0, 0, 0, 0, 0, 0, 35, 170
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\Database\MiniERP_Clean.sql", "MS SQL", 0, 0, 0, 356, 0, 0, 0, 9, 33, 398
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\Database\README.md", "Markdown", 51, 0, 0, 0, 0, 0, 0, 0, 16, 67
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\Database\Test_Data_Insert.sql", "MS SQL", 0, 0, 0, 295, 0, 0, 0, 69, 72, 436
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\Database\Update_Users_LastLoginDate.sql", "MS SQL", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\CariAccountService.cs", "C#", 0, 3, 0, 0, 0, 0, 0, 0, 0, 3
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\AuthController.cs", "C#", 0, 145, 0, 0, 0, 0, 0, 37, 31, 213
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\CariAccountsController.cs", "C#", 0, 324, 0, 0, 0, 0, 0, 72, 86, 482
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\CariTypeController.cs", "C#", 0, 208, 0, 0, 0, 0, 0, 27, 30, 265
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\ProductCategoryController.cs", "C#", 0, 205, 0, 0, 0, 0, 0, 27, 30, 262
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\ProductsController.cs", "C#", 0, 785, 0, 0, 0, 0, 0, 0, 0, 785
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\PurchaseInvoicesController.cs", "C#", 0, 185, 0, 0, 0, 0, 0, 57, 29, 271
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\SalesInvoicesController.cs", "C#", 0, 178, 0, 0, 0, 0, 0, 54, 29, 261
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\StockController.cs", "C#", 0, 384, 0, 0, 0, 0, 0, 114, 72, 570
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\UnitController.cs", "C#", 0, 207, 0, 0, 0, 0, 0, 27, 30, 264
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\UserController.cs", "C#", 0, 269, 0, 0, 0, 0, 0, 55, 64, 388
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\CariAccountDto.cs", "C#", 0, 151, 0, 0, 0, 0, 0, 0, 29, 180
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\CommonDto.cs", "C#", 0, 187, 0, 0, 0, 0, 0, 0, 20, 207
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\InvoiceCancellationDto.cs", "C#", 0, 7, 0, 0, 0, 0, 0, 0, 0, 7
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\InvoiceDto.cs", "C#", 0, 143, 0, 0, 0, 0, 0, 0, 11, 154
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\ProductDto.cs", "C#", 0, 88, 0, 0, 0, 0, 0, 0, 8, 96
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\ReserveStockDto.cs", "C#", 0, 9, 0, 0, 0, 0, 0, 0, 0, 9
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\StockDto.cs", "C#", 0, 144, 0, 0, 0, 0, 0, 0, 11, 155
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\UpdateStockDto.cs", "C#", 0, 20, 0, 0, 0, 0, 0, 0, 1, 21
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\UserDto.cs", "C#", 0, 49, 0, 0, 0, 0, 0, 1, 6, 56
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Data\AppDbContext.cs", "C#", 0, 178, 0, 0, 0, 0, 0, 4, 46, 228
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Extensions\ModelStateExtensions.cs", "C#", 0, 25, 0, 0, 0, 0, 0, 0, 4, 29
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Mappings\AutoMapperProfile.cs", "C#", 0, 117, 0, 0, 0, 0, 0, 15, 16, 148
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Middleware\GlobalExceptionHandlingMiddleware.cs", "C#", 0, 71, 0, 0, 0, 0, 0, 0, 15, 86
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\MiniERP.API.csproj", "XML", 0, 0, 20, 0, 0, 0, 0, 0, 4, 24
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\CariAccount.cs", "C#", 0, 45, 0, 0, 0, 0, 0, 1, 18, 64
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\CariTransaction.cs", "C#", 0, 31, 0, 0, 0, 0, 0, 1, 11, 43
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\CariType.cs", "C#", 0, 23, 0, 0, 0, 0, 0, 1, 8, 32
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Product.cs", "C#", 0, 41, 0, 0, 0, 0, 0, 1, 16, 58
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\ProductCategory.cs", "C#", 0, 23, 0, 0, 0, 0, 0, 1, 8, 32
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\PurchaseInvoice.cs", "C#", 0, 38, 0, 0, 0, 0, 0, 1, 16, 55
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\PurchaseInvoiceDetail.cs", "C#", 0, 41, 0, 0, 0, 0, 0, 1, 14, 56
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Role.cs", "C#", 0, 20, 0, 0, 0, 0, 0, 1, 7, 28
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\SalesInvoice.cs", "C#", 0, 38, 0, 0, 0, 0, 0, 1, 16, 55
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\SalesInvoiceDetail.cs", "C#", 0, 41, 0, 0, 0, 0, 0, 1, 14, 56
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\StockCard.cs", "C#", 0, 26, 0, 0, 0, 0, 0, 1, 10, 37
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\StockTransaction.cs", "C#", 0, 39, 0, 0, 0, 0, 0, 1, 15, 55
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Unit.cs", "C#", 0, 21, 0, 0, 0, 0, 0, 1, 7, 29
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\User.cs", "C#", 0, 28, 0, 0, 0, 0, 0, 1, 11, 40
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\UserRole.cs", "C#", 0, 20, 0, 0, 0, 0, 0, 1, 6, 27
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Warehouse.cs", "C#", 0, 30, 0, 0, 0, 0, 0, 1, 10, 41
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Program.cs", "C#", 0, 130, 0, 0, 0, 0, 0, 14, 26, 170
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\CariAccountRepository.cs", "C#", 0, 115, 0, 0, 0, 0, 0, 0, 19, 134
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\GenericRepository.cs", "C#", 0, 112, 0, 0, 0, 0, 0, 0, 27, 139
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\ICariAccountRepository.cs", "C#", 0, 19, 0, 0, 0, 0, 0, 0, 1, 20
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IGenericRepository.cs", "C#", 0, 26, 0, 0, 0, 0, 0, 0, 1, 27
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IProductRepository.cs", "C#", 0, 18, 0, 0, 0, 0, 0, 0, 1, 19
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IPurchaseInvoiceRepository.cs", "C#", 0, 21, 0, 0, 0, 0, 0, 0, 1, 22
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\ISalesInvoiceRepository.cs", "C#", 0, 22, 0, 0, 0, 0, 0, 0, 1, 23
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IStockCardRepository.cs", "C#", 0, 22, 0, 0, 0, 0, 0, 0, 1, 23
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IStockTransactionRepository.cs", "C#", 0, 19, 0, 0, 0, 0, 0, 0, 1, 20
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IUnitOfWork.cs", "C#", 0, 25, 0, 0, 0, 0, 0, 0, 1, 26
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IUserRepository.cs", "C#", 0, 17, 0, 0, 0, 0, 0, 0, 1, 18
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IWarehouseRepository.cs", "C#", 0, 15, 0, 0, 0, 0, 0, 0, 1, 16
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\ProductRepository.cs", "C#", 0, 109, 0, 0, 0, 0, 0, 0, 14, 123
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\PurchaseInvoiceRepository.cs", "C#", 0, 154, 0, 0, 0, 0, 0, 1, 33, 188
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\SalesInvoiceRepository.cs", "C#", 0, 162, 0, 0, 0, 0, 0, 1, 34, 197
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\StockCardRepository.cs", "C#", 0, 172, 0, 0, 0, 0, 0, 0, 26, 198
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\StockTransactionRepository.cs", "C#", 0, 139, 0, 0, 0, 0, 0, 0, 25, 164
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\UnitOfWork.cs", "C#", 0, 76, 0, 0, 0, 0, 0, 1, 9, 86
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\UserRepository.cs", "C#", 0, 98, 0, 0, 0, 0, 0, 4, 17, 119
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\WarehouseRepository.cs", "C#", 0, 68, 0, 0, 0, 0, 0, 0, 9, 77
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\AuthService.cs", "C#", 0, 357, 0, 0, 0, 0, 0, 15, 51, 423
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\CariAccountService.cs", "C#", 0, 619, 0, 0, 0, 0, 0, 0, 0, 619
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IAuthService.cs", "C#", 0, 16, 0, 0, 0, 0, 0, 0, 1, 17
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\ICariAccountService.cs", "C#", 0, 30, 0, 0, 0, 0, 0, 4, 4, 38
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IProductService.cs", "C#", 0, 26, 0, 0, 0, 0, 0, 3, 3, 32
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IPurchaseInvoiceService.cs", "C#", 0, 26, 0, 0, 0, 0, 0, 5, 5, 36
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\ISalesInvoiceService.cs", "C#", 0, 25, 0, 0, 0, 0, 0, 5, 5, 35
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IStockService.cs", "C#", 0, 45, 0, 0, 0, 0, 0, 6, 6, 57
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IUserService.cs", "C#", 0, 20, 0, 0, 0, 0, 0, 0, 1, 21
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\ProductService.cs", "C#", 0, 434, 0, 0, 0, 0, 0, 5, 73, 512
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\PurchaseInvoiceService.cs", "C#", 0, 408, 0, 0, 0, 0, 0, 9, 60, 477
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\SalesInvoiceService.cs", "C#", 0, 458, 0, 0, 0, 0, 0, 15, 89, 562
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\StockService.cs", "C#", 0, 733, 0, 0, 0, 0, 0, 13, 103, 849
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\UserService.cs", "C#", 0, 303, 0, 0, 0, 0, 0, 7, 50, 360
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\ApiTestController.cs", "C#", 0, 555, 0, 0, 0, 0, 0, 16, 61, 632
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\AuthController.cs", "C#", 0, 163, 0, 0, 0, 0, 0, 5, 27, 195
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\CariAccountController.cs", "C#", 0, 207, 0, 0, 0, 0, 0, 17, 38, 262
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\DashboardController.cs", "C#", 0, 96, 0, 0, 0, 0, 0, 9, 13, 118
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\ProductController.cs", "C#", 0, 267, 0, 0, 0, 0, 0, 1, 29, 297
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\PurchaseInvoiceController.cs", "C#", 0, 276, 0, 0, 0, 0, 0, 19, 46, 341
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\SalesInvoiceController.cs", "C#", 0, 264, 0, 0, 0, 0, 0, 17, 43, 324
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\StockController.cs", "C#", 0, 837, 0, 0, 0, 0, 0, 9, 94, 940
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\UserController.cs", "C#", 0, 262, 0, 0, 0, 0, 0, 11, 24, 297
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Helpers\CurrencyHelper.cs", "C#", 0, 21, 0, 0, 0, 0, 0, 15, 5, 41
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\MiniERP.Web.csproj", "XML", 0, 0, 11, 0, 0, 0, 0, 0, 4, 15
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\ModelBinders\DecimalModelBinder.cs", "C#", 0, 12, 0, 0, 0, 0, 0, 21, 4, 37
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\ApiResponse.cs", "C#", 0, 61, 0, 0, 0, 0, 0, 0, 6, 67
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\CariAccountModels.cs", "C#", 0, 123, 0, 0, 0, 0, 0, 0, 26, 149
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\ErrorViewModel.cs", "C#", 0, 6, 0, 0, 0, 0, 0, 0, 3, 9
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\InvoiceModels.cs", "C#", 0, 269, 0, 0, 0, 0, 0, 0, 79, 348
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\ProductModels.cs", "C#", 0, 143, 0, 0, 0, 0, 0, 0, 34, 177
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\StockModels.cs", "C#", 0, 285, 0, 0, 0, 0, 0, 5, 66, 356
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\UserModels.cs", "C#", 0, 105, 0, 0, 0, 0, 0, 0, 22, 127
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Program.cs", "C#", 0, 64, 0, 0, 0, 0, 0, 13, 21, 98
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\ApiService.cs", "C#", 0, 335, 0, 0, 0, 0, 0, 15, 25, 375
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\AuthService.cs", "C#", 0, 93, 0, 0, 0, 0, 0, 5, 22, 120
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\CariAccountService.cs", "C#", 0, 179, 0, 0, 0, 0, 0, 2, 29, 210
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\FileLoggerProvider.cs", "C#", 0, 59, 0, 0, 0, 0, 0, 1, 13, 73
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\InvoiceNumberGeneratorService.cs", "C#", 0, 46, 0, 0, 0, 0, 0, 27, 8, 81
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\ProductService.cs", "C#", 0, 171, 0, 0, 0, 0, 0, 3, 36, 210
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\PurchaseInvoiceService.cs", "C#", 0, 197, 0, 0, 0, 0, 0, 2, 31, 230
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\SalesInvoiceService.cs", "C#", 0, 197, 0, 0, 0, 0, 0, 2, 31, 230
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\StockService.cs", "C#", 0, 414, 0, 0, 0, 0, 0, 4, 46, 464
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\UserService.cs", "C#", 0, 190, 0, 0, 0, 0, 0, 3, 23, 216
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\ApiTest\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 241, 0, 0, 0, 23, 264
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\ApiTest\TestResult.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 189, 0, 0, 0, 15, 204
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Auth\AccessDenied.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 22, 0, 0, 0, 3, 25
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Auth\Login.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 155, 0, 0, 0, 15, 170
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 143, 0, 0, 0, 10, 153
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\CustomerSupplierList.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 236, 0, 0, 0, 5, 241
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Delete.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 134, 0, 0, 0, 7, 141
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 197, 0, 0, 1, 12, 210
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 156, 0, 0, 0, 11, 167
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 303, 0, 0, 0, 10, 313
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Statement.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 236, 0, 0, 0, 12, 248
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\CariAccount\Transactions.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 221, 0, 0, 0, 7, 228
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Dashboard\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 364, 0, 0, 0, 17, 381
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Home\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 7, 0, 0, 0, 3, 10
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Home\Privacy.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 5, 0, 0, 0, 3, 8
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Product\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 177, 0, 0, 0, 12, 189
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Product\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 172, 0, 0, 0, 10, 182
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Product\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 191, 0, 0, 0, 13, 204
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Product\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 304, 0, 0, 5, 12, 321
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\PurchaseInvoice\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 348, 0, 0, 0, 33, 381
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\PurchaseInvoice\Delete.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 252, 0, 0, 0, 18, 270
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\PurchaseInvoice\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 317, 0, 0, 0, 19, 336
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\PurchaseInvoice\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 221, 0, 0, 1, 10, 232
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\PurchaseInvoice\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 324, 0, 0, 0, 15, 339
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\SalesInvoice\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 315, 0, 0, 0, 31, 346
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\SalesInvoice\Delete.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 252, 0, 0, 0, 18, 270
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\SalesInvoice\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 317, 0, 0, 0, 19, 336
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\SalesInvoice\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 403, 0, 0, 1, 31, 435
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\SalesInvoice\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 324, 0, 0, 0, 15, 339
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Shared\Error.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 22, 0, 0, 0, 5, 27
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Shared\_Layout.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 249, 0, 0, 0, 23, 272
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Shared\_Layout.cshtml.css", "PostCSS", 0, 0, 0, 0, 0, 38, 0, 2, 9, 49
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Shared\_ValidationScriptsPartial.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 2, 0, 0, 0, 2, 4
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 152, 0, 0, 0, 11, 163
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Critical.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 176, 0, 0, 0, 6, 182
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Delete.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 319, 0, 0, 0, 26, 345
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 565, 0, 0, 0, 41, 606
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 327, 0, 0, 0, 24, 351
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 369, 0, 0, 5, 15, 389
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\OutOfStock.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 237, 0, 0, 0, 6, 243
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Report.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 254, 0, 0, 0, 10, 264
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Summary.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 201, 0, 0, 0, 10, 211
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\TransactionDetails.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 196, 0, 0, 0, 20, 216
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Transactions.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 165, 0, 0, 0, 6, 171
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\Transfer.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 206, 0, 0, 0, 14, 220
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Stock\UpdateStock.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 224, 0, 0, 0, 13, 237
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\User\Create.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 236, 0, 0, 0, 23, 259
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\User\Details.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 210, 0, 0, 0, 15, 225
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\User\Edit.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 184, 0, 0, 0, 16, 200
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\User\Index.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 169, 0, 0, 0, 12, 181
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\_ViewImports.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 4, 0, 0, 0, 2, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\_ViewStart.cshtml", "ASP.NET Razor", 0, 0, 0, 0, 3, 0, 0, 0, 2, 5
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\css\site.css", "PostCSS", 0, 0, 0, 0, 0, 170, 0, 12, 38, 220
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\js\site.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 3, 2, 5
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css", "PostCSS", 0, 0, 0, 0, 0, 3886, 0, 6, 193, 4085
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css", "PostCSS", 0, 0, 0, 0, 0, 3886, 0, 6, 192, 4084
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css", "PostCSS", 0, 0, 0, 0, 0, 518, 0, 14, 65, 597
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css", "PostCSS", 0, 0, 0, 0, 0, 524, 0, 6, 64, 594
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css", "PostCSS", 0, 0, 0, 0, 0, 4891, 0, 8, 503, 5402
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css", "PostCSS", 0, 0, 0, 0, 0, 4887, 0, 6, 500, 5393
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css", "PostCSS", 0, 0, 0, 0, 0, 1, 0, 5, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap.css", "PostCSS", 0, 0, 0, 0, 0, 11136, 0, 24, 897, 12057
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css", "PostCSS", 0, 0, 0, 0, 0, 5, 0, 1, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css", "PostCSS", 0, 0, 0, 0, 0, 11138, 0, 6, 886, 12030
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css", "PostCSS", 0, 0, 0, 0, 0, 5, 0, 1, 0, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js", "JavaScript", 0, 0, 0, 0, 0, 0, 5064, 655, 596, 6315
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 6, 0, 7
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js", "JavaScript", 0, 0, 0, 0, 0, 0, 3568, 578, 302, 4448
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 6, 0, 7
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.js", "JavaScript", 0, 0, 0, 0, 0, 0, 3604, 584, 307, 4495
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\bootstrap\dist\js\bootstrap.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 6, 0, 7
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.js", "JavaScript", 0, 0, 0, 0, 0, 0, 306, 76, 54, 436
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 7, 0, 8
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation\LICENSE.md", "Markdown", 18, 0, 0, 0, 0, 0, 0, 0, 5, 23
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation\dist\additional-methods.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1106, 258, 141, 1505
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation\dist\additional-methods.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 3, 0, 4
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation\dist\jquery.validate.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1265, 188, 250, 1703
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 3, 0, 4
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery\dist\jquery.js", "JavaScript", 0, 0, 0, 0, 0, 0, 6767, 1887, 2063, 10717
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery\dist\jquery.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 1, 1, 3
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery\dist\jquery.slim.js", "JavaScript", 0, 0, 0, 0, 0, 0, 5381, 1558, 1679, 8618
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\wwwroot\lib\jquery\dist\jquery.slim.min.js", "JavaScript", 0, 0, 0, 0, 0, 0, 1, 1, 1, 3
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\CariAccountDto.cs", "C#", 0, 115, 0, 0, 0, 0, 0, 0, 16, 131
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\CommonDto.cs", "C#", 0, 47, 0, 0, 0, 0, 0, 0, 8, 55
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\DashboardDto.cs", "C#", 0, 22, 0, 0, 0, 0, 0, 0, 2, 24
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\ProductDto.cs", "C#", 0, 92, 0, 0, 0, 0, 0, 0, 11, 103
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\PurchaseInvoiceDto.cs", "C#", 0, 84, 0, 0, 0, 0, 0, 2, 9, 95
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\SalesInvoiceDto.cs", "C#", 0, 86, 0, 0, 0, 0, 0, 0, 10, 96
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\StockDto.cs", "C#", 0, 130, 0, 0, 0, 0, 0, 0, 13, 143
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\StockInfoDto.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\UpdateStockDto.cs", "C#", 0, 13, 0, 0, 0, 0, 0, 0, 1, 14
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\UserDto.cs", "C#", 0, 64, 0, 0, 0, 0, 0, 1, 10, 75
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\DTOs\WarehouseDto.cs", "C#", 0, 27, 0, 0, 0, 0, 0, 0, 5, 32
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaDetayForm.Designer.cs", "C#", 0, 621, 0, 0, 0, 0, 0, 146, 9, 776
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaDetayForm.cs", "C#", 0, 308, 0, 0, 0, 0, 0, 35, 52, 395
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaDuzenleForm.Designer.cs", "C#", 0, 452, 0, 0, 0, 0, 0, 116, 9, 577
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaDuzenleForm.cs", "C#", 0, 614, 0, 0, 0, 0, 0, 49, 100, 763
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaSilForm.Designer.cs", "C#", 0, 463, 0, 0, 0, 0, 0, 113, 8, 584
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturaSilForm.cs", "C#", 0, 213, 0, 0, 0, 0, 0, 10, 34, 257
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturalariForm.Designer.cs", "C#", 0, 412, 0, 0, 0, 0, 0, 104, 9, 525
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturalariForm.cs", "C#", 0, 421, 0, 0, 0, 0, 0, 24, 63, 508
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturasiEkleForm.Designer.cs", "C#", 0, 442, 0, 0, 0, 0, 0, 111, 9, 562
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\AlisFaturasiEkleForm.cs", "C#", 0, 516, 0, 0, 0, 0, 0, 45, 86, 647
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\BaseForm.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariDetayForm.Designer.cs", "C#", 0, 509, 0, 0, 0, 0, 0, 149, 8, 666
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariDetayForm.cs", "C#", 0, 181, 0, 0, 0, 0, 0, 17, 27, 225
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariDuzenleForm.Designer.cs", "C#", 0, 339, 0, 0, 0, 0, 0, 104, 8, 451
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariDuzenleForm.cs", "C#", 0, 212, 0, 0, 0, 0, 0, 13, 28, 253
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariEkleForm.Designer.cs", "C#", 0, 360, 0, 0, 0, 0, 0, 107, 8, 475
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariEkleForm.cs", "C#", 0, 243, 0, 0, 0, 0, 0, 13, 52, 308
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariEkstreForm.Designer.cs", "C#", 0, 557, 0, 0, 0, 0, 0, 158, 8, 723
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariEkstreForm.cs", "C#", 0, 272, 0, 0, 0, 0, 0, 33, 44, 349
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHareketleriForm.Designer.cs", "C#", 0, 286, 0, 0, 0, 0, 0, 83, 8, 377
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHareketleriForm.cs", "C#", 0, 255, 0, 0, 0, 0, 0, 32, 43, 330
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHesaplarForm.Designer.cs", "C#", 0, 371, 0, 0, 0, 0, 0, 101, 8, 480
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHesaplarForm.cs", "C#", 0, 567, 0, 0, 0, 0, 0, 37, 86, 690
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHesaplarFormNew.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHesaplarFormYeni.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariSilForm.Designer.cs", "C#", 0, 400, 0, 0, 0, 0, 0, 110, 9, 519
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariSilForm.cs", "C#", 0, 173, 0, 0, 0, 0, 0, 10, 25, 208
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciDetayForm.Designer.cs", "C#", 0, 290, 0, 0, 0, 0, 0, 80, 6, 376
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciDetayForm.cs", "C#", 0, 128, 0, 0, 0, 0, 0, 6, 19, 153
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciDuzenleForm.Designer.cs", "C#", 0, 300, 0, 0, 0, 0, 0, 86, 7, 393
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciDuzenleForm.cs", "C#", 0, 183, 0, 0, 0, 0, 0, 4, 20, 207
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciEkleForm.Designer.cs", "C#", 0, 288, 0, 0, 0, 0, 0, 83, 6, 377
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciEkleForm.cs", "C#", 0, 204, 0, 0, 0, 0, 0, 11, 29, 244
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciYonetimiForm.Designer.cs", "C#", 0, 273, 0, 0, 0, 0, 0, 65, 6, 344
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciYonetimiForm.cs", "C#", 0, 486, 0, 0, 0, 0, 0, 31, 77, 594
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\LoginForm.Designer.cs", "C#", 0, 292, 0, 0, 0, 0, 0, 77, 8, 377
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\LoginForm.cs", "C#", 0, 131, 0, 0, 0, 0, 0, 6, 24, 161
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\MainForm.Designer.cs", "C#", 0, 340, 0, 0, 0, 0, 0, 92, 8, 440
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\MainForm.cs", "C#", 0, 552, 0, 0, 0, 0, 0, 27, 76, 655
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturaDetayForm.Designer.cs", "C#", 0, 603, 0, 0, 0, 0, 0, 143, 9, 755
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturaDetayForm.cs", "C#", 0, 399, 0, 0, 0, 0, 0, 47, 79, 525
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturalariForm.Designer.cs", "C#", 0, 399, 0, 0, 0, 0, 0, 104, 9, 512
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturalariForm.cs", "C#", 0, 510, 0, 0, 0, 0, 0, 30, 75, 615
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturasiEkleForm.Designer.cs", "C#", 0, 460, 0, 0, 0, 0, 0, 119, 9, 588
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturasiEkleForm.cs", "C#", 0, 517, 0, 0, 0, 0, 0, 32, 74, 623
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturasiEkleFormNew.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturasiSilForm.Designer.cs", "C#", 0, 614, 0, 0, 0, 0, 0, 128, 9, 751
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturasiSilForm.cs", "C#", 0, 191, 0, 0, 0, 0, 0, 9, 28, 228
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokDetayForm.Designer.cs", "C#", 0, 718, 0, 0, 0, 0, 0, 174, 6, 898
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokDetayForm.cs", "C#", 0, 265, 0, 0, 0, 0, 0, 27, 47, 339
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokGuncelleForm.Designer.cs", "C#", 0, 285, 0, 0, 0, 0, 0, 72, 9, 366
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokGuncelleForm.cs", "C#", 0, 154, 0, 0, 0, 0, 0, 2, 20, 176
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokGuncellemeForm.Designer.cs", "C#", 0, 454, 0, 0, 0, 0, 0, 104, 9, 567
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokGuncellemeForm.cs", "C#", 0, 349, 0, 0, 0, 0, 0, 27, 66, 442
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiDuzenleForm.Designer.cs", "C#", 0, 344, 0, 0, 0, 0, 0, 107, 6, 457
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiDuzenleForm.cs", "C#", 0, 133, 0, 0, 0, 0, 0, 7, 24, 164
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiEkleForm.Designer.cs", "C#", 0, 331, 0, 0, 0, 0, 0, 84, 8, 423
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiEkleForm.cs", "C#", 0, 162, 0, 0, 0, 0, 0, 4, 26, 192
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiEkleFormNew.Designer.cs", "C#", 0, 347, 0, 0, 0, 0, 0, 90, 9, 446
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokKartiEkleFormNew.cs", "C#", 0, 190, 0, 0, 0, 0, 0, 9, 30, 229
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokPlaceholderForms.Designer.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 492, 2, 494
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokPlaceholderForms.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 211, 2, 213
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokTransferiForm.Designer.cs", "C#", 0, 222, 0, 0, 0, 0, 0, 68, 8, 298
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokTransferiForm.cs", "C#", 0, 318, 0, 0, 0, 0, 0, 18, 49, 385
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokTransferiForm_New.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 218, 2, 220
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokYonetimiForm.Designer.cs", "C#", 0, 602, 0, 0, 0, 0, 0, 159, 9, 770
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokYonetimiForm.cs", "C#", 0, 413, 0, 0, 0, 0, 0, 31, 61, 505
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\StokYonetimiFormNew.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunDetayForm.Designer.cs", "C#", 0, 448, 0, 0, 0, 0, 0, 125, 9, 582
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunDetayForm.cs", "C#", 0, 60, 0, 0, 0, 0, 0, 6, 13, 79
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunDuzenleForm.Designer.cs", "C#", 0, 388, 0, 0, 0, 0, 0, 95, 9, 492
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunDuzenleForm.cs", "C#", 0, 226, 0, 0, 0, 0, 0, 8, 34, 268
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunEkleForm.Designer.cs", "C#", 0, 386, 0, 0, 0, 0, 0, 95, 9, 490
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunEkleForm.cs", "C#", 0, 176, 0, 0, 0, 0, 0, 1, 28, 205
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunlerForm.Designer.cs", "C#", 0, 260, 0, 0, 0, 0, 0, 68, 9, 337
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\UrunlerForm.cs", "C#", 0, 378, 0, 0, 0, 0, 0, 24, 60, 462
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\CurrencyHelper.cs", "C#", 0, 18, 0, 0, 0, 0, 0, 9, 6, 33
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\DataGridViewHelper.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\DebugLogger.cs", "C#", 0, 42, 0, 0, 0, 0, 0, 2, 9, 53
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\PaginationHelper.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\ValidationHelper.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\MiniERP.WinForms.csproj", "XML", 0, 0, 13, 0, 0, 0, 0, 0, 4, 17
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Models\PurchaseInvoiceDetailItem.cs", "C#", 0, 66, 0, 0, 0, 0, 0, 0, 15, 81
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Program.cs", "C#", 0, 13, 0, 0, 0, 0, 0, 5, 4, 22
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\ApiService.cs", "C#", 0, 251, 0, 0, 0, 0, 0, 4, 24, 279
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\InvoiceNumberGeneratorService.cs", "C#", 0, 42, 0, 0, 0, 0, 0, 22, 7, 71
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\LoadingManager.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\NotificationManager.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\SessionManager.cs", "C#", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\StockService.cs", "C#", 0, 12, 0, 0, 0, 0, 0, 1, 4, 17
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\TokenManager.cs", "C#", 0, 23, 0, 0, 0, 0, 0, 0, 7, 30
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\UserService.cs", "C#", 0, 168, 0, 0, 0, 0, 0, 0, 19, 187
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\PRODUCT_MODULE_DOCUMENTATION.md", "Markdown", 84, 0, 0, 0, 0, 0, 0, 0, 21, 105
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\README.md", "Markdown", 484, 0, 0, 0, 0, 0, 0, 0, 125, 609
+"Total", "-", 772, 40794, 44, 651, 10996, 41090, 27069, 12141, 14209, 147766

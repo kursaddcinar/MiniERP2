@@ -1,0 +1,64 @@
+# Docker ignore file for MiniERP
+# Ignore build outputs
+**/bin/
+**/obj/
+**/out/
+build/
+TestResults/
+
+# Ignore IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore logs
+**/logs/
+*.log
+debug.log
+
+# Ignore temp files
+**/temp/
+**/tmp/
+
+# Ignore test outputs
+coverage/
+TestResults/
+build_errors.txt
+build_output.txt
+
+# Ignore database files
+*.mdf
+*.ldf
+
+# Ignore package restore files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore NuGet packages
+**/packages/*
+!**/packages/build/
+
+# Ignore Git files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore documentation images (they're large)
+images/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Keep important database files
+!Database/
+!Database/*.sql
+
+# Keep Docker files
+!**/Dockerfile
+!docker-compose*.yml
+!.dockerignore

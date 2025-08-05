@@ -1,0 +1,48 @@
+"filename", "language", "C#", "ASP.NET Razor", "comment", "blank", "total"
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\CollectionController.cs", "C#", -163, 0, -36, -38, -237
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\PaymentController.cs", "C#", -176, 0, -39, -41, -256
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\PaymentTypeController.cs", "C#", -209, 0, -26, -30, -265
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Controllers\UserController.cs", "C#", 24, 0, 2, 2, 28
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\DTOs\PaymentDto.cs", "C#", -124, 0, 0, -11, -135
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Data\AppDbContext.cs", "C#", -28, 0, 0, -7, -35
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Mappings\AutoMapperProfile.cs", "C#", -17, 0, -3, -2, -22
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\CariAccount.cs", "C#", -2, 0, 0, 0, -2
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Collection.cs", "C#", -33, 0, -1, -12, -46
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\Payment.cs", "C#", -33, 0, -1, -12, -46
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Models\PaymentType.cs", "C#", -24, 0, -1, -8, -33
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Program.cs", "C#", -4, 0, 0, 0, -4
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\CariAccountRepository.cs", "C#", -2, 0, 0, 0, -2
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\CollectionRepository.cs", "C#", -112, 0, 0, -17, -129
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\ICollectionRepository.cs", "C#", -17, 0, 0, -1, -18
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IPaymentRepository.cs", "C#", -17, 0, 0, -1, -18
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\IUnitOfWork.cs", "C#", -3, 0, 0, 0, -3
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\PaymentRepository.cs", "C#", -112, 0, 0, -17, -129
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Repositories\UnitOfWork.cs", "C#", -6, 0, 0, 0, -6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\AuthService.cs", "C#", 13, 0, 4, 3, 20
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\CollectionService.cs", "C#", -309, 0, -13, -52, -374
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\ICollectionService.cs", "C#", -19, 0, 0, -1, -20
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\IPaymentService.cs", "C#", -20, 0, 0, -1, -21
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.API\Services\PaymentService.cs", "C#", -337, 0, -13, -57, -407
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\ApiTestController.cs", "C#", 215, 0, 8, 22, 245
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\AuthController.cs", "C#", 0, 0, 1, 0, 1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Controllers\UserController.cs", "C#", 53, 0, 3, 3, 59
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Models\PaymentModels.cs", "C#", -156, 0, 0, -37, -193
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Program.cs", "C#", 12, 0, 4, 5, 21
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\ApiService.cs", "C#", 210, 0, 11, 6, 227
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\AuthService.cs", "C#", 9, 0, 0, 2, 11
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\FileLoggerProvider.cs", "C#", 59, 0, 1, 13, 73
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\PaymentService.cs", "C#", -287, 0, -3, -38, -328
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Services\ProductService.cs", "C#", 19, 0, 0, 4, 23
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\ApiTest\Index.cshtml", "ASP.NET Razor", 0, 90, 0, 11, 101
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\Shared\_Layout.cshtml", "ASP.NET Razor", 0, -27, 0, 1, -26
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.Web\Views\User\Index.cshtml", "ASP.NET Razor", 0, 5, 0, 1, 6
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariEkstreForm.cs", "C#", 56, 0, 10, 11, 77
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\CariHareketleriForm.cs", "C#", 79, 0, 13, 15, 107
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\KullaniciYonetimiForm.cs", "C#", 71, 0, 11, 11, 93
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\MainForm.Designer.cs", "C#", -48, 0, -9, 0, -57
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\MainForm.cs", "C#", -12, 0, 0, -3, -15
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Forms\SatisFaturaDetayForm.cs", "C#", 28, 0, 6, 15, 49
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Helpers\DebugLogger.cs", "C#", 42, 0, 2, 9, 53
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Program.cs", "C#", 0, 0, 0, -1, -1
+"c:\Users\kursa\source\repos\MİniERP2_form_siifirdan\MiniERP.WinForms\Services\ApiService.cs", "C#", 66, 0, 4, 4, 74
+"Total", "-", -1314, 68, -65, -249, -1560

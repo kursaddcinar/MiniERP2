@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # SQL Server Database
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: minierp-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=MiniERP123!
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./Database:/docker-entrypoint-initdb.d
+    networks:
+      - minierp-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P MiniERP123! -C -Q 'SELECT 1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # MiniERP API
+  minierp-api:
+    build:
+      context: .
+      dockerfile: MiniERP.API/Dockerfile
+    container_name: minierp-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=sqlserver,1433;Initial Catalog=MiniERPTrial;User ID=sa;Password=MiniERP123!;TrustServerCertificate=true
+    ports:
+      - "5000:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - minierp-network
+    restart: unless-stopped
+    volumes:
+      - api_logs:/app/logs
+
+  # MiniERP Web
+  minierp-web:
+    build:
+      context: .
+      dockerfile: MiniERP.Web/Dockerfile
+    container_name: minierp-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ApiBaseUrl=http://minierp-api:8080
+    ports:
+      - "5001:8080"
+    depends_on:
+      - minierp-api
+    networks:
+      - minierp-network
+    restart: unless-stopped
+
+networks:
+  minierp-network:
+    driver: bridge
+
+volumes:
+  sqlserver_data:
+    driver: local
+  api_logs:
+    driver: local

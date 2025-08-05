@@ -1,0 +1,37 @@
+# Development Docker Compose Override
+version: '3.8'
+
+services:
+  # SQL Server with development settings
+  sqlserver:
+    environment:
+      - SA_PASSWORD=DevPassword123!
+    ports:
+      - "1434:1433"  # Different port for dev
+
+  # MiniERP API with development settings
+  minierp-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=sqlserver,1433;Initial Catalog=MiniERPTrial;User ID=sa;Password=DevPassword123!;TrustServerCertificate=true
+    volumes:
+      - ./MiniERP.API:/app/source
+      - api_dev_logs:/app/logs
+    ports:
+      - "5000:8080"
+      - "5002:8081"  # Additional port for debugging
+
+  # MiniERP Web with development settings  
+  minierp-web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiBaseUrl=http://localhost:5000
+    volumes:
+      - ./MiniERP.Web:/app/source
+    ports:
+      - "5001:8080"
+      - "5003:8081"  # Additional port for debugging
+
+volumes:
+  api_dev_logs:
+    driver: local

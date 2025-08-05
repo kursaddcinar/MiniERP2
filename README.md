@@ -1,608 +1,492 @@
-# MiniERP - Küçük İşletmeler İçin ERP Sistemi
+# MiniERP Backend Sistemi
 
-Bu proje, küçük ve orta ölçekli işletmeler için geliştirilmiş kapsamlı bir ERP (Enterprise Resource Planning) sistemidir. Ana amacımız, .NET teknolojileri kullanarak **Web API**, **Web Uygulaması** ve **Windows Forms** uygulamaları geliştirmek ve bu uygulamaların birbiriyle tam senkronizasyon halinde çalışmasını sağlamaktır. 
+Çok istemci desteği sunan, kurumsal düzeyde mimari, JWT kimlik doğrulama ve modern geliştirme pratikleri içeren kapsamlı bir .NET 8 Web API projesi.
 
-**Proje Hedefi:** Küçük işletmelerin günlük operasyonlarını (stok, satış, alış, cari hesap) kolayca yönetebilmesi için pratik ve kullanışlı bir sistem sunmak. Sistem farklı platformlarda çalışan 3 ana uygulama içerir:
+## Mimari Genel Bakış
 
-1. **MiniERP.API** - .NET 8 Web API (Backend)
-2. **MiniERP.Web** - ASP.NET Core MVC Web Uygulaması
-3. **MiniERP.WinForms** - Windows Forms Masaüstü Uygulaması
+Bu proje, üç istemci uygulaması ile katmanlı backend mimarisi uygular:
 
-## Proje Genel Görünümü
+- **MiniERP.API** - RESTful Web API (.NET 8)
+- **MiniERP.Web** - Web uygulama istemcisi (ASP.NET Core MVC)
+- **MiniERP.WinForms** - Masaüstü uygulama istemcisi (Windows Forms)
 
-![proje-genel-gorunum.png](images/proje-genel-gorunum.png)
+![Sistem Mimarisi](images/system-architecture.png)
 
-MiniERP sistemi, küçük işletmelerin ihtiyaçlarını karşılamak üzere tasarlanmış aşağıdaki ana modülleri içerir:
-- **Cari Hesap Yönetimi** (Müşteri/Tedarikçi takibi ve bakiye kontrolü)
-- **Stok Yönetimi** (Ürün ve stok takibi, otomatik stok güncelleme)
-- **Satış Yönetimi** (Satış faturaları ve otomatik senkronizasyon)
-- **Alış Yönetimi** (Alış faturaları ve otomatik senkronizasyon)
-- **Raporlama** (İş süreçlerini takip eden çeşitli raporlar)
-- **Rol Bazlı Yetkilendirme** (Admin, Manager, Sales, Purchase, Finance, Warehouse, Employee)
+## Temel Teknolojiler
 
-**Senkronizasyon Özelliği:** Tüm işlemler (fatura onaylama, stok güncelleme, cari bakiye hesaplama) otomatik olarak gerçekleşir ve masaüstü ile web uygulaması arasında tam senkronizasyon sağlanır.
+### Backend Teknoloji Yığını
+- **.NET 8** - En son LTS framework
+- **Entity Framework Core** - SQL Server ile code-first ORM
+- **JWT Bearer Authentication** - Durumsuz kimlik doğrulama
+- **AutoMapper** - Nesne-nesne eşleme
+- **Serilog** - Yapılandırılmış loglama
+- **Swagger/OpenAPI** - API dokümantasyonu
 
-## Uygulama Bileşenleri
+### Veritabanı
+- **SQL Server 2022** - Ana veritabanı
+- **Entity Framework Migrations** - Şema yönetimi
+- **Code-First yaklaşımı** - Model odaklı geliştirme
 
-### 🖥️ Windows Forms Uygulaması (MiniERP.WinForms)
+### Altyapı
+- **Docker & Docker Compose** - Konteynerleştirme
+- **CORS** - Çapraz kaynak paylaşımı
+- **Middleware pipeline** - İstek/yanıt işleme
 
-Windows Forms uygulaması, masaüstü kullanıcıları için geliştirilmiş modern bir arayüze sahiptir.
+## API Özellikleri
 
-#### Özellikler:
-- **Modern UI Tasarım** - Web uygulamasına benzer görsel tasarım
-- **Rol Bazlı Giriş** - 7 farklı rol için hızlı test girişi
-- **API Entegrasyonu** - Backend API ile tam entegrasyon
-- **Güvenli Authentication** - JWT token bazlı kimlik doğrulama
+### Kimlik Doğrulama ve Yetkilendirme
+- JWT token tabanlı kimlik doğrulama
+- Rol tabanlı erişim kontrolü (RBAC)
+- Güvenli şifre hash'leme
+- Token yenileme mekanizması
 
-#### Test Kullanıcıları:
-- **admin** - Tüm sistem yetkilerine sahip
-- **manager** - Yönetici yetkileri
-- **sales** - Satış işlemleri
-- **purchase** - Satın alma işlemleri
-- **finance** - Mali işlemler
-- **warehouse** - Depo operasyonları
-- **employee** - Temel çalışan yetkileri
+### Temel Modüller
+- **Hesap Yönetimi** - Müşteri/tedarikçi kayıtları
+- **Ürün Kataloğu** - Ürün ve kategori yönetimi
+- **Envanter Yönetimi** - Stok takibi ve hareketleri
+- **Fatura İşleme** - Satış ve alış faturaları
+- **Kullanıcı Yönetimi** - Kullanıcı rolleri ve izinleri
 
-*Tüm test kullanıcıları için şifre kullanıcı adı ile aynıdır.*
-
-#### Nasıl Çalıştırılır:
-```bash
-# 1. API'yi başlatın
-dotnet run --project MiniERP.API
-
-# 2. Windows Forms uygulamasını çalıştırın
-dotnet run --project MiniERP.WinForms
-```
-
-### 🌐 Web Uygulaması (MiniERP.Web)
-
-ASP.NET Core MVC ile geliştirilmiş responsive web uygulaması.
-
-### 🔧 API (MiniERP.API)
-
-.NET 8 Web API backend servisi
-
-## Projenin 4 Aşaması
-
-### 1. AŞAMA: SQL VERİTABANI
-
-İlk aşamada SQL Server veritabanı oluşturulmuştur. Bu aşama projenin temelini oluşturur.
-
-![database-diagram.png](images/database-diagram.png)
-
-#### Veritabanı Yapısı:
-- **19 ana tablo** (Users, Products, CariAccounts, SalesInvoices vs.)
-- **Otomatik trigger'lar** (Stok ve cari güncellemeleri için)
-- **Varsayılan veriler** (Roller, birimler, ödeme türleri)
-- **İndeksler** (Performans için)
-
-#### Önemli Tablolar:
-```sql
--- Örnek: CariAccounts tablosu
-CREATE TABLE CariAccounts (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Code NVARCHAR(50) NOT NULL,
-    Name NVARCHAR(200) NOT NULL,
-    Balance DECIMAL(18,2) DEFAULT 0,
-    CreditLimit DECIMAL(18,2) DEFAULT 0,
-    CariTypeId INT FOREIGN KEY REFERENCES CariTypes(Id)
-);
-```
-
-#### Otomatik İşlemler:
-Veritabanında önemli trigger'lar vardır. Örneğin satış faturası onaylandığında:
-1. Stok otomatik azalır
-2. Cari hesapta alacak kaydı oluşur
-3. Stok hareket kaydı oluşur
-
-#### Kurulum:
-```sql
--- 1. Database klasöründeki dosyaları sırayla çalıştır:
--- MiniERP_Clean.sql (Ana veritabanı)
--- Test_Data_Insert.sql (Örnek veriler)
-```
-
-### 2. AŞAMA: API (Web API)
-
-İkinci aşamada RESTful Web API geliştirilmiştir. Bu API, veritabanı ile diğer aşamalar arasında köprü görevi görür.
-
-![api-swagger.png](images/api-swagger.png)
-
-#### Teknoloji Yığını:
-- **.NET 8.0** (Modern framework)
-- **Entity Framework Core** (ORM)
-- **JWT Authentication** (Güvenlik)
-- **AutoMapper** (Nesne dönüştürme)
-- **Serilog** (Loglama)
-- **Swagger/OpenAPI** (API dokümantasyon)
-
-#### Ana Controller'lar:
+### Veri Transfer Nesneleri (DTOs)
 ```csharp
-// Örnek: CariAccountsController
-[ApiController]
-[Route("api/[controller]")]
-[Authorize]
-public class CariAccountsController : ControllerBase
+// Örnek: Ürün DTO
+public class ProductDto
 {
-    private readonly ICariAccountService _cariAccountService;
-    
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var accounts = await _cariAccountService.GetAllAsync();
-        return Ok(accounts);
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> Create(CariAccountDto dto)
-    {
-        var result = await _cariAccountService.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
-    }
+    public int Id { get; set; }
+    public string Code { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public int CategoryId { get; set; }
 }
 ```
 
-#### Yapılan İşlemler:
-- **Repository Pattern** (Veri erişimi)
-- **Service Layer** (İş mantığı)
-- **DTO'lar** (Veri transfer nesneleri)
-- **JWT ile güvenlik**
-- **CORS desteği**
+## Hızlı Başlangıç
 
-#### API Çalıştırma:
-```bash
-cd MiniERP.API
-dotnet run
-# API şu adreste çalışır: http://localhost:5000
-```
+### Gereksinimler
+- .NET 8 SDK
+- SQL Server 2019+ veya SQL Server LocalDB
+- Docker Desktop (opsiyonel)
 
-### 3. AŞAMA: WINDOWS FORMS UYGULAMASI
+### Kurulum
 
-Üçüncü aşamada masaüstü uygulaması geliştirilmiştir. Bu uygulama API'yi kullanarak çalışır.
+1. **Depoyu klonlayın**
+   ```bash
+   git clone https://github.com/kursaddcinar/MiniERP2.git
+   cd MiniERP2
+   ```
 
-![winforms-main.png](images/winforms-main.png)
+2. **Veritabanı kurulumu**
+   ```bash
+   # Seçenek 1: Docker Compose kullanın (önerilen)
+   docker-compose up -d
+   
+   # Seçenek 2: Manuel veritabanı kurulumu
+   sqlcmd -S . -i Database/MiniERP_Clean.sql
+   ```
 
-#### Özellikler:
-- **15+ farklı form** (Cari, Stok, Satış, Alış vs.)
-- **API entegrasyonu** (HttpClient ile)
-- **Kullanıcı dostu arayüz**
-- **Grid'lerle veri listeleme**
-- **Detaylı formlar**
+3. **API'yi çalıştırın**
+   ```bash
+   cd MiniERP.API
+   dotnet restore
+   dotnet run
+   ```
 
-#### Ana Formlar:
-```csharp
-// Örnek: MainForm - Ana menü
-public partial class MainForm : Form
+4. **Uç noktalara erişim**
+   - API: `https://localhost:7001`
+   - Swagger UI: `https://localhost:7001/swagger`
+
+## API Dokümantasyonu
+
+### Kimlik Doğrulama Uç Noktaları
+
+#### Giriş
+```http
+POST /api/auth/login
+Content-Type: application/json
+
 {
-    private readonly ApiService _apiService;
-    private readonly UserDto _loggedInUser;
-    
-    public MainForm(ApiService apiService, UserDto loggedInUser)
-    {
-        InitializeComponent();
-        _apiService = apiService;
-        _loggedInUser = loggedInUser;
-    }
-    
-    private void btnCariAccounts_Click(object sender, EventArgs e)
-    {
-        var form = new CariAccountListForm(_apiService);
-        form.Show();
-    }
+  "username": "admin",
+  "password": "admin"
 }
 ```
 
-#### Yapılan İşlemler:
-- **Login sistemi** (JWT ile)
-- **CRUD operasyonları** (Ekleme, silme, güncelleme)
-- **Listeleme ve filtreleme**
-- **Raporlama**
-- **Hata yönetimi**
-
-![winforms-cari-list.png](images/winforms-cari-list.png)
-
-#### Çalıştırma:
-```bash
-cd MiniERP.WinForms
-dotnet run
-# Kullanıcı: admin / Şifre: 123456
-```
-
-### 4. AŞAMA: WEB UYGULAMASI
-
-Dördüncü aşamada web uygulaması geliştirilmiştir. Bu uygulama da API'yi kullanarak çalışır.
-
-![web-dashboard.png](images/web-dashboard.png)
-
-#### Teknoloji Yığını:
-- **.NET 9.0 MVC** (Web framework)
-- **Bootstrap** (UI framework)
-- **jQuery** (JavaScript)
-- **Cookie Authentication** (Oturum yönetimi)
-- **HttpClient** (API iletişimi)
-
-#### Ana Controller'lar:
-```csharp
-// Örnek: CariAccountController
-public class CariAccountController : Controller
-{
-    private readonly CariAccountService _cariAccountService;
-    
-    public CariAccountController(CariAccountService cariAccountService)
-    {
-        _cariAccountService = cariAccountService;
-    }
-    
-    public async Task<IActionResult> Index()
-    {
-        var accounts = await _cariAccountService.GetAllAsync();
-        return View(accounts);
-    }
-    
-    [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> Create(CariAccountCreateModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            await _cariAccountService.CreateAsync(model);
-            return RedirectToAction(nameof(Index));
-        }
-        return View(model);
-    }
-}
-```
-
-#### Yapılan Sayfalar:
-- **Dashboard** (Ana sayfa)
-- **Cari Hesap Yönetimi**
-- **Stok Yönetimi**
-- **Satış Faturaları**
-- **Alış Faturaları**
-- **Raporlar**
-
-![web-cari-create.png](images/web-cari-create.png)
-
-#### Çalıştırma:
-```bash
-cd MiniERP.Web
-dotnet run
-# Web sitesi: http://localhost:5001
-# Kullanıcı: admin / Şifre: 123456
-```
-
-## Genel Sistem Mimarisi
-
-![system-architecture.png](images/system-architecture.png)
-
-Sistem şu şekilde çalışır:
-1. **Veritabanı** (SQL Server) - Verilerin saklandığı yer
-2. **API** (Web API) - Veritabanı ile iletişim kurar
-3. **WinForms** - API'yi kullanarak masaüstü arayüzü sağlar
-4. **Web** - API'yi kullanarak web arayüzü sağlar
-
-## Kurulum ve Çalıştırma
-
-### Gereksinimler:
-- **.NET 8.0 SDK** (API için)
-- **.NET 9.0 SDK** (Web ve WinForms için)
-- **SQL Server** (LocalDB veya Full)
-- **Visual Studio** (İsteğe bağlı)
-
-### Adım Adım Kurulum:
-
-#### 1. Proje İndirme:
-```bash
-git clone [repository-url]
-cd MiniERP
-```
-
-#### 2. Veritabanı Kurulum:
-```sql
--- SQL Server Management Studio'da:
--- Database/MiniERP_Clean.sql dosyasını çalıştır
--- Database/Test_Data_Insert.sql dosyasını çalıştır
--- Database/Fix_User_Role.sql dosyasını çalıştır
-```
-
-#### 3. API Ayarları:
+**Yanıt:**
 ```json
-// MiniERP.API/appsettings.json
 {
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=MiniERP_Database;Trusted_Connection=true;TrustServerCertificate=true;"
-  },
-  "JwtSettings": {
-    "Secret": "Bu_Gizli_Anahtar_En_Az_32_Karakter_Olmali_Yoksa_Hata_Verir",
-    "Issuer": "MiniERP.API",
-    "Audience": "MiniERP.Client"
+  "success": true,
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "user": {
+      "id": 1,
+      "username": "admin",
+      "roles": ["Admin"]
+    }
   }
 }
 ```
 
-#### 4. Çalıştırma Sırası:
-```bash
-# 1. API'yi çalıştır
-cd MiniERP.API
-dotnet run
-
-# 2. Yeni terminalde WinForms'u çalıştır
-cd MiniERP.WinForms
-dotnet run
-
-# 3. Yeni terminalde Web'i çalıştır
-cd MiniERP.Web
-dotnet run
+#### Token Yenileme
+```http
+POST /api/auth/refresh
+Authorization: Bearer {mevcut_token}
 ```
 
-## Kullanım Kılavuzu
+### Kaynak Uç Noktaları
 
-### Varsayılan Kullanıcı:
-- **Kullanıcı Adı:** admin
-- **Şifre:** 123456
-- **Rol:** Administrator
+#### Hesaplar (Cari Hesaplar)
+```http
+GET /api/cariaccounts
+Authorization: Bearer {token}
 
-### Temel İşlemler:
+POST /api/cariaccounts
+Authorization: Bearer {token}
+Content-Type: application/json
 
-#### 1. Cari Hesap Ekleme:
-![cari-hesap-ekleme.png](images/cari-hesap-ekleme.png)
-
-1. Cari Hesaplar menüsüne gir
-2. "Yeni Ekle" butonuna tıkla
-3. Bilgileri doldur (Kod, Ad, Tip)
-4. Kaydet
-
-#### 2. Ürün Ekleme:
-![urun-ekleme.png](images/urun-ekleme.png)
-
-1. Ürünler menüsüne gir
-2. "Yeni Ekle" butonuna tıkla
-3. Bilgileri doldur (Kod, Ad, Fiyat)
-4. Kaydet
-
-#### 3. Satış Faturası Oluşturma:
-![satis-faturasi.png](images/satis-faturasi.png)
-
-1. Satış Faturaları menüsüne gir
-2. "Yeni Fatura" butonuna tıkla
-3. Müşteri seç
-4. Ürünleri ekle
-5. Faturayı onayla
-
-## Önemli Özellikler
-
-### 1. Otomatik İşlemler:
-- **Stok Güncelleme:** Fatura onaylandığında stok otomatik güncellenir
-- **Cari Güncelleme:** Fatura onaylandığında cari bakiye güncellenir
-- **Hareket Kayıtları:** Tüm işlemler otomatik kayıt altına alınır
-
-### 2. Güvenlik:
-- **JWT Authentication:** API güvenliği
-- **Role-based Access:** Rol tabanlı erişim kontrolü
-- **HTTPS:** Güvenli iletişim
-
-### 3. Performans:
-- **Entity Framework Core:** Hızlı veri erişimi
-- **Indexing:** Veritabanı performansı
-- **Caching:** Bellek içi önbellekleme
-
-## Teknik Detaylar
-
-### Veritabanı Şeması:
-```sql
--- Ana tablolar arası ilişki
-CariAccounts (1) --> (N) CariTransactions
-Products (1) --> (N) StockCards
-SalesInvoices (1) --> (N) SalesInvoiceDetails
-PurchaseInvoices (1) --> (N) PurchaseInvoiceDetails
-```
-
-### API Endpoints:
-```
-GET    /api/cariaccounts          - Tüm cari hesapları getir
-POST   /api/cariaccounts          - Yeni cari hesap oluştur
-GET    /api/cariaccounts/{id}     - Belirli cari hesap getir
-PUT    /api/cariaccounts/{id}     - Cari hesap güncelle
-DELETE /api/cariaccounts/{id}     - Cari hesap sil
-
-GET    /api/products              - Tüm ürünleri getir
-POST   /api/products              - Yeni ürün oluştur
-GET    /api/products/{id}         - Belirli ürün getir
-PUT    /api/products/{id}         - Ürün güncelle
-DELETE /api/products/{id}         - Ürün sil
-```
-
-### Proje Yapısı:
-```
-MiniERP/
-├── Database/                    # SQL dosyaları
-│   ├── MiniERP_Clean.sql
-│   ├── Test_Data_Insert.sql
-│   └── Fix_User_Role.sql
-├── MiniERP.API/                # Web API
-│   ├── Controllers/            # API Controllers
-│   ├── Services/               # İş mantığı
-│   ├── Repositories/           # Veri erişimi
-│   ├── Models/                 # Entity sınıfları
-│   └── DTOs/                   # Data Transfer Objects
-├── MiniERP.WinForms/          # Windows Forms App
-│   ├── Forms/                  # Form sınıfları
-│   ├── Services/               # API iletişimi
-│   └── Models/                 # Model sınıfları
-└── MiniERP.Web/               # Web Application
-    ├── Controllers/            # MVC Controllers
-    ├── Views/                  # Razor Views
-    ├── Services/               # API iletişimi
-    └── Models/                 # View Models
-```
-
-## Sorun Giderme
-
-### Yaygın Sorunlar:
-
-#### 1. API Bağlantı Hatası:
-```
-Hata: "API'ye bağlanılamıyor"
-Çözüm: 
-- API'nin çalıştığından emin ol (http://localhost:5000)
-- Firewall ayarlarını kontrol et
-- appsettings.json'daki bağlantı stringini kontrol et
-```
-
-#### 2. Veritabanı Bağlantı Hatası:
-```
-Hata: "SQL Server'a bağlanılamıyor"
-Çözüm:
-- SQL Server'ın çalıştığından emin ol
-- Connection string'i kontrol et
-- Database'in oluşturulduğundan emin ol
-```
-
-#### 3. JWT Token Hatası:
-```
-Hata: "401 Unauthorized"
-Çözüm:
-- Tekrar giriş yap
-- JWT secret key'ini kontrol et
-- Token süresini kontrol et
-```
-
-#### 4. Winform form Hatası:
-```
-Hata: Satış ve satın alma formlarında yeni kayıt hatası
-
-ilerleyen süreçte bu sorun düzeltilecektir.
-
-```
-
-#### 5. Rol Bazlı Yetkilendirme Eksikliği:
-```
-Hata: Role uygun ekranlar ve yetkilendirilmeler yapılamamaktadır
-
-ilerleyen süreçte bu sorun düzeltilecektir.
-
-```
-
-
-### Debug Modunda Çalıştırma:
-```bash
-# API'yi debug modunda çalıştır
-cd MiniERP.API
-dotnet run --environment Development
-
-# WinForms'u debug modunda çalıştır
-cd MiniERP.WinForms
-dotnet run --configuration Debug
-```
-
-## Geliştirici Notları
-
-### Yeni Özellik Ekleme:
-1. **Model oluştur** (Database/Models)
-2. **Repository oluştur** (API/Repositories)
-3. **Service oluştur** (API/Services)
-4. **Controller oluştur** (API/Controllers)
-5. **Form/View oluştur** (WinForms/Web)
-
-### Kod Örnekleri:
-```csharp
-// Yeni bir entity için repository örneği
-public class ExampleRepository : GenericRepository<Example>, IExampleRepository
 {
-    public ExampleRepository(AppDbContext context) : base(context) { }
+  "code": "CUST001",
+  "name": "Örnek Müşteri",
+  "email": "musteri@ornek.com",
+  "phone": "+90 555 123 4567",
+  "address": "Örnek Adres",
+  "accountTypeId": 1
+}
+```
+
+#### Ürünler
+```http
+GET /api/products
+Authorization: Bearer {token}
+
+POST /api/products
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "code": "PROD001",
+  "name": "Örnek Ürün",
+  "price": 100.50,
+  "categoryId": 1,
+  "unitId": 1
+}
+```
+
+#### Stok Yönetimi
+```http
+GET /api/stock
+Authorization: Bearer {token}
+
+POST /api/stock/reserve
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 10,
+  "reservationReason": "Satış Siparişi"
+}
+```
+
+## Veritabanı Şeması
+
+### Temel Varlıklar
+
+```sql
+-- Kullanıcılar ve Kimlik Doğrulama
+Users (Id, Username, PasswordHash, Salt, CreatedAt)
+UserRoles (UserId, RoleId)
+Roles (Id, Name, Description)
+
+-- İş Varlıkları
+CariAccounts (Id, Code, Name, Email, Phone, Address, AccountTypeId)
+Products (Id, Code, Name, Price, CategoryId, UnitId)
+Stock (Id, ProductId, Quantity, ReservedQuantity)
+Invoices (Id, InvoiceNumber, Date, AccountId, TotalAmount)
+InvoiceItems (Id, InvoiceId, ProductId, Quantity, UnitPrice)
+```
+
+### İlişkiler
+![Veritabanı Diyagramı](images/database-diagram.png)
+
+## Yapılandırma
+
+### JWT Ayarları
+```json
+{
+  "JwtSettings": {
+    "Secret": "burada-256-bit-gizli-anahtariniz",
+    "Issuer": "MiniERP.API",
+    "Audience": "MiniERP.Client",
+    "ExpirationInMinutes": 60
+  }
+}
+```
+
+### Veritabanı Bağlantısı
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=MiniERP;Trusted_Connection=true;TrustServerCertificate=true;"
+  }
+}
+```
+
+### Loglama Yapılandırması
+```json
+{
+  "Serilog": {
+    "Using": ["Serilog.Sinks.Console", "Serilog.Sinks.File"],
+    "MinimumLevel": "Information",
+    "WriteTo": [
+      { "Name": "Console" },
+      { 
+        "Name": "File", 
+        "Args": { 
+          "path": "logs/minierp-.log",
+          "rollingInterval": "Day"
+        }
+      }
+    ]
+  }
+}
+```
+
+## Geliştirme Ortamı
+
+### Proje Yapısı
+```
+MiniERP.API/
+├── Controllers/         # API kontrolörleri
+├── Data/               # Entity Framework context
+├── DTOs/               # Veri transfer nesneleri
+├── Extensions/         # Uzantı metotları
+├── Middleware/         # Özel middleware
+├── Models/             # Varlık modelleri
+├── Repositories/       # Veri erişim katmanı
+├── Services/           # İş mantığı katmanı
+├── Mappings/           # AutoMapper profilleri
+└── Properties/         # Başlatma ayarları
+```
+
+### Bağımlılık Enjeksiyonu Kurulumu
+```csharp
+// Program.cs
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICariAccountRepository, CariAccountRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program));
+```
+
+### Middleware Pipeline
+```csharp
+app.UseHttpsRedirection();
+app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.MapControllers();
+```
+
+## Test
+
+### Test Kullanıcıları
+| Kullanıcı Adı | Şifre     | Rol       | İzinler                                                                                  |
+|---------------|-----------|-----------|------------------------------------------------------------------------------------------|
+| **admin**     | admin     | Admin     | Tam sistem erişimi: Tüm modüllerde **CRUD** yetkisi. Kullanıcı yönetimi dahil olmak     |
+|               |           |           | üzere tüm işlemleri gerçekleştirebilir.                                                 |
+| **manager**   | manager   | Manager   | Yönetim operasyonları: Tüm modüllerde çoğunlukla **CRUD**, bazı modüllerde sınırlı      |
+|               |           |           | erişim (örneğin Kullanıcı Yönetimi sadece **Read & Update (RU)**).                      |
+| **sales**     | sales     | Sales     | Satış ve müşteri yönetimi: Satış modüllerinde **CRUD**, ürün ve stok modüllerinde       |
+|               |           |           | **Read**, kullanıcı yönetimi ve alış işlemlerine **erişim yok**.                        |
+| **purchase**  | purchase  | Purchase  | Satın alma operasyonları: Alış modüllerinde ve ürünlerde **CRUD**, stokta **Read**,     |
+|               |           |           | satış ve kullanıcı yönetimi modüllerine **erişim yok**.                                  |
+| **warehouse** | warehouse | Warehouse | Envanter yönetimi: Stok modülünde **CRUD**, ürünlerde **Read**, diğer tüm modüllere     |
+|               |           |           | **erişim yok**.                                                                          |
+| **employee**  | employee  | Employee  | Sadece okuma erişimi: Sistemde yalnızca sınırlı **görüntüleme (Read)** erişimi vardır.   |
+|               |           |           | Modül bazlı erişim yetkisi özel olarak belirlenmemiştir.                                |
+
+
+### Swagger ile API Testi
+İnteraktif API dokümantasyonuna erişmek için `https://localhost:7001/swagger` adresine gidin.
+
+![API Swagger](images/api-swagger.png)
+
+### Postman Koleksiyonu
+Kapsamlı API testi için sağlanan Postman koleksiyonunu içe aktarın:
+```bash
+# Koleksiyon dosya konumu
+/docs/MiniERP-API.postman_collection.json
+```
+
+## Dağıtım
+
+### Docker Dağıtımı
+```bash
+# Üretim dağıtımı
+docker-compose -f docker-compose.yml up -d
+
+# Geliştirme ortamı
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+### Docker Servisleri
+- **SQL Server**: Port 1433
+- **MiniERP API**: Port 8080
+- **MiniERP Web**: Port 8081
+
+### Geleneksel Hosting
+
+#### IIS Dağıtımı
+```bash
+cd MiniERP.API
+dotnet publish -c Release -o ./publish
+# Publish klasörünü IIS wwwroot'a kopyalayın
+```
+
+#### Nginx ile Linux
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
     
-    public async Task<List<Example>> GetActiveExamplesAsync()
-    {
-        return await _context.Examples
-            .Where(x => x.IsActive)
-            .ToListAsync();
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```
 
-Bu proje eğitim amaçlı geliştirilmiştir. 
+## Güvenlik Özellikleri
+
+### Kimlik Doğrulama
+- Salt ile güvenli şifre hash'leme
+- Yapılandırılabilir süreli JWT token
+- Token kara liste özelliği
+- Şifre karmaşıklığı gereksinimleri
+
+### Yetkilendirme
+- Rol tabanlı erişim kontrolü
+- Kaynak düzeyinde izinler
+- API uç noktası koruması
+- Kullanıcı bağlamına göre veri filtreleme
+
+### Ek Güvenlik
+- HTTPS zorunluluğu
+- CORS yapılandırması
+- SQL injection önleme (EF Core)
+- Girdi doğrulama ve temizleme
+- İstek hızı sınırlama
+
+## Performans Değerlendirmeleri
+
+### Veritabanı Optimizasyonu
+- Entity Framework sorgu optimizasyonu
+- Veritabanı bağlantı havuzu
+- Uygun indeksleme stratejisi
+- Async/await pattern uygulaması
+
+### İzleme
+- Serilog ile yapılandırılmış loglama
+- Performans sayaçları
+- İstisna takibi
+- İstek/yanıt loglaması
+
+### Ölçeklenebilirlik
+- Durumsuz API tasarımı
+- Yatay ölçekleme yeteneği
+- Önbellekleme stratejisi (Redis için hazır)
+- Veritabanı okuma replikaları desteği
+
+## Katkıda Bulunma
+
+### Geliştirme Yönergeleri
+- C# isimlendirme kurallarını takip edin
+- Uygun hata işleme uygulayın
+- Kapsamlı birim testleri yazın
+- Public API'leri belgeleyin
+- I/O operasyonları için async/await kullanın
+
+### Git İş Akışı
+```bash
+# Özellik geliştirme
+git checkout -b feature/kullanici-yonetimi
+git checkout -b bugfix/kimlik-dogrulama-sorunu
+
+# Commit kuralları
+feat(api): kullanıcı kayıt uç noktası eklendi
+fix(auth): token doğrulama hatası giderildi
+docs(readme): API dokümantasyonu güncellendi
+```
+
+## Lisans
+
+Bu proje MIT Lisansı altında lisanslanmıştır - detaylar için [LICENSE](LICENSE) dosyasına bakın.
+
+## İletişim
+
+**Geliştirici**: Hüseyin Kürşat ÇINAR  
+**GitHub**: [@kursaddcinar](https://github.com/kursaddcinar)  
+**Depo**: [MiniERP2](https://github.com/kursaddcinar/MiniERP2)
 
 ---
 
-Bu README dosyası projenin tüm aşamalarını ve özelliklerini detaylı bir şekilde açıklamaktadır. Herhangi bir sorunuz olursa lütfen iletişime geçmekten çekinmeyin.
+## Proje Görselleri
 
-## Fotoğraf Listesi
+### Sistem Mimarisi ve Genel Görünüm
 
-README'de kullanılacak fotoğraflar (images/ klasörüne koyulacak):
+![Sistem Mimarisi](images/system-architecture.png)
+*Sistem mimarisi ve bileşen ilişkileri*
 
-1. **proje-genel-gorunum.png** - Projenin genel mimarisi
-2. **database-diagram.png** - Veritabanı şeması
-3. **api-swagger.png** - Swagger API dokümantasyonu
-4. **winforms-main.png** - WinForms ana ekranı
-5. **winforms-cari-list.png** - WinForms cari hesap listesi
-6. **web-dashboard.png** - Web uygulaması dashboard
-7. **web-cari-create.png** - Web'de cari hesap oluşturma
-8. **system-architecture.png** - Sistem mimarisi diyagramı
-9. **cari-hesap-ekleme.png** - Cari hesap ekleme ekranı
-10. **urun-ekleme.png** - Ürün ekleme ekranı
-11. **satis-faturasi.png** - Satış faturası oluşturma
+![Proje Genel Görünüm](images/proje-genel-gorunum.png)
+*Projenin genel görünümü ve yapısı*
 
-### 📦 Stok Yönetimi
+![Veritabanı Diyagramı](images/database-diagram.png)
+*Veritabanı şeması ve tablo ilişkileri*
 
-Stok Yönetimi modülü, farklı rol yetkilerine göre çalışan kapsamlı bir stok takip sistemidir.
+### API ve Backend
 
-![Stok Yönetimi](images/stok-yonetimi-demo.png)
+![API Swagger](images/api-swagger.png)
+*Swagger UI - API dokümantasyonu ve test arayüzü*
 
-#### Rol Bazlı Yetkilendirme:
-- **Admin/Manager/Warehouse**: Tam yetki (CRUD)
-- **Sales/Purchase**: Sadece görüntüleme (Read)
-- **Finance**: Erişim yok
+### Web Uygulaması
 
-#### Ana Özellikler:
+![Web Dashboard](images/web-dashboard.png)
+*Web uygulaması ana dashboard ekranı*
 
-**1. Özet Kartları:**
-- **Toplam Stok** - Sistemdeki toplam stok sayısı
-- **Kritik Stok** - Minimum seviyenin altındaki ürünler
-- **Stokta Yok** - Tükenen ürünler
-- **Hareketler** - Günlük stok hareketleri
+![Web Cari Oluşturma](images/web-cari-create.png)
+*Web arayüzünde cari hesap oluşturma formu*
 
-**2. Arama ve Filtreleme:**
-- Ürün adı ile arama
-- Ürün kodu ile arama
-- Sayfa boyutu seçimi (10, 25, 50, 100)
-- Ara, Temizle, Özet, Rapor butonları
+![Web Cari Hareket Görüntüle](images/web-cari-movements.png)
+*Web arayüzünde cari hesap hareketi görüntüleme formu*
 
-**3. Stok Kartları Listesi:**
-- Ürün kodu ve adı
-- Depo bilgisi
-- Mevcut stok miktarı
-- Rezerve stok
-- Müsait stok
-- Stok durumu (Normal, Kritik, Yok, Fazla)
-- Son işlem tarihi
-- İşlem butonları (Detay, Düzenle, Sil)
+### Windows Forms Masaüstü Uygulaması
 
-**4. İşlem Butonları:**
-- **Yeni Stok Kartı** - Yeni ürün için stok kartı oluşturma
-- **Stok Güncelle** - Toplu stok güncelleme
-- **Stok Transferi** - Depolar arası stok transferi
+![WinForms Ana Ekran](images/winforms-main.png)
+*Windows Forms ana uygulama ekranı*
 
-#### Kullanım Örneği:
-```csharp
-// Stok Yönetimi formunu açma
-var form = new StokYonetimiForm(_currentUser, _apiService);
-form.ShowDialog();
+![WinForms Cari Liste](images/winforms-cari-list.png)
+*Windows Forms cari hesap listesi ekranı*
 
-// Yetki kontrolü
-if (_accessLevel.Contains("C")) // Create yetkisi
-{
-    btnYeniStokKarti.Enabled = true;
-}
-```
+![WinForms Cari Hareket Görüntüle](images/winforms-cari-movements.png)
+*WinForms cari hesap hareketi görüntüleme ekranı*
 
-#### API Entegrasyonu:
-- `GET /api/Stock/cards` - Stok kartlarını listeleme
-- `POST /api/Stock/cards` - Yeni stok kartı ekleme
-- `PUT /api/Stock/cards/{id}` - Stok kartı güncelleme
-- `DELETE /api/Stock/cards/{id}` - Stok kartı silme
-- `GET /api/Stock/summary` - Stok özet bilgileri
+### İş Süreçleri
+
+![Cari Hesap Ekleme](images/cari-hesap-ekleme.png)
+*Cari hesap ekleme işlem akışı*
+
+![Ürün Ekleme](images/urun-ekleme.png)
+*Ürün ekleme ve kategori yönetimi*
+
+![Satış Faturası](images/satis-faturasi.png)
+*Satış faturası oluşturma ve işleme süreci*
+
+---
+
+**Built with .NET 8 - Production-ready backend architecture**
