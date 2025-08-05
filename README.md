@@ -292,21 +292,17 @@ app.MapControllers();
 
 ## Test
 
-### Test Kullanıcıları
-| Kullanıcı Adı | Şifre     | Rol       | İzinler                                                                                  |
-|---------------|-----------|-----------|------------------------------------------------------------------------------------------|
-| **admin**     | admin     | Admin     | Tam sistem erişimi: Tüm modüllerde **CRUD** yetkisi. Kullanıcı yönetimi dahil olmak     |
-|               |           |           | üzere tüm işlemleri gerçekleştirebilir.                                                 |
-| **manager**   | manager   | Manager   | Yönetim operasyonları: Tüm modüllerde çoğunlukla **CRUD**, bazı modüllerde sınırlı      |
-|               |           |           | erişim (örneğin Kullanıcı Yönetimi sadece **Read & Update (RU)**).                      |
-| **sales**     | sales     | Sales     | Satış ve müşteri yönetimi: Satış modüllerinde **CRUD**, ürün ve stok modüllerinde       |
-|               |           |           | **Read**, kullanıcı yönetimi ve alış işlemlerine **erişim yok**.                        |
-| **purchase**  | purchase  | Purchase  | Satın alma operasyonları: Alış modüllerinde ve ürünlerde **CRUD**, stokta **Read**,     |
-|               |           |           | satış ve kullanıcı yönetimi modüllerine **erişim yok**.                                  |
-| **warehouse** | warehouse | Warehouse | Envanter yönetimi: Stok modülünde **CRUD**, ürünlerde **Read**, diğer tüm modüllere     |
-|               |           |           | **erişim yok**.                                                                          |
-| **employee**  | employee  | Employee  | Sadece okuma erişimi: Sistemde yalnızca sınırlı **görüntüleme (Read)** erişimi vardır.   |
-|               |           |           | Modül bazlı erişim yetkisi özel olarak belirlenmemiştir.                                |
+## Test Kullanıcıları
+
+| Kullanıcı Adı | Şifre     | Rol       | İzinler |
+|---------------|-----------|-----------|---------|
+| **admin**     | admin     | Admin     | Tam sistem erişimi: Tüm modüllerde **CRUD** yetkisi. Kullanıcı yönetimi dahil olmak üzere tüm işlemleri gerçekleştirebilir. |
+| **manager**   | manager   | Manager   | Yönetim operasyonları: Tüm modüllerde çoğunlukla **CRUD**, bazı modüllerde sınırlı erişim (örneğin Kullanıcı Yönetimi sadece **Read & Update (RU)**). |
+| **sales**     | sales     | Sales     | Satış ve müşteri yönetimi: Satış modüllerinde **CRUD**, ürün ve stok modüllerinde **Read**, kullanıcı yönetimi ve alış işlemlerine **erişim yok**. |
+| **purchase**  | purchase  | Purchase  | Satın alma operasyonları: Alış modüllerinde ve ürünlerde **CRUD**, stokta **Read**, satış ve kullanıcı yönetimi modüllerine **erişim yok**. |
+| **warehouse** | warehouse | Warehouse | Envanter yönetimi: Stok modülünde **CRUD**, ürünlerde **Read**, diğer tüm modüllere **erişim yok**. |
+| **employee**  | employee  | Employee  | Sadece okuma erişimi: Sistemde yalnızca sınırlı **görüntüleme (Read)** erişimi vardır. Modül bazlı erişim yetkisi özel olarak belirlenmemiştir. |
+
 
 
 ### Swagger ile API Testi
