@@ -304,7 +304,6 @@ app.MapControllers();
 | **employee**  | employee  | Employee  | Sadece okuma erişimi: Sistemde yalnızca sınırlı **görüntüleme (Read)** erişimi vardır. Modül bazlı erişim yetkisi özel olarak belirlenmemiştir. |
 
 
-
 ### Swagger ile API Testi
 İnteraktif API dokümantasyonuna erişmek için `https://localhost:7001/swagger` adresine gidin.
 
